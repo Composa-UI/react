@@ -1,0 +1,57 @@
+{
+  "source": {
+    "library": "UI3: Figma's UI Kit (Community)",
+    "fileKey": "4kilp0ShQiYsoUPJdleqEH",
+    "inspectedAt": "2026-06-16"
+  },
+  "collections": {
+    "Colors": {
+      "variableCount": 946,
+      "modes": ["Light", "Dark", "FigJam-Light", "FigJam-Dark", "DevMode-Light", "DevMode-Dark", "Slides-Light", "Slides-Dark"],
+      "appCoreResolved": true,
+      "fullRawArchive": false,
+      "chunkShapeValidated": true,
+      "suggestedChunkSize": 25,
+      "checkedInVariables": 0,
+      "nextStart": 0
+    },
+    "Sizing": {
+      "variableCount": 12,
+      "modes": ["Default"],
+      "appCoreResolved": true,
+      "fullRawArchive": false,
+      "chunkShapeValidated": true,
+      "suggestedChunkSize": 100
+    },
+    "Typography": {
+      "variableCount": 57,
+      "modes": ["Mode 1"],
+      "appCoreResolved": true,
+      "fullRawArchive": false,
+      "chunkShapeValidated": true,
+      "suggestedChunkSize": 100
+    }
+  },
+  "totals": {
+    "collections": 3,
+    "variables": 1015,
+    "appCoreResolvedCssTokens": 33
+  },
+  "files": {
+    "appCoreCss": "design/generated/composa-core-tokens.css",
+    "appCoreAliases": "design/tokens.css",
+    "appCoreManifest": "design/generated/composa-core-tokens.json",
+    "componentApi": "design/component-api.json"
+  },
+  "rawArchive": {
+    "checkedIn": false,
+    "directory": null,
+    "exporter": "tools/export-composa-variables.use-figma.js",
+    "note": "Raw, unresolved variable chunks are not tracked in the repo. Use design/generated/composa-core-tokens.css and design/tokens.css for code tokens."
+  },
+  "notes": [
+    "App-core tokens are exact resolved values exported from Figma and normalized into CSS variables.",
+    "The codebase consumes practical semantic tokens in design/tokens.css rather than importing every raw Figma variable.",
+    "Slides brand tokens are preserved separately from canonical UI3 brand tokens because this app follows the Figma Slides surface."
+  ]
+}

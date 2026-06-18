@@ -1,0 +1,157 @@
+.composa-radio,
+.composa-checkbox {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--composa-space-2);
+  color: var(--composa-color-text);
+}
+
+.composa-checkbox.is-icon-only,
+.composa-radio {
+  align-items: center;
+}
+
+.composa-radio-mark,
+.composa-checkbox-mark {
+  width: var(--composa-selection-control-size);
+  height: var(--composa-selection-control-size);
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 var(--composa-selection-control-size);
+  border: 1px solid var(--composa-selection-control-border);
+  background: var(--composa-selection-control-bg);
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.composa-radio-mark {
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-checkbox-mark {
+  border-radius: var(--composa-radius-small);
+}
+
+/* The mark glyph is now a Material Symbols check/minus (same family as the other
+   structural glyphs) rather than a Unicode character. Size it to the mark box;
+   the glyph's own viewBox margins provide the visual inset, and the path centers
+   on the viewBox center so it sits centered in the box. */
+.composa-checkbox-mark .composa-icon {
+  width: var(--composa-selection-control-size);
+  height: var(--composa-selection-control-size);
+  /* The Material Symbols check glyph's ink sits ~1px right and ~1px below the
+     mark-box center (the glyph's optical weight is bottom-right of its viewBox
+     origin). Nudge it back so the ink centers within the 14px box. */
+  transform: translate(-1px, -1px);
+}
+
+.composa-radio.is-checked .composa-radio-mark,
+.composa-checkbox.is-checked .composa-checkbox-mark,
+.composa-checkbox.is-mixed .composa-checkbox-mark {
+  border-color: var(--composa-selection-control-border-selected);
+  background: var(--composa-selection-control-bg-selected);
+}
+
+.composa-checkbox.is-muted {
+  color: var(--composa-color-text-secondary);
+}
+
+/* Muted is a quiet but still-interactive checkbox: light box, gray mark. It is
+   NOT the disabled gray (Figma's Muted and Disabled are distinct states). */
+.composa-checkbox.is-muted .composa-checkbox-mark {
+  border-color: var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-secondary);
+}
+
+/* Ghost is the dark-filled checkbox (Figma Ghost = black box, white mark). */
+.composa-checkbox.is-ghost .composa-checkbox-mark {
+  border-color: transparent;
+  background: var(--composa-color-bg-inverse);
+  color: #ffffff;
+}
+
+/* Disabled is the faint, non-interactive state, distinct from muted. The higher
+   :disabled / .is-disabled specificity wins over checked/muted/ghost. */
+.composa-checkbox:disabled .composa-checkbox-mark,
+.composa-checkbox.is-disabled .composa-checkbox-mark {
+  border-color: var(--composa-color-border-disabled);
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-radio.is-checked .composa-radio-mark::after {
+  content: "";
+  width: var(--composa-selection-control-mark-size);
+  height: var(--composa-selection-control-mark-size);
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-radio.is-active .composa-radio-mark {
+  border-color: var(--composa-selection-control-border-selected);
+}
+
+/* Interaction states for the input-variant radio — each produces a visible
+   change (the story `state` control sets the .is-* class, not a real pseudo). */
+.composa-radio:hover:not(.is-disabled) .composa-radio-mark,
+.composa-radio.is-hover .composa-radio-mark {
+  border-color: var(--composa-color-border-strong);
+}
+
+.composa-radio:focus-visible,
+.composa-radio.is-focused {
+  outline: 2px solid var(--composa-control-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-radio.is-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.composa-radio.is-disabled .composa-radio-mark {
+  border-color: var(--composa-color-border-disabled);
+  background: var(--composa-color-bg-disabled);
+}
+
+.composa-radio-button {
+  min-height: var(--composa-height-input);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  justify-content: center;
+}
+
+.composa-radio-button.is-checked {
+  border-color: transparent;
+  background: var(--composa-color-accent);
+  color: #ffffff;
+}
+
+.composa-radio-button.is-active {
+  background: var(--composa-color-bg-on-selected);
+}
+
+.composa-selection-label {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.composa-selection-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.composa-selection-description {
+  min-width: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+

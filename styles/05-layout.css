@@ -1,0 +1,66 @@
+.composa-workbench {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 240px;
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border);
+  border-radius: 0;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.composa-panel {
+  min-width: 0;
+  background: var(--composa-color-bg);
+}
+
+.composa-panel-left {
+  display: grid;
+  grid-template-rows: 40px 52px 40px minmax(0, 1fr) 272px;
+  border-right: 1px solid var(--composa-color-border);
+}
+
+.composa-panel-right {
+  border-left: 1px solid var(--composa-color-border);
+  overflow: hidden;
+}
+
+.composa-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: var(--composa-space-2);
+}
+
+.composa-panel-left > .composa-panel-header {
+  grid-row: 1;
+  justify-content: flex-start;
+  min-height: 40px;
+  padding: var(--composa-space-1) var(--composa-space-2);
+}
+
+.composa-menu-button,
+.composa-right-actions,
+.composa-list-cell,
+.composa-list-cell-leading,
+.composa-list-cell-content,
+.composa-list-cell-trailing,
+.composa-header,
+.composa-header-leading,
+.composa-header-content,
+.composa-header-actions,
+.composa-property-row,
+.composa-control-row,
+.composa-segmented-control,
+.composa-split-action,
+.composa-dropdown,
+.composa-input-field,
+.composa-input-shell,
+.composa-menu-item,
+.composa-tabs,
+.composa-tree-row {
+  display: flex;
+  align-items: center;
+}
+

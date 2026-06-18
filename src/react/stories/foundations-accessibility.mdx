@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Accessibility" />
+
+# Accessibility
+
+Composa is a Figma-fidelity UI kit, but fidelity stops where it would break access. This page records the places where the components diverge from a literal pixel copy to meet WCAG AA, and how the kit is tested.
+
+## Color contrast
+
+Text and essential UI must clear WCAG AA: 4.5:1 for body text, 3:1 for large text and non-text UI (borders, control outlines, focus rings).
+
+export const Contrast = ({ swatch, fg, name, ratio, use }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ width: 64, height: 32, flexShrink: 0, display: "grid", placeItems: "center", borderRadius: "var(--composa-radius-small)", background: swatch, color: fg, fontSize: 12, fontWeight: 600 }}>Aa</div>
+    <div style={{ minWidth: 150, fontFamily: "monospace", fontSize: 12 }}>{name}</div>
+    <div style={{ minWidth: 60, fontFamily: "monospace", fontSize: 12, opacity: 0.7 }}>{ratio}</div>
+    <div style={{ fontSize: 12, opacity: 0.8 }}>{use}</div>
+  </div>
+);
+
+<div style={{ margin: "12px 0 20px" }}>
+  <Contrast swatch="#ffffff" fg="rgba(0,0,0,0.9)" name="text · primary" ratio="~17:1" use="body and control text — clears AA and AAA" />
+  <Contrast swatch="#d64000" fg="#ffffff" name="brand · text" ratio="4.57:1" use="white text on the brand fill (buttons, badges) — clears AA" />
+  <Contrast swatch="#ffffff" fg="#0079d1" name="accent · on bg" ratio="4.5:1" use="links and accent text on the default surface — clears AA" />
+  <Contrast swatch="#ffffff" fg="rgba(0,0,0,0.5)" name="text · secondary" ratio="~3.9:1" use="quiet captions and descriptions — see divergence below" />
+</div>
+
+The brand identity orange is `#ff5c16`. At full saturation it does **not** clear 4.5:1 behind white text, so primary buttons and other text-on-brand surfaces darken to `#d64000` (4.57:1). The lighter `#ff5c16` is kept only where it carries no text — decorative accents and the logotype. This was a deliberate trade: an earlier attempt to keep `#ff5c16` and switch the label to black tested poorly visually, so the fill darkens instead and the label stays white.
+
+**Known divergence — secondary text.** The secondary text token mirrors Figma's `rgba(0,0,0,0.5)` exactly, which lands at roughly 3.9:1 on the default surface — under the 4.5:1 bar for normal text, though it clears the 3:1 bar for large text. It is used only for supplementary, non-essential text (descriptions, quiet captions) that always sits beside a full-contrast primary label, never as the sole carrier of meaning. Composa keeps the Figma value here rather than darkening it so the kit stays a faithful reference; consumers who need strict AA on small secondary text can override `--composa-color-text-secondary` with a darker primitive.
+
+## Roles and semantics
+
+- **Buttons** render as real `<button>` elements; icon-only buttons carry an `aria-label`.
+- **Dialog** sets `role="dialog"` with `aria-modal` and is labelled by its title; <kbd>Esc</kbd> dismisses it.
+- **Menu** uses `menu` / `menuitem` semantics. Selection is conveyed by a trailing check glyph **and** programmatic state, never by the hover-blue fill alone (color is not the only signal).
+- **Checkbox / Radio / Switch** expose `aria-checked` (and `aria-checked="mixed"` for the indeterminate checkbox), so the muted, ghost, and disabled visual states never become the *only* indication of value.
+- **Inputs** keep a programmatic label even when the visible label is omitted for density: the field is associated with an `aria-label` so screen-reader users still hear what they are editing.
+
+## Focus
+
+Every interactive control shows a visible focus ring driven by `:focus-visible`, so keyboard focus is always apparent while a mouse click does not leave a lingering ring. Focus order follows DOM order; the dialog traps focus while open and restores it on close.
+
+## How it is tested
+
+Stories are checked with the Storybook **a11y** addon (axe-core). Because Composa renders in story iframes, the run uses the in-page `window.axe.run()` exposed by the addon rather than an injected external script.
+
+Two classes of finding are treated as harness noise rather than component defects, and are excluded from the pass/fail bar:
+
+- **Caption contrast on isolated swatches** — gray token labels rendered on a white docs background in dense matrices, not a real usage context.
+- **`aria-required-parent`** on standalone menu rows shown outside a `menu` container in the component matrix; in real composition the row always has its `menu` parent.
+
+Everything else is a real finding and is fixed in the component, not suppressed.

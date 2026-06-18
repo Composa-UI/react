@@ -1,0 +1,67 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Typography" />
+
+# Typography
+
+The product UI uses Inter. The family token is `--composa-font-family`, which falls back through the system sans-serif stack.
+
+```
+Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+```
+
+The scale has two ladders: headings (display, large, medium, small) and body (large, medium, small). Body roles carry a regular weight of 450 and a strong weight of 550. Every role carries an explicit line-height and letter-spacing token. The samples below render at the live token values.
+
+export const Sample = ({ label, family, size, line, weight, letter, text }) => (
+  <div style={{ padding: "14px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div
+      style={{
+        fontFamily: `var(${family})`,
+        fontSize: `var(${size})`,
+        lineHeight: `var(${line})`,
+        fontWeight: `var(${weight})`,
+        letterSpacing: letter ? `var(${letter})` : "normal",
+        margin: 0,
+      }}
+    >
+      {text}
+    </div>
+    <div style={{ marginTop: 6, fontFamily: "monospace", fontSize: 11, opacity: 0.7 }}>
+      {label}
+    </div>
+  </div>
+);
+
+## Headings
+
+Headings step from a 48px display down to a 13px small. Weight is 450 at display and 550 for large, medium, and small. Letter-spacing tightens as size grows.
+
+<Sample label="heading/display — 48px / 56px / 450 / -0.0625em" family="--composa-heading-display-family" size="--composa-heading-display-size" line="--composa-heading-display-line" weight="--composa-heading-display-weight" letter="--composa-heading-display-letter-spacing" text="Display heading" />
+<Sample label="heading/large — 24px / 32px / 550 / -0.0708em" family="--composa-heading-large-family" size="--composa-heading-large-size" line="--composa-heading-large-line" weight="--composa-heading-large-weight" letter="--composa-heading-large-letter-spacing" text="Large heading" />
+<Sample label="heading/medium — 15px / 25px / 550 / -0.0333em" family="--composa-heading-medium-family" size="--composa-heading-medium-size" line="--composa-heading-medium-line" weight="--composa-heading-medium-weight" letter="--composa-heading-medium-letter-spacing" text="Medium heading" />
+<Sample label="heading/small — 13px / 22px / 550 / -0.0192em" family="--composa-heading-small-family" size="--composa-heading-small-size" line="--composa-heading-small-line" weight="--composa-heading-small-weight" letter="--composa-heading-small-letter-spacing" text="Small heading" />
+
+## Body
+
+Body is where most product text lives. Each size pairs a 450 regular with a 550 strong.
+
+<Sample label="body/large — 13px / 22px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-large-size" line="--composa-body-large-line" weight="--composa-body-large-weight" letter="--composa-body-large-letter-spacing" text="Body large. The quick brown fox jumps over the lazy dog." />
+<Sample label="body/medium — 11px / 16px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-medium-size" line="--composa-body-medium-line" weight="--composa-body-medium-weight" letter="--composa-body-medium-letter-spacing" text="Body medium. The quick brown fox jumps over the lazy dog." />
+<Sample label="body/small — 9px / 14px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-small-size" line="--composa-body-small-line" weight="--composa-body-small-weight" letter="--composa-body-small-letter-spacing" text="Body small. The quick brown fox jumps over the lazy dog." />
+
+## Regular vs strong
+
+Body roles ship a strong-weight token at 550. Use it for emphasis within body text and for labels.
+
+<div style={{ display: "flex", gap: 32, alignItems: "baseline", padding: "12px 0" }}>
+  <span style={{ fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", lineHeight: "var(--composa-body-medium-line)", fontWeight: "var(--composa-body-medium-weight)" }}>
+    Regular 450
+  </span>
+  <span style={{ fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", lineHeight: "var(--composa-body-medium-line)", fontWeight: "var(--composa-body-medium-strong-weight)" }}>
+    Strong 550
+  </span>
+</div>
+
+## Type scale
+
+Composa carries the full type scale as tokens. The named roles are display, large, medium, and small for headings, and large, medium, and small for body, each body role with a strong sibling. Body large is 13/22 and body medium is 11/16.

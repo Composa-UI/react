@@ -1,0 +1,80 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Sizing & Shape" />
+
+# Sizing & Shape
+
+Sizing covers control heights, corner radii, and icon dimensions. These tokens come from the Sizing collection plus a small set of hand-authored component values.
+
+export const Row = ({ token, value, note }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ minWidth: 230, flexShrink: 0, fontFamily: "monospace", fontSize: 12 }}>{token}</div>
+    <div style={{ minWidth: 70, flexShrink: 0, fontFamily: "monospace", fontSize: 12, opacity: 0.7 }}>{value}</div>
+    {note ? <div style={{ fontSize: 12, opacity: 0.7 }}>{note}</div> : null}
+  </div>
+);
+
+## Control heights
+
+The input height is the standard control unit. The heading height sizes toolbars and section headers.
+
+<div style={{ margin: "12px 0 16px" }}>
+  <Row token="--composa-height-input" value="24px" note="standard control height" />
+  <Row token="--composa-height-heading" value="40px" note="toolbar / heading row" />
+</div>
+
+A 24px control rendered at the input height:
+
+<div style={{ display: "inline-flex", alignItems: "center", height: "var(--composa-height-input)", padding: "0 var(--composa-space-2)", background: "var(--composa-color-bg-secondary)", border: "1px solid var(--composa-color-border)", borderRadius: "var(--composa-radius-medium)", fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", marginBottom: 28 }}>
+  height-input · 24px
+</div>
+
+## Radius
+
+The radius scale runs none, small, medium, large, full. Controls use medium. Menus and dialogs use large. Pills and avatars use full. The large value (13px) is hand-authored to preserve token parity with the menu corner.
+
+export const RadiusSwatch = ({ token, value, radius }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ width: 48, height: 48, flexShrink: 0, background: "var(--composa-color-bg-secondary)", border: "1px solid var(--composa-color-border)", borderRadius: `var(${radius})` }} />
+    <div style={{ minWidth: 200, fontFamily: "monospace", fontSize: 12 }}>{token}</div>
+    <div style={{ fontFamily: "monospace", fontSize: 12, opacity: 0.7 }}>{value}</div>
+  </div>
+);
+
+<div style={{ margin: "12px 0 28px" }}>
+  <RadiusSwatch token="--composa-radius-none" value="0" radius="--composa-radius-none" />
+  <RadiusSwatch token="--composa-radius-small" value="2px" radius="--composa-radius-small" />
+  <RadiusSwatch token="--composa-radius-medium" value="5px" radius="--composa-radius-medium" />
+  <RadiusSwatch token="--composa-radius-large" value="13px" radius="--composa-radius-large" />
+  <RadiusSwatch token="--composa-radius-full" value="9999px" radius="--composa-radius-full" />
+</div>
+
+## Icons
+
+Icons ship at two sizes. The frame is 24px. The glyph inside it is 16px. Both are exposed as control-size tokens.
+
+export const IconBox = ({ size, label }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+    <div style={{ width: `var(${size})`, height: `var(${size})`, background: "var(--composa-color-bg-secondary)", border: "1px solid var(--composa-color-border)", borderRadius: "var(--composa-radius-small)" }} />
+    <div style={{ fontFamily: "monospace", fontSize: 11, opacity: 0.7 }}>{label}</div>
+  </div>
+);
+
+<div style={{ display: "flex", gap: 24, alignItems: "flex-end", margin: "12px 0 16px" }}>
+  <IconBox size="--composa-control-size-icon" label="icon · 24px" />
+  <IconBox size="--composa-control-size-icon-glyph" label="glyph · 16px" />
+</div>
+
+<div style={{ margin: "0 0 16px" }}>
+  <Row token="--composa-control-size-icon" value="24px" note="icon frame" />
+  <Row token="--composa-control-size-icon-glyph" value="16px" note="glyph inside the frame" />
+</div>
+
+## Control tokens
+
+Controls derive their height and radius from the sizing tokens above.
+
+<div style={{ margin: "12px 0" }}>
+  <Row token="--composa-control-height" value="24px" note="references height-input" />
+  <Row token="--composa-control-radius" value="5px" note="references radius-medium" />
+</div>

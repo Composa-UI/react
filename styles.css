@@ -1,0 +1,3612 @@
+/* GENERATED FILE — do not edit directly.
+ * Source: styles/*.css — edit those, then run `npm run build:css`.
+ * Files concatenate in filename order; the numeric prefixes lock the
+ * cascade order, so this artifact is equivalent to the original monolith. */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: stretch;
+  background: #eeeeee;
+  color: var(--composa-color-text);
+  font-family: var(--composa-font-family);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+button:focus-visible,
+.composa-canvas-frame:focus-visible,
+.canvas-layer:focus-visible {
+  outline: 2px solid #0d99ff;
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
+}
+
+.composa-workbench {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 240px;
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border);
+  border-radius: 0;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.composa-panel {
+  min-width: 0;
+  background: var(--composa-color-bg);
+}
+
+.composa-panel-left {
+  display: grid;
+  grid-template-rows: 40px 52px 40px minmax(0, 1fr) 272px;
+  border-right: 1px solid var(--composa-color-border);
+}
+
+.composa-panel-right {
+  border-left: 1px solid var(--composa-color-border);
+  overflow: hidden;
+}
+
+.composa-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: var(--composa-space-2);
+}
+
+.composa-panel-left > .composa-panel-header {
+  grid-row: 1;
+  justify-content: flex-start;
+  min-height: 40px;
+  padding: var(--composa-space-1) var(--composa-space-2);
+}
+
+.composa-menu-button,
+.composa-right-actions,
+.composa-list-cell,
+.composa-list-cell-leading,
+.composa-list-cell-content,
+.composa-list-cell-trailing,
+.composa-header,
+.composa-header-leading,
+.composa-header-content,
+.composa-header-actions,
+.composa-property-row,
+.composa-control-row,
+.composa-segmented-control,
+.composa-split-action,
+.composa-dropdown,
+.composa-input-field,
+.composa-input-shell,
+.composa-menu-item,
+.composa-tabs,
+.composa-tree-row {
+  display: flex;
+  align-items: center;
+}
+
+.composa-header-title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-header-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: var(--composa-space-2);
+}
+
+.composa-header-disclosure,
+.composa-header-icon-action {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-list-cell {
+  width: 100%;
+  min-height: 24px;
+  padding: 0 var(--composa-space-2);
+  gap: var(--composa-space-2);
+}
+
+/* Width model: default fill spans the row (100%); width="auto" hugs content. */
+.composa-list-cell-width-auto {
+  width: auto;
+}
+
+.composa-list-cell-width-fill {
+  width: 100%;
+}
+
+/* Vertical alignment of the leading/content/trailing slots. Default center. */
+.composa-list-cell-align-start {
+  align-items: flex-start;
+}
+
+.composa-list-cell-align-center {
+  align-items: center;
+}
+
+.composa-list-cell-align-end {
+  align-items: flex-end;
+}
+
+.composa-list-cell-leading {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  /* Center the leading icon on BOTH axes within its 24px box, and keep the box
+     itself vertically centered when the cell is taller than 24px (level-1/2
+     rows). Previously only `justify-content` was set, which left the icon
+     relying on inherited flex behavior and could drift vertically in taller
+     cells. */
+  display: grid;
+  place-items: center;
+  align-self: center;
+}
+
+.composa-list-cell-content {
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: var(--composa-space-1);
+}
+
+.composa-list-cell-trailing {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.composa-list-cell-level-1 {
+  min-height: 32px;
+}
+
+.composa-list-cell-level-1 .composa-header-title,
+.composa-list-cell-level-1 .composa-text-pair-title {
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-list-cell-level-2 {
+  min-height: 28px;
+}
+
+.composa-list-cell-level-3 {
+  min-height: 24px;
+}
+
+.composa-list-cell.has-underline {
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-text-pair {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.composa-text-pair-title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-text-pair-description {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-small-size);
+  line-height: var(--composa-body-small-line);
+}
+
+.composa-content-stack {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: var(--composa-content-stack-gap, 2px);
+  justify-self: stretch;
+  justify-items: var(--composa-content-stack-align, stretch);
+}
+
+.composa-label {
+  min-width: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Contextual color: defaults to secondary text but inherits the surrounding
+     foreground so a Label inside a dark menu shows the menu's light text
+     rather than a baked-in menu color. */
+  color: var(--composa-color-text-secondary);
+}
+
+/* `level` is a real font hierarchy that PAIRS 1:1 with ListCell's `level`:
+   each Label level matches the type of the ListCell title at the same level.
+   Level 1 -> body-large (ListCell level-1 title), levels 2/3 -> body-medium
+   (ListCell base title). Color is contextual and lives on the base rule. The
+   weight modifier (`composa-label-weight-*`) sets font-weight per level. */
+.composa-label-level-1 {
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-label-level-1.composa-label-weight-strong {
+  font-weight: var(--composa-body-large-strong-weight);
+}
+
+.composa-label-level-1.composa-label-weight-regular {
+  font-weight: var(--composa-body-large-weight);
+}
+
+.composa-label-level-2,
+.composa-label-level-3 {
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-label-level-2.composa-label-weight-strong,
+.composa-label-level-3.composa-label-weight-strong {
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-label-level-2.composa-label-weight-regular,
+.composa-label-level-3.composa-label-weight-regular {
+  font-weight: var(--composa-body-medium-weight);
+}
+
+/* Deprecated alias selectors: keep `composa-meta-label-*` rendering if any
+   consumer still targets the old class names. */
+.composa-meta-label {
+  min-width: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-header-leading-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+  line-height: 1;
+  flex: 0 0 16px;
+}
+
+.composa-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.composa-icon-adjustTone,
+.composa-icon-chevronDown {
+  width: 16px;
+  height: 16px;
+}
+
+.composa-icon-button {
+  width: var(--composa-control-size-icon);
+  height: var(--composa-control-size-icon);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  line-height: 0;
+  border-radius: var(--composa-control-radius);
+  color: var(--composa-control-fg);
+  background: var(--composa-control-bg);
+}
+
+.composa-icon-button-glyph {
+  width: var(--composa-control-size-icon-glyph);
+  height: var(--composa-control-size-icon-glyph);
+  display: grid;
+  place-items: center;
+}
+
+/* IconButton/Toggle size axis — Composa addition (Figma's icon-button set has no
+   size variant; every node is 24px). Sizes resolve to the icon BOX (square:
+   width = height). small 20 / default 24 / large 28. The glyph stays 16px. */
+.composa-icon-button-small {
+  width: 20px;
+  height: 20px;
+}
+
+.composa-icon-button-medium {
+  width: var(--composa-control-size-icon);
+  height: var(--composa-control-size-icon);
+}
+
+.composa-icon-button-large {
+  width: 28px;
+  height: 28px;
+}
+
+/* Per-size glyph scaling — the inner glyph follows the icon-button box:
+   small (20px box) -> 16px glyph, default (24px box) -> 20px glyph,
+   large (28px box) -> 24px glyph. The base `.composa-icon-button-glyph`
+   rule (16px, pinned by the contract verifier) stays the small default;
+   these size-scoped overrides bump default and large. Scoped to icon-buttons
+   only, so glyphs inside text Buttons, inputs, and menus are untouched. */
+.composa-icon-button-small .composa-icon-button-glyph,
+.composa-icon-button-small .composa-icon-button-glyph .composa-icon {
+  width: 16px;
+  height: 16px;
+  flex-basis: 16px;
+}
+
+.composa-icon-button-medium .composa-icon-button-glyph,
+.composa-icon-button-medium .composa-icon-button-glyph .composa-icon {
+  width: 20px;
+  height: 20px;
+  flex-basis: 20px;
+}
+
+.composa-icon-button-large .composa-icon-button-glyph,
+.composa-icon-button-large .composa-icon-button-glyph .composa-icon {
+  width: 24px;
+  height: 24px;
+  flex-basis: 24px;
+}
+
+.composa-icon-button:disabled,
+.composa-button:disabled,
+.composa-split-action:disabled,
+.composa-split-menu:disabled,
+.composa-menu-button:disabled,
+.composa-menu-item:disabled,
+.composa-input-shell:has(:disabled) {
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+  border-color: var(--composa-color-border-disabled);
+  cursor: default;
+}
+
+/* Dropdown is an INPUT, not a button: Figma keeps it white with tertiary text
+   on disabled (no surface fill, no dim border). */
+.composa-dropdown:disabled {
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-tertiary);
+  cursor: default;
+}
+
+.composa-button:hover,
+.composa-button.is-hover,
+.composa-button.is-active,
+.composa-menu-button:hover,
+.composa-menu-button.is-active,
+.composa-menu-item:hover,
+.composa-menu-item.is-hover,
+.composa-menu-item.is-active {
+  background: var(--composa-control-bg-hover);
+}
+
+/* Dropdown is an INPUT: Figma never fills the surface on hover/active. Active
+   swaps the border to selected-blue and highlights the label text; the surface
+   stays white. */
+.composa-dropdown.is-active {
+  border-color: var(--composa-color-border-selected);
+}
+
+.composa-dropdown.is-active > span:not(.composa-template-swatch):not(.composa-icon) {
+  /* Active highlights only the value text, not the chevron or leading icon
+     (Figma color-texthighlight rgba(13,153,255,0.4); no exported token). */
+  background: rgba(13, 153, 255, 0.4);
+}
+
+/* Icon-button family (icon button, toggle off, dialog toggle off, split) uses a
+   translucent hover/active fill in Figma — bghovertransparent rgba(0,0,0,0.05)
+   for hover and bgtransparent-secondary-hover rgba(0,0,0,0.1) for active —
+   rather than the solid bg-secondary the generic control hover applies. */
+.composa-icon-button:hover,
+.composa-icon-button.is-hover,
+.composa-split-action:hover,
+.composa-split-menu:hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+.composa-icon-button:active,
+.composa-icon-button.is-active,
+.composa-split-action:active,
+.composa-split-action.is-active,
+.composa-split-menu:active,
+.composa-split-menu.is-active {
+  background: var(--composa-color-bg-transparent-secondary-hover);
+}
+
+.composa-icon-button-secondary {
+  color: var(--composa-control-fg-secondary);
+  border: 1px solid var(--composa-color-border-translucent);
+}
+
+.composa-icon-button.is-focused,
+.composa-button.is-focused,
+.composa-split-control.is-focused,
+.composa-input-field.is-focus .composa-input-shell,
+.composa-input-field.is-focused .composa-input-shell,
+.composa-menu-button.is-focused,
+.composa-menu-item.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* Dropdown is an INPUT: Figma focus is just a 1px border swap to selected-blue,
+   with no inner white ring. */
+.composa-dropdown.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+}
+
+.composa-button {
+  min-height: var(--composa-height-input);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  white-space: nowrap;
+}
+
+.composa-button-hotkey {
+  min-width: 14px;
+  height: 14px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--composa-radius-small);
+  background: rgba(0, 0, 0, 0.08);
+  color: currentColor;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.composa-button > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-button-large {
+  height: 32px;
+  padding: 0 12px;
+}
+
+.composa-button-medium {
+  height: 24px;
+}
+
+.composa-button-width-fill {
+  width: 100%;
+}
+
+.composa-button-small {
+  height: 20px;
+  padding: 0 var(--composa-space-1);
+  gap: 2px;
+}
+
+/* Button variant colors. IconButton/Toggle and SplitButton share Button's
+   variant vocabulary (primary, secondary, ghost, link, link-danger,
+   destructive, secondary-destruct, inverse, success) by reusing the SAME
+   semantic color tokens here — a deliberate Composa consistency choice
+   (Figma's icon-button only ships Default/Secondary; see
+   docs/design-system/fidelity-buttons.md). The icon-button selectors are
+   added to each variant rule so the colors stay defined in one place. */
+.composa-button-primary,
+.composa-icon-button-primary {
+  border-color: transparent;
+  background: var(--composa-color-bg-brand-strong);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-button-primary:hover,
+.composa-button-primary.is-hover {
+  background: var(--composa-color-bg-brand-strong-pressed);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-icon-button-primary:hover,
+.composa-icon-button-primary.is-hover {
+  background: var(--composa-color-bg-brand-strong-pressed);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-button-secondary,
+.composa-icon-button-secondary {
+  background: var(--composa-color-bg);
+}
+
+.composa-button-ghost,
+.composa-icon-button-ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.composa-button-link,
+.composa-button-link-danger,
+.composa-icon-button-link,
+.composa-icon-button-link-danger {
+  border-color: transparent;
+  background: transparent;
+  color: var(--composa-color-text-brand);
+}
+
+.composa-button-link-danger,
+.composa-button-destructive,
+.composa-button-secondary-destruct,
+.composa-icon-button-link-danger,
+.composa-icon-button-destructive,
+.composa-icon-button-secondary-destruct {
+  color: var(--composa-color-text-danger);
+}
+
+.composa-button-destructive,
+.composa-icon-button-destructive {
+  border-color: transparent;
+  background: var(--composa-color-bg-danger);
+  color: #fff;
+}
+
+.composa-button-secondary-destruct,
+.composa-icon-button-secondary-destruct {
+  background: var(--composa-color-bg);
+  border-color: var(--composa-color-border-danger);
+}
+
+.composa-button-inverse,
+.composa-icon-button-inverse {
+  border-color: transparent;
+  background: var(--composa-color-bg-inverse);
+  color: var(--composa-color-text-on-inverse);
+}
+
+.composa-button-success,
+.composa-icon-button-success {
+  border-color: transparent;
+  background: var(--composa-color-bg-success);
+  color: #fff;
+}
+
+/* Success and inverse text Buttons had no hover rule, so the generic
+   `.composa-button:hover` (control-bg-hover) washed their solid fill to the
+   neutral hover gray. Give each a darker fill of its OWN color (mix ~12% black)
+   so the hover reads as a pressed state while keeping white/inverse text
+   readable. */
+.composa-button-success:hover,
+.composa-button-success.is-hover {
+  background: color-mix(in srgb, var(--composa-color-bg-success) 88%, #000);
+  color: #fff;
+}
+
+.composa-button-inverse:hover,
+.composa-button-inverse.is-hover {
+  background: color-mix(in srgb, var(--composa-color-bg-inverse) 85%, #000);
+  color: var(--composa-color-text-on-inverse);
+}
+
+.composa-button[data-icon-lead="left-aligned"] {
+  justify-content: flex-start;
+}
+
+.composa-button[data-icon-lead="center-aligned"] {
+  justify-content: center;
+}
+
+/* ToggleButton off/on model — a deliberate Composa divergence from Figma (which
+   ships no toggle variants). A toggle is PLAIN when off and adopts its VARIANT
+   color when on. (A toggle renders both `aria-pressed="true"` and `.is-selected`
+   when on, so these rules account for that layering.)
+
+   OFF (not pressed): plain. The variant class (`.composa-icon-button-<variant>`)
+   would otherwise paint a fill/foreground even when off, so override it back to
+   transparent + default icon color. The `:not([aria-pressed="true"])` raises
+   specificity above the single-class variant rules. */
+.composa-toggle-button:not([aria-pressed="true"]) {
+  background: transparent;
+  border-color: transparent;
+  color: var(--composa-color-icon);
+}
+
+/* OFF + hover: the plain rule above (specificity 0,2,0) outranks the generic
+   `.composa-icon-button:hover` (0,1,1), so re-assert the translucent hover fill
+   here to keep an off-state hover affordance. */
+.composa-toggle-button:not([aria-pressed="true"]):hover,
+.composa-toggle-button:not([aria-pressed="true"]).is-hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+/* ON (pressed): show the toggle's variant color. For variant toggles the variant
+   class already supplies the right background/foreground; we only need to keep
+   the generic bg-selected fill from clobbering it. So the bg-selected "on" fill
+   is scoped to the STANDARD/SECONDARY toggle (Figma's #e5f4ff) via `data-variant`.
+   (Size and variant now have distinct classes — `composa-icon-button-medium` is
+   the SIZE axis, `composa-icon-button-standard` the VARIANT — but `data-variant`
+   stays the reliable variant hook here.) The selected icon-button (non-toggle,
+   e.g. menu toolbar) and highlighted icon-button keep bg-selected. */
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"],
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"],
+.composa-icon-button.is-selected:not(.composa-toggle-button),
+.composa-icon-button-highlighted {
+  background: var(--composa-color-bg-selected);
+}
+
+/* On + disabled: the ON rule above (0,3,0) outranks the generic `:disabled`
+   surface, leaving a disabled-pressed toggle blue. Match its specificity here
+   (later source order wins the tie) so it dims to the disabled surface. */
+.composa-toggle-button:disabled[aria-pressed="true"] {
+  background: var(--composa-color-bg-disabled);
+}
+
+/* The default/secondary toggle on+hover uses the lighter selected-secondary tint
+   (#f2f9ff). */
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"]:hover,
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"].is-hover,
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"]:hover,
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-selected-secondary);
+}
+
+/* Variant toggles ON + hover: keep the variant color rather than the generic
+   translucent icon-button hover fill (`.composa-icon-button:hover`, specificity
+   0,1,1, which would otherwise wash out the solid variant background). Primary
+   already defines its own hover via `.composa-icon-button-primary:hover`
+   (brand-pressed). For the remaining solid variants, re-assert the variant
+   background at matching specificity so a pressed toggle stays on-color on hover. */
+.composa-toggle-button.composa-icon-button-success[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-success[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-success);
+}
+
+.composa-toggle-button.composa-icon-button-destructive[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-destructive[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-danger);
+}
+
+.composa-toggle-button.composa-icon-button-inverse[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-inverse[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-inverse);
+}
+
+.composa-dialog-toggle::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  right: 4px;
+  bottom: 4px;
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-menu-button {
+  position: relative;
+  width: 32px;
+  height: 24px;
+  justify-content: center;
+  gap: 0;
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-color-icon);
+}
+
+.composa-menu-button .composa-icon-figma {
+  width: 16px;
+  height: 16px;
+}
+
+.composa-menu-button .composa-icon-chevronDown {
+  width: 12px;
+  height: 12px;
+  margin-left: -4px;
+  color: var(--composa-color-icon-secondary);
+}
+
+/* SplitButton hugs its content by default — it is a button, not a full-width
+   form control. It has its own display rule (no longer grouped with the
+   stretch-to-fill .composa-input-field/.composa-dropdown/.composa-tabs row),
+   so it sizes to its label + chevron. Width only grows with width:wide. */
+.composa-split-control {
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  height: var(--composa-height-input);
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+  background: var(--composa-color-bg);
+}
+
+/* Fill split stretches to its container, same pattern as Button's width:fill. */
+.composa-split-width-fill {
+  width: 100%;
+}
+
+.composa-split-small {
+  height: var(--composa-height-input);
+}
+
+.composa-split-medium {
+  height: 24px;
+}
+
+.composa-split-large {
+  height: 32px;
+}
+
+.composa-split-control.is-active {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-split-action {
+  min-width: 0;
+  flex: 1 1 auto;
+  height: 100%;
+  /* Take the variant color only; the split-control owns the border/radius, so
+     strip the Button chrome that would double-stroke the action half. */
+  border: 0;
+  border-radius: 0;
+  min-height: 0;
+  justify-content: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  white-space: nowrap;
+}
+
+.composa-split-action span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-split-menu {
+  width: 24px;
+  height: 100%;
+  flex: 0 0 24px;
+  border-left: 1px solid var(--composa-color-border-translucent);
+  border-radius: 0;
+  /* Reset the other three sides the `.composa-icon-button-secondary` `border`
+     shorthand paints on the split-menu so only the divider (left) shows. */
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  /* Chevron foreground follows the SplitButton variant so it matches the action
+     half (white on primary/success/etc.). The menu carries
+     `.composa-icon-button-<variant>`, which sets the correct color — including
+     the secondary variant's `control-fg-secondary` gray for the default split —
+     so we no longer hardcode `color` here, which would otherwise override it. */
+}
+
+/* The secondary split-menu divider was rendering opaque (border color resolving
+   to #e6e6e6) because the `.composa-icon-button-secondary` `border` shorthand
+   competes with the split-menu's `border-left`. Pin the divider to the
+   translucent border token at higher specificity (0,2,0) so the secondary case
+   matches primary/other variants. */
+.composa-split-control .composa-split-menu {
+  border-left-color: var(--composa-color-border-translucent);
+}
+
+.composa-dropdown {
+  /* Default width: hug content (Figma dropdowns flex to the value text). Pass
+     width="fill" for a 100% trigger. */
+  width: auto;
+  min-height: var(--composa-height-input);
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  text-align: left;
+}
+
+.composa-dropdown-width-fill {
+  width: 100%;
+}
+
+.composa-dropdown-large {
+  min-height: 32px;
+}
+
+.composa-dropdown.is-borderless {
+  border-color: transparent;
+}
+
+.composa-dropdown > span:not(.composa-template-swatch) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-input-field {
+  min-width: 0;
+  gap: var(--composa-space-1);
+}
+
+/* Width model: default auto hugs content; width="fill" stretches to 100%. */
+.composa-input-width-fill {
+  width: 100%;
+}
+
+.composa-input-label {
+  width: 14px;
+  flex: 0 0 14px;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-input-numeric .composa-input-label {
+  display: none;
+}
+
+.composa-inline-glyph-text {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+  font: inherit;
+  text-transform: uppercase;
+}
+
+.composa-input-shell {
+  min-width: 0;
+  flex: 1 1 auto;
+  height: var(--composa-height-input);
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-medium);
+  /* Text input carries the gray bg-secondary fill so the field reads as an input
+     against any surface (a bare transparent field disappeared on white, e.g. in
+     the dialog). */
+  background: var(--composa-color-bg-secondary);
+}
+
+/* Numeric and Multi Line shells are gray by default in Figma. */
+.composa-input-numeric .composa-input-shell,
+.composa-input-multi-line .composa-input-shell,
+.composa-input-field.is-hover .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-input-large .composa-input-shell {
+  height: 32px;
+}
+
+.composa-input-multi-line .composa-input-shell {
+  height: 56px;
+  align-items: flex-start;
+  padding-block: var(--composa-space-1);
+}
+
+.composa-input-quick-action .composa-input-shell {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-input-field.is-active .composa-input-shell,
+.composa-input-field.is-active-filled .composa-input-shell,
+.composa-input-field.is-selected-input .composa-input-shell,
+.composa-input-field.is-selected-chevron .composa-input-shell {
+  background: var(--composa-color-bg);
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-input-field.is-disabled .composa-input-shell,
+.composa-input-field.is-disabled-secondary .composa-input-shell,
+.composa-input-field.is-disabled-tertiary .composa-input-shell {
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+  border-color: var(--composa-color-border-disabled);
+  cursor: default;
+}
+
+.composa-input-field.is-disabled .composa-input-shell input,
+.composa-input-field.is-disabled .composa-input-shell textarea,
+.composa-input-field.is-disabled-secondary .composa-input-shell input,
+.composa-input-field.is-disabled-secondary .composa-input-shell textarea,
+.composa-input-field.is-disabled-tertiary .composa-input-shell input,
+.composa-input-field.is-disabled-tertiary .composa-input-shell textarea {
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-input-clear {
+  flex: 0 0 auto;
+}
+
+.composa-input-field.is-empty .composa-input-shell input,
+.composa-input-field.is-empty .composa-input-shell textarea,
+.composa-input-field.is-active-empty .composa-input-shell input {
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-input-field.has-variable .composa-input-shell {
+  background: #eef7ff;
+}
+
+.composa-input-shell:focus-within {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-input-shell input,
+.composa-input-shell textarea {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-input-shell textarea {
+  min-height: 44px;
+  resize: none;
+}
+
+.composa-input-field.is-mixed input::placeholder {
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-input-suffix {
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-variable-pill {
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px;
+  border-radius: var(--composa-radius-small);
+  background: #d9ecff;
+  color: #0768cf;
+}
+
+.composa-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--composa-space-2);
+  margin-top: var(--composa-space-2);
+}
+
+.composa-numeric-multi {
+  width: 160px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 24px repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-numeric-multi[data-icon-lead="false"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.composa-numeric-multi.is-focused {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-numeric-multi.is-rest[data-disabled="true"] {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-numeric-multi-lead,
+.composa-numeric-multi-value {
+  min-width: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.composa-numeric-multi-lead {
+  justify-content: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-numeric-multi-value {
+  /* Cells are narrow once the lead icon takes a column (~34px each); 8px side
+     padding left too little room and clipped a 3rd digit. Tighten to 5px. */
+  padding: 0 5px;
+  border-right: 1px solid var(--composa-color-bg);
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-numeric-multi-value.is-last {
+  border-right: 0;
+}
+
+.composa-numeric-multi-value.is-disabled {
+  color: var(--composa-color-text-tertiary);
+}
+
+/* The editable field fills its cell and is otherwise chromeless — the cell span
+   carries the divider, padding, and color. */
+.composa-numeric-multi-field {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.composa-numeric-multi-field:focus {
+  outline: none;
+}
+
+.composa-numeric-multi-field:disabled {
+  color: inherit;
+  cursor: default;
+}
+
+.composa-color-input {
+  width: 144px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 53px;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-color-input.is-focus,
+.composa-color-input.is-focused {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-color-input.is-disabled {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-color-chip-frame {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.composa-color-chip {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-small);
+}
+
+.composa-color-chip-circle {
+  border-radius: var(--composa-radius-full, 999px);
+}
+
+.composa-color-chip-square {
+  border-radius: var(--composa-radius-small);
+}
+
+.composa-color-chip.is-opacity {
+  background-image:
+    linear-gradient(90deg, #ff24bd 0 50%, rgba(255, 36, 189, 0.24) 50% 100%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.08) 25%, transparent 25% 50%, rgba(0, 0, 0, 0.08) 50% 75%, transparent 75% 100%);
+  background-size: 100% 100%, 6px 6px;
+  background-position: center, center;
+}
+
+.composa-color-input input {
+  min-width: 0;
+  width: 100%;
+  height: 24px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.composa-color-value {
+  padding: 0;
+}
+
+.composa-color-opacity {
+  width: 53px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14px;
+  align-items: center;
+  background: inherit;
+  border-left: 1px solid var(--composa-color-bg);
+}
+
+.composa-color-opacity input {
+  padding: 0 0 0 8px;
+  text-align: left;
+}
+
+.composa-color-opacity .composa-input-suffix {
+  width: 14px;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-fill-section {
+  width: 240px;
+  padding-bottom: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-left: 0;
+  border-right: 0;
+  background: var(--composa-color-bg);
+}
+
+.composa-fill-section .composa-header-property {
+  min-height: 40px;
+  padding: 0 8px 0 16px;
+}
+
+.composa-fill-row {
+  width: 240px;
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 156px) 52px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 16px;
+}
+
+.composa-fill-row .composa-color-input {
+  width: 156px;
+}
+
+.composa-fill-row-actions {
+  width: 52px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.composa-chit-input {
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 6px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-chit-input.is-focused {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-switch {
+  width: var(--composa-switch-width);
+  height: var(--composa-switch-height);
+  padding: 2px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-switch-bg);
+  color: var(--composa-color-icon-secondary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.composa-switch-compact {
+  width: var(--composa-switch-width-compact);
+  height: var(--composa-switch-height-compact);
+}
+
+.composa-switch-thumb {
+  width: var(--composa-switch-thumb-size);
+  height: var(--composa-switch-thumb-size);
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-switch-thumb-bg);
+  box-shadow: var(--composa-elevation-100-canvas);
+  transform: translateX(0);
+}
+
+.composa-switch-compact .composa-switch-thumb {
+  width: var(--composa-switch-thumb-size-compact);
+  height: var(--composa-switch-thumb-size-compact);
+}
+
+.composa-switch.is-checked {
+  background: var(--composa-switch-bg-checked);
+}
+
+.composa-switch.is-checked .composa-switch-thumb {
+  transform: translateX(var(--composa-switch-thumb-offset));
+}
+
+.composa-switch-compact.is-checked .composa-switch-thumb {
+  transform: translateX(var(--composa-switch-thumb-offset-compact));
+}
+
+/* Mixed (indeterminate) reads as "partially on": an accent track with a centered
+   white minus/dash (not a knob and not a solid fill), matching Figma's mixed
+   switch. */
+.composa-switch.is-mixed {
+  background: var(--composa-switch-bg-checked);
+  justify-content: center;
+}
+
+.composa-switch.is-mixed .composa-switch-thumb {
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  transform: none;
+  box-shadow: none;
+}
+
+.composa-switch-compact.is-mixed .composa-switch-thumb {
+  width: 8px;
+}
+
+/* Interaction states — also drivable from the story's `state` control, so each
+   produces a visible change (the control sets the .is-* class, not the native
+   pseudo-class). */
+.composa-switch:hover:not(:disabled):not(.is-disabled),
+.composa-switch.is-hover {
+  filter: brightness(0.94);
+}
+
+.composa-switch:focus-visible,
+.composa-switch.is-focused {
+  outline: 2px solid var(--composa-control-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Figma disabled switch keeps a bg-tertiary track in every Type (On/Off/Mixed),
+   not the accent fill or the generic bg-disabled gray. */
+.composa-switch:disabled,
+.composa-switch[data-disabled="true"],
+.composa-switch.is-disabled {
+  background: var(--composa-color-bg-tertiary);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.composa-radio,
+.composa-checkbox {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--composa-space-2);
+  color: var(--composa-color-text);
+}
+
+.composa-checkbox.is-icon-only,
+.composa-radio {
+  align-items: center;
+}
+
+.composa-radio-mark,
+.composa-checkbox-mark {
+  width: var(--composa-selection-control-size);
+  height: var(--composa-selection-control-size);
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 var(--composa-selection-control-size);
+  border: 1px solid var(--composa-selection-control-border);
+  background: var(--composa-selection-control-bg);
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.composa-radio-mark {
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-checkbox-mark {
+  border-radius: var(--composa-radius-small);
+}
+
+/* The mark glyph is now a Material Symbols check/minus (same family as the other
+   structural glyphs) rather than a Unicode character. Size it to the mark box;
+   the glyph's own viewBox margins provide the visual inset, and the path centers
+   on the viewBox center so it sits centered in the box. */
+.composa-checkbox-mark .composa-icon {
+  width: var(--composa-selection-control-size);
+  height: var(--composa-selection-control-size);
+  /* The Material Symbols check glyph's ink sits ~1px right and ~1px below the
+     mark-box center (the glyph's optical weight is bottom-right of its viewBox
+     origin). Nudge it back so the ink centers within the 14px box. */
+  transform: translate(-1px, -1px);
+}
+
+.composa-radio.is-checked .composa-radio-mark,
+.composa-checkbox.is-checked .composa-checkbox-mark,
+.composa-checkbox.is-mixed .composa-checkbox-mark {
+  border-color: var(--composa-selection-control-border-selected);
+  background: var(--composa-selection-control-bg-selected);
+}
+
+.composa-checkbox.is-muted {
+  color: var(--composa-color-text-secondary);
+}
+
+/* Muted is a quiet but still-interactive checkbox: light box, gray mark. It is
+   NOT the disabled gray (Figma's Muted and Disabled are distinct states). */
+.composa-checkbox.is-muted .composa-checkbox-mark {
+  border-color: var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-secondary);
+}
+
+/* Ghost is the dark-filled checkbox (Figma Ghost = black box, white mark). */
+.composa-checkbox.is-ghost .composa-checkbox-mark {
+  border-color: transparent;
+  background: var(--composa-color-bg-inverse);
+  color: #ffffff;
+}
+
+/* Disabled is the faint, non-interactive state, distinct from muted. The higher
+   :disabled / .is-disabled specificity wins over checked/muted/ghost. */
+.composa-checkbox:disabled .composa-checkbox-mark,
+.composa-checkbox.is-disabled .composa-checkbox-mark {
+  border-color: var(--composa-color-border-disabled);
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-radio.is-checked .composa-radio-mark::after {
+  content: "";
+  width: var(--composa-selection-control-mark-size);
+  height: var(--composa-selection-control-mark-size);
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-radio.is-active .composa-radio-mark {
+  border-color: var(--composa-selection-control-border-selected);
+}
+
+/* Interaction states for the input-variant radio — each produces a visible
+   change (the story `state` control sets the .is-* class, not a real pseudo). */
+.composa-radio:hover:not(.is-disabled) .composa-radio-mark,
+.composa-radio.is-hover .composa-radio-mark {
+  border-color: var(--composa-color-border-strong);
+}
+
+.composa-radio:focus-visible,
+.composa-radio.is-focused {
+  outline: 2px solid var(--composa-control-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-radio.is-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.composa-radio.is-disabled .composa-radio-mark {
+  border-color: var(--composa-color-border-disabled);
+  background: var(--composa-color-bg-disabled);
+}
+
+.composa-radio-button {
+  min-height: var(--composa-height-input);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  justify-content: center;
+}
+
+.composa-radio-button.is-checked {
+  border-color: transparent;
+  background: var(--composa-color-accent);
+  color: #ffffff;
+}
+
+.composa-radio-button.is-active {
+  background: var(--composa-color-bg-on-selected);
+}
+
+.composa-selection-label {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.composa-selection-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.composa-selection-description {
+  min-width: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-tooltip {
+  position: relative;
+  width: max-content;
+  max-width: 240px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 4px 8px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-tooltip-bg);
+  color: var(--composa-tooltip-fg);
+  box-shadow: var(--composa-elevation-300-tooltip);
+}
+
+.composa-tooltip-standard {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text);
+}
+
+.composa-tooltip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-tooltip-arrow {
+  position: absolute;
+  width: var(--composa-tooltip-arrow-size);
+  height: var(--composa-tooltip-arrow-size);
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.composa-tooltip-top .composa-tooltip-arrow {
+  left: calc(50% + var(--composa-tooltip-arrow-offset));
+  bottom: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-right .composa-tooltip-arrow {
+  left: var(--composa-tooltip-arrow-offset);
+  top: calc(50% + var(--composa-tooltip-arrow-offset));
+}
+
+.composa-tooltip-bottom .composa-tooltip-arrow {
+  left: calc(50% + var(--composa-tooltip-arrow-offset));
+  top: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-left .composa-tooltip-arrow {
+  right: var(--composa-tooltip-arrow-offset);
+  top: calc(50% + var(--composa-tooltip-arrow-offset));
+}
+
+.composa-tooltip-top-left .composa-tooltip-arrow,
+.composa-tooltip-bottom-left .composa-tooltip-arrow {
+  left: var(--composa-tooltip-arrow-edge-offset, 12px);
+}
+
+.composa-tooltip-top-right .composa-tooltip-arrow,
+.composa-tooltip-bottom-right .composa-tooltip-arrow {
+  right: var(--composa-tooltip-arrow-edge-offset, 12px);
+  left: auto;
+}
+
+.composa-tooltip-top-left .composa-tooltip-arrow,
+.composa-tooltip-top-right .composa-tooltip-arrow {
+  bottom: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-bottom-left .composa-tooltip-arrow,
+.composa-tooltip-bottom-right .composa-tooltip-arrow {
+  top: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-dialog {
+  width: min(var(--composa-dialog-width), 100%);
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  overflow: hidden;
+}
+
+.composa-dialog-small {
+  width: min(var(--composa-dialog-width-small), 100%);
+}
+
+.composa-dialog-large {
+  width: min(var(--composa-dialog-width-large), 100%);
+}
+
+.composa-dialog-320 {
+  width: min(var(--composa-dialog-width-320), 100%);
+}
+
+.composa-dialog-480 {
+  width: min(var(--composa-dialog-width-480), 100%);
+}
+
+.composa-dialog-header,
+.composa-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  /* Figma Modal header/footer are a fixed 40px (spacer-6) tall with 8px
+     (spacer-2) internal padding. */
+  min-height: var(--composa-space-6);
+  padding: var(--composa-space-2);
+}
+
+.composa-dialog-header {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-dialog-header-cell {
+  /* The dialog header already supplies the 8px inset; the cell itself is
+     full-bleed within it. Drop the list-cell-level-1 32px min-height so the
+     header is 24(content) + 8 + 8 = 40px (Figma) rather than 48-49px. */
+  padding: 0;
+  min-height: 0;
+}
+
+.composa-dialog-close .composa-icon-button-glyph {
+  transform: rotate(45deg);
+}
+
+.composa-dialog-title {
+  margin: 0;
+  /* Figma Modal header title is body/medium/strong (11px/16px/550),
+     not body/large. */
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-dialog-row {
+  min-height: 28px;
+  padding: 0;
+  gap: var(--composa-space-2);
+  align-items: flex-start;
+}
+
+.composa-dialog-row .composa-list-cell-leading {
+  /* The base ListCell centers the leading slot (align-self: center); in a dialog
+     asset row the leading icon must top-align with the title's first line and the
+     trailing button instead of floating to the row's vertical center. */
+  align-self: flex-start;
+  padding-top: 1px;
+}
+
+.composa-dialog-row .composa-list-cell-content {
+  padding-top: 1px;
+}
+
+.composa-dialog-row .composa-list-cell-trailing {
+  align-self: flex-start;
+}
+
+.composa-dialog-body {
+  display: grid;
+  gap: var(--composa-space-2);
+  /* 12px inset (was 16px, which read as too large against the 8px header/footer);
+     rows sit 8px apart. */
+  padding: var(--composa-space-2-5);
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-dialog-body p {
+  margin: 0;
+}
+
+.composa-dialog-actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.composa-chip-variable {
+  min-width: 0;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 6px;
+  border-radius: var(--composa-radius-medium);
+  background: #eef7ff;
+  color: #0768cf;
+}
+
+.composa-chip-variable.is-hover,
+.composa-chip-variable.is-selected,
+.composa-chip-variable.is-on-selected {
+  background: #d9ecff;
+}
+
+.composa-chip-variable.is-soft-deleted {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.composa-chip-variable.is-value-not-rendered {
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-chip-variable.is-disabled-secondary,
+.composa-chip-variable.is-disabled-tertiary {
+  opacity: 0.4;
+}
+
+.composa-chit {
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border-translucent);
+}
+
+.composa-chit-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-chit-48 {
+  width: 48px;
+  height: 48px;
+}
+
+.composa-chit-square {
+  border-radius: var(--composa-radius-medium);
+}
+
+.composa-chit-circle {
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-chit-instance {
+  color: #fff;
+}
+
+.composa-combo-input {
+  width: 117px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  align-items: stretch;
+  gap: 1px;
+}
+
+.composa-combo-input-value,
+.composa-combo-input-dropdown {
+  min-width: 0;
+  height: 24px;
+  border: 0;
+  background: var(--composa-color-bg-secondary);
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-combo-input-value {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  padding: 0 var(--composa-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--composa-radius-medium) 0 0 var(--composa-radius-medium);
+  text-align: left;
+}
+
+.composa-combo-input-value > span:not(.composa-variable-pill) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Editable value field — chromeless; the value wrapper carries the chrome. */
+.composa-combo-input-field {
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.composa-combo-input-field:focus {
+  outline: none;
+}
+
+.composa-combo-input-value svg,
+.composa-combo-input-dropdown svg {
+  flex: 0 0 auto;
+}
+
+.composa-combo-input-value:has(svg) {
+  padding-left: 0;
+}
+
+.composa-combo-input-value.is-hover,
+.composa-combo-input.is-hover .composa-combo-input-value {
+  border: 1px solid var(--composa-color-border);
+}
+
+.composa-combo-input-value.is-selected {
+  border: 1px solid var(--composa-color-border-selected);
+}
+
+.composa-combo-input-value.is-selected > span:not(.composa-variable-pill) {
+  background: transparent;
+}
+
+.composa-combo-input-dropdown {
+  width: 24px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  /* Figma default chevron has no blue border; the selected-blue border appears
+     only on the active/selected-chevron state below. */
+  border: 1px solid transparent;
+  border-radius: 0 var(--composa-radius-medium) var(--composa-radius-medium) 0;
+}
+
+.composa-combo-input-dropdown.is-hover {
+  background: var(--composa-color-bg-tertiary);
+}
+
+.composa-combo-input-dropdown.is-active,
+.composa-combo-input-dropdown.is-selected-chevron {
+  background: var(--composa-color-bg-selected);
+  border-color: var(--composa-color-border-selected);
+}
+
+.composa-menu {
+  width: var(--composa-menu-width);
+  display: grid;
+  gap: var(--composa-menu-row-gap);
+  /* Figma menu container is py:8; add a small px:4 gutter so the hover/selected
+     row pill is not full-bleed against the menu edge (rows stay full-width
+     within the gutter, so the rounded selection has breathing room on both
+     sides). */
+  padding: var(--composa-space-2) var(--composa-space-1);
+  border: 0;
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}
+
+.composa-menu > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.composa-menu-item {
+  width: 100%;
+  height: var(--composa-menu-row-height);
+  display: grid;
+  grid-template-columns: var(--composa-menu-slot-size) minmax(0, 1fr) minmax(var(--composa-menu-slot-size), auto);
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-menu-row-fg);
+  text-align: left;
+}
+
+.composa-menu-row {
+  width: 100%;
+  min-height: var(--composa-menu-row-height);
+  display: grid;
+  grid-template-columns: var(--composa-menu-slot-size) minmax(0, 1fr) minmax(var(--composa-menu-slot-size), auto);
+  /* Figma row: lead<->text 4px, label<->trail 8px; pl:8 pr:4; radius-medium 5px. */
+  gap: var(--composa-space-1);
+  align-items: center;
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-menu-row-fg);
+  text-align: left;
+}
+
+.composa-menu-row:hover,
+.composa-menu-row.is-hover {
+  background: var(--composa-menu-row-bg-hover);
+}
+
+/* Selection is shown by the leading checkmark/dot, NOT a blue fill. Blue is the
+   hover affordance only, so multi-select shows multiple checks and never
+   multiple blue rows. A selected (but un-hovered) row keeps the default surface. */
+.composa-menu-row.is-selected {
+  background: transparent;
+}
+
+/* Hover still applies on a selected row — the blue hover fill is the affordance
+   for every interactive row. Without this, is-selected (equal specificity, later
+   in source) would cancel the hover background. */
+.composa-menu-row.is-selected:hover,
+.composa-menu-row.is-selected.is-hover {
+  background: var(--composa-menu-row-bg-hover);
+}
+
+.composa-menu-row:disabled,
+.composa-menu-row.is-disabled {
+  color: var(--composa-menu-row-fg-disabled);
+  cursor: default;
+}
+
+.composa-menu-leading,
+.composa-menu-trailing {
+  min-width: 0;
+  height: var(--composa-menu-slot-size);
+  display: inline-grid;
+  align-items: center;
+}
+
+.composa-menu-leading {
+  justify-items: center;
+}
+
+.composa-menu-leading .composa-icon,
+.composa-menu-trailing .composa-icon {
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+}
+
+.composa-menu-trailing {
+  justify-items: end;
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+.composa-menu-row:hover .composa-menu-trailing,
+.composa-menu-row.is-hover .composa-menu-trailing,
+.composa-menu-row.is-selected .composa-menu-trailing {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+.composa-menu-submenu-icon {
+  display: inline-grid;
+  place-items: center;
+  transform: rotate(-90deg);
+}
+
+/* A submenu row anchors its nested menu flyout to the right. The -8px top offset
+   cancels the flyout menu's own top padding so its first row lines up with the
+   parent row. */
+.composa-menu-submenu-anchor {
+  position: relative;
+}
+
+.composa-menu-flyout {
+  position: absolute;
+  top: calc(-1 * var(--composa-space-2));
+  left: 100%;
+  /* The anchor row sits inside the menu's 4px gutter, so left:100% lands at the
+     menu's inner edge. Add the gutter (4px) + the Figma 4px parent/child gap so
+     the visible space between the two menu boxes is 4px. */
+  margin-left: calc(var(--composa-space-1) * 2);
+  z-index: 10;
+}
+
+.composa-menu-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-menu-divider {
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.composa-menu-divider::before {
+  content: "";
+  width: 100%;
+  border-top: 1px solid var(--composa-menu-divider-border);
+}
+
+.composa-menu-heading {
+  min-height: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  gap: 2px;
+  align-items: center;
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+.composa-menu-heading > * {
+  min-width: 0;
+}
+
+.composa-menu-heading > .composa-label:first-child,
+.composa-menu-heading > .composa-meta-label:first-child {
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-heading > .composa-label + .composa-label,
+.composa-menu-heading > .composa-meta-label + .composa-meta-label {
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+/* Toolbar row = a tool/shape selection row: a leading check (absolute, shown when
+   selected) over a 20px indent, then the shape icon, label, and shortcut. */
+.composa-menu-row-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2) 0 20px;
+}
+
+.composa-menu-toolbar-check {
+  position: absolute;
+  left: 4px;
+  width: 16px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-row-toolbar .composa-menu-label {
+  flex: 1 0 0;
+}
+
+.composa-menu-toolbar-shortcut {
+  flex: 0 0 auto;
+  color: var(--composa-menu-row-fg-secondary);
+  font: inherit;
+}
+
+.composa-menu-row:hover .composa-menu-toolbar-shortcut,
+.composa-menu-row.is-hover .composa-menu-toolbar-shortcut {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+.composa-menu-footer {
+  padding: var(--composa-space-1);
+}
+
+.composa-menu-footer .composa-button {
+  width: 100%;
+  max-width: 100%;
+  min-height: var(--composa-menu-row-height);
+  border-color: var(--composa-menu-footer-border);
+  background: var(--composa-menu-footer-bg);
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-footer .composa-button:hover,
+.composa-menu-footer .composa-button.is-hover {
+  border-color: var(--composa-menu-footer-border-hover);
+  background: var(--composa-menu-footer-bg-hover);
+}
+
+.composa-menu-avatar {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-multiplayer-yellow);
+  color: var(--composa-color-text-on-multiplayer-yellow);
+  font-size: 9px;
+}
+
+.composa-menu-check,
+.composa-menu-expand,
+.composa-menu-checkbox,
+.composa-menu-mixed {
+  color: var(--composa-menu-row-fg-secondary);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+/* The selected indicator has two glyphs: a check (toggles / multi-select) and a
+   dot (single-select / radio-style menus). The dot is drawn rather than a "•"
+   glyph so it sizes and centers predictably. */
+.composa-menu-check-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+}
+
+.composa-menu-check-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-menu-row:hover .composa-menu-check,
+.composa-menu-row:hover .composa-menu-expand,
+.composa-menu-row:hover .composa-menu-checkbox,
+.composa-menu-row:hover .composa-menu-mixed,
+.composa-menu-row.is-hover .composa-menu-check,
+.composa-menu-row.is-hover .composa-menu-expand,
+.composa-menu-row.is-hover .composa-menu-checkbox,
+.composa-menu-row.is-hover .composa-menu-mixed,
+.composa-menu-row.is-selected .composa-menu-check,
+.composa-menu-row.is-selected .composa-menu-expand,
+.composa-menu-row.is-selected .composa-menu-checkbox,
+.composa-menu-row.is-selected .composa-menu-mixed {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+/* On the blue hover fill the white check/dot/switch can wash out. Figma keeps a
+   thin stroke around the indicator so it stays legible against the blue — mirror
+   that with a subtle dark outline on hover. */
+.composa-menu-row:hover .composa-menu-check,
+.composa-menu-row.is-hover .composa-menu-check {
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.composa-menu-row:hover .composa-menu-check-dot::before,
+.composa-menu-row.is-hover .composa-menu-check-dot::before {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.composa-menu-row:hover .composa-menu-switch,
+.composa-menu-row.is-hover .composa-menu-switch {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.composa-menu-badge {
+  min-width: 18px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 4px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-badge-bg);
+  color: #ffffff;
+  font-size: 10px;
+}
+
+/* Figma "Menu row/Toggle" lays the row out as flex: [icon?][switch][label][shortcut?].
+   The 32px switch is the leading control, so the toggle row opts out of the
+   standard lead/label/trail grid. */
+.composa-menu-row-toggle {
+  display: flex;
+  gap: var(--composa-space-2);
+  align-items: center;
+  /* Figma toggle row padding: pl:8 pr:16. */
+  padding: 0 var(--composa-space-3) 0 var(--composa-space-2);
+}
+
+.composa-menu-row-toggle .composa-menu-leading {
+  flex: 0 0 auto;
+}
+
+.composa-menu-row-toggle .composa-menu-label {
+  flex: 1 0 0;
+}
+
+.composa-menu-toggle-shortcut {
+  flex: 0 0 auto;
+  color: var(--composa-menu-row-fg-secondary);
+  font: inherit;
+}
+
+/* Figma switch: 32x16 track, 14px knob, knob 1px from the edge. */
+.composa-menu-switch {
+  width: 32px;
+  height: 16px;
+  flex: 0 0 auto;
+  position: relative;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-switch-bg);
+}
+
+.composa-menu-switch::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-switch-thumb-bg);
+  box-shadow: var(--composa-elevation-100-canvas);
+}
+
+.composa-menu-switch.is-on {
+  background: var(--composa-menu-switch-bg-on);
+}
+
+.composa-menu-switch.is-on::after {
+  left: 17px;
+}
+
+.composa-menu-item.is-selected {
+  background: var(--composa-menu-row-bg-selected);
+}
+
+.composa-menu-item.is-destructive {
+  color: var(--composa-menu-danger-fg);
+}
+
+.composa-menu-item span:not(.composa-icon):not(.composa-menu-item-spacer) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-menu-item kbd {
+  color: var(--composa-color-text-secondary);
+  font: inherit;
+}
+
+.composa-segmented-control {
+  width: max-content;
+  height: var(--composa-segmented-height);
+  padding: var(--composa-segmented-padding);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-segmented-control.composa-segmented-label {
+  width: 240px;
+  padding: 0;
+}
+
+.composa-segmented-control.composa-segmented-label[data-tab-count="02"] {
+  width: 160px;
+}
+
+.composa-segmented-control .composa-icon-button {
+  width: var(--composa-segmented-icon-width-2);
+  height: var(--composa-segmented-item-height);
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-segmented-control[data-tab-count="03"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="04"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="05"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="06"] .composa-icon-button {
+  width: var(--composa-segmented-icon-width);
+}
+
+.composa-segmented-control > .composa-segmented-label {
+  min-width: 0;
+  flex: 1 1 0;
+  height: var(--composa-segmented-item-height);
+  padding: 0 var(--composa-tab-padding-inline);
+  border-radius: calc(var(--composa-radius-medium) - 1px);
+  color: var(--composa-color-text-secondary);
+}
+
+/* Selected segment is a WHITE raised pill on the gray track. The segment carries
+   `.composa-icon-button.is-selected`, which the button-family rule
+   `.composa-icon-button.is-selected:not(.composa-toggle-button)` (0,3,0) would
+   otherwise fill with bg-selected (blue). Match its specificity with the
+   `.composa-icon-button` form so this file's later source order wins the tie. */
+.composa-segmented-control .is-selected,
+.composa-segmented-control .composa-icon-button.is-selected {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-icon);
+}
+
+.composa-segmented-control.is-disabled {
+  background: var(--composa-color-bg-disabled);
+  cursor: default;
+}
+
+.composa-segmented-control.is-disabled > .composa-segmented-label,
+.composa-segmented-control.is-disabled .composa-segmented-label {
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-segmented-picker {
+  width: auto;
+}
+
+/* Tree / LayerList — the published layer-tree component. It reuses the row
+   styling that the app shell already defines (.composa-tree-row: 32px rows, depth
+   indent via --tree-depth, selection pills, kind colors) and adds the container,
+   the row's flex layout, the disclosure chevron, and a hover state. */
+.composa-tree {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--composa-color-bg);
+}
+
+.composa-tree .composa-tree-row {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  /* Published rows don't reserve the app panel's 48px trailing gutter. */
+  padding: 0 var(--composa-space-2) 0 calc(16px + (var(--tree-depth, 0) * 24px));
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.composa-tree .composa-tree-row:not(.is-selected):hover::before {
+  background: var(--composa-color-bg-hover);
+}
+
+.composa-tree-disclosure {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--composa-color-icon);
+  cursor: pointer;
+}
+
+.composa-tree-disclosure.is-collapsed {
+  transform: rotate(-90deg);
+}
+
+.composa-tree-disclosure .composa-icon {
+  width: 16px;
+  height: 16px;
+}
+.composa-project-title {
+  grid-row: 2;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.composa-project-name {
+  max-width: 158px;
+  display: flex;
+  gap: var(--composa-space-1);
+  align-items: center;
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+  pointer-events: auto;
+}
+
+.composa-project-title p {
+  margin: -2px 0 0;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-new-slide {
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  padding: var(--composa-space-2);
+  border-block: 1px solid var(--composa-color-border);
+}
+
+.composa-new-slide .composa-split-control {
+  width: 100%;
+  border-radius: var(--composa-radius-medium);
+}
+
+.composa-new-slide .composa-split-menu {
+  width: 28px;
+  flex-basis: 28px;
+}
+
+.composa-slide-rail {
+  grid-row: 4;
+  padding: var(--composa-space-2);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.composa-slide-rail::-webkit-scrollbar,
+.composa-layer-tree::-webkit-scrollbar {
+  display: none;
+}
+
+.composa-slide-rail-item {
+  width: 100%;
+  min-height: 95px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--composa-space-2);
+  padding: 0;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.composa-slide-rail-item.is-selected {
+  background: var(--composa-color-bg-on-selected);
+}
+
+.composa-slide-rail-item[aria-selected="true"] .composa-slide-thumbnail {
+  box-shadow: inset 0 0 0 1px rgba(13, 153, 255, 0.35);
+}
+
+.composa-slide-number {
+  display: block;
+  padding-top: var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+  text-align: center;
+}
+
+.composa-slide-thumbnail {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 140 / 79;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+}
+
+.thumb-layer,
+.canvas-layer {
+  position: absolute;
+}
+
+.thumb-text {
+  color: var(--composa-brand-cream);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  line-height: 0.92;
+  white-space: pre-line;
+}
+
+.thumb-brand {
+  color: var(--composa-brand-cream);
+  font-size: 8px;
+}
+
+.thumb-line {
+  height: 5px;
+  border-radius: var(--composa-radius-full);
+  background: #d9d9d9;
+}
+
+.composa-layer-tree-panel {
+  grid-row: 5;
+  border-top: 1px solid var(--composa-color-border);
+  overflow: hidden;
+}
+
+.composa-layer-tree {
+  max-height: calc(100% - var(--composa-height-heading));
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.composa-tree-row {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  gap: var(--composa-space-2);
+  padding: 0 48px 0 calc(16px + (var(--tree-depth, 0) * 24px));
+  text-align: left;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-tree-row::before {
+  content: "";
+  position: absolute;
+  inset: 4px 8px 4px 12px;
+  z-index: 0;
+  border-radius: var(--composa-radius-medium);
+  pointer-events: none;
+}
+
+.composa-tree-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+.composa-tree-row.is-selected::before {
+  background: var(--composa-color-bg-selected);
+}
+
+.composa-tree-row.is-secondary-selected::before {
+  inset-block: 0;
+  background: var(--composa-color-bg-selected-secondary);
+}
+
+.composa-tree-row.is-selected.is-secondary-selected::before {
+  inset-block: 4px;
+  background: var(--composa-color-bg-selected);
+}
+
+.composa-tree-row.composa-tree-kind-component,
+.composa-tree-row.composa-tree-kind-instance {
+  color: var(--composa-color-text-component);
+}
+
+.composa-tree-row .composa-icon,
+.composa-tree-disclosure-spacer {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.composa-tree-disclosure-spacer {
+  display: block;
+}
+
+.composa-layer-icon {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon);
+}
+
+.composa-tree-kind-component .composa-layer-icon,
+.composa-tree-kind-instance .composa-layer-icon {
+  color: var(--composa-color-text-component);
+}
+
+.composa-tree-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-canvas-workspace {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.composa-canvas-stage {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
+  transform: translateY(-50%);
+}
+
+.composa-canvas-frame {
+  position: relative;
+  width: min(808px, calc(100vw - 480px));
+  max-width: calc(100vw - 480px);
+  aspect-ratio: 808 / 453.4479;
+  overflow: hidden;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-brand-black);
+  box-shadow: var(--composa-elevation-100-canvas);
+}
+
+.canvas-layer {
+  user-select: none;
+}
+
+.canvas-layer.is-selected {
+  z-index: 2;
+}
+
+.canvas-selection-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border: 1px solid var(--composa-color-accent-blue);
+  pointer-events: none;
+}
+
+.canvas-selection-overlay.is-component,
+.canvas-selection-overlay.is-instance {
+  border-color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-textEdit {
+  border-style: dashed;
+}
+
+.canvas-selection-overlay.is-autoLayout {
+  inset: -1px;
+}
+
+.canvas-selection-overlay.is-vector,
+.canvas-selection-overlay.is-slice,
+.canvas-selection-overlay.is-imageCrop,
+.canvas-selection-overlay.is-reparenting,
+.canvas-selection-overlay.is-cover {
+  border-color: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-overlay.is-smartSelectionHorizontal,
+.canvas-selection-overlay.is-smartSelectionVertical,
+.canvas-selection-overlay.is-smartSelectionGrid {
+  border-color: var(--composa-color-accent-spacing);
+}
+
+.canvas-selection-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  /* Handles are always white-filled with the accent border, independent of
+     theme. bg token resolves to a dark surface in dark mode, leaving the
+     handles unfilled (transparent-looking), so pin pure white here. */
+  background: #ffffff;
+  color: var(--composa-color-accent-blue);
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-handle,
+.canvas-selection-overlay.is-instance .canvas-selection-handle {
+  color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-handle,
+.canvas-selection-overlay.is-slice .canvas-selection-handle,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-handle,
+.canvas-selection-overlay.is-reparenting .canvas-selection-handle,
+.canvas-selection-overlay.is-cover .canvas-selection-handle {
+  color: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-handle.is-top-left {
+  top: -4px;
+  left: -4px;
+}
+
+.canvas-selection-handle.is-top-right {
+  top: -4px;
+  right: -4px;
+}
+
+.canvas-selection-handle.is-bottom-left {
+  bottom: -4px;
+  left: -4px;
+}
+
+.canvas-selection-handle.is-bottom-right {
+  right: -4px;
+  bottom: -4px;
+}
+
+.canvas-selection-badge,
+.canvas-selection-name {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: var(--composa-radius-small);
+  background: var(--composa-color-accent-blue);
+  color: #ffffff;
+  font-family: var(--composa-font-family);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-badge,
+.canvas-selection-overlay.is-component .canvas-selection-name,
+.canvas-selection-overlay.is-instance .canvas-selection-badge,
+.canvas-selection-overlay.is-instance .canvas-selection-name {
+  background: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-badge,
+.canvas-selection-overlay.is-vector .canvas-selection-name,
+.canvas-selection-overlay.is-slice .canvas-selection-badge,
+.canvas-selection-overlay.is-slice .canvas-selection-name,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-badge,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-name,
+.canvas-selection-overlay.is-reparenting .canvas-selection-badge,
+.canvas-selection-overlay.is-reparenting .canvas-selection-name,
+.canvas-selection-overlay.is-cover .canvas-selection-badge,
+.canvas-selection-overlay.is-cover .canvas-selection-name {
+  background: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-badge.is-size {
+  left: 50%;
+  bottom: -23px;
+  transform: translateX(-50%);
+}
+
+.canvas-selection-name {
+  top: -17px;
+  left: 0;
+  background: transparent;
+  color: var(--composa-color-accent-blue);
+  font-weight: 450;
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-name,
+.canvas-selection-overlay.is-instance .canvas-selection-name {
+  color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-name,
+.canvas-selection-overlay.is-slice .canvas-selection-name,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-name,
+.canvas-selection-overlay.is-reparenting .canvas-selection-name,
+.canvas-selection-overlay.is-cover .canvas-selection-name {
+  color: var(--composa-color-accent-measure);
+}
+
+.canvas-smart-marker,
+.canvas-smart-space {
+  position: absolute;
+  top: calc(50% - 6px);
+  background: var(--composa-color-accent-spacing);
+}
+
+.canvas-smart-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--composa-radius-full);
+}
+
+.canvas-smart-marker.is-first {
+  left: 25%;
+}
+
+.canvas-smart-marker.is-last {
+  right: 25%;
+}
+
+.canvas-smart-space {
+  width: 1px;
+  height: 12px;
+}
+
+.canvas-smart-space.is-first {
+  left: 42%;
+}
+
+.canvas-smart-space.is-last {
+  right: 42%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker,
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space {
+  left: calc(50% - 6px);
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker.is-first {
+  top: 22%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker.is-last {
+  top: auto;
+  bottom: 22%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space.is-first {
+  top: 40%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space.is-last {
+  top: auto;
+  bottom: 40%;
+}
+
+.canvas-auto-layout-cue {
+  position: absolute;
+  inset: -4px;
+  border: 0 solid var(--composa-color-accent-blue);
+}
+
+.canvas-auto-layout-cue.is-horizontal {
+  top: 50%;
+  bottom: auto;
+  height: 8px;
+  border-block-width: 1px;
+  transform: translateY(-50%);
+}
+
+.canvas-auto-layout-cue.is-vertical {
+  left: 50%;
+  right: auto;
+  width: 8px;
+  border-inline-width: 1px;
+  transform: translateX(-50%);
+}
+
+.canvas-auto-layout-cue.is-both {
+  border-width: 1px;
+}
+
+.canvas-layer[data-type="text"],
+.canvas-layer[data-type="brand"],
+.canvas-layer[data-type="title"],
+.canvas-layer[data-type="mark"] {
+  white-space: pre-line;
+}
+
+.canvas-layer[data-type="title"] {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 71px;
+  line-height: 0.9;
+}
+
+.canvas-layer[data-type="text"] {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.canvas-layer[data-type="brand"] {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.canvas-layer[data-type="mark"] {
+  font-size: 9px;
+}
+
+.shape-orange {
+  background: var(--composa-brand-orange);
+  clip-path: polygon(0 0, 100% 0, 100% 58%, 92% 62%, 91% 77%, 80% 74%, 73% 92%, 61% 82%, 52% 100%, 41% 83%, 28% 91%, 24% 73%, 11% 72%, 13% 56%, 0 51%);
+}
+
+.shape-yellow {
+  background: var(--composa-brand-yellow);
+  clip-path: polygon(45% 0, 57% 28%, 78% 4%, 76% 38%, 100% 34%, 78% 51%, 98% 64%, 71% 66%, 77% 94%, 57% 73%, 48% 100%, 39% 72%, 15% 91%, 24% 62%, 0 57%, 22% 44%, 2% 25%, 31% 31%);
+}
+
+.shape-white {
+  background: var(--composa-brand-cream);
+  clip-path: polygon(35% 0, 48% 35%, 67% 5%, 74% 39%, 100% 33%, 79% 56%, 100% 74%, 71% 74%, 67% 100%, 48% 79%, 30% 100%, 29% 72%, 0 75%, 19% 54%, 0 33%, 29% 39%);
+}
+
+.shape-mint {
+  background: var(--composa-brand-mint);
+  clip-path: polygon(44% 0, 50% 23%, 62% 3%, 64% 27%, 78% 11%, 75% 35%, 96% 29%, 82% 47%, 100% 55%, 78% 63%, 95% 80%, 70% 75%, 72% 100%, 57% 81%, 48% 100%, 42% 77%, 24% 95%, 29% 70%, 5% 72%, 23% 58%, 0 48%, 24% 41%, 9% 21%, 32% 28%);
+}
+
+.auto-layout-frame {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+  border-radius: var(--composa-radius-medium);
+}
+
+.auto-layout-frame.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.auto-layout-chip {
+  min-width: 72px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--composa-radius-medium);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--composa-color-text);
+  font-size: 13px;
+}
+
+.composa-speaker-notes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 67px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--composa-space-2);
+  align-items: center;
+  padding: 0 12px;
+}
+
+.composa-notes-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 15px;
+  background: var(--composa-color-scrollbar);
+}
+
+.composa-notes-box {
+  width: min(808px, calc(100vw - 480px));
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary-on-canvas);
+}
+
+.composa-notes-box p {
+  margin: 0;
+  color: var(--composa-color-text-tertiary);
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-notes-box button {
+  min-height: var(--composa-height-input);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-color-text-tertiary);
+  white-space: nowrap;
+}
+
+.composa-floating-toolbar {
+  position: absolute;
+  left: 50%;
+  bottom: 11px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2);
+  border-radius: 13px;
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-200-canvas);
+  transform: translateX(-50%);
+}
+
+.composa-floating-toolbar .composa-icon-button {
+  width: 32px;
+  height: 32px;
+}
+
+.composa-floating-toolbar .composa-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.composa-floating-toolbar .composa-icon-button-glyph {
+  width: 18px;
+  height: 18px;
+}
+
+.composa-floating-toolbar .is-active {
+  background: var(--composa-color-bg-brand);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-avatar {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-multiplayer-yellow);
+  color: var(--composa-color-text-on-multiplayer-yellow);
+  font-size: var(--composa-body-large-size);
+}
+
+.composa-right-actions {
+  gap: var(--composa-space-2);
+}
+
+.composa-split-button {
+  width: 41px;
+}
+
+.composa-tabs {
+  width: max-content;
+  max-width: 100%;
+  height: var(--composa-tabs-height);
+  justify-content: flex-start;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-tabs-underline {
+  gap: 0;
+  background: transparent;
+  /* The underline variant is the pill variant with no hover/selected pill
+     background and an underline on the container baseline. It must be
+     GEOMETRICALLY IDENTICAL to the pill variant: same container height, same
+     tab box, same centered label. The only differences live in the rules
+     below (no pill background; a baseline underline). No align-items or
+     padding override here keeps the box identical to pill. */
+}
+
+.composa-tabs-compact {
+  height: 24px;
+  padding-block: 0;
+}
+
+.composa-panel-right > .composa-tabs,
+.composa-inspector > .composa-tabs {
+  width: 100%;
+}
+
+.composa-tab {
+  min-width: 0;
+  height: var(--composa-tab-height);
+  display: inline-grid;
+  place-items: center;
+  padding: 0 var(--composa-tab-padding-inline);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-tab-fg);
+  white-space: nowrap;
+}
+
+.composa-tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-tab.is-selected {
+  background: var(--composa-tab-bg-selected);
+  color: var(--composa-tab-fg-selected);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-tabs-underline .composa-tab {
+  position: relative;
+  border-radius: 0;
+  min-width: var(--composa-tab-min-width);
+}
+
+.composa-tabs-underline .composa-tab.is-selected {
+  background: transparent;
+}
+
+.composa-tabs-underline .composa-tab.is-selected::after {
+  content: "";
+  position: absolute;
+  left: var(--composa-tab-padding-inline);
+  right: var(--composa-tab-padding-inline);
+  /* Drop the underline to the CONTAINER's bottom baseline rule without changing
+     the tab geometry. The tab box is identical to the pill variant (centered in
+     the 40px container, 8px container padding below it), so reaching down by the
+     container's bottom padding lands the underline on the container baseline. */
+  bottom: calc(-1 * var(--composa-space-2));
+  border-bottom: 1px solid currentColor;
+}
+
+.composa-tab.is-single {
+  width: 100%;
+  justify-items: start;
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-tabs-underline .composa-tab.is-single {
+  min-width: 0;
+}
+
+.composa-tab.is-hover,
+.composa-tab:hover {
+  background: var(--composa-tab-bg-hover);
+}
+
+.composa-tab.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+}
+
+.composa-tab.is-single {
+  min-width: var(--composa-tab-min-width);
+}
+
+.composa-inspector-section {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-inspector-section h2,
+.composa-inspector-section h3,
+.composa-inspector-section p {
+  margin: 0;
+}
+
+.composa-inspector-section h2 {
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-inspector-section h3 {
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-property-row {
+  min-height: 32px;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  margin-top: var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-title-section {
+  padding-block: 14px;
+}
+
+.composa-property-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 8px;
+  align-items: center;
+}
+
+.composa-property-row strong {
+  color: var(--composa-color-text);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-template-picker {
+  width: 100%;
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--composa-space-2);
+  margin-top: 12px;
+  padding: var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  text-align: left;
+}
+
+.composa-template-swatch {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.composa-template-swatch i:nth-child(1) {
+  flex: 1;
+  background: var(--composa-brand-orange);
+}
+
+.composa-template-swatch i:nth-child(2) {
+  flex: 1;
+  background: var(--composa-brand-black);
+}
+
+.composa-template-swatch i:nth-child(3) {
+  flex: 1;
+  background: var(--composa-brand-yellow);
+}
+
+.composa-template-picker strong,
+.composa-template-picker small {
+  display: block;
+}
+
+.composa-template-picker strong {
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-template-picker small,
+.composa-property-row small,
+.is-collapsed {
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-color-dot,
+.composa-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.composa-swatch.black {
+  background: #000;
+}
+
+.composa-swatch.orange {
+  background: var(--composa-brand-orange);
+}
+
+.composa-swatch.cream {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-brand-cream);
+}
+
+.composa-control-row {
+  gap: var(--composa-space-2);
+  flex-wrap: wrap;
+  margin-top: var(--composa-space-2);
+}
+
+.composa-control-row .is-selected {
+  background: var(--composa-color-bg-secondary);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-selection-colors {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: var(--composa-space-2);
+}
+
+.composa-selection-colors small {
+  margin-left: auto;
+  color: var(--composa-color-text-secondary);
+}
+
+.is-collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 900px) {
+  #app {
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .composa-workbench {
+    min-height: 0;
+    grid-template-columns: 148px minmax(280px, 1fr) 240px;
+    border-radius: 0;
+  }
+
+  .composa-panel-left {
+    grid-template-rows: 40px 52px 40px minmax(0, 1fr) 228px;
+  }
+
+  .composa-canvas-frame,
+  .composa-notes-box {
+    width: min(100%, calc(100vw - 424px));
+    max-width: calc(100vw - 424px);
+  }
+
+  .composa-canvas-stage {
+    top: 50%;
+  }
+}
+
+@media (max-width: 620px) {
+  .composa-workbench {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .composa-panel-left,
+  .composa-panel-right {
+    display: none;
+  }
+
+  .composa-canvas-workspace {
+    min-height: 620px;
+  }
+
+  .composa-canvas-stage {
+    top: 50%;
+    padding: 0 16px;
+  }
+
+  .composa-canvas-frame,
+  .composa-notes-box {
+    width: calc(100vw - 32px);
+  }
+
+  .canvas-layer[data-type="title"] {
+    font-size: 42px;
+  }
+
+  .composa-floating-toolbar {
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+  }
+}
+
+.harness-body {
+  display: block;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+#harness {
+  min-height: 100vh;
+}
+
+.harness-shell {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.harness-hero,
+.harness-section,
+.harness-card,
+.harness-surface {
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+}
+
+.harness-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px;
+}
+
+.harness-hero h1,
+.harness-section h2,
+.harness-surface h3 {
+  margin: 0;
+}
+
+.harness-hero h1 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.harness-hero p,
+.harness-section-header p,
+.harness-card span {
+  margin: 4px 0 0;
+  color: var(--composa-color-text-secondary);
+}
+
+.harness-link {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-brand);
+  color: var(--composa-color-text-on-brand);
+  text-decoration: none;
+}
+
+.harness-section {
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.harness-section-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.harness-section h2 {
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.harness-section-body {
+  padding: 16px;
+}
+
+.harness-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.harness-card {
+  display: grid;
+  gap: 3px;
+  padding: 12px;
+}
+
+.harness-card code {
+  color: var(--composa-color-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-table {
+  display: grid;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+}
+
+.harness-table-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 180px;
+  min-height: 32px;
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.harness-table-row:first-child {
+  border-top: 0;
+}
+
+.harness-table-row span {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-table-row.is-heading {
+  background: var(--composa-color-bg-secondary);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.harness-specimen-stack {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.harness-variant-matrix {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.harness-matrix-header {
+  display: grid;
+  gap: 2px;
+}
+
+.harness-matrix-header h3 {
+  margin: 0;
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.harness-matrix-header p {
+  margin: 0;
+  color: var(--composa-color-text-secondary);
+}
+
+.harness-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
+  gap: 8px;
+}
+
+.harness-variant-cell {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 8px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+}
+
+.harness-variant-cell small {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-variant-stage {
+  min-width: 0;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.harness-variant-stage .composa-menu {
+  width: 100%;
+}
+
+.harness-variant-stage .composa-input-field,
+.harness-variant-stage .composa-dropdown {
+  width: 100%;
+}
+
+.harness-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.harness-tree-sample {
+  width: 240px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+}
+
+.harness-canvas-decoration-sample {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  padding: 24px 12px 34px;
+}
+
+.harness-decoration-figure {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  margin: 0;
+}
+
+.harness-decoration-figure figcaption {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.harness-decoration-box {
+  position: relative;
+  width: 128px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.harness-composed-grid {
+  display: grid;
+  grid-template-columns: 260px minmax(460px, 1fr) 280px;
+  gap: 12px;
+  align-items: start;
+}
+
+.harness-surface {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.harness-surface h3 {
+  margin-bottom: 10px;
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.rail-surface .composa-slide-rail {
+  max-height: 306px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.rail-surface .composa-layer-tree-panel {
+  margin-top: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.harness-canvas-box {
+  position: relative;
+  min-height: 540px;
+  overflow: hidden;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.harness-canvas-box .composa-canvas-stage {
+  top: 24px;
+}
+
+.harness-canvas-box .composa-canvas-frame,
+.harness-canvas-box .composa-notes-box {
+  width: min(808px, 100%);
+}
+
+.inspector-surface {
+  padding: 0;
+}
+
+.inspector-surface h3 {
+  padding: 12px 12px 0;
+}
+
+.panel-surface .composa-panel {
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.thumb-surface .composa-slide-thumbnail {
+  transform-origin: top left;
+  transform: scale(1.5);
+  margin-bottom: 44px;
+}
+
+@media (max-width: 980px) {
+  .harness-card-grid,
+  .harness-composed-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .harness-table-row {
+    grid-template-columns: 140px minmax(0, 1fr) 140px;
+  }
+}

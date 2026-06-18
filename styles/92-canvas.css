@@ -1,0 +1,319 @@
+.composa-canvas-frame {
+  position: relative;
+  width: min(808px, calc(100vw - 480px));
+  max-width: calc(100vw - 480px);
+  aspect-ratio: 808 / 453.4479;
+  overflow: hidden;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-brand-black);
+  box-shadow: var(--composa-elevation-100-canvas);
+}
+
+.canvas-layer {
+  user-select: none;
+}
+
+.canvas-layer.is-selected {
+  z-index: 2;
+}
+
+.canvas-selection-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border: 1px solid var(--composa-color-accent-blue);
+  pointer-events: none;
+}
+
+.canvas-selection-overlay.is-component,
+.canvas-selection-overlay.is-instance {
+  border-color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-textEdit {
+  border-style: dashed;
+}
+
+.canvas-selection-overlay.is-autoLayout {
+  inset: -1px;
+}
+
+.canvas-selection-overlay.is-vector,
+.canvas-selection-overlay.is-slice,
+.canvas-selection-overlay.is-imageCrop,
+.canvas-selection-overlay.is-reparenting,
+.canvas-selection-overlay.is-cover {
+  border-color: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-overlay.is-smartSelectionHorizontal,
+.canvas-selection-overlay.is-smartSelectionVertical,
+.canvas-selection-overlay.is-smartSelectionGrid {
+  border-color: var(--composa-color-accent-spacing);
+}
+
+.canvas-selection-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  /* Handles are always white-filled with the accent border, independent of
+     theme. bg token resolves to a dark surface in dark mode, leaving the
+     handles unfilled (transparent-looking), so pin pure white here. */
+  background: #ffffff;
+  color: var(--composa-color-accent-blue);
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-handle,
+.canvas-selection-overlay.is-instance .canvas-selection-handle {
+  color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-handle,
+.canvas-selection-overlay.is-slice .canvas-selection-handle,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-handle,
+.canvas-selection-overlay.is-reparenting .canvas-selection-handle,
+.canvas-selection-overlay.is-cover .canvas-selection-handle {
+  color: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-handle.is-top-left {
+  top: -4px;
+  left: -4px;
+}
+
+.canvas-selection-handle.is-top-right {
+  top: -4px;
+  right: -4px;
+}
+
+.canvas-selection-handle.is-bottom-left {
+  bottom: -4px;
+  left: -4px;
+}
+
+.canvas-selection-handle.is-bottom-right {
+  right: -4px;
+  bottom: -4px;
+}
+
+.canvas-selection-badge,
+.canvas-selection-name {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: var(--composa-radius-small);
+  background: var(--composa-color-accent-blue);
+  color: #ffffff;
+  font-family: var(--composa-font-family);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-badge,
+.canvas-selection-overlay.is-component .canvas-selection-name,
+.canvas-selection-overlay.is-instance .canvas-selection-badge,
+.canvas-selection-overlay.is-instance .canvas-selection-name {
+  background: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-badge,
+.canvas-selection-overlay.is-vector .canvas-selection-name,
+.canvas-selection-overlay.is-slice .canvas-selection-badge,
+.canvas-selection-overlay.is-slice .canvas-selection-name,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-badge,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-name,
+.canvas-selection-overlay.is-reparenting .canvas-selection-badge,
+.canvas-selection-overlay.is-reparenting .canvas-selection-name,
+.canvas-selection-overlay.is-cover .canvas-selection-badge,
+.canvas-selection-overlay.is-cover .canvas-selection-name {
+  background: var(--composa-color-accent-measure);
+}
+
+.canvas-selection-badge.is-size {
+  left: 50%;
+  bottom: -23px;
+  transform: translateX(-50%);
+}
+
+.canvas-selection-name {
+  top: -17px;
+  left: 0;
+  background: transparent;
+  color: var(--composa-color-accent-blue);
+  font-weight: 450;
+}
+
+.canvas-selection-overlay.is-component .canvas-selection-name,
+.canvas-selection-overlay.is-instance .canvas-selection-name {
+  color: var(--composa-color-accent-component);
+}
+
+.canvas-selection-overlay.is-vector .canvas-selection-name,
+.canvas-selection-overlay.is-slice .canvas-selection-name,
+.canvas-selection-overlay.is-imageCrop .canvas-selection-name,
+.canvas-selection-overlay.is-reparenting .canvas-selection-name,
+.canvas-selection-overlay.is-cover .canvas-selection-name {
+  color: var(--composa-color-accent-measure);
+}
+
+.canvas-smart-marker,
+.canvas-smart-space {
+  position: absolute;
+  top: calc(50% - 6px);
+  background: var(--composa-color-accent-spacing);
+}
+
+.canvas-smart-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--composa-radius-full);
+}
+
+.canvas-smart-marker.is-first {
+  left: 25%;
+}
+
+.canvas-smart-marker.is-last {
+  right: 25%;
+}
+
+.canvas-smart-space {
+  width: 1px;
+  height: 12px;
+}
+
+.canvas-smart-space.is-first {
+  left: 42%;
+}
+
+.canvas-smart-space.is-last {
+  right: 42%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker,
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space {
+  left: calc(50% - 6px);
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker.is-first {
+  top: 22%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-marker.is-last {
+  top: auto;
+  bottom: 22%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space.is-first {
+  top: 40%;
+}
+
+.canvas-selection-overlay.is-smartSelectionVertical .canvas-smart-space.is-last {
+  top: auto;
+  bottom: 40%;
+}
+
+.canvas-auto-layout-cue {
+  position: absolute;
+  inset: -4px;
+  border: 0 solid var(--composa-color-accent-blue);
+}
+
+.canvas-auto-layout-cue.is-horizontal {
+  top: 50%;
+  bottom: auto;
+  height: 8px;
+  border-block-width: 1px;
+  transform: translateY(-50%);
+}
+
+.canvas-auto-layout-cue.is-vertical {
+  left: 50%;
+  right: auto;
+  width: 8px;
+  border-inline-width: 1px;
+  transform: translateX(-50%);
+}
+
+.canvas-auto-layout-cue.is-both {
+  border-width: 1px;
+}
+
+.canvas-layer[data-type="text"],
+.canvas-layer[data-type="brand"],
+.canvas-layer[data-type="title"],
+.canvas-layer[data-type="mark"] {
+  white-space: pre-line;
+}
+
+.canvas-layer[data-type="title"] {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 71px;
+  line-height: 0.9;
+}
+
+.canvas-layer[data-type="text"] {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.canvas-layer[data-type="brand"] {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.canvas-layer[data-type="mark"] {
+  font-size: 9px;
+}
+
+.shape-orange {
+  background: var(--composa-brand-orange);
+  clip-path: polygon(0 0, 100% 0, 100% 58%, 92% 62%, 91% 77%, 80% 74%, 73% 92%, 61% 82%, 52% 100%, 41% 83%, 28% 91%, 24% 73%, 11% 72%, 13% 56%, 0 51%);
+}
+
+.shape-yellow {
+  background: var(--composa-brand-yellow);
+  clip-path: polygon(45% 0, 57% 28%, 78% 4%, 76% 38%, 100% 34%, 78% 51%, 98% 64%, 71% 66%, 77% 94%, 57% 73%, 48% 100%, 39% 72%, 15% 91%, 24% 62%, 0 57%, 22% 44%, 2% 25%, 31% 31%);
+}
+
+.shape-white {
+  background: var(--composa-brand-cream);
+  clip-path: polygon(35% 0, 48% 35%, 67% 5%, 74% 39%, 100% 33%, 79% 56%, 100% 74%, 71% 74%, 67% 100%, 48% 79%, 30% 100%, 29% 72%, 0 75%, 19% 54%, 0 33%, 29% 39%);
+}
+
+.shape-mint {
+  background: var(--composa-brand-mint);
+  clip-path: polygon(44% 0, 50% 23%, 62% 3%, 64% 27%, 78% 11%, 75% 35%, 96% 29%, 82% 47%, 100% 55%, 78% 63%, 95% 80%, 70% 75%, 72% 100%, 57% 81%, 48% 100%, 42% 77%, 24% 95%, 29% 70%, 5% 72%, 23% 58%, 0 48%, 24% 41%, 9% 21%, 32% 28%);
+}
+
+.auto-layout-frame {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+  border-radius: var(--composa-radius-medium);
+}
+
+.auto-layout-frame.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.auto-layout-chip {
+  min-width: 72px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--composa-radius-medium);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--composa-color-text);
+  font-size: 13px;
+}
+

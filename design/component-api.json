@@ -1,0 +1,681 @@
+{
+  "schemaVersion": 1,
+  "renderer": {
+    "current": "react-app",
+    "reactCompatible": true,
+    "note": "The product app entry renders through React and Vite. The vanilla DOM primitives remain as a legacy inventory harness and parity reference until the deprecation gates are complete."
+  },
+  "componentFamilies": {
+    "Button": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Button",
+        "node 2012:46721"
+      ],
+      "variantCount": 184,
+      "props": {
+        "variant": [
+          "primary",
+          "secondary",
+          "ghost",
+          "link",
+          "link-danger",
+          "destructive",
+          "secondary-destruct",
+          "inverse",
+          "success"
+        ],
+        "size": [
+          "default",
+          "large",
+          "small"
+        ],
+        "width": [
+          "auto",
+          "fill"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "active",
+          "focused"
+        ],
+        "disabled": "boolean",
+        "iconLead": [
+          "false",
+          "left-aligned",
+          "center-aligned"
+        ],
+        "label": "string",
+        "hotkey": "boolean"
+      }
+    },
+    "IconButton": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Button icon",
+        "Button icon toggle",
+        "Button icon dialog toggle",
+        "node 2012:46721"
+      ],
+      "variantCount": 62,
+      "props": {
+        "component": [
+          "iconbutton",
+          "togglebutton",
+          "dialogtogglebutton",
+          "splitbutton"
+        ],
+        "variant": [
+          "primary",
+          "secondary",
+          "ghost",
+          "link",
+          "link-danger",
+          "destructive",
+          "secondary-destruct",
+          "inverse",
+          "success",
+          "highlighted"
+        ],
+        "size": [
+          "small",
+          "default",
+          "large"
+        ],
+        "width": [
+          "auto",
+          "fill"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "active",
+          "focused",
+          "primary-active",
+          "secondary-active",
+          "primary-focus",
+          "secondary-focus",
+          "disabled"
+        ],
+        "disabled": "boolean",
+        "pressed": "boolean",
+        "context": [
+          "default",
+          "on-selected"
+        ],
+        "icon": "IconName",
+        "label": "string",
+        "alignmentNote": "variant shares Button's vocabulary across the family; size maps to the icon box for IconButton/Toggle; width applies to SplitButton only (IconButton/Toggle stay square)."
+      }
+    },
+    "InputField": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Inputs",
+        "node 2028:75376"
+      ],
+      "variantCount": 119,
+      "props": {
+        "componentSet": [
+          "text-input",
+          "color-input",
+          "numeric-input",
+          "numeric-input-multi",
+          "combo-input",
+          "_combo-input-dropdown"
+        ],
+        "shape": [
+          "circle",
+          "square"
+        ],
+        "variant": [
+          "single-line",
+          "multi-line",
+          "quick-action",
+          "default",
+          "partial-disable"
+        ],
+        "size": [
+          "default",
+          "large"
+        ],
+        "width": [
+          "auto",
+          "fill"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "focused",
+          "hover",
+          "active",
+          "empty",
+          "disabled",
+          "disabled-secondary",
+          "disabled-tertiary",
+          "variable",
+          "active-empty",
+          "active-filled",
+          "selected-input",
+          "selected-chevron",
+          "selected-input",
+          "selected-chevron"
+        ],
+        "dropdownState": [
+          "default",
+          "hover",
+          "active"
+        ],
+        "type": [
+          "fill",
+          "opacity",
+          "image",
+          "gradient",
+          "variable",
+          "instance"
+        ],
+        "disabled": "boolean",
+        "varIcon": "boolean",
+        "varPill": "boolean",
+        "iconLead": "boolean",
+        "dropdown": "boolean",
+        "variable": "boolean",
+        "closeButton": "boolean",
+        "mixed": "boolean",
+        "label": "string",
+        "value": "string"
+      }
+    },
+    "Dropdown": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Dropdown",
+        "node 2028:36589"
+      ],
+      "variantCount": 16,
+      "props": {
+        "size": [
+          "default",
+          "large"
+        ],
+        "width": [
+          "auto",
+          "fill"
+        ],
+        "state": [
+          "default",
+          "focused",
+          "active"
+        ],
+        "disabled": "boolean",
+        "stroke": "boolean",
+        "iconLead": "boolean"
+      }
+    },
+    "Switch": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Switch",
+        "node 2015:24697"
+      ],
+      "variantCount": 24,
+      "props": {
+        "size": [
+          "default",
+          "compact"
+        ],
+        "type": [
+          "off",
+          "on",
+          "mixed"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "focused",
+          "disabled"
+        ],
+        "checked": "boolean",
+        "mixed": "boolean",
+        "disabled": "boolean",
+        "label": "string"
+      }
+    },
+    "Radio": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Radio",
+        "node 2015:20365"
+      ],
+      "variantCount": 20,
+      "props": {
+        "variant": [
+          "input",
+          "button"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "active",
+          "focused",
+          "disabled"
+        ],
+        "checked": "boolean",
+        "disabled": "boolean",
+        "label": "string"
+      }
+    },
+    "Checkbox": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Checkbox",
+        "node 2012:55461"
+      ],
+      "variantCount": 12,
+      "props": {
+        "state": [
+          "default",
+          "focused"
+        ],
+        "type": [
+          "unchecked",
+          "checked",
+          "mixed"
+        ],
+        "disabled": "boolean",
+        "muted": "boolean",
+        "ghost": "boolean",
+        "label": "boolean",
+        "description": "boolean",
+        "labelText": "string",
+        "descriptionText": "string"
+      }
+    },
+    "Tooltip": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Tooltip",
+        "node 2015:32842"
+      ],
+      "variantCount": 16,
+      "props": {
+        "placement": [
+          "top",
+          "right",
+          "bottom",
+          "left",
+          "top-left",
+          "top-right",
+          "bottom-left",
+          "bottom-right"
+        ],
+        "tone": [
+          "default",
+          "inverse"
+        ],
+        "label": "string"
+      }
+    },
+    "Dialog": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Modal (Modal header / Modal body / Modal footer)",
+        "Templates/320 (Basic, Advanced)",
+        "Templates/480 (Embed, Create Project, Create Team, Sharing)"
+      ],
+      "variantCount": 6,
+      "props": {
+        "size": [
+          "320",
+          "480",
+          "small",
+          "default",
+          "large"
+        ],
+        "variant": [
+          "basic",
+          "advanced",
+          "embed",
+          "create-project",
+          "create-team",
+          "sharing"
+        ],
+        "tone": [
+          "default",
+          "destructive"
+        ],
+        "title": "string",
+        "description": "string",
+        "primaryLabel": "string",
+        "secondaryLabel": "string"
+      }
+    },
+    "SegmentedControl": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Segmented control",
+        "node 2015:20960"
+      ],
+      "variantCount": 20,
+      "props": {
+        "variant": [
+          "icon",
+          "label"
+        ],
+        "options": "SegmentedOption[]",
+        "selected": "per SegmentedOption",
+        "state": [
+          "default",
+          "disabled"
+        ],
+        "disabled": "boolean"
+      }
+    },
+    "Tabs": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Tabs",
+        "node 2015:25519",
+        "_Tab node 2015:27758"
+      ],
+      "variantCount": 11,
+      "props": {
+        "variant": [
+          "underline",
+          "pill"
+        ],
+        "size": [
+          "default",
+          "compact"
+        ],
+        "state": [
+          "default",
+          "focused",
+          "hover"
+        ],
+        "tabs": "TabItem[]",
+        "selected": "per TabItem"
+      }
+    },
+    "MenuRow": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI3 Menu",
+        "node 2028:86486"
+      ],
+      "variantCount": 63,
+      "props": {
+        "type": [
+          "simple",
+          "complex",
+          "checkmark",
+          "toggle",
+          "toolbar",
+          "heading",
+          "divider",
+          "expand",
+          "footer"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "disabled"
+        ],
+        "submenu": "boolean",
+        "selected": "boolean",
+        "lead": [
+          "false",
+          "avatar",
+          "icon"
+        ],
+        "trail": [
+          "false",
+          "shortcut",
+          "badge",
+          "checkbox",
+          "mixed"
+        ],
+        "checkVariant": [
+          "check",
+          "dot"
+        ],
+        "toggleState": [
+          "on",
+          "off"
+        ],
+        "hasIcon": "boolean",
+        "expanded": "boolean",
+        "alignment": [
+          "default",
+          "toggle"
+        ],
+        "label": "string",
+        "containerVariant": [
+          "default",
+          "label-only",
+          "avatars",
+          "mixed-icons"
+        ]
+      }
+    },
+    "CanvasSelectionOverlay": {
+      "source": "src/react/factory.js",
+      "figma": [
+        "UI2 Canvas decorations",
+        "node 0:20495"
+      ],
+      "variantCount": 16,
+      "props": {
+        "type": [
+          "standard",
+          "textedit",
+          "component",
+          "instance",
+          "autolayout",
+          "smartselectionhorizontal",
+          "smartselectionvertical",
+          "smartselectiongrid",
+          "imagecrop",
+          "vector",
+          "slice",
+          "reparenting",
+          "cover"
+        ],
+        "direction": [
+          "horizontal",
+          "vertical",
+          "both"
+        ],
+        "width": "number",
+        "height": "number",
+        "showDimensions": "boolean"
+      }
+    }
+  },
+  "supportComponents": {
+    "ListCell": {
+      "source": "src/react/factory.js",
+      "role": "shared slot-based horizontal primitive for styled editor rows, with required content and optional leading/trailing slots",
+      "props": {
+        "leading": "ReactNode",
+        "content": "ReactNode",
+        "trailing": "ReactNode",
+        "level": [
+          1,
+          2,
+          3
+        ],
+        "hierarchy": [
+          "panel",
+          "layer",
+          "property"
+        ],
+        "underline": "boolean",
+        "align": [
+          "start",
+          "center",
+          "end"
+        ],
+        "width": [
+          "auto",
+          "fill"
+        ]
+      }
+    },
+    "DialogRow": {
+      "source": "src/react/factory.js",
+      "role": "semantic dialog-body row composed from ListCell for modal and sheet content",
+      "props": {
+        "leading": "ReactNode",
+        "content": "ReactNode",
+        "trailing": "ReactNode"
+      }
+    },
+    "DialogHeaderCell": {
+      "source": "src/react/factory.js",
+      "role": "semantic dialog-header row composed from ListCell for modal and sheet title bars",
+      "props": {
+        "title": "string",
+        "content": "ReactNode",
+        "trailing": "ReactNode"
+      }
+    },
+    "DialogHeader": {
+      "source": "src/react/factory.js",
+      "role": "semantic dialog header container for modal title bars",
+      "props": {
+        "children": "ReactNode"
+      }
+    },
+    "DialogBody": {
+      "source": "src/react/factory.js",
+      "role": "semantic dialog body container for modal content stacks and rows",
+      "props": {
+        "children": "ReactNode"
+      }
+    },
+    "DialogFooter": {
+      "source": "src/react/factory.js",
+      "role": "semantic dialog footer container for modal action bars",
+      "props": {
+        "children": "ReactNode"
+      }
+    },
+    "MenuHeadingCell": {
+      "source": "src/react/factory.js",
+      "role": "semantic menu heading row composed from Label (level 1) while MenuRow remains specialized for commands",
+      "props": {
+        "label": "ReactNode",
+        "content": "ReactNode",
+        "trailing": "ReactNode",
+        "level": [
+          1,
+          2,
+          3
+        ],
+        "alignment": [
+          "default",
+          "toggle"
+        ]
+      }
+    },
+    "Header": {
+      "source": "src/react/factory.js",
+      "role": "semantic wrapper over ListCell for section, layer, and property headers",
+      "props": {
+        "title": "string",
+        "hierarchy": [
+          "panel",
+          "layer",
+          "property"
+        ],
+        "expanded": "boolean",
+        "actions": "ReactNode"
+      }
+    },
+    "HeaderActions": {
+      "source": "src/react/factory.js",
+      "role": "content-hugging trailing action group used by Header and ListCell derivatives",
+      "props": {
+        "label": "string",
+        "children": "ReactNode"
+      }
+    },
+    "VerticalCell": {
+      "source": "src/react/factory.js",
+      "role": "generic vertical stack for swappable content inside ListCell content slots",
+      "props": {
+        "children": "ReactNode",
+        "gap": "string",
+        "align": [
+          "stretch",
+          "start",
+          "center",
+          "end"
+        ]
+      }
+    },
+    "TextPair": {
+      "source": "src/react/factory.js",
+      "role": "small vertical title/detail stack commonly used inside ListCell content slots",
+      "props": {
+        "title": "ReactNode",
+        "description": "ReactNode",
+        "titleAs": "IntrinsicElement"
+      }
+    },
+    "Label": {
+      "source": "src/react/factory.js",
+      "role": "hierarchical text label for section headings, property names, and subdued supporting text; level pairs 1:1 with ListCell level; default color is secondary and contextual",
+      "props": {
+        "label": "string",
+        "level": [
+          1,
+          2,
+          3
+        ],
+        "weight": [
+          "regular",
+          "strong"
+        ],
+        "as": "IntrinsicElement"
+      }
+    },
+    "Menu": {
+      "source": "src/react/factory.js",
+      "role": "menu surface that composes MenuRow variants",
+      "props": {
+        "label": "string",
+        "items": "MenuRowProps[]"
+      }
+    },
+    "MenuMultiSelect": {
+      "source": "src/react/factory.js",
+      "role": "composed multi-select menu surface built from MenuRow variants",
+      "props": {
+        "variant": [
+          "default",
+          "label-only",
+          "avatars",
+          "mixed-icons"
+        ],
+        "label": "string"
+      }
+    }
+  },
+  "artifactTargets": {
+    "openSourceLibrary": {
+      "status": "react-named-exports",
+      "recommendedRenderer": "Named React exports exist in src/react/index.js for the published component families; Web Components can consume the same API shape later"
+    },
+    "codeConnect": {
+      "status": "ready-for-mapping-files",
+      "note": "Use componentFamilies as the prop source for future .figma.ts Code Connect mappings."
+    },
+    "iosNative": {
+      "status": "future",
+      "note": "The prop families are renderer-neutral enough to map later to SwiftUI, but no native implementation exists in this repo yet."
+    }
+  }
+}

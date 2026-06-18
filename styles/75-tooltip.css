@@ -1,0 +1,76 @@
+.composa-tooltip {
+  position: relative;
+  width: max-content;
+  max-width: 240px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 4px 8px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-tooltip-bg);
+  color: var(--composa-tooltip-fg);
+  box-shadow: var(--composa-elevation-300-tooltip);
+}
+
+.composa-tooltip-standard {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text);
+}
+
+.composa-tooltip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-tooltip-arrow {
+  position: absolute;
+  width: var(--composa-tooltip-arrow-size);
+  height: var(--composa-tooltip-arrow-size);
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.composa-tooltip-top .composa-tooltip-arrow {
+  left: calc(50% + var(--composa-tooltip-arrow-offset));
+  bottom: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-right .composa-tooltip-arrow {
+  left: var(--composa-tooltip-arrow-offset);
+  top: calc(50% + var(--composa-tooltip-arrow-offset));
+}
+
+.composa-tooltip-bottom .composa-tooltip-arrow {
+  left: calc(50% + var(--composa-tooltip-arrow-offset));
+  top: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-left .composa-tooltip-arrow {
+  right: var(--composa-tooltip-arrow-offset);
+  top: calc(50% + var(--composa-tooltip-arrow-offset));
+}
+
+.composa-tooltip-top-left .composa-tooltip-arrow,
+.composa-tooltip-bottom-left .composa-tooltip-arrow {
+  left: var(--composa-tooltip-arrow-edge-offset, 12px);
+}
+
+.composa-tooltip-top-right .composa-tooltip-arrow,
+.composa-tooltip-bottom-right .composa-tooltip-arrow {
+  right: var(--composa-tooltip-arrow-edge-offset, 12px);
+  left: auto;
+}
+
+.composa-tooltip-top-left .composa-tooltip-arrow,
+.composa-tooltip-top-right .composa-tooltip-arrow {
+  bottom: var(--composa-tooltip-arrow-offset);
+}
+
+.composa-tooltip-bottom-left .composa-tooltip-arrow,
+.composa-tooltip-bottom-right .composa-tooltip-arrow {
+  top: var(--composa-tooltip-arrow-offset);
+}
+

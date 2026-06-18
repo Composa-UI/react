@@ -1,0 +1,19 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Overview" />
+
+# Composa UI
+
+Composa UI is a React component library and design system. It packages controls, menus, inputs, and overlays into a single token-driven system, documented here in Storybook alongside the foundations that govern them.
+
+## How it is built
+
+**Tokens drive everything.** Components never read raw values. Every color, size, radius, space, and type role resolves through a `--composa-*` token, and every token resolves through a primitive underneath it. Change a token and the whole library follows. The same token names resolve to different values across light and dark modes, so theming is a data change, not a code change.
+
+**Icons are slots.** Components do not bake in specific glyphs. Wherever an icon can appear — a button's leading mark, a menu row's trailing chevron, a checkbox's check — the component exposes a slot you fill. This keeps the icon set swappable and keeps the components agnostic about which icon library ships underneath.
+
+## Lineage
+
+Composa's visual language is inspired by Figma's UI3 kit — the desktop-app design language Figma uses across its own product. The role names, the base-4 spacing rhythm, the control heights, the type scale, and the blue selection accent all trace back to that kit. Composa adapts it: it carries the roles forward as tokens, uses brand orange for primary actions while keeping selection and focus blue, and curates the mode set down to the light and dark the system actually needs.
+
+The per-page foundations and component docs describe what Composa ships today. This page is where the UI3 lineage lives; the rest of the docs stand on their own.

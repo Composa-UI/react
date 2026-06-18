@@ -1,0 +1,507 @@
+.composa-icon-button {
+  width: var(--composa-control-size-icon);
+  height: var(--composa-control-size-icon);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  line-height: 0;
+  border-radius: var(--composa-control-radius);
+  color: var(--composa-control-fg);
+  background: var(--composa-control-bg);
+}
+
+.composa-icon-button-glyph {
+  width: var(--composa-control-size-icon-glyph);
+  height: var(--composa-control-size-icon-glyph);
+  display: grid;
+  place-items: center;
+}
+
+/* IconButton/Toggle size axis — Composa addition (Figma's icon-button set has no
+   size variant; every node is 24px). Sizes resolve to the icon BOX (square:
+   width = height). small 20 / default 24 / large 28. The glyph stays 16px. */
+.composa-icon-button-small {
+  width: 20px;
+  height: 20px;
+}
+
+.composa-icon-button-medium {
+  width: var(--composa-control-size-icon);
+  height: var(--composa-control-size-icon);
+}
+
+.composa-icon-button-large {
+  width: 28px;
+  height: 28px;
+}
+
+/* Per-size glyph scaling — the inner glyph follows the icon-button box:
+   small (20px box) -> 16px glyph, default (24px box) -> 20px glyph,
+   large (28px box) -> 24px glyph. The base `.composa-icon-button-glyph`
+   rule (16px, pinned by the contract verifier) stays the small default;
+   these size-scoped overrides bump default and large. Scoped to icon-buttons
+   only, so glyphs inside text Buttons, inputs, and menus are untouched. */
+.composa-icon-button-small .composa-icon-button-glyph,
+.composa-icon-button-small .composa-icon-button-glyph .composa-icon {
+  width: 16px;
+  height: 16px;
+  flex-basis: 16px;
+}
+
+.composa-icon-button-medium .composa-icon-button-glyph,
+.composa-icon-button-medium .composa-icon-button-glyph .composa-icon {
+  width: 20px;
+  height: 20px;
+  flex-basis: 20px;
+}
+
+.composa-icon-button-large .composa-icon-button-glyph,
+.composa-icon-button-large .composa-icon-button-glyph .composa-icon {
+  width: 24px;
+  height: 24px;
+  flex-basis: 24px;
+}
+
+.composa-icon-button:disabled,
+.composa-button:disabled,
+.composa-split-action:disabled,
+.composa-split-menu:disabled,
+.composa-menu-button:disabled,
+.composa-menu-item:disabled,
+.composa-input-shell:has(:disabled) {
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+  border-color: var(--composa-color-border-disabled);
+  cursor: default;
+}
+
+/* Dropdown is an INPUT, not a button: Figma keeps it white with tertiary text
+   on disabled (no surface fill, no dim border). */
+.composa-dropdown:disabled {
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-tertiary);
+  cursor: default;
+}
+
+.composa-button:hover,
+.composa-button.is-hover,
+.composa-button.is-active,
+.composa-menu-button:hover,
+.composa-menu-button.is-active,
+.composa-menu-item:hover,
+.composa-menu-item.is-hover,
+.composa-menu-item.is-active {
+  background: var(--composa-control-bg-hover);
+}
+
+/* Dropdown is an INPUT: Figma never fills the surface on hover/active. Active
+   swaps the border to selected-blue and highlights the label text; the surface
+   stays white. */
+.composa-dropdown.is-active {
+  border-color: var(--composa-color-border-selected);
+}
+
+.composa-dropdown.is-active > span:not(.composa-template-swatch):not(.composa-icon) {
+  /* Active highlights only the value text, not the chevron or leading icon
+     (Figma color-texthighlight rgba(13,153,255,0.4); no exported token). */
+  background: rgba(13, 153, 255, 0.4);
+}
+
+/* Icon-button family (icon button, toggle off, dialog toggle off, split) uses a
+   translucent hover/active fill in Figma — bghovertransparent rgba(0,0,0,0.05)
+   for hover and bgtransparent-secondary-hover rgba(0,0,0,0.1) for active —
+   rather than the solid bg-secondary the generic control hover applies. */
+.composa-icon-button:hover,
+.composa-icon-button.is-hover,
+.composa-split-action:hover,
+.composa-split-menu:hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+.composa-icon-button:active,
+.composa-icon-button.is-active,
+.composa-split-action:active,
+.composa-split-action.is-active,
+.composa-split-menu:active,
+.composa-split-menu.is-active {
+  background: var(--composa-color-bg-transparent-secondary-hover);
+}
+
+.composa-icon-button-secondary {
+  color: var(--composa-control-fg-secondary);
+  border: 1px solid var(--composa-color-border-translucent);
+}
+
+.composa-icon-button.is-focused,
+.composa-button.is-focused,
+.composa-split-control.is-focused,
+.composa-input-field.is-focus .composa-input-shell,
+.composa-input-field.is-focused .composa-input-shell,
+.composa-menu-button.is-focused,
+.composa-menu-item.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* Dropdown is an INPUT: Figma focus is just a 1px border swap to selected-blue,
+   with no inner white ring. */
+.composa-dropdown.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+}
+
+.composa-button {
+  min-height: var(--composa-height-input);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  white-space: nowrap;
+}
+
+.composa-button-hotkey {
+  min-width: 14px;
+  height: 14px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--composa-radius-small);
+  background: rgba(0, 0, 0, 0.08);
+  color: currentColor;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.composa-button > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-button-large {
+  height: 32px;
+  padding: 0 12px;
+}
+
+.composa-button-medium {
+  height: 24px;
+}
+
+.composa-button-width-fill {
+  width: 100%;
+}
+
+.composa-button-small {
+  height: 20px;
+  padding: 0 var(--composa-space-1);
+  gap: 2px;
+}
+
+/* Button variant colors. IconButton/Toggle and SplitButton share Button's
+   variant vocabulary (primary, secondary, ghost, link, link-danger,
+   destructive, secondary-destruct, inverse, success) by reusing the SAME
+   semantic color tokens here — a deliberate Composa consistency choice
+   (Figma's icon-button only ships Default/Secondary; see
+   docs/design-system/fidelity-buttons.md). The icon-button selectors are
+   added to each variant rule so the colors stay defined in one place. */
+.composa-button-primary,
+.composa-icon-button-primary {
+  border-color: transparent;
+  background: var(--composa-color-bg-brand-strong);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-button-primary:hover,
+.composa-button-primary.is-hover {
+  background: var(--composa-color-bg-brand-strong-pressed);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-icon-button-primary:hover,
+.composa-icon-button-primary.is-hover {
+  background: var(--composa-color-bg-brand-strong-pressed);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-button-secondary,
+.composa-icon-button-secondary {
+  background: var(--composa-color-bg);
+}
+
+.composa-button-ghost,
+.composa-icon-button-ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.composa-button-link,
+.composa-button-link-danger,
+.composa-icon-button-link,
+.composa-icon-button-link-danger {
+  border-color: transparent;
+  background: transparent;
+  color: var(--composa-color-text-brand);
+}
+
+.composa-button-link-danger,
+.composa-button-destructive,
+.composa-button-secondary-destruct,
+.composa-icon-button-link-danger,
+.composa-icon-button-destructive,
+.composa-icon-button-secondary-destruct {
+  color: var(--composa-color-text-danger);
+}
+
+.composa-button-destructive,
+.composa-icon-button-destructive {
+  border-color: transparent;
+  background: var(--composa-color-bg-danger);
+  color: #fff;
+}
+
+.composa-button-secondary-destruct,
+.composa-icon-button-secondary-destruct {
+  background: var(--composa-color-bg);
+  border-color: var(--composa-color-border-danger);
+}
+
+.composa-button-inverse,
+.composa-icon-button-inverse {
+  border-color: transparent;
+  background: var(--composa-color-bg-inverse);
+  color: var(--composa-color-text-on-inverse);
+}
+
+.composa-button-success,
+.composa-icon-button-success {
+  border-color: transparent;
+  background: var(--composa-color-bg-success);
+  color: #fff;
+}
+
+/* Success and inverse text Buttons had no hover rule, so the generic
+   `.composa-button:hover` (control-bg-hover) washed their solid fill to the
+   neutral hover gray. Give each a darker fill of its OWN color (mix ~12% black)
+   so the hover reads as a pressed state while keeping white/inverse text
+   readable. */
+.composa-button-success:hover,
+.composa-button-success.is-hover {
+  background: color-mix(in srgb, var(--composa-color-bg-success) 88%, #000);
+  color: #fff;
+}
+
+.composa-button-inverse:hover,
+.composa-button-inverse.is-hover {
+  background: color-mix(in srgb, var(--composa-color-bg-inverse) 85%, #000);
+  color: var(--composa-color-text-on-inverse);
+}
+
+.composa-button[data-icon-lead="left-aligned"] {
+  justify-content: flex-start;
+}
+
+.composa-button[data-icon-lead="center-aligned"] {
+  justify-content: center;
+}
+
+/* ToggleButton off/on model — a deliberate Composa divergence from Figma (which
+   ships no toggle variants). A toggle is PLAIN when off and adopts its VARIANT
+   color when on. (A toggle renders both `aria-pressed="true"` and `.is-selected`
+   when on, so these rules account for that layering.)
+
+   OFF (not pressed): plain. The variant class (`.composa-icon-button-<variant>`)
+   would otherwise paint a fill/foreground even when off, so override it back to
+   transparent + default icon color. The `:not([aria-pressed="true"])` raises
+   specificity above the single-class variant rules. */
+.composa-toggle-button:not([aria-pressed="true"]) {
+  background: transparent;
+  border-color: transparent;
+  color: var(--composa-color-icon);
+}
+
+/* OFF + hover: the plain rule above (specificity 0,2,0) outranks the generic
+   `.composa-icon-button:hover` (0,1,1), so re-assert the translucent hover fill
+   here to keep an off-state hover affordance. */
+.composa-toggle-button:not([aria-pressed="true"]):hover,
+.composa-toggle-button:not([aria-pressed="true"]).is-hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+/* ON (pressed): show the toggle's variant color. For variant toggles the variant
+   class already supplies the right background/foreground; we only need to keep
+   the generic bg-selected fill from clobbering it. So the bg-selected "on" fill
+   is scoped to the STANDARD/SECONDARY toggle (Figma's #e5f4ff) via `data-variant`.
+   (Size and variant now have distinct classes — `composa-icon-button-medium` is
+   the SIZE axis, `composa-icon-button-standard` the VARIANT — but `data-variant`
+   stays the reliable variant hook here.) The selected icon-button (non-toggle,
+   e.g. menu toolbar) and highlighted icon-button keep bg-selected. */
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"],
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"],
+.composa-icon-button.is-selected:not(.composa-toggle-button),
+.composa-icon-button-highlighted {
+  background: var(--composa-color-bg-selected);
+}
+
+/* On + disabled: the ON rule above (0,3,0) outranks the generic `:disabled`
+   surface, leaving a disabled-pressed toggle blue. Match its specificity here
+   (later source order wins the tie) so it dims to the disabled surface. */
+.composa-toggle-button:disabled[aria-pressed="true"] {
+  background: var(--composa-color-bg-disabled);
+}
+
+/* The default/secondary toggle on+hover uses the lighter selected-secondary tint
+   (#f2f9ff). */
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"]:hover,
+.composa-toggle-button[data-variant="standard"][aria-pressed="true"].is-hover,
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"]:hover,
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-selected-secondary);
+}
+
+/* Variant toggles ON + hover: keep the variant color rather than the generic
+   translucent icon-button hover fill (`.composa-icon-button:hover`, specificity
+   0,1,1, which would otherwise wash out the solid variant background). Primary
+   already defines its own hover via `.composa-icon-button-primary:hover`
+   (brand-pressed). For the remaining solid variants, re-assert the variant
+   background at matching specificity so a pressed toggle stays on-color on hover. */
+.composa-toggle-button.composa-icon-button-success[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-success[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-success);
+}
+
+.composa-toggle-button.composa-icon-button-destructive[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-destructive[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-danger);
+}
+
+.composa-toggle-button.composa-icon-button-inverse[aria-pressed="true"]:hover,
+.composa-toggle-button.composa-icon-button-inverse[aria-pressed="true"].is-hover {
+  background: var(--composa-color-bg-inverse);
+}
+
+.composa-dialog-toggle::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  right: 4px;
+  bottom: 4px;
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-menu-button {
+  position: relative;
+  width: 32px;
+  height: 24px;
+  justify-content: center;
+  gap: 0;
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-color-icon);
+}
+
+.composa-menu-button .composa-icon-figma {
+  width: 16px;
+  height: 16px;
+}
+
+.composa-menu-button .composa-icon-chevronDown {
+  width: 12px;
+  height: 12px;
+  margin-left: -4px;
+  color: var(--composa-color-icon-secondary);
+}
+
+/* SplitButton hugs its content by default — it is a button, not a full-width
+   form control. It has its own display rule (no longer grouped with the
+   stretch-to-fill .composa-input-field/.composa-dropdown/.composa-tabs row),
+   so it sizes to its label + chevron. Width only grows with width:wide. */
+.composa-split-control {
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  height: var(--composa-height-input);
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+  background: var(--composa-color-bg);
+}
+
+/* Fill split stretches to its container, same pattern as Button's width:fill. */
+.composa-split-width-fill {
+  width: 100%;
+}
+
+.composa-split-small {
+  height: var(--composa-height-input);
+}
+
+.composa-split-medium {
+  height: 24px;
+}
+
+.composa-split-large {
+  height: 32px;
+}
+
+.composa-split-control.is-active {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-split-action {
+  min-width: 0;
+  flex: 1 1 auto;
+  height: 100%;
+  /* Take the variant color only; the split-control owns the border/radius, so
+     strip the Button chrome that would double-stroke the action half. */
+  border: 0;
+  border-radius: 0;
+  min-height: 0;
+  justify-content: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  white-space: nowrap;
+}
+
+.composa-split-action span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-split-menu {
+  width: 24px;
+  height: 100%;
+  flex: 0 0 24px;
+  border-left: 1px solid var(--composa-color-border-translucent);
+  border-radius: 0;
+  /* Reset the other three sides the `.composa-icon-button-secondary` `border`
+     shorthand paints on the split-menu so only the divider (left) shows. */
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  /* Chevron foreground follows the SplitButton variant so it matches the action
+     half (white on primary/success/etc.). The menu carries
+     `.composa-icon-button-<variant>`, which sets the correct color — including
+     the secondary variant's `control-fg-secondary` gray for the default split —
+     so we no longer hardcode `color` here, which would otherwise override it. */
+}
+
+/* The secondary split-menu divider was rendering opaque (border color resolving
+   to #e6e6e6) because the `.composa-icon-button-secondary` `border` shorthand
+   competes with the split-menu's `border-left`. Pin the divider to the
+   translucent border token at higher specificity (0,2,0) so the secondary case
+   matches primary/other variants. */
+.composa-split-control .composa-split-menu {
+  border-left-color: var(--composa-color-border-translucent);
+}
+

@@ -1,0 +1,86 @@
+.composa-switch {
+  width: var(--composa-switch-width);
+  height: var(--composa-switch-height);
+  padding: 2px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-switch-bg);
+  color: var(--composa-color-icon-secondary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.composa-switch-compact {
+  width: var(--composa-switch-width-compact);
+  height: var(--composa-switch-height-compact);
+}
+
+.composa-switch-thumb {
+  width: var(--composa-switch-thumb-size);
+  height: var(--composa-switch-thumb-size);
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-switch-thumb-bg);
+  box-shadow: var(--composa-elevation-100-canvas);
+  transform: translateX(0);
+}
+
+.composa-switch-compact .composa-switch-thumb {
+  width: var(--composa-switch-thumb-size-compact);
+  height: var(--composa-switch-thumb-size-compact);
+}
+
+.composa-switch.is-checked {
+  background: var(--composa-switch-bg-checked);
+}
+
+.composa-switch.is-checked .composa-switch-thumb {
+  transform: translateX(var(--composa-switch-thumb-offset));
+}
+
+.composa-switch-compact.is-checked .composa-switch-thumb {
+  transform: translateX(var(--composa-switch-thumb-offset-compact));
+}
+
+/* Mixed (indeterminate) reads as "partially on": an accent track with a centered
+   white minus/dash (not a knob and not a solid fill), matching Figma's mixed
+   switch. */
+.composa-switch.is-mixed {
+  background: var(--composa-switch-bg-checked);
+  justify-content: center;
+}
+
+.composa-switch.is-mixed .composa-switch-thumb {
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  transform: none;
+  box-shadow: none;
+}
+
+.composa-switch-compact.is-mixed .composa-switch-thumb {
+  width: 8px;
+}
+
+/* Interaction states — also drivable from the story's `state` control, so each
+   produces a visible change (the control sets the .is-* class, not the native
+   pseudo-class). */
+.composa-switch:hover:not(:disabled):not(.is-disabled),
+.composa-switch.is-hover {
+  filter: brightness(0.94);
+}
+
+.composa-switch:focus-visible,
+.composa-switch.is-focused {
+  outline: 2px solid var(--composa-control-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Figma disabled switch keeps a bg-tertiary track in every Type (On/Off/Mixed),
+   not the accent fill or the generic bg-disabled gray. */
+.composa-switch:disabled,
+.composa-switch[data-disabled="true"],
+.composa-switch.is-disabled {
+  background: var(--composa-color-bg-tertiary);
+  opacity: 0.6;
+  cursor: default;
+}
+

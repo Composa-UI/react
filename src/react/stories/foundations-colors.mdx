@@ -1,0 +1,180 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Colors" />
+
+# Colors
+
+Composa exposes a semantic-role color layer. Components consume `--composa-color-*` tokens. They never read raw primitives. Each semantic token resolves through a `--figma-composa-*` primitive.
+
+The model is mode-driven. The same token name resolves to a different value in light and dark. Light is the default. Dark applies under `[data-composa-mode="dark"]`. Each swatch below shows both values in equal-width chips: the light value in a light container, the dark value in a dark container, with the resolved value under each. When a token has no dark override, its dark value equals its light value.
+
+Values are shown in a single consistent format. Solid colors read as hex; tokens that carry opacity (Figma authors them as `rgba`) read as the same hex with a trailing percentage, so `rgba(0,0,0,.5)` shows as `#000000 50%`.
+
+export const formatValue = (value) => {
+  const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (!match) return value;
+  const hex = "#" + [match[1], match[2], match[3]].map((n) => Number(n).toString(16).padStart(2, "0")).join("");
+  const alpha = match[4] === undefined ? 1 : parseFloat(match[4]);
+  return alpha < 1 ? `${hex} ${Math.round(alpha * 100)}%` : hex;
+};
+
+export const ChipBox = ({ token, value, mode }) => (
+  <div data-composa-mode={mode === "dark" ? "dark" : undefined} style={{ width: 84, flexShrink: 0, boxSizing: "border-box", textAlign: "center", background: mode === "dark" ? "#1e1e1e" : "#ededed", border: `1px solid ${mode === "dark" ? "#4d4d4d" : "#d9d9d9"}`, borderRadius: 8, padding: 6 }}>
+    <div style={{ width: 36, height: 36, margin: "0 auto", borderRadius: 6, background: `var(${token})`, border: `1px solid ${mode === "dark" ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.15)"}` }} />
+    <div style={{ fontSize: 10, opacity: 0.7, marginTop: 4, color: mode === "dark" ? "#fff" : "#1a1a1a" }}>{mode === "dark" ? "Dark" : "Light"}</div>
+    <div style={{ fontSize: 9, fontFamily: "monospace", marginTop: 1, whiteSpace: "nowrap", color: mode === "dark" ? "#fff" : "#1a1a1a" }}>{formatValue(value)}</div>
+  </div>
+);
+
+## Brand vs accent
+
+Two distinct hues carry different jobs. Each resolves in both modes.
+
+<div style={{ display: "flex", gap: 32, marginBottom: 24, flexWrap: "wrap" }}>
+  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <div style={{ display: "flex", gap: 6 }}>
+      <ChipBox token="--composa-color-bg-brand" value="#ff5c16" mode="light" />
+      <ChipBox token="--composa-color-bg-brand" value="#f65009" mode="dark" />
+    </div>
+    <div>
+      <div style={{ fontWeight: 600 }}>Brand = orange</div>
+      <div style={{ fontSize: 12, opacity: 0.7 }}>Product identity. <code>--composa-color-bg-brand</code></div>
+    </div>
+  </div>
+  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <div style={{ display: "flex", gap: 6 }}>
+      <ChipBox token="--composa-color-accent" value="#0079d1" mode="light" />
+      <ChipBox token="--composa-color-accent" value="#006bbd" mode="dark" />
+    </div>
+    <div>
+      <div style={{ fontWeight: 600 }}>Accent / selection = blue</div>
+      <div style={{ fontSize: 12, opacity: 0.7 }}>Selection and focus. <code>--composa-color-accent</code></div>
+    </div>
+  </div>
+</div>
+
+Brand is the orange product identity. Accent is the blue used for selection states, focus rings, and the active selection surface. They are not interchangeable.
+
+export const Swatch = ({ token, light, dark }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+      <ChipBox token={token} value={light} mode="light" />
+      <ChipBox token={token} value={dark} mode="dark" />
+    </div>
+    <div style={{ minWidth: 0, fontFamily: "monospace", fontSize: 12 }}>{token}</div>
+  </div>
+);
+
+export const Group = ({ children }) => (
+  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "0 24px", margin: "12px 0 28px" }}>
+    {children}
+  </div>
+);
+
+## Surface / background
+
+The canvas and layered surfaces. Light and dark values shown per token.
+
+<Group>
+  <Swatch token="--composa-color-bg" light="#ffffff" dark="#2c2c2c" />
+  <Swatch token="--composa-color-bg-secondary" light="#f5f5f5" dark="#383838" />
+  <Swatch token="--composa-color-bg-secondary-on-canvas" light="#f5f5f5" dark="#383838" />
+  <Swatch token="--composa-color-bg-tertiary" light="#e6e6e6" dark="#444444" />
+  <Swatch token="--composa-color-bg-hover" light="#f5f5f5" dark="#383838" />
+  <Swatch token="--composa-color-bg-pressed" light="#f5f5f5" dark="#383838" />
+  <Swatch token="--composa-color-bg-disabled" light="#d9d9d9" dark="#757575" />
+  <Swatch token="--composa-color-bg-inverse" light="#2c2c2c" dark="#ffffff" />
+</Group>
+
+## Brand surfaces
+
+<Group>
+  <Swatch token="--composa-color-bg-brand" light="#ff5c16" dark="#f65009" />
+  <Swatch token="--composa-color-bg-brand-secondary" light="#0768cf" dark="#105cad" />
+  <Swatch token="--composa-color-bg-brand-tertiary" light="#e5f4ff" dark="#394360" />
+  <Swatch token="--composa-color-bg-brand-pressed" light="#e5520f" dark="#d4490c" />
+  <Swatch token="--composa-color-text-brand" light="#007be5" dark="#7cc4f8" />
+  <Swatch token="--composa-color-border-brand" light="#bde3ff" dark="#105cad" />
+</Group>
+
+## Accent / selection
+
+Blue selection surfaces and the accent ramp used for canvas annotations.
+
+<Group>
+  <Swatch token="--composa-color-accent" light="#0079d1" dark="#006bbd" />
+  <Swatch token="--composa-color-accent-blue" light="#18a0fb" dark="#18a0fb" />
+  <Swatch token="--composa-color-bg-selected" light="#e5f4ff" dark="#4a5878" />
+  <Swatch token="--composa-color-bg-selected-secondary" light="#f2f9ff" dark="#f2f9ff" />
+  <Swatch token="--composa-color-bg-on-selected" light="#ffdfcc" dark="#864e37" />
+  <Swatch token="--composa-color-border-selected" light="#0d99ff" dark="#0d99ff" />
+  <Swatch token="--composa-color-accent-component" light="#9747ff" dark="#8a38f5" />
+  <Swatch token="--composa-color-accent-measure" light="#f24822" dark="#f24822" />
+  <Swatch token="--composa-color-accent-spacing" light="#f531b3" dark="#f531b3" />
+</Group>
+
+## Text
+
+Text inherits from the same opacity ladder as icons.
+
+<Group>
+  <Swatch token="--composa-color-text" light="rgba(0,0,0,.9)" dark="#ffffff" />
+  <Swatch token="--composa-color-text-secondary" light="rgba(0,0,0,.5)" dark="rgba(255,255,255,.7)" />
+  <Swatch token="--composa-color-text-tertiary" light="rgba(0,0,0,.3)" dark="rgba(255,255,255,.4)" />
+  <Swatch token="--composa-color-text-disabled" light="rgba(0,0,0,.3)" dark="rgba(255,255,255,.4)" />
+  <Swatch token="--composa-color-text-on-brand" light="#ffffff" dark="#ffffff" />
+  <Swatch token="--composa-color-text-on-inverse" light="rgba(255,255,255,.9)" dark="rgba(0,0,0,.9)" />
+  <Swatch token="--composa-color-text-component" light="#8638e5" dark="#d1a8ff" />
+</Group>
+
+## Icon
+
+<Group>
+  <Swatch token="--composa-color-icon" light="rgba(0,0,0,.9)" dark="#ffffff" />
+  <Swatch token="--composa-color-icon-secondary" light="rgba(0,0,0,.5)" dark="rgba(255,255,255,.7)" />
+  <Swatch token="--composa-color-icon-tertiary" light="rgba(0,0,0,.3)" dark="rgba(255,255,255,.4)" />
+  <Swatch token="--composa-color-icon-on-brand" light="#ffffff" dark="#ffffff" />
+</Group>
+
+## Border
+
+<Group>
+  <Swatch token="--composa-color-border" light="#e6e6e6" dark="#444444" />
+  <Swatch token="--composa-color-border-translucent" light="rgba(0,0,0,.1)" dark="rgba(0,0,0,.1)" />
+  <Swatch token="--composa-color-border-strong" light="#2c2c2c" dark="rgba(255,255,255,.9)" />
+  <Swatch token="--composa-color-border-disabled" light="#e6e6e6" dark="#444444" />
+</Group>
+
+## Status
+
+Danger, success, and warning each carry a `bg`, `text`, `icon`, and `border` token.
+
+<Group>
+  <Swatch token="--composa-color-bg-danger" light="#de330d" dark="#d93c19" />
+  <Swatch token="--composa-color-text-danger" light="#dc3412" dark="#fca397" />
+  <Swatch token="--composa-color-icon-danger" light="#f24822" dark="#e03e1a" />
+  <Swatch token="--composa-color-border-danger" light="#ffc7c2" dark="#963323" />
+  <Swatch token="--composa-color-bg-success" light="#108747" dark="#17864c" />
+  <Swatch token="--composa-color-text-success" light="#009951" dark="#79d297" />
+  <Swatch token="--composa-color-icon-success" light="#009951" dark="#79d297" />
+  <Swatch token="--composa-color-border-success" light="#aff4c6" dark="#0a5c35" />
+  <Swatch token="--composa-color-bg-warning" light="#ffcd29" dark="#f3c11b" />
+  <Swatch token="--composa-color-text-warning" light="#b86200" dark="#f7d15f" />
+  <Swatch token="--composa-color-icon-warning" light="#ffcd29" dark="#f3c11b" />
+  <Swatch token="--composa-color-border-warning" light="#ffe8a3" dark="#925711" />
+</Group>
+
+## Special
+
+<Group>
+  <Swatch token="--composa-color-special-shadow" light="rgba(0,0,0,.15)" dark="rgba(0,0,0,.6)" />
+  <Swatch token="--composa-color-scrollbar" light="rgba(179,179,179,.5)" dark="rgba(179,179,179,.5)" />
+  <Swatch token="--composa-color-multiplayer-yellow" light="#ffcd29" dark="#f3c11b" />
+  <Swatch token="--composa-color-text-on-multiplayer-yellow" light="rgba(0,0,0,.9)" dark="rgba(0,0,0,.9)" />
+  <Swatch token="--composa-color-bg-hover-transparent" light="rgba(0,0,0,.05)" dark="rgba(255,255,255,.05)" />
+  <Swatch token="--composa-color-bg-transparent-secondary-hover" light="rgba(0,0,0,.1)" dark="rgba(255,255,255,.1)" />
+</Group>
+
+## Modes
+
+Composa curates 2 color modes. Light is the default. Dark applies under `[data-composa-mode="dark"]`. Every token resolves in both modes. A token with no dark override keeps its light value in dark.

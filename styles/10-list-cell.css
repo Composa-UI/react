@@ -1,0 +1,203 @@
+.composa-header-title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-header-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: var(--composa-space-2);
+}
+
+.composa-header-disclosure,
+.composa-header-icon-action {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-list-cell {
+  width: 100%;
+  min-height: 24px;
+  padding: 0 var(--composa-space-2);
+  gap: var(--composa-space-2);
+}
+
+/* Width model: default fill spans the row (100%); width="auto" hugs content. */
+.composa-list-cell-width-auto {
+  width: auto;
+}
+
+.composa-list-cell-width-fill {
+  width: 100%;
+}
+
+/* Vertical alignment of the leading/content/trailing slots. Default center. */
+.composa-list-cell-align-start {
+  align-items: flex-start;
+}
+
+.composa-list-cell-align-center {
+  align-items: center;
+}
+
+.composa-list-cell-align-end {
+  align-items: flex-end;
+}
+
+.composa-list-cell-leading {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  /* Center the leading icon on BOTH axes within its 24px box, and keep the box
+     itself vertically centered when the cell is taller than 24px (level-1/2
+     rows). Previously only `justify-content` was set, which left the icon
+     relying on inherited flex behavior and could drift vertically in taller
+     cells. */
+  display: grid;
+  place-items: center;
+  align-self: center;
+}
+
+.composa-list-cell-content {
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: var(--composa-space-1);
+}
+
+.composa-list-cell-trailing {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.composa-list-cell-level-1 {
+  min-height: 32px;
+}
+
+.composa-list-cell-level-1 .composa-header-title,
+.composa-list-cell-level-1 .composa-text-pair-title {
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-list-cell-level-2 {
+  min-height: 28px;
+}
+
+.composa-list-cell-level-3 {
+  min-height: 24px;
+}
+
+.composa-list-cell.has-underline {
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-text-pair {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.composa-text-pair-title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-text-pair-description {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-small-size);
+  line-height: var(--composa-body-small-line);
+}
+
+.composa-content-stack {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: var(--composa-content-stack-gap, 2px);
+  justify-self: stretch;
+  justify-items: var(--composa-content-stack-align, stretch);
+}
+
+.composa-label {
+  min-width: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Contextual color: defaults to secondary text but inherits the surrounding
+     foreground so a Label inside a dark menu shows the menu's light text
+     rather than a baked-in menu color. */
+  color: var(--composa-color-text-secondary);
+}
+
+/* `level` is a real font hierarchy that PAIRS 1:1 with ListCell's `level`:
+   each Label level matches the type of the ListCell title at the same level.
+   Level 1 -> body-large (ListCell level-1 title), levels 2/3 -> body-medium
+   (ListCell base title). Color is contextual and lives on the base rule. The
+   weight modifier (`composa-label-weight-*`) sets font-weight per level. */
+.composa-label-level-1 {
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-label-level-1.composa-label-weight-strong {
+  font-weight: var(--composa-body-large-strong-weight);
+}
+
+.composa-label-level-1.composa-label-weight-regular {
+  font-weight: var(--composa-body-large-weight);
+}
+
+.composa-label-level-2,
+.composa-label-level-3 {
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-label-level-2.composa-label-weight-strong,
+.composa-label-level-3.composa-label-weight-strong {
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-label-level-2.composa-label-weight-regular,
+.composa-label-level-3.composa-label-weight-regular {
+  font-weight: var(--composa-body-medium-weight);
+}
+
+/* Deprecated alias selectors: keep `composa-meta-label-*` rendering if any
+   consumer still targets the old class names. */
+.composa-meta-label {
+  min-width: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-header-leading-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--composa-color-icon-secondary);
+}
+

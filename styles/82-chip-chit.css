@@ -1,0 +1,61 @@
+.composa-chip-variable {
+  min-width: 0;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 6px;
+  border-radius: var(--composa-radius-medium);
+  background: #eef7ff;
+  color: #0768cf;
+}
+
+.composa-chip-variable.is-hover,
+.composa-chip-variable.is-selected,
+.composa-chip-variable.is-on-selected {
+  background: #d9ecff;
+}
+
+.composa-chip-variable.is-soft-deleted {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.composa-chip-variable.is-value-not-rendered {
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-chip-variable.is-disabled-secondary,
+.composa-chip-variable.is-disabled-tertiary {
+  opacity: 0.4;
+}
+
+.composa-chit {
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border-translucent);
+}
+
+.composa-chit-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-chit-48 {
+  width: 48px;
+  height: 48px;
+}
+
+.composa-chit-square {
+  border-radius: var(--composa-radius-medium);
+}
+
+.composa-chit-circle {
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-chit-instance {
+  color: #fff;
+}
+

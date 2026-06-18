@@ -1,0 +1,388 @@
+@media (max-width: 900px) {
+  #app {
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .composa-workbench {
+    min-height: 0;
+    grid-template-columns: 148px minmax(280px, 1fr) 240px;
+    border-radius: 0;
+  }
+
+  .composa-panel-left {
+    grid-template-rows: 40px 52px 40px minmax(0, 1fr) 228px;
+  }
+
+  .composa-canvas-frame,
+  .composa-notes-box {
+    width: min(100%, calc(100vw - 424px));
+    max-width: calc(100vw - 424px);
+  }
+
+  .composa-canvas-stage {
+    top: 50%;
+  }
+}
+
+@media (max-width: 620px) {
+  .composa-workbench {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .composa-panel-left,
+  .composa-panel-right {
+    display: none;
+  }
+
+  .composa-canvas-workspace {
+    min-height: 620px;
+  }
+
+  .composa-canvas-stage {
+    top: 50%;
+    padding: 0 16px;
+  }
+
+  .composa-canvas-frame,
+  .composa-notes-box {
+    width: calc(100vw - 32px);
+  }
+
+  .canvas-layer[data-type="title"] {
+    font-size: 42px;
+  }
+
+  .composa-floating-toolbar {
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+  }
+}
+
+.harness-body {
+  display: block;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+#harness {
+  min-height: 100vh;
+}
+
+.harness-shell {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.harness-hero,
+.harness-section,
+.harness-card,
+.harness-surface {
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+}
+
+.harness-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px;
+}
+
+.harness-hero h1,
+.harness-section h2,
+.harness-surface h3 {
+  margin: 0;
+}
+
+.harness-hero h1 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.harness-hero p,
+.harness-section-header p,
+.harness-card span {
+  margin: 4px 0 0;
+  color: var(--composa-color-text-secondary);
+}
+
+.harness-link {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-brand);
+  color: var(--composa-color-text-on-brand);
+  text-decoration: none;
+}
+
+.harness-section {
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.harness-section-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.harness-section h2 {
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.harness-section-body {
+  padding: 16px;
+}
+
+.harness-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.harness-card {
+  display: grid;
+  gap: 3px;
+  padding: 12px;
+}
+
+.harness-card code {
+  color: var(--composa-color-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-table {
+  display: grid;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+}
+
+.harness-table-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 180px;
+  min-height: 32px;
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.harness-table-row:first-child {
+  border-top: 0;
+}
+
+.harness-table-row span {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-table-row.is-heading {
+  background: var(--composa-color-bg-secondary);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.harness-specimen-stack {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.harness-variant-matrix {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.harness-matrix-header {
+  display: grid;
+  gap: 2px;
+}
+
+.harness-matrix-header h3 {
+  margin: 0;
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.harness-matrix-header p {
+  margin: 0;
+  color: var(--composa-color-text-secondary);
+}
+
+.harness-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
+  gap: 8px;
+}
+
+.harness-variant-cell {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 8px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+}
+
+.harness-variant-cell small {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--composa-color-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.harness-variant-stage {
+  min-width: 0;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.harness-variant-stage .composa-menu {
+  width: 100%;
+}
+
+.harness-variant-stage .composa-input-field,
+.harness-variant-stage .composa-dropdown {
+  width: 100%;
+}
+
+.harness-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.harness-tree-sample {
+  width: 240px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  overflow: hidden;
+}
+
+.harness-canvas-decoration-sample {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  padding: 24px 12px 34px;
+}
+
+.harness-decoration-figure {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  margin: 0;
+}
+
+.harness-decoration-figure figcaption {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.harness-decoration-box {
+  position: relative;
+  width: 128px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.harness-composed-grid {
+  display: grid;
+  grid-template-columns: 260px minmax(460px, 1fr) 280px;
+  gap: 12px;
+  align-items: start;
+}
+
+.harness-surface {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.harness-surface h3 {
+  margin-bottom: 10px;
+  font-size: var(--composa-body-large-size);
+  line-height: var(--composa-body-large-line);
+}
+
+.rail-surface .composa-slide-rail {
+  max-height: 306px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.rail-surface .composa-layer-tree-panel {
+  margin-top: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.harness-canvas-box {
+  position: relative;
+  min-height: 540px;
+  overflow: hidden;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.harness-canvas-box .composa-canvas-stage {
+  top: 24px;
+}
+
+.harness-canvas-box .composa-canvas-frame,
+.harness-canvas-box .composa-notes-box {
+  width: min(808px, 100%);
+}
+
+.inspector-surface {
+  padding: 0;
+}
+
+.inspector-surface h3 {
+  padding: 12px 12px 0;
+}
+
+.panel-surface .composa-panel {
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+}
+
+.thumb-surface .composa-slide-thumbnail {
+  transform-origin: top left;
+  transform: scale(1.5);
+  margin-bottom: 44px;
+}
+
+@media (max-width: 980px) {
+  .harness-card-grid,
+  .harness-composed-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .harness-table-row {
+    grid-template-columns: 140px minmax(0, 1fr) 140px;
+  }
+}

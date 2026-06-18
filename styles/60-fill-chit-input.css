@@ -1,0 +1,50 @@
+.composa-fill-section {
+  width: 240px;
+  padding-bottom: 12px;
+  border: 1px solid var(--composa-color-border);
+  border-left: 0;
+  border-right: 0;
+  background: var(--composa-color-bg);
+}
+
+.composa-fill-section .composa-header-property {
+  min-height: 40px;
+  padding: 0 8px 0 16px;
+}
+
+.composa-fill-row {
+  width: 240px;
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 156px) 52px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 16px;
+}
+
+.composa-fill-row .composa-color-input {
+  width: 156px;
+}
+
+.composa-fill-row-actions {
+  width: 52px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.composa-chit-input {
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 6px;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-chit-input.is-focused {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+

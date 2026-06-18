@@ -1,0 +1,18 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+storybook-static/
+dist/
+.cache/
+debug-storybook.log
+
+# Local agent/editor tooling — not part of the library
+.claude/
+.agents/
+.codex-backup/
+
+# Personal publication draft — not part of the library
+publication/
+
+# Local Claude Code MCP config (points at a localhost Storybook endpoint)
+.mcp.json

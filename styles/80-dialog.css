@@ -1,0 +1,105 @@
+.composa-dialog {
+  width: min(var(--composa-dialog-width), 100%);
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  overflow: hidden;
+}
+
+.composa-dialog-small {
+  width: min(var(--composa-dialog-width-small), 100%);
+}
+
+.composa-dialog-large {
+  width: min(var(--composa-dialog-width-large), 100%);
+}
+
+.composa-dialog-320 {
+  width: min(var(--composa-dialog-width-320), 100%);
+}
+
+.composa-dialog-480 {
+  width: min(var(--composa-dialog-width-480), 100%);
+}
+
+.composa-dialog-header,
+.composa-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  /* Figma Modal header/footer are a fixed 40px (spacer-6) tall with 8px
+     (spacer-2) internal padding. */
+  min-height: var(--composa-space-6);
+  padding: var(--composa-space-2);
+}
+
+.composa-dialog-header {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-dialog-header-cell {
+  /* The dialog header already supplies the 8px inset; the cell itself is
+     full-bleed within it. Drop the list-cell-level-1 32px min-height so the
+     header is 24(content) + 8 + 8 = 40px (Figma) rather than 48-49px. */
+  padding: 0;
+  min-height: 0;
+}
+
+.composa-dialog-close .composa-icon-button-glyph {
+  transform: rotate(45deg);
+}
+
+.composa-dialog-title {
+  margin: 0;
+  /* Figma Modal header title is body/medium/strong (11px/16px/550),
+     not body/large. */
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-dialog-row {
+  min-height: 28px;
+  padding: 0;
+  gap: var(--composa-space-2);
+  align-items: flex-start;
+}
+
+.composa-dialog-row .composa-list-cell-leading {
+  /* The base ListCell centers the leading slot (align-self: center); in a dialog
+     asset row the leading icon must top-align with the title's first line and the
+     trailing button instead of floating to the row's vertical center. */
+  align-self: flex-start;
+  padding-top: 1px;
+}
+
+.composa-dialog-row .composa-list-cell-content {
+  padding-top: 1px;
+}
+
+.composa-dialog-row .composa-list-cell-trailing {
+  align-self: flex-start;
+}
+
+.composa-dialog-body {
+  display: grid;
+  gap: var(--composa-space-2);
+  /* 12px inset (was 16px, which read as too large against the 8px header/footer);
+     rows sit 8px apart. */
+  padding: var(--composa-space-2-5);
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-dialog-body p {
+  margin: 0;
+}
+
+.composa-dialog-actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--composa-color-border);
+}
+

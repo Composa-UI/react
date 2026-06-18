@@ -1,0 +1,65 @@
+.composa-segmented-control {
+  width: max-content;
+  height: var(--composa-segmented-height);
+  padding: var(--composa-segmented-padding);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-segmented-control.composa-segmented-label {
+  width: 240px;
+  padding: 0;
+}
+
+.composa-segmented-control.composa-segmented-label[data-tab-count="02"] {
+  width: 160px;
+}
+
+.composa-segmented-control .composa-icon-button {
+  width: var(--composa-segmented-icon-width-2);
+  height: var(--composa-segmented-item-height);
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-segmented-control[data-tab-count="03"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="04"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="05"] .composa-icon-button,
+.composa-segmented-control[data-tab-count="06"] .composa-icon-button {
+  width: var(--composa-segmented-icon-width);
+}
+
+.composa-segmented-control > .composa-segmented-label {
+  min-width: 0;
+  flex: 1 1 0;
+  height: var(--composa-segmented-item-height);
+  padding: 0 var(--composa-tab-padding-inline);
+  border-radius: calc(var(--composa-radius-medium) - 1px);
+  color: var(--composa-color-text-secondary);
+}
+
+/* Selected segment is a WHITE raised pill on the gray track. The segment carries
+   `.composa-icon-button.is-selected`, which the button-family rule
+   `.composa-icon-button.is-selected:not(.composa-toggle-button)` (0,3,0) would
+   otherwise fill with bg-selected (blue). Match its specificity with the
+   `.composa-icon-button` form so this file's later source order wins the tie. */
+.composa-segmented-control .is-selected,
+.composa-segmented-control .composa-icon-button.is-selected {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-icon);
+}
+
+.composa-segmented-control.is-disabled {
+  background: var(--composa-color-bg-disabled);
+  cursor: default;
+}
+
+.composa-segmented-control.is-disabled > .composa-segmented-label,
+.composa-segmented-control.is-disabled .composa-segmented-label {
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-segmented-picker {
+  width: auto;
+}
+

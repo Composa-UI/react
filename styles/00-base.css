@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: stretch;
+  background: #eeeeee;
+  color: var(--composa-color-text);
+  font-family: var(--composa-font-family);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+button:focus-visible,
+.composa-canvas-frame:focus-visible,
+.canvas-layer:focus-visible {
+  outline: 2px solid #0d99ff;
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
+}
+

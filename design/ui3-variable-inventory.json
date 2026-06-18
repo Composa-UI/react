@@ -1,0 +1,49 @@
+{
+  "source": {
+    "name": "UI3: Figma's UI Kit (Community)",
+    "fileKey": "4kilp0ShQiYsoUPJdleqEH",
+    "inspectedAt": "2026-06-16",
+    "method": "figma.variables.getLocalVariableCollectionsAsync"
+  },
+  "collections": [
+    {
+      "name": "Colors",
+      "figmaId": "VariableCollectionId:1326:3133",
+      "modes": [
+        "Light",
+        "Dark",
+        "FigJam-Light",
+        "FigJam-Dark",
+        "DevMode-Light",
+        "DevMode-Dark",
+        "Slides-Light",
+        "Slides-Dark"
+      ],
+      "variableCount": 946,
+      "cssImportStatus": "app-core-resolved"
+    },
+    {
+      "name": "Sizing",
+      "figmaId": "VariableCollectionId:1:672455",
+      "modes": ["Default"],
+      "variableCount": 12,
+      "cssImportStatus": "app-core-resolved"
+    },
+    {
+      "name": "Typography",
+      "figmaId": "VariableCollectionId:1:672468",
+      "modes": ["Mode 1"],
+      "variableCount": 57,
+      "cssImportStatus": "app-core-resolved"
+    }
+  ],
+  "totals": {
+    "collections": 3,
+    "variables": 1015
+  },
+  "currentCodeStatus": {
+    "cssTokenFile": "design/tokens.css",
+    "fullVariableValueImportComplete": false,
+    "notes": "The codebase imports exact resolved app-core UI3 values into generated CSS, then exposes practical semantic tokens for components in design/tokens.css. Raw, unresolved Figma variable chunks are not tracked in the repo and are not used by the runtime."
+  }
+}

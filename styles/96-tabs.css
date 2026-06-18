@@ -1,0 +1,101 @@
+.composa-tabs {
+  width: max-content;
+  max-width: 100%;
+  height: var(--composa-tabs-height);
+  justify-content: flex-start;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-tabs-underline {
+  gap: 0;
+  background: transparent;
+  /* The underline variant is the pill variant with no hover/selected pill
+     background and an underline on the container baseline. It must be
+     GEOMETRICALLY IDENTICAL to the pill variant: same container height, same
+     tab box, same centered label. The only differences live in the rules
+     below (no pill background; a baseline underline). No align-items or
+     padding override here keeps the box identical to pill. */
+}
+
+.composa-tabs-compact {
+  height: 24px;
+  padding-block: 0;
+}
+
+.composa-panel-right > .composa-tabs,
+.composa-inspector > .composa-tabs {
+  width: 100%;
+}
+
+.composa-tab {
+  min-width: 0;
+  height: var(--composa-tab-height);
+  display: inline-grid;
+  place-items: center;
+  padding: 0 var(--composa-tab-padding-inline);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-tab-fg);
+  white-space: nowrap;
+}
+
+.composa-tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-tab.is-selected {
+  background: var(--composa-tab-bg-selected);
+  color: var(--composa-tab-fg-selected);
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-tabs-underline .composa-tab {
+  position: relative;
+  border-radius: 0;
+  min-width: var(--composa-tab-min-width);
+}
+
+.composa-tabs-underline .composa-tab.is-selected {
+  background: transparent;
+}
+
+.composa-tabs-underline .composa-tab.is-selected::after {
+  content: "";
+  position: absolute;
+  left: var(--composa-tab-padding-inline);
+  right: var(--composa-tab-padding-inline);
+  /* Drop the underline to the CONTAINER's bottom baseline rule without changing
+     the tab geometry. The tab box is identical to the pill variant (centered in
+     the 40px container, 8px container padding below it), so reaching down by the
+     container's bottom padding lands the underline on the container baseline. */
+  bottom: calc(-1 * var(--composa-space-2));
+  border-bottom: 1px solid currentColor;
+}
+
+.composa-tab.is-single {
+  width: 100%;
+  justify-items: start;
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-tabs-underline .composa-tab.is-single {
+  min-width: 0;
+}
+
+.composa-tab.is-hover,
+.composa-tab:hover {
+  background: var(--composa-tab-bg-hover);
+}
+
+.composa-tab.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
+}
+
+.composa-tab.is-single {
+  min-width: var(--composa-tab-min-width);
+}
+

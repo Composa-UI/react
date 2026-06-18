@@ -1,0 +1,380 @@
+.composa-menu {
+  width: var(--composa-menu-width);
+  display: grid;
+  gap: var(--composa-menu-row-gap);
+  /* Figma menu container is py:8; add a small px:4 gutter so the hover/selected
+     row pill is not full-bleed against the menu edge (rows stay full-width
+     within the gutter, so the rounded selection has breathing room on both
+     sides). */
+  padding: var(--composa-space-2) var(--composa-space-1);
+  border: 0;
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}
+
+.composa-menu > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.composa-menu-item {
+  width: 100%;
+  height: var(--composa-menu-row-height);
+  display: grid;
+  grid-template-columns: var(--composa-menu-slot-size) minmax(0, 1fr) minmax(var(--composa-menu-slot-size), auto);
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-menu-row-fg);
+  text-align: left;
+}
+
+.composa-menu-row {
+  width: 100%;
+  min-height: var(--composa-menu-row-height);
+  display: grid;
+  grid-template-columns: var(--composa-menu-slot-size) minmax(0, 1fr) minmax(var(--composa-menu-slot-size), auto);
+  /* Figma row: lead<->text 4px, label<->trail 8px; pl:8 pr:4; radius-medium 5px. */
+  gap: var(--composa-space-1);
+  align-items: center;
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-menu-row-fg);
+  text-align: left;
+}
+
+.composa-menu-row:hover,
+.composa-menu-row.is-hover {
+  background: var(--composa-menu-row-bg-hover);
+}
+
+/* Selection is shown by the leading checkmark/dot, NOT a blue fill. Blue is the
+   hover affordance only, so multi-select shows multiple checks and never
+   multiple blue rows. A selected (but un-hovered) row keeps the default surface. */
+.composa-menu-row.is-selected {
+  background: transparent;
+}
+
+/* Hover still applies on a selected row — the blue hover fill is the affordance
+   for every interactive row. Without this, is-selected (equal specificity, later
+   in source) would cancel the hover background. */
+.composa-menu-row.is-selected:hover,
+.composa-menu-row.is-selected.is-hover {
+  background: var(--composa-menu-row-bg-hover);
+}
+
+.composa-menu-row:disabled,
+.composa-menu-row.is-disabled {
+  color: var(--composa-menu-row-fg-disabled);
+  cursor: default;
+}
+
+.composa-menu-leading,
+.composa-menu-trailing {
+  min-width: 0;
+  height: var(--composa-menu-slot-size);
+  display: inline-grid;
+  align-items: center;
+}
+
+.composa-menu-leading {
+  justify-items: center;
+}
+
+.composa-menu-leading .composa-icon,
+.composa-menu-trailing .composa-icon {
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+}
+
+.composa-menu-trailing {
+  justify-items: end;
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+.composa-menu-row:hover .composa-menu-trailing,
+.composa-menu-row.is-hover .composa-menu-trailing,
+.composa-menu-row.is-selected .composa-menu-trailing {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+.composa-menu-submenu-icon {
+  display: inline-grid;
+  place-items: center;
+  transform: rotate(-90deg);
+}
+
+/* A submenu row anchors its nested menu flyout to the right. The -8px top offset
+   cancels the flyout menu's own top padding so its first row lines up with the
+   parent row. */
+.composa-menu-submenu-anchor {
+  position: relative;
+}
+
+.composa-menu-flyout {
+  position: absolute;
+  top: calc(-1 * var(--composa-space-2));
+  left: 100%;
+  /* The anchor row sits inside the menu's 4px gutter, so left:100% lands at the
+     menu's inner edge. Add the gutter (4px) + the Figma 4px parent/child gap so
+     the visible space between the two menu boxes is 4px. */
+  margin-left: calc(var(--composa-space-1) * 2);
+  z-index: 10;
+}
+
+.composa-menu-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-menu-divider {
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.composa-menu-divider::before {
+  content: "";
+  width: 100%;
+  border-top: 1px solid var(--composa-menu-divider-border);
+}
+
+.composa-menu-heading {
+  min-height: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  gap: 2px;
+  align-items: center;
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+.composa-menu-heading > * {
+  min-width: 0;
+}
+
+.composa-menu-heading > .composa-label:first-child,
+.composa-menu-heading > .composa-meta-label:first-child {
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-heading > .composa-label + .composa-label,
+.composa-menu-heading > .composa-meta-label + .composa-meta-label {
+  color: var(--composa-menu-row-fg-secondary);
+}
+
+/* Toolbar row = a tool/shape selection row: a leading check (absolute, shown when
+   selected) over a 20px indent, then the shape icon, label, and shortcut. */
+.composa-menu-row-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2) 0 20px;
+}
+
+.composa-menu-toolbar-check {
+  position: absolute;
+  left: 4px;
+  width: 16px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-row-toolbar .composa-menu-label {
+  flex: 1 0 0;
+}
+
+.composa-menu-toolbar-shortcut {
+  flex: 0 0 auto;
+  color: var(--composa-menu-row-fg-secondary);
+  font: inherit;
+}
+
+.composa-menu-row:hover .composa-menu-toolbar-shortcut,
+.composa-menu-row.is-hover .composa-menu-toolbar-shortcut {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+.composa-menu-footer {
+  padding: var(--composa-space-1);
+}
+
+.composa-menu-footer .composa-button {
+  width: 100%;
+  max-width: 100%;
+  min-height: var(--composa-menu-row-height);
+  border-color: var(--composa-menu-footer-border);
+  background: var(--composa-menu-footer-bg);
+  color: var(--composa-menu-row-fg);
+}
+
+.composa-menu-footer .composa-button:hover,
+.composa-menu-footer .composa-button.is-hover {
+  border-color: var(--composa-menu-footer-border-hover);
+  background: var(--composa-menu-footer-bg-hover);
+}
+
+.composa-menu-avatar {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-multiplayer-yellow);
+  color: var(--composa-color-text-on-multiplayer-yellow);
+  font-size: 9px;
+}
+
+.composa-menu-check,
+.composa-menu-expand,
+.composa-menu-checkbox,
+.composa-menu-mixed {
+  color: var(--composa-menu-row-fg-secondary);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+/* The selected indicator has two glyphs: a check (toggles / multi-select) and a
+   dot (single-select / radio-style menus). The dot is drawn rather than a "•"
+   glyph so it sizes and centers predictably. */
+.composa-menu-check-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+}
+
+.composa-menu-check-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: var(--composa-radius-full);
+  background: currentColor;
+}
+
+.composa-menu-row:hover .composa-menu-check,
+.composa-menu-row:hover .composa-menu-expand,
+.composa-menu-row:hover .composa-menu-checkbox,
+.composa-menu-row:hover .composa-menu-mixed,
+.composa-menu-row.is-hover .composa-menu-check,
+.composa-menu-row.is-hover .composa-menu-expand,
+.composa-menu-row.is-hover .composa-menu-checkbox,
+.composa-menu-row.is-hover .composa-menu-mixed,
+.composa-menu-row.is-selected .composa-menu-check,
+.composa-menu-row.is-selected .composa-menu-expand,
+.composa-menu-row.is-selected .composa-menu-checkbox,
+.composa-menu-row.is-selected .composa-menu-mixed {
+  color: var(--composa-menu-row-fg-selected);
+}
+
+/* On the blue hover fill the white check/dot/switch can wash out. Figma keeps a
+   thin stroke around the indicator so it stays legible against the blue — mirror
+   that with a subtle dark outline on hover. */
+.composa-menu-row:hover .composa-menu-check,
+.composa-menu-row.is-hover .composa-menu-check {
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.composa-menu-row:hover .composa-menu-check-dot::before,
+.composa-menu-row.is-hover .composa-menu-check-dot::before {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.composa-menu-row:hover .composa-menu-switch,
+.composa-menu-row.is-hover .composa-menu-switch {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.composa-menu-badge {
+  min-width: 18px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 4px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-badge-bg);
+  color: #ffffff;
+  font-size: 10px;
+}
+
+/* Figma "Menu row/Toggle" lays the row out as flex: [icon?][switch][label][shortcut?].
+   The 32px switch is the leading control, so the toggle row opts out of the
+   standard lead/label/trail grid. */
+.composa-menu-row-toggle {
+  display: flex;
+  gap: var(--composa-space-2);
+  align-items: center;
+  /* Figma toggle row padding: pl:8 pr:16. */
+  padding: 0 var(--composa-space-3) 0 var(--composa-space-2);
+}
+
+.composa-menu-row-toggle .composa-menu-leading {
+  flex: 0 0 auto;
+}
+
+.composa-menu-row-toggle .composa-menu-label {
+  flex: 1 0 0;
+}
+
+.composa-menu-toggle-shortcut {
+  flex: 0 0 auto;
+  color: var(--composa-menu-row-fg-secondary);
+  font: inherit;
+}
+
+/* Figma switch: 32x16 track, 14px knob, knob 1px from the edge. */
+.composa-menu-switch {
+  width: 32px;
+  height: 16px;
+  flex: 0 0 auto;
+  position: relative;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-switch-bg);
+}
+
+.composa-menu-switch::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-menu-switch-thumb-bg);
+  box-shadow: var(--composa-elevation-100-canvas);
+}
+
+.composa-menu-switch.is-on {
+  background: var(--composa-menu-switch-bg-on);
+}
+
+.composa-menu-switch.is-on::after {
+  left: 17px;
+}
+
+.composa-menu-item.is-selected {
+  background: var(--composa-menu-row-bg-selected);
+}
+
+.composa-menu-item.is-destructive {
+  color: var(--composa-menu-danger-fg);
+}
+
+.composa-menu-item span:not(.composa-icon):not(.composa-menu-item-spacer) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-menu-item kbd {
+  color: var(--composa-color-text-secondary);
+  font: inherit;
+}
+

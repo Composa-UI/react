@@ -1,0 +1,96 @@
+.composa-combo-input {
+  width: 117px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  align-items: stretch;
+  gap: 1px;
+}
+
+.composa-combo-input-value,
+.composa-combo-input-dropdown {
+  min-width: 0;
+  height: 24px;
+  border: 0;
+  background: var(--composa-color-bg-secondary);
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-combo-input-value {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  padding: 0 var(--composa-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--composa-radius-medium) 0 0 var(--composa-radius-medium);
+  text-align: left;
+}
+
+.composa-combo-input-value > span:not(.composa-variable-pill) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Editable value field — chromeless; the value wrapper carries the chrome. */
+.composa-combo-input-field {
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.composa-combo-input-field:focus {
+  outline: none;
+}
+
+.composa-combo-input-value svg,
+.composa-combo-input-dropdown svg {
+  flex: 0 0 auto;
+}
+
+.composa-combo-input-value:has(svg) {
+  padding-left: 0;
+}
+
+.composa-combo-input-value.is-hover,
+.composa-combo-input.is-hover .composa-combo-input-value {
+  border: 1px solid var(--composa-color-border);
+}
+
+.composa-combo-input-value.is-selected {
+  border: 1px solid var(--composa-color-border-selected);
+}
+
+.composa-combo-input-value.is-selected > span:not(.composa-variable-pill) {
+  background: transparent;
+}
+
+.composa-combo-input-dropdown {
+  width: 24px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  /* Figma default chevron has no blue border; the selected-blue border appears
+     only on the active/selected-chevron state below. */
+  border: 1px solid transparent;
+  border-radius: 0 var(--composa-radius-medium) var(--composa-radius-medium) 0;
+}
+
+.composa-combo-input-dropdown.is-hover {
+  background: var(--composa-color-bg-tertiary);
+}
+
+.composa-combo-input-dropdown.is-active,
+.composa-combo-input-dropdown.is-selected-chevron {
+  background: var(--composa-color-bg-selected);
+  border-color: var(--composa-color-border-selected);
+}
+

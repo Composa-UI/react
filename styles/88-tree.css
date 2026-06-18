@@ -1,0 +1,44 @@
+/* Tree / LayerList — the published layer-tree component. It reuses the row
+   styling that the app shell already defines (.composa-tree-row: 32px rows, depth
+   indent via --tree-depth, selection pills, kind colors) and adds the container,
+   the row's flex layout, the disclosure chevron, and a hover state. */
+.composa-tree {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--composa-color-bg);
+}
+
+.composa-tree .composa-tree-row {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  /* Published rows don't reserve the app panel's 48px trailing gutter. */
+  padding: 0 var(--composa-space-2) 0 calc(16px + (var(--tree-depth, 0) * 24px));
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.composa-tree .composa-tree-row:not(.is-selected):hover::before {
+  background: var(--composa-color-bg-hover);
+}
+
+.composa-tree-disclosure {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--composa-color-icon);
+  cursor: pointer;
+}
+
+.composa-tree-disclosure.is-collapsed {
+  transform: rotate(-90deg);
+}
+
+.composa-tree-disclosure .composa-icon {
+  width: 16px;
+  height: 16px;
+}

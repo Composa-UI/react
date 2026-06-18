@@ -1,0 +1,33 @@
+.composa-dropdown {
+  /* Default width: hug content (Figma dropdowns flex to the value text). Pass
+     width="fill" for a 100% trigger. */
+  width: auto;
+  min-height: var(--composa-height-input);
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  text-align: left;
+}
+
+.composa-dropdown-width-fill {
+  width: 100%;
+}
+
+.composa-dropdown-large {
+  min-height: 32px;
+}
+
+.composa-dropdown.is-borderless {
+  border-color: transparent;
+}
+
+.composa-dropdown > span:not(.composa-template-swatch) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

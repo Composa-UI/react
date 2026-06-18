@@ -1,0 +1,230 @@
+.composa-input-field {
+  min-width: 0;
+  gap: var(--composa-space-1);
+}
+
+/* Width model: default auto hugs content; width="fill" stretches to 100%. */
+.composa-input-width-fill {
+  width: 100%;
+}
+
+.composa-input-label {
+  width: 14px;
+  flex: 0 0 14px;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-input-numeric .composa-input-label {
+  display: none;
+}
+
+.composa-inline-glyph-text {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+  font: inherit;
+  text-transform: uppercase;
+}
+
+.composa-input-shell {
+  min-width: 0;
+  flex: 1 1 auto;
+  height: var(--composa-height-input);
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-medium);
+  /* Text input carries the gray bg-secondary fill so the field reads as an input
+     against any surface (a bare transparent field disappeared on white, e.g. in
+     the dialog). */
+  background: var(--composa-color-bg-secondary);
+}
+
+/* Numeric and Multi Line shells are gray by default in Figma. */
+.composa-input-numeric .composa-input-shell,
+.composa-input-multi-line .composa-input-shell,
+.composa-input-field.is-hover .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-input-large .composa-input-shell {
+  height: 32px;
+}
+
+.composa-input-multi-line .composa-input-shell {
+  height: 56px;
+  align-items: flex-start;
+  padding-block: var(--composa-space-1);
+}
+
+.composa-input-quick-action .composa-input-shell {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-input-field.is-active .composa-input-shell,
+.composa-input-field.is-active-filled .composa-input-shell,
+.composa-input-field.is-selected-input .composa-input-shell,
+.composa-input-field.is-selected-chevron .composa-input-shell {
+  background: var(--composa-color-bg);
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-input-field.is-disabled .composa-input-shell,
+.composa-input-field.is-disabled-secondary .composa-input-shell,
+.composa-input-field.is-disabled-tertiary .composa-input-shell {
+  background: var(--composa-color-bg-disabled);
+  color: var(--composa-color-text-disabled);
+  border-color: var(--composa-color-border-disabled);
+  cursor: default;
+}
+
+.composa-input-field.is-disabled .composa-input-shell input,
+.composa-input-field.is-disabled .composa-input-shell textarea,
+.composa-input-field.is-disabled-secondary .composa-input-shell input,
+.composa-input-field.is-disabled-secondary .composa-input-shell textarea,
+.composa-input-field.is-disabled-tertiary .composa-input-shell input,
+.composa-input-field.is-disabled-tertiary .composa-input-shell textarea {
+  color: var(--composa-color-text-disabled);
+}
+
+.composa-input-clear {
+  flex: 0 0 auto;
+}
+
+.composa-input-field.is-empty .composa-input-shell input,
+.composa-input-field.is-empty .composa-input-shell textarea,
+.composa-input-field.is-active-empty .composa-input-shell input {
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-input-field.has-variable .composa-input-shell {
+  background: #eef7ff;
+}
+
+.composa-input-shell:focus-within {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-input-shell input,
+.composa-input-shell textarea {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-input-shell textarea {
+  min-height: 44px;
+  resize: none;
+}
+
+.composa-input-field.is-mixed input::placeholder {
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-input-suffix {
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-variable-pill {
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px;
+  border-radius: var(--composa-radius-small);
+  background: #d9ecff;
+  color: #0768cf;
+}
+
+.composa-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--composa-space-2);
+  margin-top: var(--composa-space-2);
+}
+
+.composa-numeric-multi {
+  width: 160px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 24px repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-numeric-multi[data-icon-lead="false"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.composa-numeric-multi.is-focused {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: -1px;
+}
+
+.composa-numeric-multi.is-rest[data-disabled="true"] {
+  border: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-numeric-multi-lead,
+.composa-numeric-multi-value {
+  min-width: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.composa-numeric-multi-lead {
+  justify-content: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-numeric-multi-value {
+  /* Cells are narrow once the lead icon takes a column (~34px each); 8px side
+     padding left too little room and clipped a 3rd digit. Tighten to 5px. */
+  padding: 0 5px;
+  border-right: 1px solid var(--composa-color-bg);
+  color: var(--composa-color-text);
+  font: inherit;
+}
+
+.composa-numeric-multi-value.is-last {
+  border-right: 0;
+}
+
+.composa-numeric-multi-value.is-disabled {
+  color: var(--composa-color-text-tertiary);
+}
+
+/* The editable field fills its cell and is otherwise chromeless — the cell span
+   carries the divider, padding, and color. */
+.composa-numeric-multi-field {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.composa-numeric-multi-field:focus {
+  outline: none;
+}
+
+.composa-numeric-multi-field:disabled {
+  color: inherit;
+  cursor: default;
+}
+

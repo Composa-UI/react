@@ -1,0 +1,38 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Spacing" />
+
+# Spacing
+
+Spacing is a base-4 ramp. Each step is a multiple of 4px. Use these tokens for gaps, padding, and margins. The bars below render at the live token width.
+
+export const Bar = ({ token, px }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ width: 130, flexShrink: 0, fontFamily: "monospace", fontSize: 12 }}>{token}</div>
+    <div style={{ width: 44, flexShrink: 0, fontFamily: "monospace", fontSize: 12, opacity: 0.7 }}>{px}</div>
+    <div style={{ height: 16, width: `var(${token})`, minWidth: 1, background: "var(--composa-color-bg-brand)", borderRadius: 2 }} />
+  </div>
+);
+
+## Scale
+
+<div style={{ margin: "12px 0 28px" }}>
+  <Bar token="--composa-space-0" px="0" />
+  <Bar token="--composa-space-1" px="4px" />
+  <Bar token="--composa-space-2" px="8px" />
+  <Bar token="--composa-space-2-5" px="12px" />
+  <Bar token="--composa-space-3" px="16px" />
+  <Bar token="--composa-space-4" px="24px" />
+  <Bar token="--composa-space-5" px="32px" />
+  <Bar token="--composa-space-6" px="40px" />
+</div>
+
+The ramp runs 0, 4, 8, 12, 16, 24, 32, 40. The 12px step is named `--composa-space-2-5` because it sits between 8 and 16. The remaining steps are whole indices.
+
+## Base-4 ramp
+
+The scale is a strict base-4 ladder. Every value is `4 × n`. This keeps vertical and horizontal rhythm consistent across components. Reach for a token rather than a raw pixel value.
+
+## Grid
+
+Composa's grid is the spacing ramp itself. Spacing and radius are authored together as one "grid" — the base-4 ladder that governs gaps, padding, and corner geometry. Layout rhythm comes from applying that grid to flex gaps and padding across components. This is a desktop-app grid: there are no column or container tokens and no responsive breakpoints; the base-4 ramp is the shared rhythm.

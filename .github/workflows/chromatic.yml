@@ -1,0 +1,29 @@
+name: Chromatic
+
+# Publishes the Storybook to Chromatic and runs visual regression tests on every
+# push to main and every PR. Add the project token as a repo secret:
+# Settings → Secrets and variables → Actions → New repository secret →
+# name CHROMATIC_PROJECT_TOKEN.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Chromatic needs full git history for baselines
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build:tokens && npm run build:css
+      - uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true        # turbosnap: snapshot only changed stories
+          exitZeroOnChanges: true

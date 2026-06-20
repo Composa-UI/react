@@ -41,7 +41,8 @@
     "design/generated/composa-core-tokens.css",
     "design/generated/composa-semantic-tokens.css",
     "THIRD-PARTY-NOTICES.md",
-    "LICENSE-APACHE-2.0.txt"
+    "LICENSE-APACHE-2.0.txt",
+    "skills"
   ],
   "types": "./src/react/index.d.ts",
   "scripts": {

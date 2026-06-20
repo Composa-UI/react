@@ -1,0 +1,11 @@
+{
+  "name": "composa-ui",
+  "version": "0.1.0",
+  "description": "Build on-spec UI with the Composa design system (@composa-ui/react). Ships the composa-ui skill: a component catalog + usage rules sourced from Figma UI3, so agents use real props/variants instead of guessing.",
+  "author": {
+    "name": "Composa UI",
+    "url": "https://github.com/Composa-UI/react"
+  },
+  "homepage": "https://composa-ui.github.io/react",
+  "keywords": ["design-system", "react", "ui", "composa", "figma"]
+}

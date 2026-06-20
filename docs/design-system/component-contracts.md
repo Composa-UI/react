@@ -49,6 +49,9 @@ Every visible slide, layer row, canvas object, and inspector property must resol
 | `Tab` | `.composa-tab` | Figma UI3 `_Tab`, node `2015:27758` | single tab state | selected, single-tab, default, focused, and hover states |
 | `TreeRow` | `.composa-tree-row` | Figma UI3 `Sidebar row layer`, node `2711:212342` | layer or synthetic nested child row | 32px row, disclosure slot, layer icon, primary selected and secondary selected states |
 | `PropertySection` | `.composa-property-section` | inspector property rows | selected layer | dense 11px property groups |
+| `CommentComposer` | `.composa-comment-composer` | Figma UI3 `comment.compose.input`, node `2012:63721` (inline: `comment.window.reply`, node `2012:63692`) | controlled composer value + attachments | reusable composer / chat input; `textarea` field with `aria-label`, send is an `IconButton`; Enter submits, Shift+Enter newlines; doubles as the app AI side-chat input via the `mode` slot |
+| `CommentItem` | `.composa-comment-item` | Figma UI3 `_comment.window.row`, node `2012:63679` | one comment record | `role=listitem`; gutter avatar, author + timestamp header line, body, optional reactions footer |
+| `CommentThreadWindow` | `.composa-comment-thread` | Figma UI3 `comment.thread.window`, node `2012:63732` | thread record list + composer state | `section` labelled by title; titlebar more/resolve/close `IconButton`s, `role=list` of `CommentItem`s, pinned inline `CommentComposer` |
 
 ## Code Location
 

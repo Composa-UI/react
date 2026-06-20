@@ -8,7 +8,9 @@ import {
 
 // All button types live on one page, matching Figma where buttons share a page.
 export default {
-  title: "Composa UI/Base Components/Buttons",
+  title: "Composa UI/Components/Base/Buttons",
+  // The MDX page (buttons.mdx) owns the Docs tab for the whole button family.
+  tags: ["!autodocs"],
   parameters: {
     docs: {
       description: {

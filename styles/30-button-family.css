@@ -21,7 +21,7 @@
 
 /* IconButton/Toggle size axis — Composa addition (Figma's icon-button set has no
    size variant; every node is 24px). Sizes resolve to the icon BOX (square:
-   width = height). small 20 / default 24 / large 28. The glyph stays 16px. */
+   width = height). small 20 / medium 24 / large 28 / xlarge 32. */
 .composa-icon-button-small {
   width: 20px;
   height: 20px;
@@ -37,14 +37,18 @@
   height: 28px;
 }
 
-/* Per-size glyph scaling — the inner glyph follows the icon-button box:
-   small (20px box) -> 16px glyph, default (24px box) -> 20px glyph,
-   large (28px box) -> 24px glyph. The base `.composa-icon-button-glyph`
-   rule (16px, pinned by the contract verifier) stays the small default;
-   these size-scoped overrides bump default and large. Scoped to icon-buttons
-   only, so glyphs inside text Buttons, inputs, and menus are untouched. */
+.composa-icon-button-xlarge {
+  width: 32px;
+  height: 32px;
+}
+
+/* Per-size glyph scaling — Material Symbols are font glyphs without the same
+   optical whitespace as Figma's SVG icon boxes, so the default 24px button
+   frame uses a 20px glyph. Scoped to icon-buttons only, so glyphs inside text
+   Buttons, inputs, and menus are untouched. */
 .composa-icon-button-small .composa-icon-button-glyph,
 .composa-icon-button-small .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 16px;
   width: 16px;
   height: 16px;
   flex-basis: 16px;
@@ -52,6 +56,7 @@
 
 .composa-icon-button-medium .composa-icon-button-glyph,
 .composa-icon-button-medium .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 20px;
   width: 20px;
   height: 20px;
   flex-basis: 20px;
@@ -59,9 +64,18 @@
 
 .composa-icon-button-large .composa-icon-button-glyph,
 .composa-icon-button-large .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 24px;
   width: 24px;
   height: 24px;
   flex-basis: 24px;
+}
+
+.composa-icon-button-xlarge .composa-icon-button-glyph,
+.composa-icon-button-xlarge .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 28px;
+  width: 28px;
+  height: 28px;
+  flex-basis: 28px;
 }
 
 .composa-icon-button:disabled,
@@ -103,10 +117,14 @@
   border-color: var(--composa-color-border-selected);
 }
 
-.composa-dropdown.is-active > span:not(.composa-template-swatch):not(.composa-icon) {
+.composa-dropdown.is-active > span:not(.composa-template-swatch):not(.composa-icon):not(.composa-dropdown-leading-icon):not(.composa-dropdown-chevron) {
   /* Active highlights only the value text, not the chevron or leading icon
      (Figma color-texthighlight rgba(13,153,255,0.4); no exported token). */
   background: rgba(13, 153, 255, 0.4);
+}
+
+.composa-dropdown.is-open > span:not(.composa-template-swatch):not(.composa-icon):not(.composa-dropdown-leading-icon):not(.composa-dropdown-chevron) {
+  background: transparent;
 }
 
 /* Icon-button family (icon button, toggle off, dialog toggle off, split) uses a
@@ -343,11 +361,25 @@
    the SIZE axis, `composa-icon-button-standard` the VARIANT — but `data-variant`
    stays the reliable variant hook here.) The selected icon-button (non-toggle,
    e.g. menu toolbar) and highlighted icon-button keep bg-selected. */
+/* ON paints the selected container AND turns the GLYPH accent. The glyph reads
+   `currentColor`, so `color` carries the founder rule "active colors the icon,
+   not just the background" (`--composa-control-fg-selected`). The dialog-opener
+   toggle is active while its surface is open but is driven by `.is-selected` /
+   `[data-dialog-open="true"]` (NOT `aria-pressed`), so it is enumerated here too
+   — otherwise an open dialog-toggle gets no active appearance at all. */
 .composa-toggle-button[data-variant="standard"][aria-pressed="true"],
 .composa-toggle-button[data-variant="secondary"][aria-pressed="true"],
+.composa-toggle-button[data-variant="ghost"][aria-pressed="true"],
+.composa-toggle-button[data-variant="standard"].is-selected,
+.composa-toggle-button[data-variant="secondary"].is-selected,
+.composa-toggle-button[data-variant="ghost"].is-selected,
+.composa-toggle-button[data-variant="standard"][data-dialog-open="true"],
+.composa-toggle-button[data-variant="secondary"][data-dialog-open="true"],
+.composa-toggle-button[data-variant="ghost"][data-dialog-open="true"],
 .composa-icon-button.is-selected:not(.composa-toggle-button),
 .composa-icon-button-highlighted {
-  background: var(--composa-color-bg-selected);
+  background: var(--composa-control-bg-selected);
+  color: var(--composa-control-fg-selected);
 }
 
 /* On + disabled: the ON rule above (0,3,0) outranks the generic `:disabled`
@@ -362,7 +394,9 @@
 .composa-toggle-button[data-variant="standard"][aria-pressed="true"]:hover,
 .composa-toggle-button[data-variant="standard"][aria-pressed="true"].is-hover,
 .composa-toggle-button[data-variant="secondary"][aria-pressed="true"]:hover,
-.composa-toggle-button[data-variant="secondary"][aria-pressed="true"].is-hover {
+.composa-toggle-button[data-variant="secondary"][aria-pressed="true"].is-hover,
+.composa-toggle-button[data-variant="ghost"][aria-pressed="true"]:hover,
+.composa-toggle-button[data-variant="ghost"][aria-pressed="true"].is-hover {
   background: var(--composa-color-bg-selected-secondary);
 }
 
@@ -431,10 +465,11 @@
   height: var(--composa-height-input);
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--composa-color-border-translucent);
+  gap: 1px;
+  border: 0;
   border-radius: var(--composa-radius-medium);
   overflow: hidden;
-  background: var(--composa-color-bg);
+  background: transparent;
 }
 
 /* Fill split stretches to its container, same pattern as Button's width:fill. */
@@ -460,16 +495,42 @@
 
 .composa-split-action {
   min-width: 0;
-  flex: 1 1 auto;
+  width: 24px;
+  flex: 0 0 24px;
   height: 100%;
   /* Take the variant color only; the split-control owns the border/radius, so
      strip the Button chrome that would double-stroke the action half. */
   border: 0;
   border-radius: 0;
   min-height: 0;
+  /* The action half carries the variant COLOR class (`.composa-button-<variant>`)
+     but NOT the base `.composa-button` flex layout, so it must establish its own
+     centering. Without `display: inline-flex` the `justify-content`/`align-items`
+     below were inert and the icon (and label) sat top-left instead of centered. */
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
   gap: var(--composa-space-1);
-  padding: 0 var(--composa-space-2);
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* The action-half icon box centers the glyph in its half. The editor toolbar
+   overrides the size, but the generic split needs this so the icon is centered
+   rather than baseline-aligned inline content. */
+.composa-split-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.composa-split-action > span:not(.composa-split-action-icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
   white-space: nowrap;
 }
 
@@ -479,10 +540,10 @@
 }
 
 .composa-split-menu {
-  width: 24px;
+  width: 16px;
   height: 100%;
-  flex: 0 0 24px;
-  border-left: 1px solid var(--composa-color-border-translucent);
+  flex: 0 0 16px;
+  border-left: 0;
   border-radius: 0;
   /* Reset the other three sides the `.composa-icon-button-secondary` `border`
      shorthand paints on the split-menu so only the divider (left) shows. */
@@ -502,6 +563,37 @@
    translucent border token at higher specificity (0,2,0) so the secondary case
    matches primary/other variants. */
 .composa-split-control .composa-split-menu {
-  border-left-color: var(--composa-color-border-translucent);
+  border-left-color: transparent;
 }
 
+.composa-split-control > .composa-icon-button-tooltip-wrap {
+  width: 16px;
+  height: 100%;
+  flex: 0 0 16px;
+}
+
+.composa-split-control > .composa-icon-button-tooltip-wrap .composa-split-menu {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+.composa-split-action-tooltip-wrap {
+  position: relative;
+  width: 24px;
+  height: 100%;
+  display: inline-flex;
+  flex: 0 0 24px;
+}
+
+.composa-split-action-tooltip-wrap .composa-split-action {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+.composa-split-action-tooltip-wrap:hover > .composa-icon-button-tooltip,
+.composa-split-action-tooltip-wrap > .composa-split-action:focus-visible + .composa-icon-button-tooltip {
+  opacity: 1;
+  visibility: visible;
+}

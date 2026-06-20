@@ -74,3 +74,78 @@
   top: var(--composa-tooltip-arrow-offset);
 }
 
+.composa-icon-button-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  height: max-content;
+}
+
+.composa-icon-button-tooltip {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: calc(100% + var(--composa-space-2));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 80ms ease, visibility 80ms ease;
+}
+
+.composa-icon-button-tooltip.composa-tooltip-top,
+.composa-icon-button-tooltip.composa-tooltip-top-left,
+.composa-icon-button-tooltip.composa-tooltip-top-right {
+  top: auto;
+  bottom: calc(100% + var(--composa-space-2));
+}
+
+.composa-icon-button-tooltip.composa-tooltip-bottom,
+.composa-icon-button-tooltip.composa-tooltip-bottom-left,
+.composa-icon-button-tooltip.composa-tooltip-bottom-right {
+  top: calc(100% + var(--composa-space-2));
+  bottom: auto;
+}
+
+.composa-icon-button-tooltip.composa-tooltip-top-left,
+.composa-icon-button-tooltip.composa-tooltip-bottom-left {
+  left: 0;
+  right: auto;
+  transform: none;
+}
+
+.composa-icon-button-tooltip.composa-tooltip-top-right,
+.composa-icon-button-tooltip.composa-tooltip-bottom-right {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.composa-icon-button-tooltip-wrap:hover > .composa-icon-button-tooltip,
+.composa-icon-button-tooltip-wrap > .composa-icon-button:focus-visible + .composa-icon-button-tooltip,
+.composa-multiplayer-tooltip-wrap:hover > .composa-icon-button-tooltip,
+.composa-multiplayer-tooltip-wrap > .composa-multiplayer-control:focus-visible + .composa-icon-button-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Inline (no-OverlayHost) fallback. When `FloatingTooltip` can't portal — there
+   is no `OverlayHost` ancestor (e.g. a bare IconButton/ControlGroup story) — it
+   renders the `Tooltip` INSIDE an inline `.composa-tooltip-layer` overlay layer,
+   so the tooltip is no longer a DIRECT child of the wrap and the `>` hover rules
+   above never match, leaving it `opacity:0`. The JS only mounts this layer while
+   the tooltip is open (hover/focus), so any inline tooltip layer present inside
+   the wrap is by definition meant to show. Reveal it. (The OverlayHost/portal
+   path is handled by `.composa-overlay-host .composa-icon-button-tooltip` in
+   76-overlay-layer.css.) */
+.composa-icon-button-tooltip-wrap > .composa-tooltip-layer .composa-icon-button-tooltip {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+}

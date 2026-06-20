@@ -6,6 +6,9 @@ dist/
 .cache/
 debug-storybook.log
 
+# Visual-verification harness output (rendered story PNGs + sidecars)
+tools/.visual-output/
+
 # Local agent/editor tooling — not part of the library
 .claude/
 .agents/

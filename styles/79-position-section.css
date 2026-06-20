@@ -1,0 +1,115 @@
+.composa-position-section {
+  width: 100%;
+  padding-bottom: 12px;
+  background: var(--composa-color-bg);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-position-section-header {
+  height: var(--composa-height-heading);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+}
+
+.composa-position-section-title {
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-position-fieldset {
+  height: 48px;
+  display: grid;
+  grid-template-rows: 17px 24px;
+  padding: 3px var(--composa-inspector-inset-end) 4px var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-position-fieldset-label {
+  height: 14px;
+  display: flex;
+  align-items: flex-start;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: 14px;
+}
+
+.composa-position-fieldset-controls {
+  width: 100%;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 24px;
+  column-gap: var(--composa-space-2);
+  align-items: center;
+}
+
+.composa-position-control-group.composa-control-group {
+  width: 100%;
+  height: 24px;
+}
+
+.composa-position-control-group.composa-control-group .composa-icon-button-tooltip-wrap,
+.composa-position-control-group.composa-control-group > .composa-icon-button {
+  width: calc((100% - 2px) / 3);
+  height: 24px;
+}
+
+.composa-position-control-group.composa-control-group .composa-icon-button-tooltip-wrap {
+  flex-basis: calc((100% - 2px) / 3);
+}
+
+.composa-position-control-group.composa-control-group .composa-icon-button-tooltip-wrap .composa-icon-button {
+  width: 100%;
+  height: 100%;
+}
+
+.composa-position-control-group.composa-control-group .composa-icon-button-glyph,
+.composa-position-control-group.composa-control-group .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.composa-position-mini-input {
+  width: 100%;
+  height: 24px;
+}
+
+.composa-position-mini-input .composa-input-shell {
+  width: 100%;
+  height: 24px;
+  gap: 0;
+  padding: 0;
+}
+
+.composa-position-mini-input .composa-inline-glyph-text,
+.composa-position-mini-input .composa-input-shell > .composa-icon {
+  --composa-runtime-icon-size: 24px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-position-mini-input .composa-material-symbol-icon-rotation {
+  transform: scale(0.6667);
+}
+
+.composa-position-control-group .composa-material-symbol-icon-flipVertical {
+  transform: rotate(90deg);
+}
+
+.composa-position-mini-input .composa-input-shell input {
+  height: 24px;
+  padding: 0 var(--composa-space-2) 0 0;
+}
+
+.composa-position-more,
+.composa-position-constraints {
+  width: 24px;
+  height: 24px;
+}

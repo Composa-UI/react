@@ -1,0 +1,146 @@
+/* EditorToolbar — the floating canvas creation toolbar.
+ *
+ * Figma rMq1M35u1iyKB2QaQMipZb node 86-5602 (simplified): a 48px-tall rounded,
+ * shadowed container that floats over the canvas, holding four tool groups
+ * (Move / Frame / Shape / Text). Move and Shape are SplitButton groups (a 32px
+ * primary icon action + a 16px caret separated by a 1px hairline, each half with
+ * a 5px radius); Frame and Text are single 32px icon-button tools with no caret.
+ * The active tool — whether a split action half or a single tool — fills with
+ * brand-orange; the caret stays quiet on the toolbar's white surface.
+ *
+ * The component reuses SplitButton / IconButton / MenuRow / OverlayPortal; this
+ * file only retunes the split geometry for the toolbar's icon-only 32px action
+ * and applies the floating-container chrome. */
+
+.composa-editor-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-editor-toolbar-gap);
+  height: var(--composa-editor-toolbar-height);
+  box-sizing: border-box;
+  padding: var(--composa-editor-toolbar-padding);
+  background: var(--composa-color-bg);
+  border-radius: var(--composa-editor-toolbar-radius);
+  box-shadow: var(--composa-editor-toolbar-shadow);
+}
+
+.composa-editor-toolbar-group {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+/* Split geometry override: icon-only 32px action + 16px caret, per-half radius,
+   1px hairline between halves. The container's own radius/overflow are dropped so
+   each half can carry its own rounded corners (matching the Figma anatomy). */
+.composa-editor-toolbar .composa-editor-toolbar-split.composa-split-control {
+  height: var(--composa-editor-toolbar-action-size);
+  gap: var(--composa-editor-toolbar-half-gap);
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-action-tooltip-wrap,
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-action {
+  width: var(--composa-editor-toolbar-action-size);
+  flex: 0 0 var(--composa-editor-toolbar-action-size);
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-action {
+  height: var(--composa-editor-toolbar-action-size);
+  border-radius: var(--composa-editor-toolbar-button-radius);
+}
+
+/* The 24px split-action glyph box scales the tool icon up to the 24px Figma icon
+   box inside the 32px button (4px inset all round). */
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-action-icon {
+  --composa-runtime-icon-size: 24px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-action-icon .composa-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Single-tool groups (Frame, Text) have no caret in Figma — they render a plain
+   IconButton action. Match the split action geometry: 32px box, 5px radius, 24px
+   glyph. The brand fill (active) and on-brand glyph come from the IconButton
+   `primary` variant; the inactive group uses `ghost`. */
+.composa-editor-toolbar .composa-editor-toolbar-single.composa-icon-button {
+  width: var(--composa-editor-toolbar-action-size);
+  height: var(--composa-editor-toolbar-action-size);
+  flex: 0 0 var(--composa-editor-toolbar-action-size);
+  border-radius: var(--composa-editor-toolbar-button-radius);
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-single.composa-icon-button .composa-icon-button-glyph,
+.composa-editor-toolbar .composa-editor-toolbar-single.composa-icon-button .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 24px;
+  width: 24px;
+  height: 24px;
+  flex-basis: 24px;
+}
+
+/* Quiet (inactive) single-tool action: hover fills with the secondary surface so
+   the affordance reads without always-on chrome (mirrors the split action). */
+.composa-editor-toolbar-group.is-single-tool:not(.is-active) .composa-editor-toolbar-single:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* Caret half: 16px wide, its own 5px radius, quiet on the white surface even when
+   the group is active (only the action half carries the brand color). */
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-menu,
+.composa-editor-toolbar .composa-editor-toolbar-split > .composa-icon-button-tooltip-wrap {
+  width: var(--composa-editor-toolbar-caret-width);
+  flex: 0 0 var(--composa-editor-toolbar-caret-width);
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-menu {
+  height: var(--composa-editor-toolbar-action-size);
+  border-radius: var(--composa-editor-toolbar-button-radius);
+  background: transparent;
+  color: var(--composa-control-fg-secondary);
+}
+
+.composa-editor-toolbar .composa-editor-toolbar-split .composa-split-menu:hover,
+.composa-editor-toolbar-group.is-menu-open .composa-editor-toolbar-split .composa-split-menu {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* Quiet (inactive) group action: ghost on the white surface, hover fills with the
+   secondary surface so the affordance reads without always-on chrome. */
+.composa-editor-toolbar-group:not(.is-active) .composa-editor-toolbar-split .composa-split-action:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* Active group action keeps the brand fill from `.composa-button-primary`; pin the
+   icon to the on-brand color so the glyph stays legible. */
+.composa-editor-toolbar-group.is-active .composa-editor-toolbar-split .composa-split-action {
+  color: var(--composa-color-text-on-brand);
+}
+
+/* Tool-picker menu rendered through OverlayPortal: a compact popover surface of
+   MenuRow type="toolbar" radio rows. The OverlayLayer owns placement; this owns
+   the menu chrome (mirrors the inspector zoom menu surface). */
+.composa-overlay-layer > .composa-editor-toolbar-menu {
+  position: static;
+  inset: auto;
+  z-index: auto;
+}
+
+.composa-editor-toolbar-menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 168px;
+  padding: var(--composa-space-2) var(--composa-space-1);
+  gap: var(--composa-menu-row-gap);
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}

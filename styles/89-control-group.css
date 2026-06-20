@@ -1,0 +1,83 @@
+.composa-control-group {
+  width: max-content;
+  height: var(--composa-height-input);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-control-group-segment-gap);
+  padding: 0;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-control-group-divider-bg);
+  overflow: visible;
+}
+
+.composa-control-group .composa-icon-button-tooltip-wrap {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.composa-control-group .composa-icon-button {
+  width: 24px;
+  height: 24px;
+  border-color: transparent;
+  background: var(--composa-color-bg-secondary);
+  color: var(--composa-color-icon);
+}
+
+.composa-control-group .composa-icon-button-tooltip-wrap .composa-icon-button {
+  width: 100%;
+  height: 100%;
+}
+
+/* Edge rounding: the group reads as ONE rounded rectangle, not a row of
+   individually rounded segments. Only the OUTER corners round — the first
+   segment rounds its left corners (TL + BL), the last segment rounds its right
+   corners (TR + BR), every middle segment is square. The 1px segment gap shows
+   the divider background through, so squaring the inner corners keeps the
+   divider crisp. Each direct child is either a bare icon-button or a
+   tooltip-wrap holding one, so the rule covers both shapes. */
+.composa-control-group > * .composa-icon-button,
+.composa-control-group > .composa-icon-button {
+  border-radius: 0;
+}
+
+.composa-control-group > :first-child .composa-icon-button,
+.composa-control-group > .composa-icon-button:first-child {
+  border-top-left-radius: var(--composa-radius-medium);
+  border-bottom-left-radius: var(--composa-radius-medium);
+}
+
+.composa-control-group > :last-child .composa-icon-button,
+.composa-control-group > .composa-icon-button:last-child {
+  border-top-right-radius: var(--composa-radius-medium);
+  border-bottom-right-radius: var(--composa-radius-medium);
+}
+
+/* A single-segment group keeps all four corners rounded. */
+.composa-control-group > :only-child .composa-icon-button,
+.composa-control-group > .composa-icon-button:only-child {
+  border-radius: var(--composa-radius-medium);
+}
+
+.composa-control-group .composa-icon-button:hover,
+.composa-control-group .composa-icon-button.is-hover,
+.composa-control-group .composa-icon-button:focus-visible {
+  background: var(--composa-color-bg-hover-transparent);
+  color: var(--composa-color-icon);
+}
+
+.composa-control-group .composa-icon-button-glyph,
+.composa-control-group .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.composa-control-group.is-disabled {
+  background: var(--composa-color-bg-disabled);
+}
+
+.composa-control-group.is-disabled .composa-icon-button {
+  color: var(--composa-color-icon-disabled);
+}

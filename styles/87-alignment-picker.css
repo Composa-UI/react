@@ -1,0 +1,151 @@
+.composa-alignment-picker {
+  width: 88px;
+  display: grid;
+  grid-template-rows: 14px 56px;
+  row-gap: 4px;
+}
+
+.composa-alignment-width-fill {
+  width: 100%;
+}
+
+.composa-alignment-picker-label {
+  height: 14px;
+  display: flex;
+  align-items: flex-start;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: 14px;
+}
+
+.composa-alignment-grid {
+  width: 100%;
+  height: 56px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  border-block: 4px solid transparent;
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg-secondary);
+  box-sizing: border-box;
+}
+
+.composa-alignment-point-wrap {
+  position: relative;
+  width: 16px;
+  height: 12px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.composa-alignment-point {
+  width: 16px;
+  height: 12px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--composa-radius-small);
+  background: transparent;
+  /* Dots inherit this via currentColor. Was a hardcoded rgba(0,0,0,0.3) — black,
+     so the dots vanished on the dark canvas. Use the icon-secondary token, which
+     flips to rgba(255,255,255,0.7) under [data-composa-mode="dark"]. */
+  color: var(--composa-color-icon-secondary);
+  cursor: default;
+}
+
+.composa-alignment-point:not(:disabled):hover,
+.composa-alignment-point:not(:disabled):focus-visible {
+  background: var(--composa-color-bg-hover);
+}
+
+.composa-alignment-point:focus-visible {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: 0;
+}
+
+.composa-alignment-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.composa-alignment-point.is-selected {
+  color: var(--composa-color-border-selected);
+}
+
+.composa-alignment-point.is-selected .composa-alignment-dot {
+  width: 10px;
+}
+
+.composa-alignment-picker.is-disabled {
+  opacity: 0.5;
+}
+
+.composa-alignment-picker.is-disabled .composa-alignment-point {
+  cursor: default;
+}
+
+.composa-alignment-tooltip {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: calc(100% + var(--composa-space-2));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 80ms ease, visibility 80ms ease;
+}
+
+.composa-alignment-tooltip.composa-tooltip-top,
+.composa-alignment-tooltip.composa-tooltip-top-left,
+.composa-alignment-tooltip.composa-tooltip-top-right {
+  top: auto;
+  bottom: calc(100% + var(--composa-space-2));
+}
+
+.composa-alignment-tooltip.composa-tooltip-bottom,
+.composa-alignment-tooltip.composa-tooltip-bottom-left,
+.composa-alignment-tooltip.composa-tooltip-bottom-right {
+  top: calc(100% + var(--composa-space-2));
+  bottom: auto;
+}
+
+.composa-alignment-tooltip.composa-tooltip-top-left,
+.composa-alignment-tooltip.composa-tooltip-bottom-left {
+  left: 0;
+  right: auto;
+  transform: none;
+}
+
+.composa-alignment-tooltip.composa-tooltip-top-right,
+.composa-alignment-tooltip.composa-tooltip-bottom-right {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.composa-alignment-point-wrap:hover > .composa-alignment-tooltip,
+.composa-alignment-point-wrap > .composa-alignment-point:focus-visible + .composa-alignment-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Inline (no-OverlayHost) fallback — see the matching note in 75-tooltip.css.
+   Without an OverlayHost the tooltip renders inside an inline `.composa-tooltip-
+   layer` and is no longer a direct child of the wrap, so the `>` rules above
+   miss it. The JS only mounts the layer while open, so reveal any present. */
+.composa-alignment-point-wrap > .composa-tooltip-layer .composa-alignment-tooltip {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+}

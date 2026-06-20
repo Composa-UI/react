@@ -1,0 +1,196 @@
+.composa-appearance-section {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--composa-inspector-section-padding-end);
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-appearance-header {
+  height: var(--composa-height-heading);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-appearance-title {
+  min-width: 0;
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-appearance-header-actions {
+  gap: var(--composa-space-1);
+}
+
+.composa-appearance-header-actions .composa-icon-button.is-selected {
+  color: var(--composa-color-border-selected);
+}
+
+.composa-appearance-fieldset {
+  min-height: 50px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 24px;
+  column-gap: var(--composa-space-2);
+  align-items: end;
+  padding: 4px var(--composa-inspector-inset-end) 3px var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-appearance-field {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 14px 24px;
+  gap: 3px;
+}
+
+.composa-appearance-field-label {
+  height: 14px;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: 14px;
+}
+
+.composa-appearance-input {
+  width: 100%;
+  height: 24px;
+}
+
+.composa-appearance-input .composa-input-shell {
+  height: 24px;
+  gap: 0;
+  padding: 0;
+}
+
+.composa-appearance-input .composa-input-shell > .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-appearance-input .composa-input-shell input {
+  min-width: 0;
+  padding: 0 var(--composa-space-2) 0 0;
+}
+
+.composa-appearance-corners-action {
+  align-self: end;
+}
+
+.composa-appearance-blend-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  grid-template-areas:
+    "label label"
+    "value action";
+  column-gap: var(--composa-inspector-value-row-gap);
+  row-gap: var(--composa-space-1);
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-appearance-blend-row > .composa-appearance-field-label {
+  grid-area: label;
+}
+
+.composa-appearance-blend-dropdown {
+  grid-area: value;
+  width: 100%;
+  height: 24px;
+}
+
+.composa-appearance-blend-dropdown.composa-dropdown {
+  justify-content: space-between;
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-appearance-blend-dropdown .composa-dropdown-leading-icon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-appearance-blend-remove {
+  grid-area: action;
+  align-self: end;
+}
+
+.composa-blend-mode-menu {
+  position: absolute;
+  z-index: 30;
+  top: 34px;
+  right: var(--composa-inspector-inset-end);
+  width: 118px;
+  display: grid;
+  padding: var(--composa-space-2) 0;
+  overflow: hidden;
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.15),
+    0 10px 16px rgba(0, 0, 0, 0.12),
+    0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+
+.composa-blend-mode-group {
+  display: grid;
+  padding: 0 var(--composa-space-2) var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-menu-divider-border);
+}
+
+.composa-blend-mode-group + .composa-blend-mode-group {
+  padding-top: 7px;
+}
+
+.composa-blend-mode-group:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.composa-blend-mode-item {
+  width: 102px;
+  min-height: 24px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  padding: 4px var(--composa-space-2) 4px var(--composa-space-1);
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-menu-row-fg);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+  text-align: left;
+}
+
+.composa-blend-mode-item:hover,
+.composa-blend-mode-item:focus-visible {
+  background: var(--composa-menu-row-bg-hover);
+  color: var(--composa-menu-row-fg-selected);
+  outline: none;
+}
+
+.composa-blend-mode-check {
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+  display: grid;
+  place-items: center;
+  color: var(--composa-menu-row-fg-selected);
+}
+
+.composa-blend-mode-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,7 +1,7 @@
 import { LabelFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Label",
+  title: "Composa UI/Components/Base/Label",
   parameters: {
     docs: {
       description: {

@@ -1,7 +1,7 @@
 import { TabsFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Tabs",
+  title: "Composa UI/Components/Base/Tabs",
   parameters: {
     docs: {
       description: {

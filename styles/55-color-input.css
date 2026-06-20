@@ -7,6 +7,11 @@
   gap: 0;
   border-radius: var(--composa-radius-medium);
   background: var(--composa-color-bg-secondary);
+  /* Clip children to the rounded frame so the opacity box on the right edge
+     picks up the container radius on its top-right + bottom-right corners (the
+     box is square and would otherwise poke past the rounded frame). The focus
+     ring uses `outline`, which draws outside the box and is not clipped here. */
+  overflow: hidden;
 }
 
 .composa-color-input.is-focus,
@@ -19,6 +24,31 @@
   border: 1px solid var(--composa-color-border);
   background: var(--composa-color-bg);
   color: var(--composa-color-text-tertiary);
+}
+
+.composa-color-input[data-opacity-disabled="true"] .composa-color-opacity {
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-color-input[data-opacity-disabled="true"] .composa-color-opacity input:disabled {
+  color: var(--composa-color-text-tertiary);
+  -webkit-text-fill-color: var(--composa-color-text-tertiary);
+}
+
+.composa-color-input[data-opacity-disabled="true"] .composa-color-opacity .composa-input-suffix {
+  color: var(--composa-color-text-tertiary);
+}
+
+/* Value-text-only disabled state (hidden paint / eye action). ONLY the value
+   text greys out to read disabled; the input chrome — frame, swatch, opacity
+   box background, and the `%` suffix — stays active-looking so the row does not
+   read as a fully disabled control. Drives the affected segment from
+   `data-value-disabled` / `data-opacity-value-disabled`. */
+.composa-color-input .composa-color-value.is-value-disabled,
+.composa-color-input .composa-color-opacity-value.is-value-disabled {
+  color: var(--composa-color-text-tertiary);
+  -webkit-text-fill-color: var(--composa-color-text-tertiary);
 }
 
 .composa-color-chip-frame {
@@ -85,4 +115,3 @@
   width: 14px;
   color: var(--composa-color-text-secondary);
 }
-

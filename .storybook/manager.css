@@ -1,0 +1,164 @@
+/*
+ * Composa Storybook MANAGER chrome — Carbon-inspired refinements.
+ *
+ * This file styles only the Storybook shell (sidebar nav tree, toolbar, addon
+ * panel) — the bits Storybook's `create()` theme can't reach. It is chrome only:
+ * design-system components on the canvas are untouched.
+ *
+ * v3 direction (kept on-brand: ACCENT BLUE for selection/controls, brand orange
+ * for the logo only, IBM Plex for the chrome face, Inter for DS body):
+ *   1. Reduced roundedness — nav rows and panel tabs stay near-rectilinear (2px),
+ *      carried over from v2 (Carbon-like sharper chrome).
+ *   2. Comfortable density — the v2 tight ~4px row overrides are REMOVED so the
+ *      sidebar reverts to Storybook's default rhythm (the founder noted IBM's
+ *      tightness is just Storybook's default, so we stop fighting it).
+ *   3. Accent blue (#0d99ff) — selection line, the row-hover "…" context-menu
+ *      button, and active controls. The previous bright-orange artifacts are gone;
+ *      orange now lives only in the logo/brandImage identity.
+ *   4. Legible icons — sidebar item icons follow the label/text color; the
+ *      SELECTED item's icon takes the accent blue (it used to render white with
+ *      no contrast).
+ *   5. Clear separation — a hairline divides the nav from the canvas and the
+ *      addon panel so the three zones read as distinct.
+ */
+
+:root {
+  --composa-sb-accent: #0d99ff; /* Composa accent blue */
+  --composa-sb-ink: #111111;
+  --composa-sb-border: #e6e6e6;
+  --composa-sb-hover: #f0f0f0; /* neutral hover wash */
+  --composa-sb-radius: 2px; /* --composa-radius-small (kept from v2) */
+}
+
+/* ---- 1: reduced roundedness on the sidebar nav tree (kept from v2) ----
+   Density (row padding / line-height) is intentionally LEFT TO STORYBOOK's
+   defaults — v2's tight 4px overrides are removed so the tree breathes. */
+
+.sidebar-container [data-nodetype="component"] a,
+.sidebar-container [data-nodetype="group"] button,
+.sidebar-container [data-nodetype="root"] button,
+.sidebar-item {
+  border-radius: var(--composa-sb-radius) !important;
+}
+
+.sidebar-subheading {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/* ---- 3: accent blue — selected row gets a blue rail, not a flood ----
+   Storybook injects colorSecondary (blue) tinted backgrounds at high specificity:
+   an rgba(13,153,255,0.15) hover wash on non-selected rows and a solid blue on the
+   selected row. We force those to a NEUTRAL wash so blue lives ONLY in the rail +
+   icon (the founder's "precise marker, not a flood"). The [data-nodetype] targets
+   match the same elements Storybook's injected rules do, and !important beats
+   Storybook's non-important injected declarations regardless of specificity. */
+
+/* Neutral hover wash (no accent flood on hover) — leaf rows, group/root buttons,
+   and the injected [data-nodetype] link element. */
+.sidebar-item:hover,
+.sidebar-container a:hover,
+.sidebar-container button:hover,
+.sidebar-container [data-nodetype]:hover,
+.sidebar-container [data-nodetype]:not([data-selected="true"]):hover {
+  background: var(--composa-sb-hover) !important;
+  color: var(--composa-sb-ink) !important;
+}
+
+/* Selected leaf: subtle neutral fill, kept neutral even while hovered. */
+.sidebar-item[data-selected="true"],
+.sidebar-container a[data-selected="true"],
+.sidebar-container [data-nodetype][data-selected="true"],
+.sidebar-item[data-selected="true"]:hover,
+.sidebar-container [data-nodetype][data-selected="true"]:hover {
+  background: var(--composa-sb-hover) !important;
+  color: var(--composa-sb-ink) !important;
+  border-radius: 0 var(--composa-sb-radius) var(--composa-sb-radius) 0 !important;
+  font-weight: 600;
+  position: relative;
+}
+
+/* The 2px accent rail is an ABSOLUTE ::before pinned above the row content, NOT an
+   inset box-shadow — a child link's hover/selected background was painting over the
+   inset shadow, so the rail "disappeared" on hover. The pseudo-element sits at
+   z-index 2 and ignores pointer events, so nothing can cover it. */
+.sidebar-item[data-selected="true"]::before,
+.sidebar-container [data-nodetype][data-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--composa-sb-accent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ---- 4: legible sidebar icons ----
+   Default + hover: icon inherits the label/text ink so it reads against the
+   surface (Storybook otherwise leaves some leaf icons low-contrast). */
+.sidebar-item svg,
+.sidebar-container a svg,
+.sidebar-container button svg {
+  color: currentColor !important;
+  fill: currentColor !important;
+}
+
+/* Selected item's icon: accent blue (matching the selection rail). It used to
+   render white with no contrast against the neutral fill. */
+.sidebar-item[data-selected="true"] svg,
+.sidebar-container a[data-selected="true"] svg {
+  color: var(--composa-sb-accent) !important;
+  fill: var(--composa-sb-accent) !important;
+}
+
+/* Row-hover "…" context-menu button: accent-blue GLYPH only. The button surface
+   stays transparent and its hover/active resolves to the neutral wash — Storybook
+   otherwise paints a pale-blue (colorSecondary) box behind it that "peeps" at the
+   row's right edge. Blue is the glyph, never a background fill. */
+.sidebar-item button[aria-label],
+.sidebar-container [data-action="menu"],
+.sidebar-item .sidebar-item-actions button {
+  color: var(--composa-sb-accent) !important;
+  background: transparent !important;
+  /* Storybook paints a colorSecondary box-shadow GLOW (0 0 5px #0d99ff) on this
+     button — that blue halo is what "peeps" at the row's right edge. Kill it; the
+     blue stays the glyph only, and focus is handled by the neutral wash below. */
+  box-shadow: none !important;
+}
+.sidebar-item button[aria-label]:hover,
+.sidebar-item button[aria-label]:focus,
+.sidebar-item button[aria-label]:focus-visible,
+.sidebar-item button[aria-label][aria-expanded="true"],
+.sidebar-container [data-action="menu"]:hover,
+.sidebar-container [data-action="menu"]:focus,
+.sidebar-item .sidebar-item-actions button:hover,
+.sidebar-item .sidebar-item-actions button:focus {
+  background: var(--composa-sb-hover) !important; /* neutral, not blue */
+  box-shadow: none !important;
+}
+.sidebar-item button[aria-label] svg,
+.sidebar-container [data-action="menu"] svg {
+  color: var(--composa-sb-accent) !important;
+  fill: var(--composa-sb-accent) !important;
+}
+
+/* ---- 5: clear separation between nav / canvas / addon panel ---- */
+
+/* Hairline at the sidebar's trailing edge. */
+.sidebar-container {
+  border-right: 1px solid var(--composa-sb-border);
+}
+
+/* Addon panel: square the tab corners and hairline-separate from the canvas. */
+#storybook-panel-root,
+.sb-bar + div {
+  border-top: 1px solid var(--composa-sb-border);
+}
+
+/* Toolbar / panel tabs: sharper corners, accent only on the active tab. */
+button[role="tab"] {
+  border-radius: var(--composa-sb-radius) var(--composa-sb-radius) 0 0 !important;
+}

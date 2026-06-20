@@ -1,7 +1,7 @@
 import { ColorInputFamily, ComboInputFamily, InputFieldFamily, NumericInputFamily, NumericInputMultiFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/InputField",
+  title: "Composa UI/Components/Base/InputField",
   parameters: {
     docs: {
       description: {

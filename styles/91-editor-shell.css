@@ -1,0 +1,203 @@
+/* EditorShell template — four-region editor layout.
+ *
+ * Region order, left to right:
+ *   [ navigationRail ] [ navigator ] [ canvas ] [ inspector ]
+ *
+ * The rail, navigator, and inspector are fixed-width grid tracks so they never
+ * wrap to a new row at desktop/tablet widths. The canvas is the single
+ * minmax(min, 1fr) track, so it is the only region that shrinks responsively.
+ * There is deliberately no top toolbar row, no status bar, and no timeline. */
+
+.composa-editor-shell {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns:
+    var(--composa-editor-shell-rail-width)
+    var(--composa-editor-shell-navigator-width)
+    minmax(var(--composa-editor-shell-canvas-min-width), 1fr)
+    var(--composa-editor-shell-inspector-width);
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.composa-editor-shell-rail {
+  grid-column: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-editor-shell-navigator {
+  grid-column: 2;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+/* The canvas region is an OverlayHost: position relative so the floating
+ * toolbar (rendered through OverlayPortal) is positioned within the canvas. */
+.composa-editor-shell-canvas {
+  grid-column: 3;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--composa-color-fs-canvas-default-fill);
+}
+
+.composa-editor-shell-canvas-anchor {
+  position: absolute;
+  inset: 0;
+}
+
+.composa-editor-shell-canvas-content {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.composa-editor-shell-inspector {
+  grid-column: 4;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+/* ── Resizable side handles (role="separator") ─────────────────────────────────
+ * Opt-in via EditorShell `resizableSides`. Each handle is a thin vertical strip
+ * pinned to the boundary edge of its region (navigator → right edge, inspector →
+ * left edge). It carries a generous transparent hit area with a hairline that
+ * lights up on hover/focus, mirroring the navigator's horizontal split divider.
+ * The center canvas remains the single flexible track, so growing a side shrinks
+ * the canvas, never wraps the side tracks. */
+.composa-editor-shell-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--composa-navigator-divider-hit, 9px);
+  z-index: 2;
+  cursor: col-resize;
+  background: transparent;
+  border: 0;
+  touch-action: none;
+}
+
+.composa-editor-shell-resize.is-left {
+  right: calc(var(--composa-navigator-divider-hit, 9px) / -2);
+}
+
+.composa-editor-shell-resize.is-right {
+  left: calc(var(--composa-navigator-divider-hit, 9px) / -2);
+}
+
+.composa-editor-shell-resize::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: transparent;
+}
+
+.composa-editor-shell-resize:hover::after,
+.composa-editor-shell-resize:focus-visible::after {
+  background: var(--composa-color-accent);
+}
+
+.composa-editor-shell-resize:focus-visible {
+  outline: none;
+}
+
+/* Zero-height anchor inset from the canvas BOTTOM edge by the comfortable
+ * toolbar offset, full width so its center is the canvas horizontal center. The
+ * floating toolbar hangs ABOVE it (placement "top", align "center"), which lands
+ * it bottom-center with a comfortable gap (Figma/standard-editor convention). */
+.composa-editor-shell-canvas-toolbar-anchor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--composa-editor-shell-canvas-toolbar-offset);
+  height: 0;
+  pointer-events: none;
+}
+
+/* Floating canvas toolbar layer. Bottom-center placement now comes from the
+ * bottom anchor above plus the overlay geometry gap, so the layer itself adds no
+ * vertical margin (which would fight the computed `top`). */
+.composa-editor-shell-canvas-toolbar-layer {
+  margin: 0;
+}
+
+.composa-editor-shell-canvas-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-editor-shell-canvas-toolbar-gap);
+  padding: var(--composa-editor-shell-canvas-toolbar-padding);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-editor-shell-canvas-toolbar-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-100-canvas);
+}
+
+/* SlidesEditorTemplate present-mode toggle placeholder. */
+.composa-slides-editor-present-toggle {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-space-3);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text);
+  font-family: var(--composa-font-family);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+  cursor: pointer;
+}
+
+.composa-slides-editor-present-toggle:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-slides-editor-present-toggle.is-active {
+  border-color: var(--composa-color-bg-brand);
+  background: var(--composa-color-bg-brand);
+  color: var(--composa-color-text-on-brand);
+}
+
+/* Responsive: keep the side tracks fixed and let the canvas shrink. Below the
+ * tablet breakpoint the fixed tracks tighten slightly but still do not wrap. */
+@media (max-width: 900px) {
+  .composa-editor-shell {
+    grid-template-columns:
+      var(--composa-editor-shell-rail-width)
+      var(--composa-editor-shell-navigator-width)
+      minmax(280px, 1fr)
+      var(--composa-editor-shell-inspector-width);
+  }
+
+  /* Tighten the default (non-resizable) side tracks at narrow widths. When a side
+   * is resizable its inline width var wins, so these only apply to fixed sides. */
+  .composa-editor-shell:not(.is-resizable-left) {
+    --composa-editor-shell-navigator-width: 200px;
+  }
+
+  .composa-editor-shell:not(.is-resizable-right) {
+    --composa-editor-shell-inspector-width: 220px;
+  }
+}

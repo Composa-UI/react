@@ -135,11 +135,11 @@ requireSource("storybook", storybookPreview, '{ name: "dark", value: "#2c2c2c" }
 requireSource("storybook", storybookComponentStories, "React.createElement(Menu, {");
 requireSource("storybook", dialogStories, "export const Row = DialogRowFamily;");
 requireSource("storybook", dialogStories, "export const Structured = StructuredDialogFamily;");
-requireSource("storybook", verticalCellStories, 'title: "Composa UI/Base Components/VerticalCell"');
+requireSource("storybook", verticalCellStories, 'title: "Composa UI/Components/Base/VerticalCell"');
 requireSource("storybook", verticalCellStories, "export const Playground = ListCellContentFamily;");
-requireSource("storybook", headerStories, 'title: "Composa UI/Base Components/ListCell/Header"');
+requireSource("storybook", headerStories, 'title: "Composa UI/Components/Base/ListCell/Header"');
 requireSource("storybook", menuStories, "export const Heading = MenuHeadingFamily;");
-requireSource("storybook", labelStories, 'title: "Composa UI/Base Components/Label"');
+requireSource("storybook", labelStories, 'title: "Composa UI/Components/Base/Label"');
 
 for (const [family, actual] of Object.entries(counts)) {
   const expected = componentApi.componentFamilies[family]?.variantCount;

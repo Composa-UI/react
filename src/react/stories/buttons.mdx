@@ -1,0 +1,123 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as ButtonStories from "./button.stories.js";
+
+<Meta of={ButtonStories} />
+
+# Buttons
+
+The button family shares one variant vocabulary. This page covers `Button`, `IconButton`, `ToggleButton`, and `SplitButton`.
+
+**Capability:** Controllable. Every family member is a stateless control: pass `onClick` (and `pressed` / `onMenuClick` where relevant) and drive it from your model. The `state` prop only forces a visual state for docs.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+Button triggers an action. The `variant` carries intent: `primary` for the one main action, `secondary` for supporting actions, `destructive` for irreversible ones.
+
+<Canvas of={ButtonStories.Button} />
+
+**Do**
+
+- Use one `primary` button per view or dialog to mark the main action.
+- Write labels as a verb phrase ("Save changes", "Create team").
+- Use `destructive` / `secondary-destruct` for delete and remove.
+- Use `width="wide"` for stacked, equal-width buttons in dialogs and sidebars.
+
+**Don't**
+
+- Stack multiple `primary` buttons in one group.
+- Use a Button for inline navigation — use the `link` variant.
+- Write vague labels like "OK" or "Click here".
+- Rely on `state` to model real interactivity; it is a display override.
+
+### Choosing the right family member
+
+| Use instead | When |
+|---|---|
+| IconButton | The control is icon-only with no text label. |
+| ToggleButton | The control turns a setting on/off and stays pressed. |
+| SplitButton | One default action plus a menu of alternates. |
+| `link` variant | The action reads as inline navigation. |
+
+### IconButton
+
+A square box with a single centered glyph and no label slot. Pair related icon actions in a `ControlGroup`.
+
+<Canvas of={ButtonStories.IconButton} />
+
+### ToggleButton
+
+The icon-button family member with explicit on/off semantics, driven by `pressed`. **ON = blue icon on a pale-blue tint** — the recolored glyph is the signal that the toggle is active. A `dialog`-opener toggle shows the corner dot and is active only while its dialog is open.
+
+<Canvas of={ButtonStories.Toggle} />
+
+### SplitButton
+
+A container with two halves: an action button (icon + label) firing `onClick`, and a chevron menu button firing `onMenuClick`, separated by a 1px divider. While the menu is open both halves suppress their tooltip.
+
+<Canvas of={ButtonStories.SplitButton} />
+
+</DocTab>
+
+<DocTab label="Style">
+
+### Sizes & width
+
+Size and width are separate axes (Composa splits Figma's conflated "Size"):
+
+- **Size (height):** `small` 20px / `default` 24px / `large` 32px.
+- **Width:** `default` hugs content; `wide` fixes to 256px.
+- **IconButton / ToggleButton stay square** and have no `width` axis; their size scale (`small` 20 / `default` 24 / `large` 28) is a Composa addition (Figma's icon-button set is 24px-only).
+- **SplitButton** keeps both axes and defaults to `size="small"`.
+
+### Variants
+
+`primary`, `secondary` (default), `ghost`, `link`, `link-danger`, `destructive`, `secondary-destruct`, `inverse`, `success` — all sharing the same semantic tokens across the family.
+
+### Anatomy
+
+- **IconButton** is a square frame (24px medium) wrapping a 20px glyph slot. The glyph is a swappable Icon slot, not a baked asset.
+- **ToggleButton** active state is `bg-selected` (`#e5f4ff`) with the glyph recolored to selection-blue (`#0d99ff`). Hover-on lightens to `bg-selected-secondary` (`#f2f9ff`).
+- **SplitButton** is action half + 1px divider + chevron half; the menu half is named `${label} options` by default.
+
+**Brand divergence (deliberate, not a defect):** the `primary` fill is brand orange `#ff5c16`, not the Figma accent blue `#0d99ff` (formalized as the `composa.color.brand-default` primitive). Link text and the focus ring deliberately stay blue. The nine-value variant vocabulary is shared across the whole family, where Figma's icon-button set ships only Default and Secondary.
+
+The ToggleButton style is seeded from the Figma "Button icon toggle" frame (`2324:46776`, 20 variants across `State`, `Variant=Default/Highlighted`, `Disabled`, and the `On` axis), together with the founder rule "ToggleButton active = blue icon" and `styles/30-button-family.css`.
+
+</DocTab>
+
+<DocTab label="Code">
+
+### Props (Button)
+
+<Controls of={ButtonStories.Button} />
+
+### Import
+
+```jsx
+import { Button, IconButton, ToggleButton, SplitButton } from "@composa-ui/react";
+
+<ToggleButton
+  icon="lock"
+  label="Lock layer"
+  pressed={isLocked}
+  onClick={() => setLocked((v) => !v)}
+/>
+```
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+- **IconButton requires `label`.** It has no visible text, so `label` becomes both the `aria-label` and the `title`. An unlabeled icon button is inaccessible — the prop is required for that reason.
+- **ToggleButton announces state.** `pressed` sets `aria-pressed`, so assistive tech reports on/off. The blue glyph is a visible reinforcement, not the only signal.
+- **SplitButton exposes two controls.** The action half and the menu half are separately focusable and separately labelled; the menu half defaults to `${label} options` (`menuLabel`).
+- **Keyboard.** Every member is a native `<button>`: it is tab-focusable, `Enter` / `Space` activates it, and the focus ring stays the accent blue against every variant fill.
+- **Tooltips.** An IconButton's intrinsic tooltip portals into the nearest `OverlayHost`, so any stage that shows it must wrap content in an `OverlayHost`. A tooltip and the surface it opens never co-show.
+- **Don't rely on color alone.** `destructive` intent is carried by the label verb ("Delete…") and placement, not only the red fill.
+
+</DocTab>
+
+</DocTabs>

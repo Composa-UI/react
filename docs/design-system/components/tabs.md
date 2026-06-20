@@ -54,6 +54,7 @@ From `function Tabs({ ... })` in `src/react/factory.js` and the `Tabs` entry in 
 | `defaultValue` | `string` | none | Uncontrolled initial selected value. Falls back to the first tab marked `selected`, else the first tab. |
 | `onValueChange` | `(value, tab, index, event) => void` | none | Fires on tab change. |
 | `state` | `"default" \| "focused" \| "hover"` | `"default"` | Forces a visual state for docs and screenshots. Real interaction is browser-driven. Passed down to each `Tab`. |
+| `divider` | `boolean` | `true` | Full-width baseline rule below the tab row. Set `false` to remove it (e.g. inspector tabs, which per Figma carry no underline). Adds `.composa-tabs-no-divider`, which zeroes the container `border-bottom`. Independent of the underline variant's per-tab selected indicator. |
 | `label` | `string` | `"Tabs"` | Accessible name for the tablist. Set to `aria-label`. |
 | `className` | `string` | `""` | Extra classes, appended to the Composa classes. |
 
@@ -76,7 +77,7 @@ Notes on the API:
 Two structural divergences from the Figma source, both flagged in the controls fidelity audit. Neither is a defect:
 
 - **The `underline` variant has no Figma source.** Figma's `_Tab` atom is a pill: the selected indicator is a filled `bg-secondary` chip, with no underline atom in the set. Composa's pill variant matches Figma exactly; the underline variant is the Composa addition. The underline sits on the container baseline rule by design: `.composa-tabs-underline` bottom-aligns the tabs (`align-items: flex-end`) so each tab's `::after` bottom rule meets the container's 1px border instead of floating above it.
-- **The container carries a default 1px bottom border.** The standalone Figma `Tabs` wrapper (`2015:27780`) is a bare row of `_Tab` chips on a transparent background; the bottom rule appears only as a separate border element in the in-context usage frame. Composa hard-codes `border-bottom: 1px solid` on `.composa-tabs` as default chrome.
+- **The container carries a default 1px bottom border, but it is removable.** The standalone Figma `Tabs` wrapper (`2015:27780`) is a bare row of `_Tab` chips on a transparent background; the bottom rule appears only as a separate border element in the in-context usage frame. Composa sets `border-bottom: 1px solid` on `.composa-tabs` as default chrome and exposes `divider={false}` (`.composa-tabs-no-divider`) to remove it — required for inspector tabs, which per Figma have no underline.
 
 ## Sizes & width
 

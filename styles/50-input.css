@@ -1,4 +1,5 @@
 .composa-input-field {
+  position: relative;
   min-width: 0;
   gap: var(--composa-space-1);
 }
@@ -26,6 +27,18 @@
   color: var(--composa-color-icon-secondary);
   font: inherit;
   text-transform: uppercase;
+}
+
+.composa-input-axis-glyph {
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 16px;
+  color: var(--composa-color-text-secondary);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: var(--composa-font-weight-medium);
 }
 
 .composa-input-shell {
@@ -129,6 +142,45 @@
   color: var(--composa-color-text-secondary);
 }
 
+.composa-input-tooltip {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(100% + var(--composa-space-2));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 80ms ease, visibility 80ms ease;
+}
+
+.composa-input-tooltip.composa-tooltip-top-left,
+.composa-input-tooltip.composa-tooltip-bottom-left {
+  left: 0;
+  right: auto;
+  transform: none;
+}
+
+.composa-input-tooltip.composa-tooltip-top-right,
+.composa-input-tooltip.composa-tooltip-bottom-right {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.composa-input-tooltip.composa-tooltip-bottom,
+.composa-input-tooltip.composa-tooltip-bottom-left,
+.composa-input-tooltip.composa-tooltip-bottom-right {
+  top: calc(100% + var(--composa-space-2));
+  bottom: auto;
+}
+
+.composa-input-field:hover > .composa-input-tooltip,
+.composa-input-field:focus-within > .composa-input-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 .composa-input-suffix {
   color: var(--composa-color-text-secondary);
 }
@@ -158,7 +210,32 @@
   align-items: stretch;
   gap: 0;
   border-radius: var(--composa-radius-medium);
+  /* Clip the cells to the container so only the OUTER edges round — the field
+     reads as ONE rounded rectangle, matching ControlGroup. The first segment
+     (lead icon, or first value when no lead) keeps its rounded left corners; the
+     last value keeps its rounded right corners; the inner cell dividers stay
+     square. */
+  overflow: hidden;
   background: var(--composa-color-bg-secondary);
+}
+
+/* Outer-edge rounding for the segments. The lead-icon column is the first
+   segment when present; otherwise the first value cell is. The last value cell
+   always closes the right edge. Rounding the segments (not just the container)
+   keeps the shape correct even when a cell paints its own focus/disabled fill. */
+.composa-numeric-multi-lead {
+  border-top-left-radius: var(--composa-radius-medium);
+  border-bottom-left-radius: var(--composa-radius-medium);
+}
+
+.composa-numeric-multi[data-icon-lead="false"] .composa-numeric-multi-value:first-of-type {
+  border-top-left-radius: var(--composa-radius-medium);
+  border-bottom-left-radius: var(--composa-radius-medium);
+}
+
+.composa-numeric-multi-value.is-last {
+  border-top-right-radius: var(--composa-radius-medium);
+  border-bottom-right-radius: var(--composa-radius-medium);
 }
 
 .composa-numeric-multi[data-icon-lead="false"] {
@@ -227,4 +304,3 @@
   color: inherit;
   cursor: default;
 }
-

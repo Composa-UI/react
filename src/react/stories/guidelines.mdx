@@ -1,0 +1,68 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Guidelines" />
+
+# Guidelines
+
+Conventions that hold across the whole library. Read these once and the props
+stop surprising you.
+
+## Inputs take string values, not numbers
+
+Every numeric-looking control in Composa is **string-valued**. `NumericInput`,
+`NumericInputMulti`, the fields inside `PositionSection`, `AppearanceSection`,
+`LayoutSection`, and friends all take and emit strings — never raw `number`s.
+
+```jsx
+// ✅ Correct — strings, including any unit/suffix you want shown verbatim.
+<NumericInput label="Width" value="160" />
+<PositionSection x="160" y="72" rotation="0" />
+<AppearanceSection opacity="100%" cornerRadius="8" />
+
+// ❌ Wrong — a number is not the contract. It may render, but it is unsupported
+// and will not round-trip through the change handlers.
+<NumericInput label="Width" value={160} />
+```
+
+Why strings: these fields mirror Figma's inspector, where a value can be a
+number, a number with a unit (`100%`, `12px`), `Mixed` across a multi-selection,
+or an in-progress edit like `1.`. A `string` represents all of those; a `number`
+cannot. The component never parses or formats for you — **the app owns parsing
+and formatting**, and passes back the exact string it wants displayed.
+
+Change handlers hand you the raw string and the DOM event so you can parse on
+your side:
+
+```jsx
+<AppearanceSection
+  opacity={opacity}                              // e.g. "100%"
+  onOpacityChange={(value, event) => {           // value is the string "92%"
+    setOpacity(value);                           // you decide how/whether to parse
+  }}
+/>
+```
+
+A field that shows an editable value but is given **no** change handler renders
+read-only on purpose — an editable-looking control with no setter is a bug, so
+the component degrades to display-only rather than pretending to be editable.
+
+## Casing of token-style prop values is lowercase
+
+Enum-style string props (sizes, variants, states, alignments, blend modes keyed
+by token, etc.) use **lowercase** as the canonical spelling.
+
+```jsx
+// ✅ Canonical
+<Button size="medium" variant="primary" />
+<InputField size="large" state="rest" />
+
+// ⚠️ Accepted but legacy — title-case spellings (`"Medium"`, `"Primary"`,
+//    `"Rest"`) are normalized for backward compatibility, but new code should
+//    use the lowercase form. Do not rely on casing being significant.
+<Button size="Medium" variant="Primary" />
+```
+
+The library lowercases these internally (`propToken`), so `"Medium"` and
+`"medium"` resolve to the same thing today. Treat the title-case forms as
+deprecated aliases: prefer lowercase, and never mix casings to mean different
+states.

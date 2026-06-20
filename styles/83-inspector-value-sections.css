@@ -1,0 +1,614 @@
+.composa-section-row-actions {
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.composa-stroke-controls-section {
+  position: relative;
+  display: grid;
+  padding: 0 var(--composa-inspector-inset-end) var(--composa-inspector-section-padding-end) var(--composa-inspector-inset-start);
+}
+
+.composa-stroke-controls-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 90px) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--composa-inspector-value-row-gap);
+}
+
+.composa-stroke-control-field {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 16px var(--composa-control-height);
+  gap: var(--composa-space-1);
+}
+
+.composa-stroke-control-label {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-stroke-position-dropdown,
+.composa-stroke-weight-input {
+  width: 100%;
+}
+
+.composa-stroke-position-dropdown.composa-dropdown {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-stroke-control-field .composa-dropdown-root {
+  width: 100%;
+}
+
+.composa-stroke-weight-input .composa-input-shell {
+  gap: 0;
+}
+
+.composa-stroke-weight-input .composa-input-shell > .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-stroke-weight-input input {
+  min-width: 0;
+  padding-left: 0;
+}
+
+.composa-stroke-control-actions {
+  align-self: end;
+  gap: 0;
+}
+
+.composa-stroke-settings-action.is-selected,
+.composa-stroke-align-action.is-selected {
+  background: var(--composa-color-bg-selected);
+  color: var(--composa-color-border-selected);
+}
+
+.composa-stroke-settings-dialog {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  right: var(--composa-inspector-overlay-offset);
+  bottom: 0;
+  width: var(--composa-stroke-settings-dialog-width);
+  display: grid;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  color: var(--composa-color-text);
+}
+
+/* Edge-to-edge header divider; per-section horizontal inset (matches the
+ * color/typography/layout-guide inspector dialogs). */
+.composa-stroke-settings-header {
+  min-height: var(--composa-height-input);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2) var(--composa-inspector-dialog-inset);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-stroke-settings-row {
+  padding-inline: var(--composa-inspector-dialog-inset);
+}
+
+.composa-stroke-settings-row:first-of-type {
+  padding-top: var(--composa-space-2-5);
+}
+
+.composa-stroke-settings-dialog > .composa-stroke-settings-row:last-child,
+.composa-stroke-settings-dialog > div:last-child > .composa-stroke-settings-row:last-child {
+  padding-bottom: var(--composa-space-2-5);
+}
+
+.composa-stroke-settings-title {
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-stroke-settings-tabs.composa-segmented-control.composa-segmented-label {
+  width: 100%;
+}
+
+.composa-stroke-align-menu {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  top: calc(100% + var(--composa-inspector-overlay-offset));
+  right: var(--composa-inspector-inset-end);
+  width: var(--composa-stroke-align-menu-width);
+  display: grid;
+  padding: var(--composa-space-2) var(--composa-space-1);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}
+
+.composa-stroke-settings-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding-block: var(--composa-space-1);
+}
+
+.composa-stroke-settings-label {
+  min-width: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-stroke-settings-field {
+  width: 100%;
+}
+
+.composa-stroke-settings-field.composa-dropdown,
+.composa-stroke-settings-field .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-stroke-style-menu {
+  z-index: calc(var(--composa-inspector-overlay-z) + 1);
+  width: var(--composa-stroke-align-menu-width);
+  overflow: hidden;
+  border: 0;
+}
+
+.composa-stroke-settings-profile-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: var(--composa-space-2);
+}
+
+.composa-stroke-settings-profile-field .composa-dropdown-leading-icon {
+  width: 72px;
+  max-width: 72px;
+}
+
+.composa-stroke-settings-join.composa-segmented-control {
+  width: 100%;
+}
+
+.composa-section-value-button {
+  width: var(--composa-section-value-width, auto);
+  height: 24px;
+  min-width: 24px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  overflow: hidden;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-section-value-button.no-icon {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.composa-section-value-button.has-icon {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.composa-section-value-button:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-section-value-button:disabled {
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-section-value-button:disabled .composa-section-value-icon,
+.composa-section-value-button:disabled .composa-section-value-chevron {
+  color: var(--composa-color-icon-secondary);
+  opacity: 0.55;
+}
+
+.composa-section-value-icon,
+.composa-section-value-chevron {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-section-value-text {
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-selection-color-row {
+  min-height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: var(--composa-inspector-value-row-gap);
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+}
+
+.composa-selection-color-button {
+  width: 156px;
+  max-width: 100%;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--composa-radius-medium);
+  color: var(--composa-color-text);
+}
+
+.composa-selection-color-button:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-selection-color-swatch-frame {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.composa-selection-color-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-small);
+}
+
+.composa-selection-color-label {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-selection-color-row-actions {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.composa-selection-color-row:hover .composa-selection-color-row-actions,
+.composa-selection-color-row:focus-within .composa-selection-color-row-actions {
+  opacity: 1;
+  visibility: visible;
+}
+
+.composa-selection-color-summary {
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: default;
+  font: inherit;
+}
+
+.composa-selection-color-summary-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--composa-color-border-translucent);
+  border-radius: var(--composa-radius-small);
+  box-sizing: border-box;
+}
+
+.composa-selection-color-summary-overflow {
+  min-width: 18px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-bg-secondary);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-layout-guide-row {
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--composa-inspector-value-row-gap);
+  padding: var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+}
+
+.composa-layout-guide-control {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-layout-guide-glyph {
+  width: 16px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-layout-guide-value {
+  width: 100%;
+}
+
+.composa-layout-guide-row-actions {
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.composa-effects-row {
+  min-height: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--composa-inspector-value-row-gap);
+  padding: var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+}
+
+.composa-effect-control {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-effect-row-actions {
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.composa-effect-type-action.is-selected {
+  background: var(--composa-color-bg-selected);
+  color: var(--composa-color-border-selected);
+}
+
+.composa-effect-value-button {
+  min-width: 0;
+  width: 100%;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--composa-menu-icon-size);
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-radius-medium);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-effect-value-button:hover {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-effect-value-text {
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-effect-value-chevron {
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-export-row-wrap {
+  position: relative;
+}
+
+.composa-export-row {
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: 117px 117px auto;
+  align-items: center;
+  gap: var(--composa-inspector-value-row-gap);
+  padding: var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+}
+
+.composa-paint-section-export {
+  container-type: inline-size;
+}
+
+@container (max-width: 260px) {
+  .composa-export-row {
+    grid-template-columns: 72px 80px auto;
+  }
+}
+
+.composa-export-row .composa-export-scale,
+.composa-export-row .composa-export-format,
+.composa-export-row .composa-dropdown-root {
+  width: 100%;
+}
+
+.composa-export-format.composa-dropdown {
+  height: 24px;
+  justify-content: space-between;
+  background: transparent;
+}
+
+.composa-export-settings-dialog {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  right: calc(100% + var(--composa-inspector-overlay-offset));
+  bottom: 0;
+  width: var(--composa-export-settings-dialog-width);
+  display: grid;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  color: var(--composa-color-text);
+}
+
+/* Edge-to-edge header divider; per-section horizontal inset (house style shared
+ * with the color/typography/layout-guide/stroke inspector dialogs). */
+.composa-export-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  min-height: var(--composa-control-size-icon);
+  padding: var(--composa-space-2) var(--composa-inspector-dialog-inset);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-export-settings-title {
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+/* Body sections: each owns the horizontal inset and block rhythm; the options
+ * section is divided from the fields by an edge-to-edge hairline. */
+.composa-export-settings-section {
+  display: grid;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset);
+}
+
+.composa-export-settings-options {
+  gap: var(--composa-space-2);
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.composa-export-settings-row {
+  min-height: var(--composa-control-height);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  align-items: center;
+  gap: var(--composa-space-2);
+}
+
+.composa-export-settings-label {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-export-settings-field.composa-dropdown,
+.composa-export-settings-field .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-export-settings-headline {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-export-settings-checkbox {
+  width: 100%;
+  align-items: center;
+  color: var(--composa-color-text);
+}
+
+.composa-export-action-row {
+  padding: 0 var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+}
+
+.composa-export-action-button {
+  width: 100%;
+}
+
+.composa-export-preview-row {
+  width: 100%;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+  border: 0;
+  background: transparent;
+  color: var(--composa-color-text-secondary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.composa-export-preview-row:hover,
+.composa-export-preview-row:focus-visible {
+  color: var(--composa-color-text);
+}
+
+.composa-export-preview-icon {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-export-preview-label {
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-export-preview-panel {
+  padding: 0 var(--composa-inspector-inset-end) var(--composa-space-2-5) var(--composa-inspector-inset-start);
+}
+
+/* 1x preview surface over the standard transparency checkerboard. */
+.composa-export-preview-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--composa-radius-medium);
+  background:
+    conic-gradient(#0000000d 90deg, #0000 90deg 180deg, #0000000d 180deg 270deg, #0000 270deg) 0 0 / 12px 12px;
+  box-shadow: inset 0 0 0 1px var(--composa-color-border);
+}

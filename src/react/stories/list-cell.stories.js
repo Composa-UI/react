@@ -1,7 +1,7 @@
 import { ListCellFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/ListCell",
+  title: "Composa UI/Components/Base/ListCell",
   parameters: {
     docs: {
       description: {

@@ -1,10 +1,10 @@
 # Dropdown
 
-Dropdown is a closed select trigger. It shows the current value and a chevron, and opens a menu when activated.
+Dropdown is a closed select trigger. It shows the current value and a chevron. For simple value lists it can also own the anchored menu and selected value.
 
 ## Overview
 
-Use Dropdown to pick one value from a list that is too long for a SegmentedControl or a row of radios. It is styled as an input, not a button: a white surface with a 1px border, a value on the left, and a chevron on the right. It pairs with a Menu for the open list.
+Use Dropdown to pick one value from a list that is too long for a SegmentedControl or a row of radios. It is styled as an input, not a button: a white surface with a 1px border, a value on the left, and a chevron on the right. Pass `options` for simple one-value menus; use a custom Menu only when the open surface needs search, grouped commands, or custom rows.
 
 Reach for a sibling instead when the shape does not fit:
 
@@ -33,13 +33,17 @@ The Figma set carries 16 variants across `Size=Default/Large`, `State=Default/Fo
 
 ## Anatomy
 
-Dropdown renders a native `<button>` with `aria-haspopup="menu"`, holding up to three children in order:
+Dropdown renders a native `<button>` with `aria-haspopup="menu"`, holding up to three named slots in order:
 
 1. **Leading icon** (optional). Rendered only when both `icon` and `iconLead` are set. Sits left of the value.
 2. **Value** (required). The current selection, in a `<span>`. Truncates with an ellipsis when space is tight.
-3. **Chevron** (always). A trailing `chevronDown` glyph, pushed right by `justify-content: space-between`.
+3. **Chevron** (always). A trailing `chevronDown` glyph in a fixed icon slot. The chevron hugs the right edge: the value↔chevron gap and the right padding are both `space-1` (4px), matching NumericInput's dropdown-variant chevron placement. The left padding stays `space-2` (8px) for the value.
 
-Container: full-width, 1px border, 5px radius, white surface, 8px horizontal padding, 8px gap. Minimum height is the input height (24px), so the surface reads as an input field.
+The trigger keeps a minimum "preview" width (`--composa-dropdown-min-width`) so a short value still presents a trigger wide enough that its left-anchored menu is not clipped or cut off.
+
+When `options` are passed, Dropdown wraps the trigger in a small local root and renders a dark `DropdownMenu` below or above the trigger. Inside an `OverlayHost`, the menu renders through `OverlayPortal` so it can escape rail scroll clipping. Without an overlay host, it falls back to local positioning.
+
+This built-in menu is intentionally simple: it supports direct single-value menus, outside click dismissal, and value updates. It does not yet provide full keyboard navigation, typeahead, or app-level collision routing.
 
 ## Props
 
@@ -48,13 +52,17 @@ From `function Dropdown({ ... })` in `src/react/factory.js` and the `Dropdown` e
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `value` | `string` | none | The current value text shown in the trigger. |
+| `defaultValue` | `string` | first option | Uncontrolled starting value for option menus. |
+| `options` | `(string \| { label, value?, shortcut?, disabled? })[]` | none | Enables the built-in one-value menu. |
 | `label` | `string` | none | Accessible name for the trigger. Set to `aria-label`. |
 | `size` | `"default" \| "large"` | `"default"` | Height axis. `large` sets a 32px minimum height. |
 | `icon` | `IconName` | none | Leading icon name. Only renders when `iconLead` is set. |
 | `iconLead` | `boolean` | `false` | Toggles the leading icon. Both `icon` and `iconLead` must be set for the icon to render. |
 | `stroke` | `boolean` | `true` | Draws the 1px border. `false` adds `.is-borderless` (transparent border). |
 | `open` | `boolean` | none | Controlled open state. When set, the component does not manage its own open state. |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled starting open state when using `options`. |
 | `onOpenChange` | `(open, event) => void` | none | Fires when the open state would change. |
+| `onValueChange` | `(value, option, event) => void` | none | Fires when an option row is selected. |
 | `onClick` | `(event) => void` | none | Fires on click, after the open toggle. |
 | `state` | `"default" \| "focused" \| "active"` | `"default"` | Forces a visual state. Overridden to `active` while open. Real interaction is browser-driven. |
 | `disabled` | `boolean` | `false` | Disables the trigger. Sets the native `disabled` attribute. |
@@ -66,9 +74,32 @@ Any other prop spreads onto the root `<button>` (for example `id`, `aria-*`).
 Notes on the API:
 
 - Open state is uncontrolled by default. Pass `open` + `onOpenChange` to control it. While open, the resolved state is forced to `active` and `aria-expanded` is `"true"`.
+- The built-in menu is for simple single-value lists only. Rich menu surfaces should still compose `Menu` / `MenuRow` explicitly.
 - `disabled` short-circuits the click handler, so neither the open toggle nor `onClick` fires.
 - `children` overrides the composed content. Passing `children` bypasses `icon`, `value`, and the chevron.
 - The icon renders only when both `icon` and `iconLead` are truthy; either alone hides it.
+
+## Option Menu Contract
+
+Use `options` when the menu is a plain single-value list. Current inspector examples:
+
+| Context | Options |
+| --- | --- |
+| Canvas zoom presets | `50%`, `100%`, `200%`, plus command rows where needed |
+| Export format | `PNG`, `SVG`, `JPEG`, `PDF` |
+| Stroke position | `Inside`, `Center`, `Outside` |
+| Stroke style | `Solid`, `Dashed` |
+
+Dropdown-owned option menus must:
+
+- keep the trigger value and chevron vertically centered;
+- keep value text unselected while the menu is open;
+- avoid a filled active background unless the dropdown variant explicitly calls for it;
+- render through `OverlayPortal` when used in a scrollable inspector;
+- choose a menu width from content or tokenized menu width, not the full overlay host;
+- call `onValueChange` with the selected value and close the menu after selection.
+
+If a menu needs grouped commands, checkmark-plus-leading-icon rows, shortcuts, dividers, or custom content, compose `Menu` and `MenuRow` rather than overloading Dropdown options.
 
 ## Variants
 
@@ -90,7 +121,7 @@ Dropdown is styled as an **input**, not a button. This is the key divergence the
 | `default` | 24px (`--composa-height-input`) |
 | `large` | 32px |
 
-**Width.** Dropdown has no `width` prop. It is `width: 100%` and fills its container, so width is controlled by the parent layout. Use a wrapping cell or grid column to constrain it.
+**Width.** `width="auto"` hugs content. `width="fill"` stretches the trigger and option-menu root to the available width.
 
 ## States
 
@@ -121,6 +152,7 @@ Grounded in the Figma Dropdown set (`2028:36589`) and the controls fidelity audi
 
 - Use Dropdown when the option list is too long for a SegmentedControl or radio group.
 - Show the current value as the trigger text.
+- Pass `options` for simple value menus such as export format, stroke position, and stroke style.
 - Use `stroke={false}` for borderless dropdowns embedded in property rows.
 - Use `size="large"` to match a 32px input row.
 - Provide a `label` so the trigger has an accessible name.

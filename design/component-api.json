@@ -81,7 +81,8 @@
         "size": [
           "small",
           "default",
-          "large"
+          "large",
+          "xlarge"
         ],
         "width": [
           "auto",
@@ -602,6 +603,196 @@
         "children": "ReactNode"
       }
     },
+    "OverlayLayer": {
+      "source": "src/react/factory.js",
+      "role": "shared placement wrapper for transient surfaces such as tooltips, dropdown menus, and inspector dialogs",
+      "props": {
+        "open": "boolean",
+        "placement": [
+          "below-trigger",
+          "left-of-inspector",
+          "inspector-dialog",
+          "tooltip"
+        ],
+        "align": [
+          "start",
+          "center",
+          "end"
+        ],
+        "followAnchor": "boolean",
+        "children": "ReactNode"
+      }
+    },
+    "OverlayHost": {
+      "source": "src/react/factory.js",
+      "role": "overflow-safe coordinate space for portaled tooltips, menus, and inspector dialogs",
+      "props": {
+        "children": "ReactNode",
+        "className": "string"
+      }
+    },
+    "OverlayPortal": {
+      "source": "src/react/factory.js",
+      "role": "measures an anchor and renders an OverlayLayer into the nearest OverlayHost",
+      "props": {
+        "open": "boolean",
+        "anchorRef": "ReactRef",
+        "placement": [
+          "below-trigger",
+          "bottom-left",
+          "bottom-right",
+          "top",
+          "top-left",
+          "top-right",
+          "left",
+          "right",
+          "left-of-inspector",
+          "inspector-dialog"
+        ],
+        "align": [
+          "start",
+          "center",
+          "end"
+        ],
+        "children": "ReactNode"
+      }
+    },
+    "ComposaAppIcon": {
+      "source": "src/react/factory.js",
+      "role": "small replaceable app mark for app-level navigation rails",
+      "props": {
+        "label": "string",
+        "initials": "string"
+      }
+    },
+    "NavigationRailItem": {
+      "source": "src/react/factory.js",
+      "role": "toggle-like vertical icon and label destination for app navigation rails",
+      "props": {
+        "value": "string",
+        "label": "string",
+        "icon": "IconName | ReactNode",
+        "selected": "boolean",
+        "disabled": "boolean"
+      }
+    },
+    "AppNavigationRail": {
+      "source": "src/react/factory.js",
+      "role": "compact app-level navigation module with app mark and vertical destination items",
+      "props": {
+        "appIcon": "ReactNode",
+        "appLabel": "string",
+        "items": "NavigationRailItem[]",
+        "value": "string",
+        "defaultValue": "string",
+        "onValueChange": "function",
+        "onAppClick": "function",
+        "label": "string"
+      }
+    },
+    "NavigatorHeader": {
+      "source": "src/react/factory.js",
+      "role": "file-title header shared by the editor and slides navigators; bold title with disclosure over a subdued project name and a trailing sidebar-toggle action",
+      "figma": [
+        "UI3 Sidebar left/Header",
+        "node 1027347:6460"
+      ],
+      "props": {
+        "title": "ReactNode",
+        "project": "ReactNode",
+        "onTitleClick": "function",
+        "titleMenu": "boolean",
+        "trailing": "ReactNode",
+        "onToggle": "function",
+        "toggleLabel": "string",
+        "toggleIcon": "IconName | ReactNode",
+        "label": "string"
+      }
+    },
+    "CollapseHeader": {
+      "source": "src/react/factory.js",
+      "role": "collapsible section header (disclosure chevron + label + trailing action) for navigator page/layer lists",
+      "figma": [
+        "UI3 Collapse.Header",
+        "node 1027347:6486"
+      ],
+      "props": {
+        "label": "ReactNode",
+        "expanded": "boolean",
+        "defaultExpanded": "boolean",
+        "onToggle": "function",
+        "disclosure": "boolean",
+        "trailing": "ReactNode"
+      }
+    },
+    "SlideThumb": {
+      "source": "src/react/factory.js",
+      "role": "numbered slide preview row with an index gutter and a 16:9 thumbnail surface; the new primitive the slides navigator needs because Tree cannot express a preview",
+      "figma": [
+        "UI3 Button - Slide",
+        "node 98:179"
+      ],
+      "props": {
+        "index": "number",
+        "label": "string",
+        "thumbnail": "IconName | ReactNode | string",
+        "selected": "boolean"
+      }
+    },
+    "SlideList": {
+      "source": "src/react/factory.js",
+      "role": "vertical stack of SlideThumb rows with controlled/uncontrolled selection; reusable as a slide or clip strip",
+      "props": {
+        "items": "SlideListItem[]",
+        "selectedId": "string | number",
+        "defaultSelectedId": "string | number",
+        "onSelect": "function",
+        "label": "string"
+      }
+    },
+    "EditorNavigator": {
+      "source": "src/react/factory.js",
+      "role": "design-editor left sidebar: header over a draggable split of a flat page Tree and a nested layer Tree",
+      "figma": [
+        "UI3 design.sidebar.left",
+        "node 1027347:6458"
+      ],
+      "props": {
+        "title": "ReactNode",
+        "project": "ReactNode",
+        "pages": "TreeItem[]",
+        "selectedPageId": "string",
+        "onPageSelect": "function",
+        "onPageAdd": "function",
+        "layers": "TreeItem[]",
+        "selectedLayerId": "string",
+        "onLayerSelect": "function",
+        "pageHeight": "number",
+        "defaultPageHeight": "number",
+        "onPageHeightChange": "function",
+        "minPageHeight": "number",
+        "maxPageHeight": "number"
+      }
+    },
+    "SlidesNavigator": {
+      "source": "src/react/factory.js",
+      "role": "slides bar: header, a create toolbar, and a vertical SlideList of numbered thumbnails; self-contained for reuse in a future video editor",
+      "figma": [
+        "UI3 Figma to Video slides bar",
+        "node 98:12"
+      ],
+      "props": {
+        "title": "ReactNode",
+        "project": "ReactNode",
+        "showHeader": "boolean",
+        "slides": "SlideListItem[]",
+        "selectedSlideId": "string | number",
+        "onSlideSelect": "function",
+        "onNewSlide": "function",
+        "onAddSlide": "function",
+        "newSlideLabel": "string"
+      }
+    },
     "VerticalCell": {
       "source": "src/react/factory.js",
       "role": "generic vertical stack for swappable content inside ListCell content slots",
@@ -618,8 +809,12 @@
     },
     "TextPair": {
       "source": "src/react/factory.js",
-      "role": "small vertical title/detail stack commonly used inside ListCell content slots",
+      "role": "three-slot vertical text stack (content/body/metadata) mapping to body-large/medium/small; metadata can sit above or below the body; commonly used inside ListCell content slots",
       "props": {
+        "content": "ReactNode",
+        "body": "ReactNode",
+        "metadata": "ReactNode",
+        "metadataPlacement": ["top", "bottom"],
         "title": "ReactNode",
         "description": "ReactNode",
         "titleAs": "IntrinsicElement"
@@ -661,6 +856,168 @@
           "mixed-icons"
         ],
         "label": "string"
+      }
+    },
+    "EditorToolbar": {
+      "source": "src/react/factory.js",
+      "role": "floating canvas creation toolbar; presentational + controlled tool selector that drops into EditorShell canvasToolbar slot. Four groups (Figma 86-5602): Move/Hand and Rectangle/Circle are SplitButton groups whose carets open tool-picker menus through OverlayPortal; Frame (Grid 3x3 glyph) and Text are caret-less single icon buttons. While a group's menu is open it suppresses its tooltip (no tooltip+menu co-show). Owns no canvas engine, selection, or document model.",
+      "props": {
+        "activeTool": "string",
+        "defaultActiveTool": "string",
+        "onToolChange": "function",
+        "label": "string"
+      }
+    },
+    "EditorShell": {
+      "source": "src/react/factory.js",
+      "role": "purely presentational four-region editor layout template (navigationRail, navigator, canvas, inspector) with a floating canvas toolbar slot rendered through OverlayPortal; owns layout and responsive behavior only, never selection or a document model",
+      "props": {
+        "navigationRail": "ReactNode",
+        "navigator": "ReactNode",
+        "canvas": "ReactNode",
+        "inspector": "ReactNode",
+        "canvasToolbar": "ReactNode",
+        "canvasToolbarPlacement": [
+          "top",
+          "bottom",
+          "top-left",
+          "top-right",
+          "bottom-left",
+          "bottom-right"
+        ],
+        "canvasToolbarAlign": [
+          "start",
+          "center",
+          "end"
+        ],
+        "label": "string"
+      }
+    },
+    "SlidesEditorTemplate": {
+      "source": "src/react/factory.js",
+      "role": "thin slides-oriented preset of EditorShell that supplies slides defaults and a present-mode toggle placeholder; owns no document model",
+      "props": {
+        "navigationRail": "ReactNode",
+        "navigator": "ReactNode",
+        "canvas": "ReactNode",
+        "inspector": "ReactNode",
+        "canvasToolbar": "ReactNode",
+        "presentMode": "boolean",
+        "label": "string"
+      }
+    },
+    "CommentComposer": {
+      "source": "src/react/factory.js",
+      "role": "reusable, controlled composer / chat input (Figma comment.compose.input 2012-63721); optional leading avatar, a growing text field, a trailing/footer action cluster (emoji/mention/attach by default, fully overridable), an optional mode/scope slot, an attachments tray, and a submit affordance. Card layout is the standalone composer + AI side-chat input; inline layout is the thread reply pill. Enter submits, Shift+Enter newlines.",
+      "props": {
+        "value": "string",
+        "placeholder": "string",
+        "layout": ["card", "inline"],
+        "avatar": "AvatarProps | ReactElement",
+        "actions": "CommentComposerAction[] | ReactElement[]",
+        "mode": "ReactNode",
+        "attachments": "CommentComposerAttachment[] | ReactElement[]",
+        "submitIcon": "IconSlot | string",
+        "submitLabel": "string",
+        "submitDisabled": "boolean",
+        "autoSubmitEmpty": "boolean",
+        "disabled": "boolean",
+        "rows": "number",
+        "onChange": "ChangeEventHandler",
+        "onSubmit": "(value, event) => void",
+        "onAttachmentRemove": "(attachment, index) => void"
+      }
+    },
+    "CommentItem": {
+      "source": "src/react/factory.js",
+      "role": "one thread row (Figma _comment.window.row 2012-63679): avatar in the gutter, an author/timestamp header line, a body, and an optional reactions/reply footer slot",
+      "props": {
+        "author": "string",
+        "timestamp": "ReactNode",
+        "body": "ReactNode",
+        "avatar": "AvatarProps | ReactElement",
+        "footer": "ReactNode"
+      }
+    },
+    "CommentThreadWindow": {
+      "source": "src/react/factory.js",
+      "role": "floating comment surface (Figma comment.thread.window 2012-63732): a titlebar (title + more/resolve/close actions), a scrollable list of CommentItems, and a CommentComposer pinned at the bottom; supports an empty state",
+      "props": {
+        "title": "ReactNode",
+        "comments": "CommentItemProps[] | ReactElement[]",
+        "actions": "CommentComposerAction[] | ReactElement[]",
+        "composer": "CommentComposerProps | ReactElement",
+        "emptyState": "ReactNode",
+        "onResolve": "MouseEventHandler",
+        "onMore": "MouseEventHandler",
+        "onClose": "MouseEventHandler"
+      }
+    },
+    "Badge": {
+      "source": "src/react/factory.js",
+      "role": "count / dot / label indicator (Figma Badges page 2012-32973: Badge small 2012-35027, Badge small alt count badges 2012-35077, Badge Dot 2012-35086, Badge large 2012-35016). dot=bare status dot, count=number badge (max clamps to {max}+), label/children=status pill. tone picks the color family; strong switches subtle->filled; overlay corner-positions it onto a host",
+      "props": {
+        "label": "ReactNode",
+        "count": "number | string",
+        "dot": "boolean",
+        "tone": "default | brand | figjam | component | danger | warning | success | merged | archived | invert | selected | feedback | menu",
+        "strong": "boolean",
+        "size": "small | large",
+        "icon": "ReactNode | string",
+        "max": "number",
+        "overlay": "boolean",
+        "overlayPlacement": "top-end | top-start | bottom-end | bottom-start"
+      }
+    },
+    "BadgeAnchor": {
+      "source": "src/react/factory.js",
+      "role": "corner-positions a host control and an overlay Badge in one box; this is how Badge composes onto an IconButton/Avatar/nav item. badge accepts Badge props, a number (count), true (dot), or a Badge element",
+      "props": {
+        "children": "ReactNode",
+        "badge": "BadgeProps | number | string | boolean | ReactElement",
+        "placement": "top-end | top-start | bottom-end | bottom-start"
+      }
+    },
+    "NotificationBell": {
+      "source": "src/react/factory.js",
+      "role": "the bell icon-button with an unread indicator (Figma icon.24.notification.bell.badged.small). Reuses IconButton + Badge via BadgeAnchor: count>0 shows a count badge, otherwise dot shows the bare unread dot",
+      "props": {
+        "icon": "ReactNode | string",
+        "label": "string",
+        "count": "number | string",
+        "dot": "boolean",
+        "max": "number",
+        "badgeTone": "BadgeTone",
+        "size": "small | medium | large",
+        "placement": "top-end | top-start | bottom-end | bottom-start",
+        "onClick": "MouseEventHandler"
+      }
+    },
+    "Notification": {
+      "source": "src/react/factory.js",
+      "role": "the dark HUD toast/list-row (Figma Notifications 2028-111255: Single/Multi x 1-or-2 buttons): a leading icon/avatar, a truncating message (1-2 lines), and a hairline-separated trailing column of 1-2 stacked CTAs (the second is conventionally Dismiss)",
+      "props": {
+        "message": "ReactNode",
+        "icon": "ReactNode | string",
+        "avatar": "AvatarProps | ReactElement",
+        "actions": "NotificationAction[] | ReactElement[]",
+        "onAction": "MouseEventHandler",
+        "onDismiss": "MouseEventHandler",
+        "multiline": "boolean",
+        "tone": "default | danger"
+      }
+    },
+    "VisualBell": {
+      "source": "src/react/factory.js",
+      "role": "Figma's in-app toast/snackbar pill (Figma Visual Bells page 2015-40421, Bell 2015-42989: Default / Message / Message w Dismiss / Danger): an optional leading icon/spinner, a strong message, an optional secondary count, an optional rail of bordered action buttons, and an optional dismiss (X) behind a hairline",
+      "props": {
+        "message": "ReactNode",
+        "icon": "ReactNode | string",
+        "loading": "boolean",
+        "count": "ReactNode",
+        "actions": "VisualBellAction[] | ReactElement[]",
+        "onDismiss": "MouseEventHandler",
+        "tone": "default | danger"
       }
     }
   },

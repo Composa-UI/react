@@ -1,0 +1,37 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as LiveBindingStories from "./live-binding.stories.js";
+
+<Meta of={LiveBindingStories} />
+
+# Live binding
+
+Every other story uses `fn()` stubs and sample data. That shows you the **layout** of a component, but never the part that actually takes an afternoon: **two-way binding** a Composa surface to your own data model. This page shows that loop end to end, so a consumer is oriented in minutes.
+
+## The loop
+
+```
+selection  →  value IN  →  onChange OUT  →  model mutation  →  re-render
+```
+
+1. **Selection / model.** You own a model — here, one selected layer object. In an app this is your store, reducer, or document model.
+2. **value IN.** A *controllable* component reads its display values straight from that model (`position`, `alignment`, `rotation`).
+3. **onChange OUT.** The component calls `onPositionChange` / `onAlignmentChange` / `onRotationChange` when the user edits.
+4. **model mutation.** Your handler writes the model.
+5. **re-render.** The new model flows back in as `value IN`, so the component always reflects the model — not any private internal state.
+
+<Canvas of={LiveBindingStories.SelectionToModel} />
+
+Edit X / Y or the alignment in the rail on the left and watch the JSON model on the right change. That round-trip is the proof the section is genuinely two-way bound. The full wiring lives in `src/react/stories/live-binding.stories.js`.
+
+## Controllable vs presentational
+
+Before you wire anything, check the component's **Capability** field on its docs page. It tells you whether the surface can drive a live model at all:
+
+| Capability | Means | Examples |
+|---|---|---|
+| **Controllable** | Exposes `value` / `on…Change`. The real editing path. | `PositionSection`, `LayoutSection`, `AppearanceSection`, `StrokeSection`, `Dropdown`, `SegmentedControl`, `ColorPickerDialog`. |
+| **Presentational** | Internal state and/or hardcoded sample data. A Storybook layout preset, not a binding seam. | `EditingInspector`. |
+
+This distinction is load-bearing. `EditingInspector` looks like the north-star inspector, but it is a **preset**: it keeps its own `useState`, ships hardcoded sample selection colors, and exposes no general `value` / `onChange`. Wiring an app to it is a dead end. The live editing path is the **section primitives** (`PositionSection`, `LayoutSection`, `AppearanceSection`, …), composed yourself — exactly as wired above. Treat `EditingInspector` as a reference composition to read, not a surface to bind.
+
+See `docs/design-system/doc-architecture.md` for how the Capability label is defined and where it appears on every page.

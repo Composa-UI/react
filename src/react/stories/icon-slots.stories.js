@@ -26,7 +26,7 @@ function PlusIcon(props) {
 }
 
 // Recommended content-icon pattern: a Material Symbols glyph (rounded, the same
-// family as the built-in structural glyphs, weight 300). Material Symbols are
+// family as the built-in structural glyphs). Material Symbols are
 // FILLED and use viewBox="0 -960 960 960"; in a slot it inherits the 16px box and color.
 // This `home` path is Material Symbols rounded, weight 300 (Apache-2.0).
 function MaterialHomeIcon(props) {
@@ -68,7 +68,7 @@ export default {
     docs: {
       description: {
         component:
-          "Components accept icons as slots. Pass a component type or a rendered node from any icon library. The built-in structural glyphs (chevrons, check, close, etc.) are Material Symbols (rounded, weight 300), embedded as paths so there is no runtime font dependency. For content icons we recommend Material Symbols as the default set for visual consistency — render a Material Symbols glyph (e.g. an <svg> from @material-symbols/svg-300 with viewBox=\"0 -960 960 960\" and fill=\"currentColor\") and pass it into the icon slot. String names are supported for backward compatibility and resolve to a built-in structural glyph or the injected renderer.",
+          "Components accept icons as slots. Pass a component type or a rendered node from any icon library. The built-in structural glyphs (chevrons, check, close, etc.) are Material Symbols embedded as fallback paths. For content icons we recommend the self-hosted @composa-ui/icons Material Symbols runtime so fill, weight, grade, and optical size stay adjustable; the current runtime default is rounded weight 200. String names are supported for backward compatibility and resolve to a built-in glyph or the injected renderer.",
       },
     },
   },

@@ -1,0 +1,88 @@
+/*
+ * Apply IBM Plex Sans to HEADINGS in the Storybook theme/chrome only.
+ *
+ * IBM Plex Sans is open/free (SIL OFL) and self-hosted via
+ * `@fontsource/ibm-plex-sans` — so a clean public clone needs no missing or
+ * trial font. We borrow the heading face from Carbon's own Storybook, which
+ * runs IBM Plex Sans as its fontBase.
+ *
+ * Scope notes:
+ * - This is theme/chrome typography, NOT design-system component typography.
+ *   DS components keep their Inter token stack; Plex never reaches the story
+ *   canvas components.
+ * - Inter is declared as the fallback, so the chrome stays sane even before the
+ *   self-hosted Plex faces load.
+ */
+
+/* The self-hosted IBM Plex Sans @font-face declarations are loaded as JS module
+   imports from `@fontsource/ibm-plex-sans` in manager.js + preview.js (weights
+   400/600/700). Bare-specifier JS imports resolve reliably in both the esbuild
+   manager build and the Vite preview build; a CSS `@import` of a bare specifier
+   would not. This file only applies the family to the chrome. */
+
+:root {
+  --composa-font-plex: "IBM Plex Sans", Inter, ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Storybook docs headings (h1–h6 in the autodocs / MDX content). */
+.sbdocs.sbdocs-content h1,
+.sbdocs.sbdocs-content h2,
+.sbdocs.sbdocs-content h3,
+.sbdocs.sbdocs-content h4,
+.sbdocs.sbdocs-content h5,
+.sbdocs.sbdocs-content h6,
+.sbdocs-title,
+.sbdocs-h1,
+.sbdocs-h2,
+.sbdocs-h3 {
+  font-family: var(--composa-font-plex);
+  /* Heavier than IBM's light default heading weight — semibold/bold so the
+     hierarchy reads as deliberate. */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* The top-level docs title carries the most weight. */
+.sbdocs.sbdocs-content h1,
+.sbdocs-title,
+.sbdocs-h1 {
+  font-weight: 700;
+}
+
+/* Slightly heavier-than-default top margin collapse so sections separate
+   cleanly — type hierarchy from spacing, not just size. */
+.sbdocs.sbdocs-content h2 {
+  margin-top: 2.5rem;
+}
+.sbdocs.sbdocs-content h3 {
+  margin-top: 1.75rem;
+}
+
+/* Docs BODY prose: 13px (was Storybook's 14px) with a tighter 1.55 line-height
+   so the running text reads denser and more editorial against the Plex headings.
+   Scope: docs content only — story-canvas DS components keep their token sizes. */
+.sbdocs.sbdocs-content p,
+.sbdocs.sbdocs-content li,
+.sbdocs.sbdocs-content td,
+.sbdocs.sbdocs-content th {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* Manager sidebar brand title (the wordmark text rendered next to / instead of
+   the brand image, depending on Storybook version). */
+.sidebar-header a[title],
+.sidebar-header span,
+[data-side="left"] .sidebar-header {
+  font-family: var(--composa-font-plex);
+  font-weight: 700;
+}
+
+/* Sidebar nav tree uses IBM Plex as the face (matches Carbon's chrome). */
+.sidebar-container,
+.sidebar-item,
+.sidebar-subheading {
+  font-family: var(--composa-font-plex);
+}

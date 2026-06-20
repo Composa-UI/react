@@ -139,8 +139,8 @@ if (menuStories && !menuStories.includes("export const Heading = MenuHeadingFami
   failures.push("Menu stories must expose MenuHeadingCell under Menu/Heading");
 }
 
-if (labelStories && !labelStories.includes('title: "Composa UI/Base Components/Label"')) {
-  failures.push("Label stories must register under Composa UI/Base Components/Label");
+if (labelStories && !labelStories.includes('title: "Composa UI/Components/Base/Label"')) {
+  failures.push("Label stories must register under Composa UI/Components/Base/Label");
 }
 
 if (failures.length) {

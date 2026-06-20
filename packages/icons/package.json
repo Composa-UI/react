@@ -1,0 +1,44 @@
+{
+  "name": "@composa-ui/icons",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Composa UI icon primitives and curated Material Symbols mappings.",
+  "license": "MIT",
+  "author": "Samuel Alake",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Composa-UI/react.git",
+    "directory": "packages/icons"
+  },
+  "homepage": "https://github.com/Composa-UI/react/tree/main/packages/icons#readme",
+  "bugs": {
+    "url": "https://github.com/Composa-UI/react/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": [
+    "src/*.css"
+  ],
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md",
+    "LICENSE-APACHE-2.0.txt"
+  ],
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./material-symbols.css": "./src/material-symbols.css",
+    "./material-symbols-outlined.css": "./src/material-symbols-outlined.css",
+    "./material-symbols-rounded.css": "./src/material-symbols-rounded.css",
+    "./material-symbols-sharp.css": "./src/material-symbols-sharp.css"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0"
+  }
+}

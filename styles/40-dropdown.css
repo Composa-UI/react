@@ -1,15 +1,31 @@
 .composa-dropdown {
-  /* Default width: hug content (Figma dropdowns flex to the value text). Pass
-     width="fill" for a 100% trigger. */
+  /* Default width: hug content (Figma dropdowns flex to the value text), but keep
+     a sensible minimum so the trigger "preview" is wide enough that its anchored,
+     left-aligned menu is not cut off by a too-narrow trigger. Pass width="fill"
+     for a 100% trigger. */
   width: auto;
+  min-width: var(--composa-dropdown-min-width);
   min-height: var(--composa-height-input);
-  justify-content: space-between;
-  gap: var(--composa-space-2);
-  padding: 0 var(--composa-space-2);
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) var(--composa-menu-icon-size);
+  align-items: center;
+  justify-content: stretch;
+  /* Chevron placement matches NumericInput (dropdown variant): the value↔chevron
+     gap and the right padding are both space-1 (4px), so the chevron hugs the
+     right edge. The left padding stays space-2 (8px) for the value text. */
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
   border: 1px solid var(--composa-color-border);
   border-radius: var(--composa-radius-medium);
   background: var(--composa-color-bg);
   text-align: left;
+  line-height: var(--composa-body-medium-line);
+  color: var(--composa-color-text);
+  user-select: none;
+}
+
+.composa-dropdown[data-icon-lead="true"] {
+  grid-template-columns: var(--composa-menu-icon-size) minmax(0, 1fr) var(--composa-menu-icon-size);
 }
 
 .composa-dropdown-width-fill {
@@ -24,10 +40,62 @@
   border-color: transparent;
 }
 
-.composa-dropdown > span:not(.composa-template-swatch) {
+.composa-dropdown:hover:not(:disabled),
+.composa-dropdown.is-hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+.composa-dropdown-leading-icon,
+.composa-dropdown-chevron {
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+  min-width: var(--composa-menu-icon-size);
+  display: inline-grid;
+  place-items: center;
+  color: currentColor;
+  line-height: 1;
+}
+
+.composa-dropdown-leading-icon .composa-icon,
+.composa-dropdown-chevron .composa-icon {
+  --composa-runtime-icon-size: var(--composa-menu-icon-size);
+  width: var(--composa-menu-icon-size);
+  height: var(--composa-menu-icon-size);
+}
+
+.composa-dropdown-value,
+.composa-dropdown > span:not(.composa-template-swatch):not(.composa-dropdown-leading-icon):not(.composa-dropdown-chevron) {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  user-select: none;
 }
 
+.composa-dropdown-root {
+  position: relative;
+  display: inline-block;
+}
+
+.composa-dropdown-root-width-fill {
+  display: block;
+  width: 100%;
+}
+
+.composa-dropdown-root-width-fill > .composa-dropdown {
+  width: 100%;
+}
+
+.composa-dropdown-menu {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  top: calc(100% + var(--composa-dropdown-menu-offset-block));
+  left: 0;
+  min-width: max(100%, var(--composa-dropdown-menu-min-width));
+  display: grid;
+  gap: var(--composa-menu-row-gap);
+  padding: var(--composa-space-2) var(--composa-space-1);
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}

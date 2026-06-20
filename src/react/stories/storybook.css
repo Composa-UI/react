@@ -23,6 +23,13 @@
   gap: 6px;
 }
 
+/* The combo trigger anchor hugs its control so the OverlayPortal menu measures
+   from the trigger, not the full stack width. */
+.storybook-composa-combo-anchor {
+  display: block;
+  min-width: 0;
+}
+
 .storybook-composa-shell .composa-menu {
   min-width: var(--composa-menu-width, 240px);
 }
@@ -95,4 +102,55 @@
   min-height: 44px;
   align-items: center;
   justify-content: center;
+}
+
+/* ---- Carbon-style in-page documentation tabs (DocTabs / _doc-tabs.js) ----
+   Usage / Style / Code / Accessibility tabs on a component doc page. Styled to
+   sit inside the Storybook docs column, using the IBM Plex chrome face and the
+   Composa accent for the active tab. */
+.composa-doctabs {
+  margin: 24px 0 32px;
+}
+
+.composa-doctabs-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--composa-color-border, #e6e6e6);
+}
+
+.composa-doctab-trigger {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  margin: 0;
+  padding: 8px 14px;
+  font-family: "IBM Plex Sans", Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--composa-color-text-secondary, rgba(0, 0, 0, 0.55));
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.composa-doctab-trigger:hover {
+  color: var(--composa-color-text, #111);
+}
+
+.composa-doctab-trigger.is-active {
+  color: var(--composa-color-text, #111);
+  font-weight: 600;
+  border-bottom-color: #0d99ff;
+}
+
+.composa-doctab-trigger:focus-visible {
+  outline: 2px solid #0d99ff;
+  outline-offset: -2px;
+  border-radius: 2px;
+}
+
+.composa-doctabs-panel {
+  padding-top: 20px;
 }

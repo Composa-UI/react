@@ -1,0 +1,82 @@
+import { Meta, Canvas, Controls, ArgTypes } from "@storybook/addon-docs/blocks";
+import * as ControlGroupStories from "./control-group.stories.js";
+
+<Meta of={ControlGroupStories} />
+
+# ControlGroup
+
+A compact group of adjacent icon actions that reads as one control surface.
+
+**Capability:** Controllable. Each action fires `onAction` (and per-item `onClick`); the group owns no value. Use it for momentary actions, not a selected value.
+
+<Canvas of={ControlGroupStories.Default} />
+
+## Guidelines
+
+### When to use it
+
+| Use ControlGroup | Use a different component |
+|---|---|
+| Adjacent icon actions that belong together: alignment groups, rotate/flip, transform utilities. | **SegmentedControl** when one option is the current selected value. **SplitButton** for one primary action plus a menu. **MenuRow `type="toolbar"`** when the choice needs a menu with a checkmark and a leading icon. |
+
+### The rules
+
+- **Outer-corner rounding only.** The group reads as one rounded rectangle: the first segment rounds its left corners, the last rounds its right corners, and every middle segment is square. A single-segment group keeps all four corners rounded. Never round each segment independently. The same edge-rounding contract applies to the multi-value input (`NumericInputMulti`).
+- **The group owns the visual split.** Separation between actions comes from the group's tokenized split spacing. Sections must not add their own divider lines or white backgrounds around grouped icon buttons.
+- **Stays dense: 24px track.** The default control height is 24px (`size="medium"`). Choose icon sizing at the primitive level and verify at right-panel width; if a glyph overpowers the 24px frame, reduce it in ControlGroup rather than patching each section.
+- **Hover is local.** Hover styling belongs only to the hovered action. A selected action may keep its selected styling, but hover color must not bleed into a neighbor.
+- **Tooltips are per action.** Each action carries its own tooltip from its `label`. Because those tooltips portal into the nearest `OverlayHost`, any story or stage that shows them must wrap its content in an `OverlayHost` — otherwise hovering shows nothing.
+
+**Do**
+
+- Group momentary icon actions that visually belong together.
+- Give every action a `label`; it becomes the tooltip and the accessible name.
+- Keep the group on the 24px track for inspector density.
+- Wrap the stage in `OverlayHost` so action tooltips have somewhere to mount.
+
+**Don't**
+
+- Use it when one option is the current selected value — that is SegmentedControl.
+- Round each segment on its own, or draw your own dividers between actions.
+- Let a hovered action's color carry over to the previous one.
+
+## Anatomy
+
+ControlGroup renders one control surface with repeated icon-button slots:
+
+1. **Container** — the single rounded surface. `data-composa-component="ControlGroup"`.
+2. **Action slots** — one `IconButton` per `items` entry, in array order, with the tokenized split between them.
+3. **Outer rounding** — only the first and last slot round their outer corners.
+4. **Per-action selected/active state** — optional, when an action is itself a toggle.
+5. **Per-action tooltip** — from each item's `label`, portaled into the `OverlayHost`.
+
+## Code & Specs
+
+### Props
+
+<ArgTypes of={ControlGroupStories.Default} />
+
+From `function ControlGroup` in `src/react/factory.js`: `label` (accessible name), `items` (array of `{ id, icon, label, onClick }`), `size` (`"medium"` default, the 24px track), `variant` (`"ghost"` default), `disabled`, `tooltipPlacement` (`"top"` default), and `onAction(id, item, event)`. Extra props spread to the root.
+
+### Tokens
+
+- Track height: 24px at `size="medium"`.
+- Split spacing and outer radius are owned by the group's own component tokens (`styles/` ControlGroup rules), not by the consuming section.
+
+### Import
+
+```jsx
+import { ControlGroup, OverlayHost } from "@composa-ui/react";
+
+<OverlayHost>
+  <ControlGroup
+    label="Alignment actions"
+    items={[
+      { id: "left", icon: "alignLeft", label: "Align left" },
+      { id: "center", icon: "alignHorizontalCenter", label: "Align horizontal centers" },
+      { id: "right", icon: "alignRight", label: "Align right" },
+    ]}
+    onAction={(id) => align(id)}
+  />
+</OverlayHost>
+```

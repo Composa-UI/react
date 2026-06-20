@@ -166,29 +166,38 @@
   color: var(--composa-menu-row-fg-secondary);
 }
 
-/* Toolbar row = a tool/shape selection row: a leading check (absolute, shown when
-   selected) over a 20px indent, then the shape icon, label, and shortcut. */
+/* Toolbar row = a tool/shape selection row with BOTH a reserved checkmark slot
+   and a leading icon slot. It shares the standard row's left inset (8px) and
+   leading-slot geometry so its checkmark slot lines up with every other row's
+   leading slot — a "rectangle" toolbar row and a "snap to grid" toggle row start
+   on the same left line. The icon slot is the second column. */
 .composa-menu-row-toolbar {
-  position: relative;
   display: flex;
   align-items: center;
   gap: var(--composa-space-1);
-  padding: 0 var(--composa-space-2) 0 20px;
+  padding: 0 var(--composa-space-2) 0 var(--composa-space-2);
 }
 
+/* Reserved checkmark slot: same 20px slot as the standard leading column, so the
+   check aligns with simple/checkmark/toggle leading slots. Stays reserved (empty)
+   when unselected so the icon never shifts. */
 .composa-menu-toolbar-check {
-  position: absolute;
-  left: 4px;
-  width: 16px;
-  display: inline-grid;
-  place-items: center;
+  flex: 0 0 var(--composa-menu-slot-size);
   font-size: 11px;
   line-height: 16px;
   color: var(--composa-menu-row-fg);
 }
 
+.composa-menu-toolbar-icon {
+  flex: 0 0 auto;
+}
+
 .composa-menu-row-toolbar .composa-menu-label {
   flex: 1 0 0;
+}
+
+.composa-menu-row-toolbar .composa-menu-leading .composa-icon {
+  font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24 !important;
 }
 
 .composa-menu-toolbar-shortcut {
@@ -377,4 +386,3 @@
   color: var(--composa-color-text-secondary);
   font: inherit;
 }
-

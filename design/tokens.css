@@ -43,7 +43,16 @@
   --composa-control-bg-active: var(--composa-color-bg-secondary);
   --composa-control-fg: var(--composa-color-icon);
   --composa-control-fg-secondary: var(--composa-color-icon-secondary);
+  /* Active/selected GLYPH color. Founder rule: a toggle/destination that is on
+     turns its ICON accent (the selected blue), not just its container. Both the
+     ToggleButton on-state and the AppNavigationRail selected destination read
+     their glyph color from this token so "active = blue icon" is one source of
+     truth instead of per-component overrides. */
+  --composa-control-fg-selected: var(--composa-color-border-selected);
+  --composa-control-bg-selected: var(--composa-color-bg-selected);
   --composa-control-focus-ring: var(--composa-color-accent);
+  --composa-control-group-segment-gap: 1px;
+  --composa-control-group-divider-bg: var(--composa-control-bg);
 
   /* Primary-button fill, darkened from the brand orange so white button text
      clears WCAG AA (white on #ff5c16 is 3.09:1; on #d64000 it is 4.57:1).
@@ -51,6 +60,14 @@
      non-text-bearing brand surfaces. */
   --composa-color-bg-brand-strong: #d64000;
   --composa-color-bg-brand-strong-pressed: #c23a00;
+
+  /* Canonical UI3 accent blue (#0d99ff). The Composa product brand is orange
+     (--composa-color-bg-brand-strong), but some inspector affordances follow
+     Figma's own blue call-to-action — e.g. ColorPickerDialog image-paint
+     "Upload from computer" (Figma 89:13859). Sourced from the canonical
+     bg-brand primitive so the value stays single-sourced. */
+  --composa-color-accent-cta: var(--figma-composa-color-bg-brand);
+  --composa-color-accent-cta-pressed: var(--figma-composa-color-bg-brand-pressed);
 
   --composa-segmented-height: 24px;
   --composa-segmented-padding: 1px;
@@ -83,6 +100,11 @@
   --composa-menu-switch-bg-on: var(--composa-color-accent);
   --composa-menu-badge-bg: #2c2c2c;
   --composa-menu-switch-thumb-bg: #ffffff;
+  --composa-dropdown-menu-min-width: var(--composa-menu-width);
+  --composa-dropdown-menu-offset-block: var(--composa-space-1);
+  /* Minimum trigger "preview" width so a short value still presents a trigger
+     wide enough that its left-anchored menu is not clipped/cut off. */
+  --composa-dropdown-min-width: 96px;
 
   --composa-switch-width: 28px;
   --composa-switch-height: 16px;
@@ -127,11 +149,291 @@
   --composa-tab-fg: var(--composa-color-text-secondary);
   --composa-tab-fg-selected: var(--composa-color-text);
 
+  --composa-inspector-inset-start: var(--composa-space-3);
+  --composa-inspector-inset-end: var(--composa-space-2);
+  --composa-inspector-section-padding-block: var(--composa-space-2);
+  --composa-inspector-section-padding-end: calc(var(--composa-space-2) + var(--composa-space-1));
+  --composa-inspector-value-row-padding-block: var(--composa-space-1);
+  --composa-inspector-value-row-gap: var(--composa-space-2);
+  --composa-inspector-overlay-z: 40;
+  --composa-inspector-overlay-offset: var(--composa-space-2);
+  --composa-inspector-dialog-padding: var(--composa-dialog-padding);
+  /* Inspector dialogs run hairlines edge-to-edge: the dialog surface has no
+     horizontal padding, and each section owns its own inset. The horizontal
+     inset is the 12px spacing step (space-2-5); per-section block padding
+     varies on the 8/12/16 scale (space-2 / space-2-5 / space-3) to match
+     Figma's varied section rhythm rather than one uniform grid gap. */
+  --composa-inspector-dialog-inset: var(--composa-space-2-5);
+  --composa-inspector-dialog-section-pad-sm: var(--composa-space-2);
+  --composa-inspector-dialog-section-pad-md: var(--composa-space-2-5);
+  --composa-inspector-dialog-section-pad-lg: var(--composa-space-3);
+  --composa-inspector-floating-dialog-width: 240px;
+  --composa-inspector-story-stage-width: 100vw;
+  --composa-inspector-story-stage-height: 100vh;
+  --composa-inspector-story-stage-padding: 0px;
+  --composa-zoom-menu-width: 200px;
+  --composa-stroke-align-menu-width: 112px;
+  --composa-export-settings-dialog-width: var(--composa-dialog-width-small);
+  --composa-stroke-settings-dialog-width: var(--composa-inspector-floating-dialog-width);
+  --composa-stroke-style-menu-offset-block: 72px;
+  --composa-auto-layout-settings-dialog-width: var(--composa-inspector-floating-dialog-width);
+  --composa-auto-layout-settings-value-width: 112px;
+
+  /* Inspector dialogs: color/fill picker, typography, layout guides.
+     Figma reference rMq1M35u1iyKB2QaQMipZb board 89:94 (children 89:4939,
+     99:5566/99:4077, 91:40246/91:38859). The color picker is the heaviest
+     surface, so it sets its own width; typography and layout-guide dialogs
+     share the compact floating-dialog width like stroke/effect dialogs. */
+  --composa-color-picker-dialog-width: var(--composa-inspector-floating-dialog-width);
+  /* Area was reading too large (208px in a 240px dialog left almost no breathing
+     room). Rebalanced to 184px so the 2D area, sliders, and fields share weight
+     like Figma 89:4939. */
+  --composa-color-picker-area-size: 184px;
+  --composa-color-picker-track-height: 12px;
+  --composa-color-picker-thumb-size: 14px;
+  --composa-color-picker-swatch-size: 16px;
+  --composa-color-picker-gradient-preview-height: 88px;
+  --composa-color-picker-image-dropzone-height: 184px;
+  --composa-color-picker-trigger-swatch-size: 24px;
+  --composa-color-picker-label-width: 56px;
+  --composa-type-style-menu-width: 240px;
+  --composa-type-style-menu-max-height: 380px;
+  --composa-typography-dialog-width: var(--composa-inspector-floating-dialog-width);
+  --composa-typography-label-width: 56px;
+  /* Typography dialog Basics tab (Figma 99:5566): a 120px preview specimen box,
+     32px control rows, and a compact 72px paragraph-spacing field. The Fonts
+     picker (99:1337) renders each family at body size in a 28px row. */
+  --composa-typography-preview-height: 120px;
+  --composa-typography-preview-size: 24px;
+  --composa-typography-control-row-height: 32px;
+  --composa-typography-paragraph-input-width: 72px;
+  /* Typography Variable tab axis sliders: a 4px rail, an 8px stop dot, and a
+     14px white thumb. Details tab caps its body height and scrolls (the panel
+     holds eight OpenType fieldsets, far taller than the dialog frame). */
+  --composa-typography-axis-track-height: 4px;
+  --composa-typography-axis-stop-size: 8px;
+  --composa-typography-axis-thumb-size: 14px;
+  --composa-typography-details-max-height: 408px;
+  --composa-fonts-picker-row-height: 28px;
+  --composa-fonts-picker-row-size: 16px;
+  --composa-layout-guide-dialog-width: var(--composa-inspector-floating-dialog-width);
+  --composa-layout-guide-label-width: 56px;
+  --composa-layout-guide-color-trigger-size: 24px;
+  /* AppNavigationRail — rebuilt to Figma node 103-10421 (Toolbar - Navigation
+     Bar). The rail is a 56px-wide column: an app-mark "main menu" button at the
+     top, a 16px hairline separator, then a stack of icon-over-label destinations
+     (56px-wide, 32px icon container with a 5px radius, 24px glyph, 9px label,
+     2px icon-label gap). The selected destination tints only its icon container
+     with bg-selected (#e5f4ff). Outer container padding is 8px top / 16px bottom
+     with a 1px right border; destinations stay top-aligned (justify top). */
+  --composa-navigation-rail-width: 56px;
+  --composa-navigation-rail-padding-block-start: var(--composa-space-2);
+  --composa-navigation-rail-padding-block-end: var(--composa-space-4);
+  --composa-navigation-rail-padding-inline: 0;
+  --composa-navigation-rail-gap: 0;
+  --composa-navigation-rail-item-width: 56px;
+  --composa-navigation-rail-item-min-height: 56px;
+  --composa-navigation-rail-item-padding-block: var(--composa-space-1);
+  --composa-navigation-rail-item-gap: 2px;
+  --composa-navigation-rail-item-container-size: 32px;
+  --composa-navigation-rail-item-glyph-size: 24px;
+  --composa-navigation-rail-item-radius: 5px;
+  --composa-navigation-rail-item-bg-selected: var(--composa-color-bg-selected);
+  /* Selected destination GLYPH turns accent (founder rule: the icon goes blue,
+     not just the container). Shares the control selected-glyph source of truth. */
+  --composa-navigation-rail-item-icon-selected: var(--composa-control-fg-selected);
+  --composa-navigation-rail-item-label-size: 9px;
+  --composa-navigation-rail-item-label-line: 14px;
+  --composa-navigation-rail-item-label-tracking: 0.045px;
+  --composa-navigation-rail-brand-size: 24px;
+  --composa-navigation-rail-brand-padding: var(--composa-space-1);
+  --composa-navigation-rail-brand-radius: 5px;
+  --composa-navigation-rail-separator-width: 16px;
+  --composa-navigation-rail-separator-block: 8px;
+
+  /* EditorShell template — four-region editor layout grid. These are the
+     code-facing layout tokens the shell consumes; the app repo can theme the
+     region widths without editing the template markup. The navigator + rail
+     (left) and inspector (right) are fixed-width tracks so they never wrap; the
+     center canvas is the single flexible track that shrinks responsively. */
+  --composa-editor-shell-navigator-width: var(--composa-navigator-width);
+  --composa-editor-shell-inspector-width: 240px;
+  --composa-editor-shell-canvas-min-width: 320px;
+  --composa-editor-shell-rail-width: var(--composa-navigation-rail-width);
+  --composa-editor-shell-canvas-toolbar-offset: var(--composa-space-4);
+  --composa-editor-shell-canvas-toolbar-radius: var(--composa-radius-large);
+  --composa-editor-shell-canvas-toolbar-padding: var(--composa-space-2);
+  --composa-editor-shell-canvas-toolbar-gap: var(--composa-space-2);
+
+  /* EditorToolbar — the floating canvas creation toolbar (Figma
+     rMq1M35u1iyKB2QaQMipZb node 86-5602). A 48px-tall rounded, shadowed
+     container with 8px padding holding split-button tool groups: a 32px primary
+     icon action + a 16px caret, with a 1px hairline between halves and a 5px
+     radius on each half. */
+  --composa-editor-toolbar-height: 48px;
+  --composa-editor-toolbar-padding: var(--composa-space-2);
+  --composa-editor-toolbar-gap: var(--composa-space-2);
+  --composa-editor-toolbar-radius: 13px;
+  --composa-editor-toolbar-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  --composa-editor-toolbar-action-size: 32px;
+  --composa-editor-toolbar-caret-width: 16px;
+  --composa-editor-toolbar-button-radius: 5px;
+  --composa-editor-toolbar-half-gap: 1px;
+
+  /* Navigator sidebars (editor + slides). UI3 references:
+     design.sidebar.left (4kilp0ShQiYsoUPJdleqEH, node 1027347:6458) and the
+     Figma to Video slides bar (rMq1M35u1iyKB2QaQMipZb, node 98:12). */
+  --composa-navigator-width: 240px;
+  --composa-navigator-header-height: 60px;
+  --composa-navigator-header-inset: var(--composa-space-2);
+  --composa-navigator-section-header-height: 40px;
+  --composa-navigator-section-inset: var(--composa-space-2);
+  --composa-navigator-row-radius: var(--composa-radius-medium);
+  --composa-navigator-divider-hit: 9px;
+  --composa-navigator-page-min-height: 72px;
+  /* Slide thumbnails: 224px row, 16:9-ish 189x106 preview, 8px gutter. */
+  --composa-slide-thumb-inset: var(--composa-space-2);
+  --composa-slide-thumb-gutter: 19px;
+  --composa-slide-thumb-radius: var(--composa-radius-medium);
+  --composa-slide-thumb-index-size: 13px;
+  --composa-slide-thumb-aspect: 189 / 106;
+  /* Selected page/slide reads as a NEUTRAL GRAY pill (Figma slides-bar 98-12),
+     not the blue selection tint — founder ruling: reserve blue for active
+     controls/icons, keep the page list quiet. bg-tertiary (#e6e6e6) is a touch
+     darker than the #f5f5f5 hover so selected stays distinct from hover. */
+  --composa-slide-thumb-bg-selected: var(--composa-color-bg-tertiary);
+  /* Figma slides-bar (rMq1M35u1iyKB2QaQMipZb 98-12): every slide is a bordered
+     white preview CARD. The unselected card must read as a real surface — a
+     white/near-white fill with a visible solid border — not a faint hover tint
+     behind a translucent edge (which made unselected slides look like floating
+     text with no card). The selected card sits on the neutral selection tint. */
+  --composa-slide-thumb-preview-bg: var(--composa-color-bg);
+  --composa-slide-thumb-preview-border: var(--composa-color-border);
+  --composa-slide-thumb-preview-bg-selected: var(--composa-color-bg);
+
   --composa-brand-black: #111111;
   --composa-brand-orange: #ff5c16;
   --composa-brand-yellow: #ffd10a;
   --composa-brand-mint: #9fbfb6;
   --composa-brand-cream: #f7f5f1;
+
+  /* ── Badge / VisualBell / Notification (Wave 8) ──────────────────────────
+     UI3 kit 4kilp0ShQiYsoUPJdleqEH:
+       Badges        page 2012-32973 (Badge large/small/small alt/dot)
+       Visual Bells  page 2015-40421 (Bell toast 2015-42989)
+       Notifications page 2028-109149 (Notifications card 2028-111255)
+     Badges are 16px pill chips at 11px Medium text, radius-medium. Each tone
+     has a subtle form (tinted bg + colored text, default) and a strong filled
+     form (solid bg + on-color text). Most tones reuse the semantic palette;
+     figjam/component/warning fills and the on-* text colors are added here as
+     literals taken from the Figma variable archive. */
+  --composa-badge-height: 16px;
+  --composa-badge-height-large: 20px;
+  --composa-badge-radius: var(--composa-radius-medium);
+  --composa-badge-padding-inline: 6px;
+  --composa-badge-gap: var(--composa-space-1);
+  --composa-badge-font-size: 11px;
+  --composa-badge-line-height: 16px;
+  --composa-badge-dot-size: 8px;
+  --composa-badge-count-min-size: 16px;
+  --composa-badge-icon-size: 12px;
+  --composa-badge-overlay-offset: -4px;
+  /* Corner-overlay tuning: `inset` nudges the badge slightly into the host
+     corner before it is translated outward (so it reads as attached, not
+     floating). `max-width` caps an overlaid count/label badge so it never spans
+     the host (a 24px bell / small IconButton / avatar). */
+  --composa-badge-overlay-inset: 2px;
+  --composa-badge-overlay-max-width: 28px;
+
+  /* Color families: -fg / -bg (subtle), -strong-fg / -strong-bg (filled). */
+  --composa-badge-default-fg: var(--composa-color-text);
+  --composa-badge-default-bg: var(--composa-color-bg-tertiary);
+  --composa-badge-default-strong-fg: #ffffff;
+  --composa-badge-default-strong-bg: var(--composa-color-bg-inverse);
+  --composa-badge-brand-fg: var(--composa-color-text-brand);
+  --composa-badge-brand-bg: var(--composa-color-bg-brand-secondary);
+  --composa-badge-brand-strong-fg: #ffffff;
+  --composa-badge-brand-strong-bg: var(--composa-color-bg-brand);
+  --composa-badge-figjam-fg: #8638e5;
+  --composa-badge-figjam-bg: #f1e6ff;
+  --composa-badge-figjam-strong-fg: #ffffff;
+  --composa-badge-figjam-strong-bg: #9747ff;
+  --composa-badge-component-fg: var(--composa-color-text-component);
+  --composa-badge-component-bg: #f1e6ff;
+  --composa-badge-component-strong-fg: #ffffff;
+  --composa-badge-component-strong-bg: #9747ff;
+  --composa-badge-danger-fg: var(--composa-color-text-danger);
+  --composa-badge-danger-bg: #ffe2de;
+  --composa-badge-danger-strong-fg: #ffffff;
+  --composa-badge-danger-strong-bg: var(--composa-color-bg-danger);
+  --composa-badge-warning-fg: var(--composa-color-text-warning);
+  --composa-badge-warning-bg: #fff1cc;
+  --composa-badge-warning-strong-fg: var(--composa-color-text);
+  --composa-badge-warning-strong-bg: var(--composa-color-icon-warning);
+  --composa-badge-success-fg: var(--composa-color-text-success);
+  --composa-badge-success-bg: #e7fbef;
+  --composa-badge-success-strong-fg: #ffffff;
+  --composa-badge-success-strong-bg: var(--composa-color-bg-success);
+  --composa-badge-merged-fg: #8638e5;
+  --composa-badge-merged-bg: #f1e6ff;
+  --composa-badge-merged-strong-fg: #ffffff;
+  --composa-badge-merged-strong-bg: #9747ff;
+  --composa-badge-archived-fg: var(--composa-color-text-secondary);
+  --composa-badge-archived-bg: var(--composa-color-bg-tertiary);
+  --composa-badge-archived-strong-fg: #ffffff;
+  --composa-badge-archived-strong-bg: #5c5c5c;
+  --composa-badge-invert-fg: #ffffff;
+  --composa-badge-invert-bg: var(--composa-color-bg-inverse);
+  --composa-badge-invert-strong-fg: var(--composa-color-text);
+  --composa-badge-invert-strong-bg: #ffffff;
+  --composa-badge-selected-fg: var(--composa-color-text-brand);
+  --composa-badge-selected-bg: var(--composa-color-bg-selected);
+  --composa-badge-selected-strong-fg: #ffffff;
+  --composa-badge-selected-strong-bg: var(--composa-color-bg-brand);
+  --composa-badge-feedback-fg: var(--composa-color-text-brand);
+  --composa-badge-feedback-bg: var(--composa-color-bg-brand-secondary);
+  --composa-badge-feedback-strong-fg: #ffffff;
+  --composa-badge-feedback-strong-bg: var(--composa-color-bg-brand);
+  --composa-badge-menu-fg: #ffffff;
+  --composa-badge-menu-bg: var(--composa-menu-badge-bg);
+  --composa-badge-menu-strong-fg: #ffffff;
+  --composa-badge-menu-strong-bg: var(--composa-menu-badge-bg);
+
+  /* VisualBell — the in-app toast/snackbar pill (Bell 2015-42989). h40, radius
+     -large, dark surface; danger swaps to the danger surface. Action buttons are
+     bordered h24 chips; the dismiss (X) sits behind a hairline. */
+  --composa-visual-bell-height: 40px;
+  --composa-visual-bell-radius: var(--composa-radius-large);
+  --composa-visual-bell-padding-inline: var(--composa-space-2);
+  --composa-visual-bell-gap: var(--composa-space-2);
+  --composa-visual-bell-bg: #2c2c2c;
+  --composa-visual-bell-fg: #ffffff;
+  --composa-visual-bell-fg-secondary: rgba(255, 255, 255, 0.7);
+  --composa-visual-bell-bg-danger: var(--composa-color-bg-danger);
+  --composa-visual-bell-fg-danger: #ffffff;
+  --composa-visual-bell-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 0.5px rgba(0, 0, 0, 0.3);
+  --composa-visual-bell-action-height: 24px;
+  --composa-visual-bell-action-radius: var(--composa-radius-medium);
+  --composa-visual-bell-action-border: rgba(255, 255, 255, 0.1);
+  --composa-visual-bell-action-border-danger: rgba(0, 0, 0, 0.1);
+  --composa-visual-bell-divider: #444444;
+  --composa-visual-bell-divider-danger: rgba(0, 0, 0, 0.1);
+
+  /* Notification — the dark HUD toast card (Notifications 2028-111255). 56px
+     tall, radius-medium, icon + truncating message + a hairline-separated
+     trailing actions column of 1-2 stacked CTAs. */
+  --composa-notification-height: 56px;
+  --composa-notification-radius: var(--composa-radius-medium);
+  --composa-notification-padding-inline-start: var(--composa-space-2);
+  --composa-notification-content-width: 212px;
+  --composa-notification-message-width: 176px;
+  --composa-notification-actions-width: 72px;
+  --composa-notification-bg: #1e1e1e;
+  --composa-notification-fg: #ffffff;
+  --composa-notification-fg-secondary: rgba(255, 255, 255, 0.7);
+  --composa-notification-divider: rgba(255, 255, 255, 0.1);
+  --composa-notification-cta-fg-danger: #fca397;
+  --composa-notification-shadow: 0 2px 3.5px rgba(0, 0, 0, 0.15), 0 5px 8.5px rgba(0, 0, 0, 0.2);
 }
 
 [data-composa-mode="dark"] {

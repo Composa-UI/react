@@ -1,7 +1,7 @@
 import { CheckboxFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Checkbox",
+  title: "Composa UI/Components/Base/Checkbox",
   parameters: {
     docs: {
       description: {

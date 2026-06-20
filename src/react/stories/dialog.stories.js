@@ -1,7 +1,7 @@
 import { DialogFamily, DialogFooterFamily, DialogHeaderFamily, DialogRowFamily, StructuredDialogFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Dialog",
+  title: "Composa UI/Components/Base/Overlays/Dialog",
   parameters: {
     docs: {
       description: {

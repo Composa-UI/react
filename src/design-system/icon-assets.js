@@ -27,6 +27,40 @@ export const iconAssets = {
     // Forked Material Symbols "Chat Bubble" (chat_bubble), rounded weight 300, Apache-2.0.
     svg: `<svg viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="m241.54-260-80.08 80.07q-17.07 17.08-39.27 7.74Q100-181.54 100-205.85v-581.84Q100-818 121-839q21-21 51.31-21h615.38Q818-860 839-839q21 21 21 51.31v455.38Q860-302 839-281q-21 21-51.31 21H241.54ZM216-320h571.69q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-455.38q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H172.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v523.08L216-320Zm-56 0v-480 480Z"/></svg>`,
   },
+  play: {
+    figmaName: "icon.24.play",
+    componentKey: "internal-material-symbols-play-arrow",
+    // Outline play glyph drawn in a 24px box. Stroke is tuned toward Material
+    // Symbols weight 200, while the visible triangle is slightly larger than
+    // the first pass so it reads at inspector-toolbar scale.
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M8.5 5 18.5 12 8.5 19V5Z"/></svg>`,
+  },
+  dev: {
+    figmaName: "icon.24.dev",
+    componentKey: "internal-material-symbols-code",
+    // Official Google Material Symbols "Code" (code), rounded, Apache-2.0.
+    svg: `<svg viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="m193-479 155 155q11 11 11 28t-11 28q-11 11-28 11t-28-11L108-452q-6-6-8.5-13T97-480q0-8 2.5-15t8.5-13l184-184q12-12 28.5-12t28.5 12q12 12 12 28.5T349-635L193-479Zm574-2L612-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L668-268q-12 12-28 11.5T612-269q-12-12-12-28.5t12-28.5l155-155Z"/></svg>`,
+  },
+  componentSmall: {
+    figmaName: "icon.24.component.small",
+    componentKey: "internal-material-symbols-category",
+    // Official Google Material Symbols "Category" (category), rounded, Apache-2.0.
+    svg: `<svg viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="m297-581 149-243q6-10 15-14.5t19-4.5q10 0 19 4.5t15 14.5l149 243q6 10 6 21t-5 20q-5 9-14 14.5t-21 5.5H331q-12 0-21-5.5T296-540q-5-9-5-20t6-21ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-60v-240q0-17 11.5-28.5T160-420h240q17 0 28.5 11.5T440-380v240q0 17-11.5 28.5T400-100H160q-17 0-28.5-11.5T120-140Zm580-20q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm-500-20h160v-160H200v160Zm202-420h156l-78-126-78 126Zm78 0ZM360-340Zm340 80Z"/></svg>`,
+  },
+  checkCircle: {
+    figmaName: "icon.24.check.circle",
+    componentKey: "internal-material-symbols-task-alt",
+    // Official Google Material Symbols "Task Alt" (task_alt) — a check inside a
+    // circle, rounded weight 300, Apache-2.0. Used for the comment-thread
+    // "Resolve" action (Figma 2012-63732 uses a circled check, not a bare tick).
+    svg: `<svg viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="m438-338 226-226q11-11 25.5-11t25.5 11q11 11 11 25.5T715-513L463-261q-11 11-25 11t-25-11L297-377q-11-11-11-25.5t11-25.5q11-11 25.5-11t25.5 11l90 90ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 124 19t110 53l-65 65q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 65.5t6 70.5q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>`,
+  },
+  more: {
+    figmaName: "icon.24.more",
+    componentKey: "internal-material-symbols-more-horiz",
+    // Official Google Material Symbols "More Horiz" (more_horiz), rounded, Apache-2.0.
+    svg: `<svg viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>`,
+  },
   plusSmall: {
     figmaName: "icon.24.plus.small",
     componentKey: "cb177df749af47344a6d079d292cd1b11df2ca21",

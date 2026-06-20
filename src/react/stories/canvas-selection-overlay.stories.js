@@ -1,7 +1,7 @@
 import { CanvasSelectionOverlayFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/CanvasSelectionOverlay",
+  title: "Composa UI/Components/Base/CanvasSelectionOverlay",
   parameters: {
     docs: {
       description: {

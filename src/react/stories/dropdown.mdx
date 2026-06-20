@@ -88,21 +88,6 @@ Grounded in the Figma "Dropdown" guideline frame (`2028:36589`): 16 variants acr
 
 <Controls of={DropdownStories.Playground} />
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `value` | `string` | none | Current value text shown in the trigger. |
-| `defaultValue` | `string` | first option | Uncontrolled starting value for option menus. |
-| `options` | `(string \| { label, value?, shortcut?, disabled? })[]` | none | Enables the built-in one-value menu. |
-| `label` | `string` | none | Accessible name (`aria-label`). |
-| `size` | `"default" \| "large"` | `"default"` | Height axis. `large` = 32px min height. |
-| `icon` | `IconName` | none | Leading icon. Renders only when `iconLead` is set. |
-| `iconLead` | `boolean` | `false` | Toggles the leading icon. |
-| `stroke` | `boolean` | `true` | Draws the 1px border. `false` = borderless. |
-| `open` | `boolean` | none | Controlled open state. |
-| `onOpenChange` | `(open, event) => void` | none | Fires when the open state would change. |
-| `onValueChange` | `(value, option, event) => void` | none | Fires when an option row is selected. |
-| `disabled` | `boolean` | `false` | Disables the trigger. |
-
 Extra props spread to the root `<button>`. `children` overrides the icon/value/chevron content.
 
 ### Import

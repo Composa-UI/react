@@ -52,7 +52,7 @@ Several `type` values change the whole row rather than fill a slot:
 - **`divider`** renders a 16px-tall rule (`#383838` 1px line), not a button.
 - **`heading`** delegates to MenuHeadingCell: a `role="presentation"` row with a quiet MetaLabel and an optional trailing label.
 - **`footer`** renders a wrapper holding a full-width secondary Button.
-- **`toolbar`** renders a `role="group"` of three IconButtons (text, image, comment).
+- **`toolbar`** renders a selectable tool/value row with a reserved checkmark slot, a leading icon slot, label, and optional shortcut. Use it when a menu needs both selection state and a semantic icon, such as stroke-side choices.
 
 ## Props
 
@@ -78,7 +78,7 @@ From `function MenuRow({ ... })` and the `MenuRow` family in `design/component-a
 | `state` | `"default" \| "hover" \| "disabled"` | `"default"` | Forces a visual state for docs. `disabled` also disables the button. |
 | `selected` | `boolean` | `false` | Marks the row selected (full-bleed blue fill). Drives the checkmark for `checkmark` rows. |
 | `submenu` | `boolean` | `false` | Shows a submenu chevron in the trailing slot. |
-| `lead` | `"false" \| "avatar" \| "icon"` | `"false"` | Leading content for `simple`/`complex` rows. |
+| `lead` | `"false" \| "avatar" \| "icon" \| string` | `"false"` | Leading content for rows. For `toolbar`, pass the icon name shown after the reserved checkmark slot. |
 | `trail` | `"false" \| "shortcut" \| "badge" \| "checkbox" \| "mixed"` | `"false"` | Trailing content. `shortcut` renders a `<kbd>`. |
 | `shortcut` | `string` | none | Shortcut text. Setting it forces the shortcut `<kbd>` even without `trail="shortcut"`. |
 | `checkVariant` | `"check" \| "dot"` | `"check"` | The mark for `checkmark` rows: `✓` or `•`. |
@@ -113,6 +113,28 @@ Notes on the API:
 - `component-api.json` lists a `containerVariant` enum (`default | label-only | avatars | mixed-icons`) on the MenuRow family. In the factory this lives on `Menu`/`MenuMultiSelect` as `variant`, selecting a built-in demo row set; it is not a MenuRow prop.
 - Passing `shortcut` is enough to render the trailing `<kbd>`; you do not also need `trail="shortcut"`.
 - `disabled` defaults from `state`: `state="disabled"` disables the button.
+- Use `type="toolbar"` when a row needs both a persistent checkmark column and a leading icon. Do not overload `checkmark` rows for that shape; checkmark rows reserve only the selection slot.
+
+## Toolbar Rows
+
+Toolbar rows are for menu choices where the row needs both:
+
+- a reserved checkmark slot that does not shift labels; and
+- a leading semantic icon that describes the option.
+
+Use this shape for stroke-side and similar icon choices:
+
+| Option | Material Symbol |
+| --- | --- |
+| All | `border_outer` |
+| Top | `border_top` |
+| Bottom | `border_bottom` |
+| Left | `border_left` |
+| Right | `border_right` |
+
+The checkmark slot stays reserved whether the row is selected or not. The leading icon sits after that reserved slot and before the label. Do not put the semantic icon into the checkmark slot; it will make labels jump between selected and unselected rows.
+
+The toolbar row shares the standard row's left inset (8px) and uses the same 20px leading slot for its reserved checkmark, so a toolbar row's checkmark lines up with the leading slot of every other row type. A toolbar "rectangle" row and a "snap to grid" toggle row therefore start on the same left line; the toolbar row simply adds the icon slot after its checkmark slot. Do not give the toolbar row a larger custom left padding or an absolutely positioned checkmark — that breaks left-edge alignment with sibling rows.
 
 ## Variants
 

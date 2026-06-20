@@ -149,8 +149,8 @@ Figma resolved: `bghovertransparent` = `rgba(0,0,0,0.05)`, `bgtransparent-second
 | Region | State | Property | Figma | Ours (before) | Result |
 |---|---|---|---|---|---|
 | Container | Default | radius / height(small) | `5px` / `24px` | `--composa-radius-medium` 5 / `--composa-height-input` 24 | **OK** |
-| Container | Default | outer border | translucent (Figma divider/secondary uses `bordertranslucent`) | `1px solid --composa-color-border` (`#e6e6e6` opaque) | **FIXED** → `--composa-color-border-translucent` (`rgba(0,0,0,0.1)`) |
-| Divider | Default | menu/chevron separation | `1px` (`gap-px`), translucent edge | `.composa-split-menu border-left 1px solid --composa-color-border` (opaque) | **FIXED** → `--composa-color-border-translucent` |
+| Container | Default | outer border | none visible on current UI3 `Button icon split` default | `1px solid --composa-color-border` (`#e6e6e6` opaque) | **FIXED** → borderless |
+| Divider | Default | menu/chevron separation | `1px` gap between halves, no stroked divider | `.composa-split-menu border-left 1px solid --composa-color-border` (opaque) | **FIXED** → gap-only separation |
 | Icon half | Hover | bg | `rgba(0,0,0,0.05)` | `#f5f5f5` (shared hover) | **FIXED** (`.composa-split-action:hover` → translucent) |
 | Icon half | Primary Active | bg | `rgba(0,0,0,0.1)` | `#f5f5f5` | **FIXED** (`.composa-split-action:active/.is-active` → translucent-secondary) |
 | Chevron half | Hover / Primary Active | bg | `rgba(0,0,0,0.05)` / `rgba(0,0,0,0.1)` | `#f5f5f5` | **FIXED** (`.composa-split-menu:hover` / `:active` → translucent) |

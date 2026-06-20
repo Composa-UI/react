@@ -1,6 +1,12 @@
 <!--
 Composa UI component doc template.
 
+NOTE: Storybook is the single source of truth for component GUIDELINES (see
+docs/design-system/doc-architecture.md). This markdown file is the engineering
+backstop — fidelity audits, token-level CSS notes, prop tables. The opinionated
+"when/why/do/don't" lives on the component's Storybook MDX docs page. Keep the two
+consistent; if they disagree, Storybook wins.
+
 PURPOSE: One doc per component family, written for BOTH a human (designer/engineer)
 and an AI agent building against the system. Ground every claim in source:
 component-api.json, the factory signature in src/react/factory.js, the story args
@@ -20,6 +26,14 @@ Keep section order and headings stable so the docs read consistently across the
 # ComponentName
 
 <!-- One sentence. What this component is and the single job it does. -->
+
+**Capability:** Controllable | Presentational
+<!--
+REQUIRED. Controllable = exposes value / on…Change and can drive a live model
+(the real editing path). Presentational = internal state and/or hardcoded sample
+data, a Storybook layout preset, not a two-way-bound surface. State which, in one
+line. See docs/design-system/doc-architecture.md.
+-->
 
 ## Overview
 

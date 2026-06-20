@@ -32,6 +32,7 @@
   "files": [
     "src/react/index.js",
     "src/react/index.d.ts",
+    "src/react/index.react18.d.ts",
     "src/react/factory.js",
     "src/react/factory.d.ts",
     "src/react/builtin-glyphs.js",
@@ -46,11 +47,14 @@
   "scripts": {
     "build:tokens": "node style-dictionary.config.js",
     "build:css": "node tools/build-styles.mjs",
+    "build:types": "node tools/build-react18-types.mjs",
     "check:tokens": "node tools/verify-token-parity.mjs",
-    "check": "npm run build:tokens && npm run build:css && node tools/verify-token-parity.mjs && node tools/verify-design-system-contracts.js && node tools/verify-react-entrypoint.js && npm run check:syntax",
-    "check:syntax": "find src .storybook -name '*.js' -exec node --check {} \\; && node --check tools/verify-design-system-contracts.js && node --check tools/verify-react-entrypoint.js",
+    "check": "npm run build:tokens && npm run build:css && npm run build:types && node tools/verify-token-parity.mjs && node tools/verify-design-system-contracts.js && node tools/verify-react-entrypoint.js && node tools/verify-foundations.js && node tools/build-react18-types.mjs --check && npm run check:syntax",
+    "check:syntax": "find src .storybook -name '*.js' -exec node --check {} \\; && node --check tools/verify-design-system-contracts.js && node --check tools/verify-react-entrypoint.js && node --check tools/verify-foundations.js",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:visual:layer-header": "node tools/visual-check-layer-header.mjs",
+    "verify:visual": "node tools/verify-visual.mjs",
     "prepublishOnly": "npm run check && npm test",
     "storybook": "HOME=.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook dev --port ${PORT:-6011} --no-open",
     "build-storybook": "HOME=.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook build",
@@ -59,6 +63,10 @@
   "exports": {
     ".": {
       "types": "./src/react/index.d.ts",
+      "default": "./src/react/index.js"
+    },
+    "./react18": {
+      "types": "./src/react/index.react18.d.ts",
       "default": "./src/react/index.js"
     },
     "./factory": {
@@ -73,6 +81,7 @@
     "react-dom": "^18.3.0 || ^19.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "@storybook/addon-a11y": "^10.4.6",
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/addon-mcp": "^0.6.0",
@@ -86,5 +95,8 @@
   },
   "overrides": {
     "esbuild": "0.28.1"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.2.8"
   }
 }

@@ -39,7 +39,7 @@ The library also ships a "Dialog (modal) TEMPLATE" component in "UI2: Figma's De
 
 `Dialog` renders a `<section role="dialog" aria-modal="true">` with three children, in order:
 
-1. **Header** (`DialogHeader`, a `<header>`). Holds a `DialogHeaderCell` with the title and a close `IconButton` (a rotated plus glyph) on the trailing side. Has a bottom border.
+1. **Header** (`DialogHeader`, a `<header>`). Holds a `DialogHeaderCell` with the title and a close `IconButton` (the real `close` X glyph) on the trailing side. Has a bottom border.
 2. **Body** (`DialogBody`, a `<div>`). Renders the `description` as a `<p>`, or your `children` when provided.
 3. **Footer** (`DialogFooter`, a `<footer>`). Right-aligned actions: a Secondary button (`secondaryLabel`) and a Primary button (`primaryLabel`). Has a top border.
 
@@ -76,7 +76,15 @@ Notes on the API:
 - **`variant` is decorative.** The factory applies `composa-dialog-{variant}` to the root, but `styles/80-dialog.css` defines no rules for those classes. Naming a template variant changes nothing visually today. It is a labeling hook, not a layout switch.
 - **`tone` has one effect.** `tone="destructive"` sets the primary button's variant to `destructive`. The `composa-dialog-{tone}` class itself has no CSS.
 - Passing `children` replaces the body paragraph. Compose with `DialogBody` / `DialogRow` inside `children` for structured content.
-- The close button is always rendered in the header with `label="Close dialog"`. It is presentational; wire its `onClick` by composing the header yourself if you need a handler.
+- The close button is always rendered in the header with `label="Close dialog"`. It uses the built-in `close` (X) glyph — not a rotated plus. It is presentational; wire its `onClick` by composing the header yourself if you need a handler.
+
+### Inspector-dialog house style
+
+The floating inspector settings dialogs (`ColorPickerDialog`, `TypographyDialog`, `LayoutGuideSettingsDialog`, `StrokeSettingsDialog`, `ExportSettingsDialog`) are not built from the `Dialog` family — they own dense `composa-*-dialog` class families — but they share one house style, codified so every dialog inherits it (Figma `rMq1M35u1iyKB2QaQMipZb` 89:4939 / 91:40246 / 99:5566):
+
+- **Real `close` (X) glyph**, pulled toward the top-right corner (`margin-inline-end: calc(-1 * --composa-space-1)`). No `rotate(45deg)` plus hack.
+- **Edge-to-edge hairlines.** The dialog surface carries no horizontal padding (`padding: 0`); the header has a full-bleed `border-bottom`, and section dividers are full-bleed `border-top`/`border-bottom` on the sections themselves.
+- **Per-section inset and rhythm.** Each section owns the horizontal inset via `--composa-inspector-dialog-inset` (12px, the `space-2-5` step) and sets its own block padding on the 8/12/16 scale (`--composa-inspector-dialog-section-pad-sm`/`-md`/`-lg`), rather than one uniform grid gap.
 
 ## Variants
 

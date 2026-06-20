@@ -54,9 +54,9 @@ All variants build on the InputField shell. The base `InputField` renders a nati
 Per-variant anatomy differs:
 
 - **Numeric** delegates to InputField with `variant: "Numeric"`. Same shell, but gray by default, label hidden. `varIcon` adds a `styles` leading glyph; `varPill` turns the value into a variable pill.
-- **NumericMulti** is its own `<div>`, not the shell. It renders a CSS grid: an optional leading icon cell plus four value cells, separated by 1px white dividers. Fixed 160px wide.
+- **NumericMulti** is its own `<div>`, not the shell. It renders a CSS grid: an optional leading icon cell plus four value cells, separated by 1px white dividers. Fixed 160px wide. Only the outer edges round — the first segment (lead icon, or first value cell when there is no lead) rounds its left corners, the last value cell rounds its right corners, inner cells stay square — so the row reads as one rounded rectangle, matching ControlGroup. The container clips its cells (`overflow: hidden`) to keep the shape correct even when a cell paints its own focus/disabled fill.
 - **Color** is its own `<label>` grid: a swatch chip, a value `<input>`, and an opacity column (`<input>` plus `%` suffix). Fixed 144px wide.
-- **Combo** is its own `<div>` grid with two real `<button>` elements: a value segment on the left and a chevron segment (`ComboInputDropdown`) on the right, separated by a 1px gap. Fixed 117px wide.
+- **Combo** is its own `<div>` grid with two real `<button>` elements: a value segment on the left and a chevron segment (`ComboInputDropdown`) on the right, separated by a 1px gap. Fixed 117px wide. ComboInput is presentational and does not own a menu; when wiring an open menu, anchor it to the trigger through `OverlayPortal` (inside an `OverlayHost`) rather than rendering it as a flow sibling, so the menu overlays the trigger and does not shift layout (jump) on open.
 
 ## Props
 

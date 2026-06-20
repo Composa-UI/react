@@ -1,0 +1,53 @@
+name: Deploy Storybook to GitHub Pages
+
+# Builds the Storybook static site on every push to main and publishes it to
+# GitHub Pages — giving Composa a hosted docs URL (the public face of the design
+# system and where the MCP's source-of-truth docs live).
+#
+# ONE-TIME SETUP (repo owner): GitHub → Settings → Pages → Build and deployment →
+# Source: "GitHub Actions". Until that is set, this workflow builds but cannot
+# publish. Site URL will be https://composa-ui.github.io/react/.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least-privilege tokens the Pages deploy needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; let an in-flight one finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Contracts/tokens/styles + syntax gate — fail the deploy if the DS is broken.
+      - run: npm run check
+      - run: npm run build-storybook
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

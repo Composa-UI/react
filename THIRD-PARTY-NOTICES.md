@@ -30,7 +30,19 @@ Glyphs used (Composa name → Material Symbol name):
 | `plusSmall` | `add` |
 | `close` | `close` |
 
-No Material Symbols font or npm package is bundled — only the listed path data is
-embedded, so the package has no icon-set runtime dependency. Composa does **not**
-ship any content-icon set: content icons (a button's leading glyph, a toolbar's
-shape icons) are passed in as slots by the host application.
+`@composa-ui/icons` also bundles the official Material Symbols variable WOFF2
+files from the same Google repository so hosts can opt into runtime fill, weight,
+grade, and optical-size axes without depending on a community npm package.
+
+Bundled font files:
+
+| File | Source |
+| --- | --- |
+| `packages/icons/src/fonts/material-symbols-outlined.woff2` | `variablefont/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].woff2` |
+| `packages/icons/src/fonts/material-symbols-rounded.woff2` | `variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].woff2` |
+| `packages/icons/src/fonts/material-symbols-sharp.woff2` | `variablefont/MaterialSymbolsSharp[FILL,GRAD,opsz,wght].woff2` |
+
+Composa does **not** ship a broad content-icon React component set from
+`@composa-ui/react`: content icons are still passed in as slots by the host
+application. The separate `@composa-ui/icons` package owns curated icon assets and
+the optional runtime Material Symbols font path.

@@ -1,0 +1,233 @@
+.composa-layout-section {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--composa-inspector-section-padding-end);
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-layout-section[data-mode="selection"] {
+  padding-bottom: var(--composa-inspector-section-padding-end);
+}
+
+.composa-layout-section-header {
+  height: var(--composa-height-heading);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-layout-section-title {
+  min-width: 0;
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-layout-header-actions {
+  gap: var(--composa-space-2);
+}
+
+.composa-layout-header-action {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-layout-fieldset {
+  height: 48px;
+  display: grid;
+  grid-template-rows: 17px 24px;
+  padding: 3px var(--composa-inspector-inset-end) 4px var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-layout-fieldset-label {
+  height: 14px;
+  display: flex;
+  align-items: flex-start;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: 14px;
+}
+
+.composa-layout-fieldset-controls {
+  width: 100%;
+  height: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 24px;
+  row-gap: var(--composa-space-2);
+  column-gap: var(--composa-space-2);
+  align-items: center;
+}
+
+.composa-layout-fieldset.has-expanded-padding {
+  height: 80px;
+}
+
+.composa-layout-fieldset.has-expanded-padding .composa-layout-fieldset-controls {
+  height: auto;
+  grid-template-rows: 24px 24px;
+}
+
+.composa-layout-wide-segmented.composa-segmented-control {
+  grid-column: 1 / 3;
+  height: 24px;
+  padding: 0;
+}
+
+.composa-layout-mini-input {
+  width: 100%;
+  height: 24px;
+  display: flex;
+  min-width: 0;
+}
+
+.composa-layout-mini-input .composa-input-shell {
+  flex: 0 0 100%;
+  min-width: 0;
+  width: 100%;
+  height: 24px;
+  gap: 0;
+  padding: 0;
+}
+
+.composa-layout-mini-input .composa-inline-glyph-text,
+.composa-layout-mini-input .composa-input-shell > .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-layout-mini-input .composa-input-shell input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 24px;
+  padding: 0 var(--composa-space-2) 0 0;
+}
+
+.composa-layout-field-action {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-layout-header-action.is-selected {
+  color: var(--composa-color-border-selected);
+}
+
+.composa-layout-combo-row > .composa-icon-button-tooltip-wrap {
+  margin-top: 18px;
+}
+
+.composa-layout-combo-row {
+  height: 82px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 24px;
+  column-gap: var(--composa-space-2);
+  align-items: start;
+  padding: 4px var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-layout-alignment-picker,
+.composa-layout-gap-field {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 14px 24px;
+  row-gap: 4px;
+}
+
+.composa-material-symbol-icon-flowVertical {
+  transform: rotate(-90deg) scaleX(-1);
+}
+
+.composa-material-symbol-icon-autoLayoutSettings {
+  transform: rotate(90deg);
+}
+
+.composa-material-symbol-icon-paddingVertical {
+  transform: rotate(180deg);
+}
+
+.composa-layout-clip-row {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+  box-sizing: border-box;
+}
+
+.composa-layout-clip-row .composa-checkbox {
+  height: 24px;
+  min-height: 24px;
+  align-items: center;
+  padding: 0;
+}
+
+.composa-auto-layout-settings-dialog {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  right: calc(100% + var(--composa-inspector-overlay-offset));
+  bottom: 0;
+  width: var(--composa-auto-layout-settings-dialog-width);
+  display: grid;
+  gap: var(--composa-space-3);
+  padding: var(--composa-inspector-dialog-padding);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  color: var(--composa-color-text);
+}
+
+.composa-auto-layout-settings-header {
+  min-height: var(--composa-height-input);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+}
+
+.composa-auto-layout-settings-title {
+  margin: 0;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-auto-layout-settings-close .composa-icon-button-glyph {
+  transform: rotate(45deg);
+}
+
+.composa-auto-layout-settings-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--composa-auto-layout-settings-value-width);
+  align-items: center;
+  gap: var(--composa-space-3);
+}
+
+.composa-auto-layout-settings-label {
+  min-width: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-auto-layout-settings-field {
+  width: 100%;
+}
+
+.composa-auto-layout-settings-field.composa-dropdown,
+.composa-auto-layout-baseline-toggle.composa-segmented-control {
+  background: var(--composa-color-bg-secondary);
+}

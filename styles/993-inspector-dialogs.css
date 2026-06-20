@@ -1,0 +1,1147 @@
+/* Inspector dialogs: color/fill picker, typography, layout guides.
+ *
+ * These match the StrokeSettingsDialog / ExportSettingsDialog floating-window
+ * contract (styles/83-inspector-value-sections.css): a `composa-*-dialog` root
+ * with role="dialog" mounted through OverlayPortal at `inspector-dialog`
+ * placement. The dialog body owns dense inspector chrome — 11px type, 24px
+ * controls, quiet borders. Placement (position/left/top) is owned by
+ * OverlayLayer via the portal, so these rules only describe the surface. */
+
+/* --------------------------------------------------------------------------
+ * Shared dialog surface
+ *
+ * The surface has NO horizontal padding so hairline dividers run edge-to-edge
+ * (Figma 89:4939 / 91:40246 / 99:5566 all run section rules full-bleed). Each
+ * section owns its own inset via --composa-inspector-dialog-inset (12px) and
+ * sets its own block padding on the 8/12/16 scale. The header carries the
+ * edge-to-edge divider beneath it; section dividers are full-bleed top/bottom
+ * borders on the sections themselves.
+ * ------------------------------------------------------------------------ */
+.composa-color-picker-dialog,
+.composa-typography-dialog,
+.composa-layout-guide-dialog {
+  display: grid;
+  /* Single implicit column that never exceeds the dialog width: grid items
+     default to min-width:auto (min-content), so a wide row (segmented group +
+     label) would otherwise blow the track past the frame. Pin the column to the
+     content box and clip, so every section stays inside the rounded frame at the
+     12px inset (Figma 99:5566 / 99:9688). */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-dialog-radius);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-500-modal);
+  color: var(--composa-color-text);
+  overflow: hidden;
+}
+
+/* Every direct + nested section in these dialogs is allowed to shrink below its
+   intrinsic content width so it tracks the frame instead of overflowing it. */
+.composa-color-picker-dialog > *,
+.composa-typography-dialog > *,
+.composa-layout-guide-dialog > *,
+.composa-typography-body,
+.composa-typography-body > *,
+.composa-typography-section,
+.composa-typography-section > *,
+.composa-typography-fieldset,
+.composa-typography-fieldset-rows,
+.composa-typography-fieldset-rows > * {
+  min-width: 0;
+}
+
+.composa-typography-dialog,
+.composa-layout-guide-dialog {
+  width: var(--composa-typography-dialog-width);
+}
+
+.composa-color-picker-dialog {
+  width: var(--composa-color-picker-dialog-width);
+}
+
+/* --------------------------------------------------------------------------
+ * Color / fill picker (Figma 89:4939)
+ * ------------------------------------------------------------------------ */
+.composa-color-picker-header,
+.composa-typography-header,
+.composa-layout-guide-header {
+  min-height: var(--composa-height-input);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  /* Edge-to-edge divider beneath the header; per-section horizontal inset. */
+  padding: var(--composa-space-2) var(--composa-inspector-dialog-inset);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+/* Custom/Libraries are real Tabs (founder ask), not a SegmentedPicker. The
+   inspector convention hides the underline rule and lets the active tab read
+   through weight/color, matching Figma 89:4939. */
+.composa-color-picker-tabs.composa-tabs {
+  width: auto;
+  min-height: var(--composa-height-input);
+}
+
+.composa-color-picker-tabs .composa-tab {
+  /* Pill tabs (Figma 89:4939): the active tab is a grey rounded pill, so the tab
+     needs inner padding around its label. The container's gap handles spacing
+     between pills — no per-tab right margin. */
+  height: var(--composa-tab-height);
+  padding-inline: var(--composa-space-2);
+  min-width: 0;
+}
+
+.composa-color-picker-header-actions,
+.composa-typography-header .composa-header-actions,
+.composa-color-picker-paint-row .composa-header-actions {
+  gap: var(--composa-space-1);
+}
+
+/* Close glyph overlaps toward the dialog's top-right corner (Figma convention)
+ * by trimming the header inset on the trailing side. */
+.composa-color-picker-close,
+.composa-typography-close,
+.composa-layout-guide-close,
+.composa-stroke-settings-close,
+.composa-export-settings-close,
+.composa-type-style-menu-close {
+  margin-inline-end: calc(-1 * var(--composa-space-1));
+}
+
+.composa-color-picker-paint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2) var(--composa-inspector-dialog-inset);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-color-picker-paint-types {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-color-picker-paint-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-color-picker-paint-type.is-selected {
+  background: var(--composa-color-bg-selected);
+  color: var(--composa-color-border-selected);
+}
+
+/* 2D saturation/brightness area. Background blends white -> hue across X and
+ * transparent -> black down Y, like Spectrum's ColorArea. The body sections
+ * (area, sliders, fields) carry the per-section horizontal inset since the
+ * surface no longer pads — keeping dividers edge-to-edge. */
+.composa-color-picker-area {
+  position: relative;
+  /* Square the area off the smaller of the available inline space and the
+     rebalanced area size, then drive height from width with aspect-ratio so the
+     box is always 1:1 — the reticle's percentage coordinates then map to a true
+     square and the dot never reads squished. */
+  width: min(
+    calc(100% - 2 * var(--composa-inspector-dialog-inset)),
+    var(--composa-color-picker-area-size)
+  );
+  aspect-ratio: 1 / 1;
+  margin: var(--composa-inspector-dialog-inset) auto 0;
+  border-radius: var(--composa-radius-small);
+  background:
+    linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+    linear-gradient(to right, #fff, var(--composa-color-picker-hue, #f00));
+  box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.18);
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.composa-color-picker-reticle {
+  position: absolute;
+  width: var(--composa-color-picker-thumb-size);
+  height: var(--composa-color-picker-thumb-size);
+  /* Fixed square px box + a 50% radius: a guaranteed circle independent of the
+     area's own aspect-ratio (the prior 13px radius on a 16px box plus the
+     non-square area read as a squished oval). */
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--composa-color-picker-reticle-fill, #fff);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.18), 0 3px 8px 0 rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+.composa-color-picker-sliders {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-3);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset) 0;
+}
+
+.composa-color-picker-tracks {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: var(--composa-space-2);
+}
+
+.composa-color-picker-track {
+  position: relative;
+  height: var(--composa-color-picker-track-height);
+  border-radius: var(--composa-radius-large);
+  touch-action: none;
+  cursor: pointer;
+}
+
+.composa-color-picker-hue-track {
+  background: linear-gradient(
+    to right,
+    #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%
+  );
+}
+
+/* Alpha track over the standard checkerboard so transparency reads. */
+.composa-color-picker-alpha-track {
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0), var(--composa-color-picker-alpha-color, #000)),
+    conic-gradient(#0001 90deg, #0000 90deg 180deg, #0001 180deg 270deg, #0000 270deg) 0 0 / 8px 8px;
+}
+
+.composa-color-picker-thumb {
+  position: absolute;
+  top: 50%;
+  width: var(--composa-color-picker-thumb-size);
+  height: var(--composa-color-picker-thumb-size);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--composa-color-picker-thumb-fill, #fff);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 5px 12px 0 rgba(0, 0, 0, 0.13);
+  pointer-events: none;
+}
+
+.composa-color-picker-fields {
+  display: grid;
+  /* Format dropdown is content-sized but capped so a wide label (RGB/HSL) can't
+     starve the value field; the value field takes the remaining 1fr; opacity is
+     a fixed compact field. This keeps multi-component values ("13, 153, 255")
+     fully visible/editable instead of clipping the 3rd component. */
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset);
+}
+
+/* The format dropdown stays compact (icon + 2-3 char label) so the value field
+   gets the width it needs for RGB/HSL triples. */
+.composa-color-picker-format.composa-dropdown {
+  min-width: 0;
+}
+
+.composa-color-picker-value-input .composa-input-shell,
+.composa-color-picker-opacity-input .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* The value input must never clip its text: let it fill the column and keep the
+   inner field from imposing a wider intrinsic min-width than the column. */
+.composa-color-picker-value-input,
+.composa-color-picker-value-input .composa-input-shell {
+  min-width: 0;
+}
+
+/* Opacity holds "100 %" — size it just for that so the value field keeps room. */
+.composa-color-picker-opacity-input {
+  width: 48px;
+}
+
+.composa-color-picker-swatches {
+  display: grid;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset);
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.composa-color-picker-swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--composa-space-2);
+}
+
+.composa-color-picker-swatch {
+  width: var(--composa-color-picker-swatch-size);
+  height: var(--composa-color-picker-swatch-size);
+  padding: 0;
+  border: 0;
+  border-radius: 3.2px;
+  background: var(--composa-color-picker-swatch-fill, #fff);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.composa-color-picker-swatch:focus-visible {
+  outline: 2px solid var(--composa-color-border-selected);
+  outline-offset: 1px;
+}
+
+/* Inline swatch trigger that opens the picker from a row. */
+.composa-color-picker-trigger {
+  position: relative;
+  display: inline-flex;
+}
+
+.composa-color-picker-trigger-swatch {
+  width: var(--composa-color-picker-trigger-swatch-size);
+  height: var(--composa-color-picker-trigger-swatch-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--composa-radius-small);
+  background: var(--composa-color-picker-swatch-fill, #fff);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.composa-color-picker-trigger-swatch.is-selected {
+  outline: 2px solid var(--composa-color-border-selected);
+  outline-offset: 1px;
+}
+
+/* Opacity-aware swatch (Figma 91:41718): LEFT half is the solid color, RIGHT
+   half shows the color at its set alpha over a checkerboard, so e.g. 10% reads
+   as a translucent strip instead of a solid block. The swatch keeps the solid
+   color base; the ::after paints the right half (alpha over checker). */
+.composa-color-picker-trigger-swatch.has-opacity {
+  position: relative;
+  overflow: hidden;
+}
+
+.composa-color-picker-trigger-swatch.has-opacity::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 50%;
+  background:
+    var(--composa-color-picker-swatch-alpha-fill, transparent),
+    conic-gradient(#0002 90deg, #0000 90deg 180deg, #0002 180deg 270deg, #0000 270deg) 0 0 / 6px 6px,
+    #fff;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+ * Gradient body (Figma 89:8771): type dropdown + transforms, preview bar,
+ * stops list. Sections carry the per-section inset like the solid body.
+ * ------------------------------------------------------------------------ */
+.composa-color-picker-gradient-type-row {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset) 0;
+}
+
+.composa-color-picker-gradient-type.composa-dropdown {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-color-picker-gradient-type-actions {
+  gap: var(--composa-space-1);
+}
+
+.composa-color-picker-gradient-preview {
+  height: var(--composa-color-picker-gradient-preview-height);
+  margin: var(--composa-space-2-5) var(--composa-inspector-dialog-inset) 0;
+  border-radius: var(--composa-radius-small);
+  background:
+    var(--composa-color-picker-gradient-preview, linear-gradient(to right, #000, #666)),
+    conic-gradient(#0001 90deg, #0000 90deg 180deg, #0001 180deg 270deg, #0000 270deg) 0 0 / 8px 8px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.composa-color-picker-gradient-stops {
+  display: grid;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset);
+}
+
+.composa-color-picker-gradient-stops-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+}
+
+.composa-color-picker-gradient-stops-title {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-color-picker-gradient-stop-list {
+  display: grid;
+  gap: var(--composa-space-1);
+}
+
+.composa-color-picker-gradient-stop {
+  display: grid;
+  grid-template-columns: 52px var(--composa-space-4) minmax(0, 1fr) 54px var(--composa-height-input);
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-color-picker-gradient-stop-swatch {
+  width: var(--composa-space-4);
+  height: var(--composa-space-4);
+  border-radius: var(--composa-radius-small);
+  background: var(--composa-color-picker-swatch-fill, #fff);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.composa-color-picker-gradient-stop-pos .composa-input-shell,
+.composa-color-picker-gradient-stop-hex .composa-input-shell,
+.composa-color-picker-gradient-stop-opacity .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* --------------------------------------------------------------------------
+ * Image body (Figma 89:13859): fill-mode dropdown + checkerboard drop-zone.
+ * ------------------------------------------------------------------------ */
+.composa-color-picker-image-mode-row {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2-5) var(--composa-inspector-dialog-inset) 0;
+}
+
+.composa-color-picker-image-mode.composa-dropdown {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-color-picker-image-dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--composa-color-picker-image-dropzone-height);
+  margin: var(--composa-space-2-5) var(--composa-inspector-dialog-inset);
+  border-radius: var(--composa-radius-small);
+  background:
+    conic-gradient(#0002 90deg, #0000 90deg 180deg, #0002 180deg 270deg, #0000 270deg) 0 0 / 16px 16px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* "Upload from computer" uses the blue UI accent (Figma 89:13859 = #0d99ff),
+   NOT the Composa-orange product brand that Button variant="primary" resolves to
+   (--composa-color-bg-brand-strong). Pin the canonical UI3 blue here. */
+.composa-color-picker-image-upload.composa-button {
+  background: var(--composa-color-accent-cta);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-color-picker-image-upload.composa-button:hover,
+.composa-color-picker-image-upload.composa-button.is-hover {
+  background: var(--composa-color-accent-cta-pressed);
+  color: var(--composa-color-text-on-brand);
+}
+
+.composa-color-picker-image-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Libraries tab panel (empty/managed state).
+ * ------------------------------------------------------------------------ */
+.composa-color-picker-libraries {
+  display: grid;
+  justify-items: start;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-3) var(--composa-inspector-dialog-inset);
+}
+
+.composa-color-picker-libraries-empty {
+  margin: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+/* --------------------------------------------------------------------------
+ * Typography dialog (Figma 99:5566 — Basics/Details/Variable panel)
+ *
+ * 240px floating dialog. Header hosts the Basics/Details/Variable Tabs (no
+ * underline rule) with the close X overlapping the top-right corner; a Preview
+ * specimen box sits under the header; the Basics body carries family/style/
+ * metrics plus two divided control sections (Alignment/Decoration/Case, then
+ * Vertical-trim/List-style/Paragraph-spacing/Truncate). Rows are 32px tall with
+ * an 11px label at the 16px text inset and a trailing 24px icon segmented group.
+ * ------------------------------------------------------------------------ */
+
+/* Header carries the Tabs row; the close X overlaps the corner via the shared
+ * `.composa-typography-close` margin trim (defined above). The tab list uses
+ * the no-underline inspector convention; the active tab reads as a pill. */
+.composa-typography-header {
+  align-items: center;
+  padding-block: var(--composa-space-2);
+}
+
+.composa-typography-tabs.composa-tabs {
+  width: auto;
+  min-height: var(--composa-height-input);
+  flex: 1 1 auto;
+}
+
+.composa-typography-tabs .composa-tab {
+  /* Pill tabs: defined height so the active grey pill has even vertical padding
+     around the label (was auto for the underline text treatment). */
+  height: var(--composa-tab-height);
+  min-width: 0;
+}
+
+/* Preview specimen box: a quiet rounded surface centered on the family face. */
+.composa-typography-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--composa-typography-preview-height);
+  margin: var(--composa-inspector-dialog-inset);
+  border-radius: var(--composa-control-radius);
+  background: var(--composa-color-bg-secondary);
+  overflow: hidden;
+}
+
+.composa-typography-preview-text {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-typography-preview-size);
+  line-height: 1.2;
+}
+
+.composa-typography-body {
+  display: grid;
+  gap: 0;
+}
+
+.composa-typography-section {
+  display: grid;
+  gap: 0;
+}
+
+/* The first two control sections share an edge-to-edge divider beneath them;
+ * the trailing section just carries its block rhythm. */
+.composa-typography-section-divided {
+  padding-block-end: var(--composa-space-2-5);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-typography-section-secondary {
+  padding-block: var(--composa-space-2) var(--composa-space-2-5);
+}
+
+/* Family trigger + style row + metrics keep the labelled-row geometry. */
+.composa-typography-family {
+  position: relative;
+  padding: 0 var(--composa-inspector-dialog-inset) var(--composa-space-2);
+}
+
+.composa-typography-family-trigger {
+  width: 100%;
+  height: var(--composa-control-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-control-radius);
+  background: var(--composa-color-bg-secondary);
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  cursor: pointer;
+}
+
+.composa-typography-family-trigger.is-selected {
+  border-color: var(--composa-color-border-selected);
+}
+
+.composa-typography-family-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-typography-family-chevron {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--composa-color-text-secondary);
+}
+
+.composa-typography-row,
+.composa-layout-guide-row {
+  display: grid;
+  grid-template-columns: var(--composa-typography-label-width) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-1) var(--composa-inspector-dialog-inset);
+}
+
+.composa-typography-label,
+.composa-layout-guide-label {
+  min-width: 0;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-typography-field.composa-dropdown,
+.composa-typography-field .composa-input-shell,
+.composa-typography-input .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+.composa-typography-metrics {
+  display: grid;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-1) var(--composa-inspector-dialog-inset) var(--composa-space-2);
+}
+
+.composa-typography-metric-field {
+  display: grid;
+  grid-template-columns: var(--composa-typography-label-width) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--composa-space-2);
+}
+
+.composa-typography-metric-label {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+/* Basics control row: 11px label at the 16px text inset, segmented group
+ * pinned to the trailing edge. The label sits past the 12px section inset by
+ * one space-1 step so it lands on Figma's 16px text inset. */
+.composa-typography-control-row {
+  min-height: var(--composa-typography-control-row-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-1) var(--composa-inspector-dialog-inset);
+}
+
+.composa-typography-control-label {
+  padding-inline-start: var(--composa-space-1);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-typography-control-cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+/* Segmented groups read as one grouped surface (#f5f5f5 with a 5px radius); the
+ * selected segment lifts to white. Mirrors Figma 99:5566 segment chrome. */
+.composa-typography-segmented.composa-segmented-control {
+  width: auto;
+  background: var(--composa-color-bg-secondary);
+  border-radius: var(--composa-control-radius);
+  padding: 0;
+}
+
+/* Inspector icon segmented controls (Basics Alignment/Decoration/List/Truncate,
+   Details OpenType on/off toggles + Numbers) use a COMPACT 24px segment, not the
+   default 42px (--composa-segmented-icon-width-2). The wide default overflowed
+   the 240px frame — clipping the trailing "on/check" segment (Figma 99:9688). */
+.composa-typography-segmented.composa-segmented-control .composa-icon-button {
+  width: var(--composa-control-height);
+}
+
+.composa-typography-segment-specimen {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: 1;
+  color: currentColor;
+}
+
+.composa-typography-segment-specimen.is-small {
+  font-size: 9px;
+}
+
+.composa-typography-segment-specimen.is-boxed {
+  padding: 1px 2px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+
+/* The Case row carries the most segments (—/AG/ag/Ag/Ag) so it is the widest
+   control. Pin each specimen segment to a compact 24px box but allow it to flex
+   down so the 5-up group fits inside the 240px frame at the 12px inset like
+   Figma 99:5566 — no clipped trailing "Ag". */
+.composa-typography-specimen-segment {
+  width: var(--composa-control-height);
+  min-width: 0;
+  flex: 1 1 var(--composa-control-height);
+}
+
+/* The specimen group itself must shrink to fit rather than overflow the row. */
+.composa-typography-control-cluster {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.composa-typography-control-cluster .composa-typography-segmented.composa-segmented-control {
+  min-width: 0;
+}
+
+/* Trailing affordances (underline-details overflow) sit just past the group. */
+.composa-typography-underline-details {
+  flex: 0 0 auto;
+}
+
+/* Paragraph spacing uses a compact 72px numeric field, not a labelled row. */
+.composa-typography-paragraph-input {
+  width: var(--composa-typography-paragraph-input-width);
+  flex: 0 0 auto;
+}
+
+.composa-typography-paragraph-input .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* --------------------------------------------------------------------------
+ * Typography Variable tab — variable-font axis sliders
+ *
+ * A Slant axis (continuous track) and a Weight axis (stepped track with one
+ * stop dot per step, active stops highlighted). Each axis is a label + value
+ * field row above a horizontal track: a blue filled portion, a white thumb,
+ * and — when stepped — evenly spaced stop dots. Mirrors the founder reference.
+ * ------------------------------------------------------------------------ */
+.composa-typography-body-variable {
+  padding-block: var(--composa-space-2) var(--composa-space-3);
+}
+
+.composa-typography-axes {
+  display: grid;
+  gap: var(--composa-space-3);
+}
+
+.composa-typography-axis {
+  display: grid;
+  gap: var(--composa-space-2);
+  padding-inline: var(--composa-inspector-dialog-inset);
+}
+
+.composa-typography-axis-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+}
+
+.composa-typography-axis-label {
+  padding-inline-start: var(--composa-space-1);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-typography-axis-input {
+  width: var(--composa-typography-paragraph-input-width);
+  flex: 0 0 auto;
+}
+
+.composa-typography-axis-input .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* The track: a 4px rounded rail. A blue fill spans the left portion up to the
+ * thumb; the white thumb rides on top. The whole track is the pointer target. */
+.composa-typography-axis-track {
+  position: relative;
+  height: var(--composa-typography-axis-track-height);
+  margin-inline: var(--composa-space-1);
+  border-radius: var(--composa-typography-axis-track-height);
+  background: var(--composa-color-bg-secondary);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.composa-typography-axis-track:focus-visible {
+  outline: 2px solid var(--composa-color-border-selected);
+  outline-offset: 2px;
+}
+
+.composa-typography-axis-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: inherit;
+  background: var(--composa-color-border-selected);
+  pointer-events: none;
+}
+
+/* Stepped (Weight) track: render the discrete stop dots over the rail. */
+.composa-typography-axis-stops {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.composa-typography-axis-stop {
+  position: absolute;
+  top: 50%;
+  width: var(--composa-typography-axis-stop-size);
+  height: var(--composa-typography-axis-stop-size);
+  border-radius: 50%;
+  background: var(--composa-color-border);
+  transform: translate(-50%, -50%);
+}
+
+.composa-typography-axis-stop.is-active {
+  background: var(--composa-color-bg);
+}
+
+/* Thumb: a white dot with a quiet ring + shadow, centered on the value. */
+.composa-typography-axis-thumb {
+  position: absolute;
+  top: 50%;
+  width: var(--composa-typography-axis-thumb-size);
+  height: var(--composa-typography-axis-thumb-size);
+  border-radius: 50%;
+  background: var(--composa-color-bg);
+  border: 1px solid var(--composa-color-border);
+  box-shadow: var(--composa-elevation-200-popover, 0 1px 3px rgba(0, 0, 0, 0.2));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+ * Typography Details tab — OpenType feature fieldsets (Figma 99:9688)
+ *
+ * A scrolling stack of titled fieldsets (Indentation, Letter case, Numbers,
+ * Letterforms, Stylistic sets, Character variants, Horizontal spacing, More
+ * features). Each fieldset has an 11px semibold legend and rows reusing the
+ * Basics control-row geometry: dash/check toggles, the case specimen segment,
+ * Numbers multi-icon segments, and a compact numeric field.
+ * ------------------------------------------------------------------------ */
+.composa-typography-body-details {
+  max-height: var(--composa-typography-details-max-height);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.composa-typography-fieldset {
+  display: grid;
+  gap: 0;
+  padding-block-end: var(--composa-space-2-5);
+  border-bottom: 1px solid var(--composa-color-border);
+}
+
+.composa-typography-fieldset.is-last {
+  border-bottom: 0;
+}
+
+.composa-typography-legend {
+  min-height: var(--composa-typography-control-row-height);
+  display: flex;
+  align-items: center;
+  /* Legend lands one space-1 step past the section inset, on Figma's 24px. */
+  padding: var(--composa-space-2) var(--composa-inspector-dialog-inset) var(--composa-space-1);
+  padding-inline-start: calc(var(--composa-inspector-dialog-inset) + var(--composa-space-1));
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-typography-fieldset-rows {
+  display: grid;
+  gap: 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Type style picker menu — "Text styles" (Figma 99:4077)
+ *
+ * Each row leads with an `Ag` specimen rendered in the style's face, then the
+ * style label + size/line-height meta, with an edit/filter affordance revealed
+ * on the selected or hovered row.
+ * ------------------------------------------------------------------------ */
+.composa-type-style-menu,
+.composa-fonts-picker-menu {
+  width: var(--composa-type-style-menu-width);
+  max-height: var(--composa-type-style-menu-max-height);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2);
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-menu-radius);
+  /* These two pickers are inspector surfaces (Figma 99:1337 / 99:4077): LIGHT,
+     unlike the dark context/toolbar Menu (--composa-menu-surface-bg #1f1f1f).
+     Use the dialog surface + a popover shadow so they read on-canvas like the
+     rest of the inspector. */
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+  color: var(--composa-color-text);
+}
+
+.composa-type-style-menu-header,
+.composa-fonts-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+}
+
+.composa-type-style-menu-title,
+.composa-fonts-picker-title {
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-type-style-menu-actions,
+.composa-fonts-picker-actions {
+  gap: var(--composa-space-1);
+}
+
+.composa-type-style-menu-groups {
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  gap: var(--composa-space-2);
+}
+
+.composa-type-style-group {
+  display: grid;
+  gap: var(--composa-space-1);
+}
+
+.composa-type-style-group-label {
+  padding: var(--composa-space-1) var(--composa-space-2);
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-type-style-subgroup {
+  display: grid;
+  gap: 1px;
+}
+
+.composa-type-style-subgroup-label {
+  padding: var(--composa-space-1) var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+}
+
+/* Type-style row: specimen + label + meta on the left, edit affordance right. */
+.composa-type-style-row {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  min-height: var(--composa-control-height);
+  padding-inline: var(--composa-space-1);
+  border-radius: var(--composa-control-radius);
+}
+
+.composa-type-style-row.is-selected,
+.composa-type-style-row:hover {
+  background: var(--composa-color-bg-hover, rgba(0, 0, 0, 0.04));
+}
+
+.composa-type-style-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: start;
+}
+
+.composa-type-style-specimen {
+  flex: 0 0 auto;
+  width: var(--composa-control-height);
+  text-align: center;
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+  color: var(--composa-color-text);
+}
+
+.composa-type-style-specimen.is-emphasized {
+  font-weight: var(--composa-body-medium-strong-weight);
+}
+
+.composa-type-style-row-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-type-style-row-meta {
+  flex: 0 0 auto;
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+/* The edit/filter affordance hides until the row is selected or hovered. */
+.composa-type-style-row-edit {
+  flex: 0 0 auto;
+  opacity: 0;
+}
+
+.composa-type-style-row.is-selected .composa-type-style-row-edit,
+.composa-type-style-row:hover .composa-type-style-row-edit,
+.composa-type-style-row-edit:focus-visible {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+ * Fonts picker menu (Figma 99:1337)
+ *
+ * Search + "All fonts" source dropdown + a font list where each family renders
+ * in its own face. Reuses the type-style menu surface chrome.
+ * ------------------------------------------------------------------------ */
+.composa-fonts-picker-menu {
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+}
+
+.composa-fonts-picker-source {
+  display: flex;
+}
+
+.composa-fonts-picker-source-dropdown.composa-dropdown {
+  width: 100%;
+  background: transparent;
+}
+
+.composa-fonts-picker-list {
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  gap: 1px;
+}
+
+.composa-fonts-picker-row {
+  display: flex;
+  align-items: center;
+  min-height: var(--composa-fonts-picker-row-height);
+  padding: 0 var(--composa-space-2);
+  border: 0;
+  border-radius: var(--composa-control-radius);
+  background: transparent;
+  color: var(--composa-color-text);
+  font-size: var(--composa-fonts-picker-row-size);
+  cursor: pointer;
+  text-align: start;
+}
+
+.composa-fonts-picker-row.is-selected,
+.composa-fonts-picker-row:hover {
+  background: var(--composa-color-bg-hover, rgba(0, 0, 0, 0.04));
+}
+
+/* --------------------------------------------------------------------------
+ * Layout guides dialog (Figma 91:40246 columns / 91:38859 rows)
+ * ------------------------------------------------------------------------ */
+.composa-layout-guide-type.composa-dropdown {
+  background: transparent;
+}
+
+.composa-layout-guide-row.is-muted .composa-layout-guide-field .composa-input-shell {
+  opacity: 0.6;
+}
+
+.composa-layout-guide-field.composa-dropdown,
+.composa-layout-guide-field .composa-input-shell {
+  background: var(--composa-color-bg-secondary);
+}
+
+/* One connected segmented field: swatch + hex + opacity read as a single
+ * control (Figma 91:40246), not three loose inputs. The hex/opacity shells
+ * drop their own borders and a single shared border wraps the cluster. */
+.composa-layout-guide-color {
+  display: grid;
+  grid-template-columns: var(--composa-layout-guide-color-trigger-size) minmax(0, 1fr) 54px;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--composa-color-border);
+  border-radius: var(--composa-control-radius);
+  background: var(--composa-color-bg-secondary);
+  overflow: hidden;
+}
+
+.composa-layout-guide-color-hex .composa-input-shell,
+.composa-layout-guide-color-opacity .composa-input-shell {
+  border-color: transparent;
+  background: transparent;
+}
+
+.composa-layout-guide-color-opacity {
+  position: relative;
+}
+
+.composa-layout-guide-color-opacity::before {
+  content: "";
+  position: absolute;
+  inset-block: var(--composa-space-1);
+  inset-inline-start: 0;
+  width: 1px;
+  background: var(--composa-color-border);
+}
+
+.composa-layout-guide-color-trigger {
+  padding-inline-start: var(--composa-space-1);
+}
+
+.composa-layout-guide-color-trigger .composa-color-picker-trigger-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--composa-radius-small);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}

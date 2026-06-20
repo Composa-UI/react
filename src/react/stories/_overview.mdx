@@ -4,13 +4,31 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # Composa UI
 
-Composa UI is a React component library and design system. It packages controls, menus, inputs, and overlays into a single token-driven system, documented here in Storybook alongside the foundations that govern them.
+Composa UI is a React component library and design system. It packages controls, menus, inputs, and overlays into one composable system, documented here in Storybook alongside the foundations that govern them.
 
 ## How it is built
 
-**Tokens drive everything.** Components never read raw values. Every color, size, radius, space, and type role resolves through a `--composa-*` token, and every token resolves through a primitive underneath it. Change a token and the whole library follows. The same token names resolve to different values across light and dark modes, so theming is a data change, not a code change.
+**Composa is built out of building blocks that build up to each other.** Every piece is a block. Small blocks combine into larger blocks, and larger blocks combine into whole surfaces — nothing is drawn from scratch and nothing is a one-off. The system is the hierarchy of blocks, not any single layer of it.
 
-**Icons are slots.** Components do not bake in specific glyphs. Wherever an icon can appear — a button's leading mark, a menu row's trailing chevron, a checkbox's check — the component exposes a slot you fill. This keeps the icon set swappable and keeps the components agnostic about which icon library ships underneath.
+That hierarchy is the whole idea, so the rest of these docs are really a tour of the blocks: the foundations a block is made of, the controls you compose, and the regions and surfaces those controls build into.
+
+**Tokens are the mental-model block.** Tokens are the clearest example of a building block, which is why they are the easiest place to see how the system thinks. Components never read raw values: every color, size, radius, space, and type role resolves through a `--composa-*` token, and every token resolves through a primitive underneath it. Change a token and every block above it follows. The same token names resolve to different values across light and dark modes, so theming is a data change, not a code change.
+
+**Icons are a slot block.** Icons are another building block, exposed as a slot rather than baked in. Wherever an icon can appear — a button's leading mark, a menu row's trailing chevron, a checkbox's check — the component exposes a slot you fill. This keeps the icon set swappable and keeps the components agnostic about which icon library ships underneath.
+
+## Layers of the system
+
+The building blocks stack into named layers. Each layer is composed from the one below it.
+
+**Base components are the small pieces.** These are controls such as buttons, inputs, dropdowns, tabs, tooltips, avatars, segmented controls, and rows. They should solve one reusable problem and stay useful in many places.
+
+**Modules are composed regions.** A module combines base components together to perform a specific function — a meaningful part of a product surface such as an inspector header, a layer header, a position section, or an export section. Modules own arrangement and behavior for that function, but they should not reinvent primitive control behavior.
+
+**Templates are complete product patterns.** A template assembles modules into a full reusable surface, such as an editing inspector right rail. Templates own the big decisions: order, scrolling, selected-object state, and how sections appear or disappear together.
+
+This layering is composability in practice, and it keeps the system portable. If the app needs a new inspector, navigator, or editing surface later, it can reuse the same base components and modules rather than starting from a screenshot.
+
+When you build at these layers, the operational rules — which layer owns which behavior, and how to verify a block is done — live in `docs/design-system/composa-component-builder.md`.
 
 ## Lineage
 

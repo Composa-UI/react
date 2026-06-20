@@ -5,10 +5,11 @@
 // wires no icon set (content icons are passed in as slots; structural glyphs are
 // the built-in license-clean set).
 import React from "react";
+import { createPortal } from "react-dom";
 import { createComposaComponents } from "./factory.js";
 import { ComposaIcon, iconAssets } from "./story-icons.js";
 
-const components = createComposaComponents(React, { Icon: ComposaIcon });
+const components = createComposaComponents(React, { Icon: ComposaIcon, createPortal });
 
 export const {
   Button,
@@ -28,12 +29,24 @@ export const {
   Radio,
   Checkbox,
   Tooltip,
+  OverlayLayer,
+  OverlayHost,
+  OverlayPortal,
   Dialog,
   Dropdown,
   Menu,
   MenuRow,
   MenuMultiSelect,
   VerticalCell,
+  ComposaAppIcon,
+  NavigationRailItem,
+  AppNavigationRail,
+  NavigatorHeader,
+  CollapseHeader,
+  SlideThumb,
+  SlideList,
+  EditorNavigator,
+  SlidesNavigator,
   TextPair,
   Label,
   Tree,
@@ -48,8 +61,43 @@ export const {
   HeaderActions,
   Header,
   SegmentedControl,
+  ControlGroup,
+  AlignmentPicker,
   Tab,
   Tabs,
+  Avatar,
+  MultiplayerControl,
+  CommentComposer,
+  CommentItem,
+  CommentThreadWindow,
+  Badge,
+  BadgeAnchor,
+  NotificationBell,
+  Notification,
+  VisualBell,
+  InspectorHeader,
+  LayerHeader,
+  PositionSection,
+  LayoutSection,
+  FillSection,
+  StrokeSection,
+  StrokeControlsSection,
+  EffectsSection,
+  ColorPickerDialog,
+  ColorPickerTrigger,
+  TypographyDialog,
+  TypeStyleMenu,
+  TypeStyleRow,
+  FontsPickerMenu,
+  LayoutGuideSettingsDialog,
+  SelectionColorsSection,
+  LayoutGuideSection,
+  ExportSection,
+  AppearanceSection,
+  EditingInspector,
+  EditorToolbar,
+  EditorShell,
+  SlidesEditorTemplate,
   CanvasSelectionOverlay,
 } = components;
 

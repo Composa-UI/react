@@ -1,0 +1,117 @@
+.composa-overlay-host-root {
+  position: relative;
+  overflow: visible;
+}
+
+.composa-overlay-host {
+  position: absolute;
+  inset: 0;
+  z-index: var(--composa-inspector-overlay-z);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.composa-overlay-host .composa-overlay-layer {
+  pointer-events: auto;
+}
+
+.composa-overlay-layer {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  max-width: min(var(--composa-overlay-max-width, 320px), calc(100vw - var(--composa-space-8)));
+}
+
+.composa-overlay-layer-portal {
+  position: absolute;
+}
+
+.composa-overlay-layer-portal.is-measuring {
+  visibility: hidden !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.composa-overlay-layer-portal.is-measuring * {
+  visibility: hidden !important;
+}
+
+.composa-overlay-layer-below-trigger {
+  top: calc(100% + var(--composa-inspector-overlay-offset));
+  left: 0;
+}
+
+.composa-overlay-layer-left-of-inspector,
+.composa-overlay-layer-inspector-dialog {
+  right: calc(100% + var(--composa-inspector-overlay-offset));
+  bottom: 0;
+}
+
+.composa-overlay-align-end {
+  right: var(--composa-inspector-overlay-offset);
+  left: auto;
+}
+
+.composa-overlay-layer-left-of-inspector.composa-overlay-align-end,
+.composa-overlay-layer-inspector-dialog.composa-overlay-align-end {
+  right: calc(100% + var(--composa-inspector-overlay-offset));
+  left: auto;
+}
+
+.composa-overlay-align-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.composa-overlay-layer-portal.composa-overlay-align-center {
+  transform: none;
+}
+
+.composa-overlay-layer-portal.composa-overlay-align-end {
+  right: auto;
+}
+
+.composa-overlay-layer-portal.composa-overlay-layer-left-of-inspector,
+.composa-overlay-layer-portal.composa-overlay-layer-inspector-dialog {
+  right: auto;
+  bottom: auto;
+}
+
+.composa-overlay-layer > .composa-dropdown-menu,
+.composa-overlay-layer > .composa-zoom-menu,
+.composa-overlay-layer > .composa-stroke-align-menu,
+.composa-overlay-layer > .composa-blend-mode-menu,
+.composa-overlay-layer > .composa-export-settings-dialog,
+.composa-overlay-layer > .composa-stroke-settings-dialog,
+.composa-overlay-layer > .composa-auto-layout-settings-dialog {
+  position: static;
+  inset: auto;
+  z-index: auto;
+}
+
+.composa-overlay-host .composa-tooltip-layer {
+  pointer-events: none;
+}
+
+.composa-overlay-host .composa-icon-button-tooltip,
+.composa-overlay-host .composa-input-tooltip,
+.composa-overlay-host .composa-alignment-tooltip {
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: none;
+}
+
+.composa-dropdown-menu-layer {
+  width: max-content;
+  min-width: 0;
+}
+
+.composa-overlay-layer > .composa-dropdown-menu {
+  min-width: var(--composa-dropdown-menu-min-width);
+}

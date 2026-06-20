@@ -1,0 +1,110 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import * as SegmentedControlStories from "./segmented-control.stories.js";
+
+<Meta of={SegmentedControlStories} />
+
+# SegmentedControl
+
+A single-select control: a row of mutually exclusive segments on a shared track, with one selected at a time.
+
+**Capability:** Controllable. Pass `value` + `onValueChange` to drive selection from a model; uncontrolled by default via `defaultValue`.
+
+<Canvas of={SegmentedControlStories.Playground} />
+
+## Guidelines
+
+### When to use it
+
+Use SegmentedControl to switch between a small set of mutually exclusive views or modes inside one surface — 2 to 6 options that fit on one row: alignment modes, view toggles, a compact filter. The selected segment is a **white raised pill on a gray track**, so the current choice reads at a glance.
+
+| Use instead | When |
+|---|---|
+| Tabs | The options switch page-level content regions, not an inline mode. |
+| Radio | The options stack vertically or need long labels and descriptions. |
+| Dropdown | There are too many options to fit on one row. |
+| ToggleButton | It is a single on/off toggle, not a choice among several. |
+
+### The rules
+
+- **Exactly one segment is selected at all times.** Segments are mutually exclusive; this is single-select, never multi-select.
+- **The selected segment is a white pill, not a brand fill.** This is a deliberate divergence from the shared icon-button selected treatment, matched to the Figma source where the selected segment is a white chip on the gray track. The segmented stylesheet overrides the button-family selected-blue back to a white surface + 1px border.
+- **2 to 6 options that fit on one row.** Past that, reach for Dropdown.
+- **Keep labels short.** In the label variant, segments share a fixed track width.
+- **Give the track a `label`.** It becomes the `aria-label` on the `role="tablist"`.
+
+**Do**
+
+- Use it for 2–6 mutually exclusive options on one row.
+- Use the icon variant when a glyph is unambiguous (alignment, view density).
+- Keep one segment selected at all times.
+
+**Don't**
+
+- Use it for more options than fit on one row — use Dropdown.
+- Mix icon and text segments to mean different kinds of thing.
+- Use it for page-level navigation — use Tabs.
+- Use it for multi-select.
+
+Grounded in the Figma "Segmented control" guideline frame (`2015:20960`): 20 variants across `Variant=Icon/Label`, `Tab Count=02..06`, `State=Default/Disabled`. The selected white pill, the icon vs label split, and the whole-track dim on disabled all read from that frame.
+
+## Anatomy
+
+SegmentedControl renders a `<div>` track with `role="tablist"`, holding one segment per option in array order:
+
+1. **Track** — gray `bg-secondary` surface, 5px radius, 1px padding. Sizes to content.
+2. **Segments** — one `role="tab"` per option. In the **icon** variant each is an `IconButton` glyph; in the **label** variant each is a text `<button>`.
+3. **Selected pill** — the selected segment gets a white fill, a 1px border, and primary text/icon color, raising it off the track.
+
+There is no divider between segments; separation comes from the pill and the track padding.
+
+## Code & Specs
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `options` | `SegmentedOption[]` | `[]` | The segments. Each carries `label`, `icon`, optional `id`, `value`, `selected`, `disabled`, `onClick`. |
+| `variant` | `"icon" \| "label"` | `"icon"` | Render each segment as a glyph or a text button. |
+| `value` | `string` | none | Controlled selected value. Pair with `onValueChange`. |
+| `defaultValue` | `string` | first selected, else first option | Uncontrolled initial value. |
+| `onValueChange` | `(value, option, index, event) => void` | none | Fires on selection. |
+| `width` | `"auto" \| "fill"` | `"auto"` | `fill` stretches segments evenly to the container. |
+| `state` | `"default" \| "disabled"` | `"default"` | Forces a visual state; real interaction is browser-driven. |
+| `disabled` | `boolean` | `false` | Disables the whole control. |
+| `label` | `string` | none | Accessible name for the tablist (`aria-label`). |
+
+Per-option `disabled` disables a single segment; top-level `disabled` disables all. Selection resolves through `value ?? internalValue`. Extra props spread to the root `<div>`.
+
+### Sizes & width
+
+- **Height** is fixed: 24px track (`--composa-segmented-height`), 1px padding, 22px segments.
+- **Width:** icon variant hugs content (42px per segment for 2 options, 28px for 3–6). Label variant fixes the track to 240px (160px for 2 options) and segments share it (`flex: 1 1 0`). `width="fill"` stretches evenly.
+
+<Canvas of={SegmentedControlStories.FillWidth} />
+
+### States
+
+| State | Reached by | Treatment |
+|---|---|---|
+| Default (unselected) | resting | Segment on the gray track; `text-secondary` / `icon-secondary`. |
+| Selected | the selected `value` | White fill, 1px `--composa-color-border`, primary text/icon. Raised pill. |
+| Focus-visible | keyboard focus | Control focus ring on the focused segment. |
+| Disabled | `disabled` / `state="disabled"` | Whole track dims to the disabled surface; labels drop to `text-disabled`. |
+
+### Import
+
+```jsx
+import { SegmentedControl } from "@composa-ui/react";
+
+<SegmentedControl
+  variant="label"
+  label="View mode"
+  value={mode}
+  onValueChange={(next) => setMode(next)}
+  options={[
+    { label: "Design", value: "design" },
+    { label: "Prototype", value: "prototype" },
+    { label: "Inspect", value: "inspect" },
+  ]}
+/>
+```

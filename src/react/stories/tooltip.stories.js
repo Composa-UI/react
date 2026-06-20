@@ -1,7 +1,7 @@
 import { TooltipFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Tooltip",
+  title: "Composa UI/Components/Base/Overlays/Tooltip",
   parameters: {
     docs: {
       description: {

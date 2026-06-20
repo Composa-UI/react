@@ -1,0 +1,411 @@
+/* Badge, NotificationBell, Notification, VisualBell — Wave 8.
+ *
+ * Figma UI3 kit 4kilp0ShQiYsoUPJdleqEH:
+ *   - Badges page 2012-32973: Badge large 2012-35016, Badge small 2012-35027,
+ *     Badge small alt 2012-35077 (count badges), Badge Dot 2012-35086.
+ *   - Visual Bells page 2015-40421: Bell 2015-42989 (the in-app toast/snackbar)
+ *     -> VisualBell. Bell Multiplayer (collaborator-follow toasts) is deferred.
+ *   - Notifications page 2028-109149: Notifications 2028-111255 (dark HUD card,
+ *     icon + message + 1-2 trailing CTAs) -> Notification.
+ *
+ * The notification BELL (the icon-button with an unread indicator) is composed,
+ * not a new surface: NotificationBell = IconButton + Badge positioned via
+ * BadgeAnchor. Badge owns the count/dot/label indicator; BadgeAnchor owns the
+ * corner-overlay positioning. This is how Badge composes onto buttons/avatars.
+ */
+
+/* ── Badge ───────────────────────────────────────────────────────────────── */
+
+.composa-badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--composa-badge-gap);
+  height: var(--composa-badge-height);
+  min-width: var(--composa-badge-height);
+  padding: 0 var(--composa-badge-padding-inline);
+  border-radius: var(--composa-badge-radius);
+  font-family: var(--composa-font-family, inherit);
+  font-size: var(--composa-badge-font-size);
+  line-height: var(--composa-badge-line-height);
+  font-weight: 450;
+  letter-spacing: 0.055px;
+  white-space: nowrap;
+  /* tone fills (subtle by default) */
+  color: var(--composa-badge-tone-fg, var(--composa-badge-default-fg));
+  background: var(--composa-badge-tone-bg, var(--composa-badge-default-bg));
+}
+
+.composa-badge-strong {
+  font-weight: 550;
+  color: var(--composa-badge-tone-strong-fg, var(--composa-badge-default-strong-fg));
+  background: var(--composa-badge-tone-strong-bg, var(--composa-badge-default-strong-bg));
+}
+
+.composa-badge-large {
+  height: var(--composa-badge-height-large);
+  min-width: var(--composa-badge-height-large);
+}
+
+/* Count badges are circular when single-digit and pill-shaped otherwise. */
+.composa-badge-count {
+  padding: 0 5px;
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The bare status dot — no text, fixed small circle. */
+.composa-badge-dot {
+  width: var(--composa-badge-dot-size);
+  height: var(--composa-badge-dot-size);
+  min-width: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--composa-badge-tone-strong-bg, var(--composa-badge-default-strong-bg));
+}
+
+.composa-badge-label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-badge-icon {
+  display: inline-flex;
+  width: var(--composa-badge-icon-size);
+  height: var(--composa-badge-icon-size);
+  flex: none;
+}
+
+.composa-badge-icon .composa-icon,
+.composa-badge-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Tone color wiring. Each tone sets the four resolved custom props the base
+   rule consumes (subtle fg/bg + strong fg/bg). */
+.composa-badge-default { --composa-badge-tone-fg: var(--composa-badge-default-fg); --composa-badge-tone-bg: var(--composa-badge-default-bg); --composa-badge-tone-strong-fg: var(--composa-badge-default-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-default-strong-bg); }
+.composa-badge-brand { --composa-badge-tone-fg: var(--composa-badge-brand-fg); --composa-badge-tone-bg: var(--composa-badge-brand-bg); --composa-badge-tone-strong-fg: var(--composa-badge-brand-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-brand-strong-bg); }
+.composa-badge-figjam { --composa-badge-tone-fg: var(--composa-badge-figjam-fg); --composa-badge-tone-bg: var(--composa-badge-figjam-bg); --composa-badge-tone-strong-fg: var(--composa-badge-figjam-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-figjam-strong-bg); }
+.composa-badge-component { --composa-badge-tone-fg: var(--composa-badge-component-fg); --composa-badge-tone-bg: var(--composa-badge-component-bg); --composa-badge-tone-strong-fg: var(--composa-badge-component-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-component-strong-bg); }
+.composa-badge-danger { --composa-badge-tone-fg: var(--composa-badge-danger-fg); --composa-badge-tone-bg: var(--composa-badge-danger-bg); --composa-badge-tone-strong-fg: var(--composa-badge-danger-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-danger-strong-bg); }
+.composa-badge-warning { --composa-badge-tone-fg: var(--composa-badge-warning-fg); --composa-badge-tone-bg: var(--composa-badge-warning-bg); --composa-badge-tone-strong-fg: var(--composa-badge-warning-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-warning-strong-bg); }
+.composa-badge-success { --composa-badge-tone-fg: var(--composa-badge-success-fg); --composa-badge-tone-bg: var(--composa-badge-success-bg); --composa-badge-tone-strong-fg: var(--composa-badge-success-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-success-strong-bg); }
+.composa-badge-merged { --composa-badge-tone-fg: var(--composa-badge-merged-fg); --composa-badge-tone-bg: var(--composa-badge-merged-bg); --composa-badge-tone-strong-fg: var(--composa-badge-merged-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-merged-strong-bg); }
+.composa-badge-archived { --composa-badge-tone-fg: var(--composa-badge-archived-fg); --composa-badge-tone-bg: var(--composa-badge-archived-bg); --composa-badge-tone-strong-fg: var(--composa-badge-archived-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-archived-strong-bg); }
+.composa-badge-invert { --composa-badge-tone-fg: var(--composa-badge-invert-fg); --composa-badge-tone-bg: var(--composa-badge-invert-bg); --composa-badge-tone-strong-fg: var(--composa-badge-invert-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-invert-strong-bg); }
+.composa-badge-selected { --composa-badge-tone-fg: var(--composa-badge-selected-fg); --composa-badge-tone-bg: var(--composa-badge-selected-bg); --composa-badge-tone-strong-fg: var(--composa-badge-selected-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-selected-strong-bg); }
+.composa-badge-feedback { --composa-badge-tone-fg: var(--composa-badge-feedback-fg); --composa-badge-tone-bg: var(--composa-badge-feedback-bg); --composa-badge-tone-strong-fg: var(--composa-badge-feedback-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-feedback-strong-bg); }
+.composa-badge-menu { --composa-badge-tone-fg: var(--composa-badge-menu-fg); --composa-badge-tone-bg: var(--composa-badge-menu-bg); --composa-badge-tone-strong-fg: var(--composa-badge-menu-strong-fg); --composa-badge-tone-strong-bg: var(--composa-badge-menu-strong-bg); }
+
+/* ── BadgeAnchor — host + corner-overlaid Badge ──────────────────────────── */
+
+.composa-badge-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.composa-badge-anchor-host {
+  display: inline-flex;
+}
+
+.composa-badge-overlay {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px var(--composa-color-bg, #ffffff);
+}
+
+/* Corner badge: pin the badge to the host corner and translate it so its OWN
+   corner sits on the host corner. The badge then overflows outward, away from
+   the content, and a wide count pill (e.g. "99+") grows up-and-out instead of
+   sliding back over the host glyph. `--composa-badge-overlay-inset` (a small
+   positive nudge) lets the badge bite slightly into the corner so it still
+   reads as attached.
+
+   A count badge keeps its natural width (so "99+" stays legible) — the corner
+   translate keeps it clear of the host. A long free-text overlay LABEL is the
+   only thing that could span the host, so cap and ellipsize that case alone. */
+.composa-badge-overlay.composa-badge-label {
+  max-width: var(--composa-badge-overlay-max-width);
+}
+
+.composa-badge-overlay.composa-badge-label .composa-badge-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composa-badge-overlay-top-end {
+  top: var(--composa-badge-overlay-inset);
+  right: var(--composa-badge-overlay-inset);
+  transform: translate(50%, -50%);
+}
+.composa-badge-overlay-top-start {
+  top: var(--composa-badge-overlay-inset);
+  left: var(--composa-badge-overlay-inset);
+  transform: translate(-50%, -50%);
+}
+.composa-badge-overlay-bottom-end {
+  bottom: var(--composa-badge-overlay-inset);
+  right: var(--composa-badge-overlay-inset);
+  transform: translate(50%, 50%);
+}
+.composa-badge-overlay-bottom-start {
+  bottom: var(--composa-badge-overlay-inset);
+  left: var(--composa-badge-overlay-inset);
+  transform: translate(-50%, 50%);
+}
+
+/* ── NotificationBell — IconButton + overlaid Badge ──────────────────────── */
+
+.composa-notification-bell {
+  display: inline-flex;
+}
+
+/* ── VisualBell — the in-app toast/snackbar pill (Bell 2015-42989) ───────── */
+
+.composa-visual-bell {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-visual-bell-gap);
+  min-height: var(--composa-visual-bell-height);
+  padding: 0 var(--composa-visual-bell-padding-inline);
+  border-radius: var(--composa-visual-bell-radius);
+  background: var(--composa-visual-bell-bg);
+  color: var(--composa-visual-bell-fg);
+  box-shadow: var(--composa-visual-bell-shadow);
+}
+
+.composa-visual-bell-danger {
+  background: var(--composa-visual-bell-bg-danger);
+  color: var(--composa-visual-bell-fg-danger);
+  padding-block: var(--composa-space-2);
+}
+
+.composa-visual-bell-lead {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: inherit;
+}
+
+.composa-visual-bell-lead .composa-icon,
+.composa-visual-bell-lead svg {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-visual-bell-spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.9;
+  animation: composa-visual-bell-spin 0.7s linear infinite;
+}
+
+@keyframes composa-visual-bell-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .composa-visual-bell-spinner { animation: none; }
+}
+
+.composa-visual-bell-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  padding: 0 var(--composa-space-1);
+}
+
+.composa-visual-bell-message {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 550;
+  letter-spacing: 0.055px;
+}
+
+.composa-visual-bell-count {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 450;
+  color: var(--composa-visual-bell-fg-secondary);
+}
+
+.composa-visual-bell-danger .composa-visual-bell-count {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.composa-visual-bell-rail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  margin-left: auto;
+  padding-left: var(--composa-space-1);
+}
+
+.composa-visual-bell-action {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--composa-visual-bell-action-height);
+  padding: 0 var(--composa-space-2);
+  border-radius: var(--composa-visual-bell-action-radius);
+  border: 1px solid var(--composa-visual-bell-action-border);
+  background: transparent;
+  color: inherit;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 450;
+  letter-spacing: 0.055px;
+  cursor: pointer;
+}
+
+.composa-visual-bell-action:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.composa-visual-bell-danger .composa-visual-bell-action {
+  border-color: var(--composa-visual-bell-action-border-danger);
+}
+
+.composa-visual-bell-danger .composa-visual-bell-action:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Dismiss (X): a left hairline divider then the close icon button. */
+.composa-visual-bell-dismiss {
+  position: relative;
+  margin-left: var(--composa-space-1);
+  color: inherit;
+}
+
+.composa-visual-bell-dismiss::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--composa-space-1));
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: var(--composa-visual-bell-height);
+  background: var(--composa-visual-bell-divider);
+}
+
+.composa-visual-bell-danger .composa-visual-bell-dismiss::before {
+  background: var(--composa-visual-bell-divider-danger);
+}
+
+/* ── Notification — the dark HUD toast card (Notifications 2028-111255) ──── */
+
+.composa-notification {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  min-height: var(--composa-notification-height);
+  padding-left: var(--composa-notification-padding-inline-start);
+  border-radius: var(--composa-notification-radius);
+  background: var(--composa-notification-bg);
+  color: var(--composa-notification-fg);
+  box-shadow: var(--composa-notification-shadow);
+}
+
+.composa-notification-content {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  width: var(--composa-notification-content-width);
+  padding-right: var(--composa-space-1);
+}
+
+.composa-notification-lead {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+.composa-notification-lead .composa-icon,
+.composa-notification-lead svg,
+.composa-notification-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.composa-notification-icon {
+  display: inline-flex;
+}
+
+.composa-notification-message {
+  width: var(--composa-notification-message-width);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 450;
+  letter-spacing: 0.055px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Multi-line variant: message wraps to two lines then clamps. */
+.composa-notification-multiline .composa-notification-message {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.composa-notification-actions {
+  display: flex;
+  flex-direction: column;
+  width: var(--composa-notification-actions-width);
+  border-left: 1px solid var(--composa-notification-divider);
+}
+
+.composa-notification-cta {
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 var(--composa-space-2);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 550;
+  letter-spacing: 0.055px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.composa-notification-cta:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* The stacked second CTA gets a top hairline (the Action / Dismiss divider). */
+.composa-notification-cta + .composa-notification-cta {
+  border-top: 1px solid var(--composa-notification-divider);
+}
+
+.composa-notification-cta-danger {
+  color: var(--composa-notification-cta-fg-danger);
+}
+
+.composa-notification-cta-label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

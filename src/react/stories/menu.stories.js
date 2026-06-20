@@ -1,7 +1,7 @@
 import { MenuHeadingFamily, MenuRows } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Menu",
+  title: "Composa UI/Components/Base/Menu",
   parameters: {
     docs: {
       description: {

@@ -1,7 +1,7 @@
 import { RadioFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Radio",
+  title: "Composa UI/Components/Base/Radio",
   parameters: {
     docs: {
       description: {

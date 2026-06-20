@@ -22,6 +22,8 @@ import {
   DialogRow,
   Menu,
   MenuRow,
+  OverlayHost,
+  OverlayPortal,
   ListCell,
   MenuHeadingCell,
   VerticalCell,
@@ -42,7 +44,7 @@ const iconNames = ["move", "text", "image", "comment", "styles", "chevronDown", 
 const states = ["rest", "hover", "active", "focused", "disabled"];
 const menuRowTypes = ["simple", "complex", "checkmark", "toggle", "toolbar", "heading", "divider", "expand", "footer"];
 const menuTrailOptions = ["false", "shortcut", "badge", "checkbox", "mixed"];
-const menuLeadOptions = ["false", "avatar", "icon"];
+const menuLeadOptions = ["false", "avatar", "icon", "strokeAlignAll", "strokeAlignTop", "strokeAlignBottom", "strokeAlignLeft", "strokeAlignRight"];
 const canvasOverlayTypes = [
   "standard",
   "textEdit",
@@ -61,31 +63,17 @@ const canvasOverlayTypes = [
 
 function InteractiveDropdown(args) {
   const options = ["Pass through", "Normal", "Multiply", "Screen"];
-  const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(args.value);
+  React.useEffect(() => setValue(args.value), [args.value]);
   return React.createElement(
     "div",
     { className: "storybook-composa-interactive-stack" },
     React.createElement(Dropdown, {
       ...args,
       value,
-      open,
-      onOpenChange: setOpen,
-    }),
-    open
-      ? React.createElement(Menu, {
-          label: `${args.label || "Dropdown"} options`,
-          items: options.map((option) => ({
-            type: "checkmark",
-            label: option,
-            selected: option === value,
-            onClick: () => {
-              setValue(option);
-              setOpen(false);
-            },
-          })),
-        })
-      : null
+      options,
+      onValueChange: (nextValue) => setValue(nextValue),
+    })
   );
 }
 
@@ -119,8 +107,27 @@ function InteractiveCheckbox(args) {
 }
 
 function InteractiveToggleButton(args) {
+  // Two models in one demo. Persistent toggle: `pressed` flips and stays.
+  // Dialog-opener (`dialog` on): `dialogOpen` is active only while "open" and
+  // the button untoggles when it closes. We simulate a dialog-close on blur so
+  // the dialog-opener clearing behavior is observable in Storybook.
   const [pressed, setPressed] = React.useState(args.pressed);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   React.useEffect(() => setPressed(args.pressed), [args.pressed]);
+  if (args.dialog) {
+    return React.createElement(ToggleButton, {
+      ...args,
+      dialog: true,
+      dialogOpen,
+      onClick: (event) => {
+        setDialogOpen((open) => !open);
+        args.onClick?.(event);
+      },
+      // Simulate outside-click / dialog-close: opener untoggles on blur.
+      onBlur: () => setDialogOpen(false),
+      label: args.label || "Dialog toggle",
+    });
+  }
   return React.createElement(ToggleButton, {
     ...args,
     pressed,
@@ -128,7 +135,7 @@ function InteractiveToggleButton(args) {
       setPressed((current) => !current);
       args.onClick?.(event);
     },
-    label: args.label || (args.dialog ? "Dialog toggle" : "Text"),
+    label: args.label || "Text",
   });
 }
 
@@ -188,34 +195,47 @@ function InteractiveComboInput(args) {
   const options = ["8", "12", "16", "20", "24", "32"];
   const [value, setValue] = React.useState(args.variable ? "24" : "16");
   const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
   React.useEffect(() => setValue(args.variable ? "24" : "16"), [args.variable]);
+  // The menu is anchored to the trigger through OverlayPortal so it OVERLAYS the
+  // stack instead of being a flow sibling. A flow-sibling menu reflowed the stack
+  // and made the menu "jump" into place on open; anchoring keeps it pinned
+  // directly below the trigger with no layout shift.
   return React.createElement(
-    "div",
+    OverlayHost,
     { className: "storybook-composa-interactive-stack" },
-    React.createElement(ComboInput, {
-      label: "Mode",
-      state: args.state,
-      iconLead: args.iconLead,
-      variable: args.variable,
-      dropdownState: args.dropdownState,
-      value,
-      onChange: (event) => setValue(event.currentTarget.value),
-      onInput: (event) => setValue(event.currentTarget.value),
-      onDropdownClick: () => setOpen((current) => !current),
-    }),
+    React.createElement(
+      "span",
+      { ref: anchorRef, className: "storybook-composa-combo-anchor" },
+      React.createElement(ComboInput, {
+        label: "Mode",
+        state: args.state,
+        iconLead: args.iconLead,
+        variable: args.variable,
+        dropdownState: args.dropdownState,
+        value,
+        onChange: (event) => setValue(event.currentTarget.value),
+        onInput: (event) => setValue(event.currentTarget.value),
+        onDropdownClick: () => setOpen((current) => !current),
+      })
+    ),
     open
-      ? React.createElement(Menu, {
-          label: "Mode options",
-          items: options.map((option) => ({
-            type: "checkmark",
-            label: option,
-            selected: option === value,
-            onClick: () => {
-              setValue(option);
-              setOpen(false);
-            },
-          })),
-        })
+      ? React.createElement(
+          OverlayPortal,
+          { anchorRef, placement: "below-trigger", align: "start" },
+          React.createElement(Menu, {
+            label: "Mode options",
+            items: options.map((option) => ({
+              type: "checkmark",
+              label: option,
+              selected: option === value,
+              onClick: () => {
+                setValue(option);
+                setOpen(false);
+              },
+            })),
+          })
+        )
       : null
   );
 }
@@ -225,6 +245,7 @@ function InteractiveSegmentedControl(args) {
   return React.createElement(SegmentedControl, {
     label: "Sidebar view",
     variant: args.variant,
+    width: args.width,
     state: args.state,
     disabled: args.disabled || args.state === "disabled",
     value,
@@ -244,6 +265,7 @@ function InteractiveTabs(args) {
     variant: args.variant,
     size: args.size,
     state: args.state,
+    divider: args.divider,
     value,
     onValueChange: setValue,
     tabs: Array.from({ length: args.count }, (_, index) => ({
@@ -340,7 +362,7 @@ export const ListCellFamily = {
         leading: leadingContent,
         content: React.createElement("span", { className: "composa-header-title" }, content),
         trailing: [
-          React.createElement(IconButton, { key: "styles", icon: "styles", label: "Open styles", className: "composa-header-icon-action" }),
+          React.createElement(IconButton, { key: "styles", icon: "styles", label: "Apply styles and variables", className: "composa-header-icon-action" }),
           React.createElement(IconButton, { key: "plus", icon: "plusSmall", label: "Add property", className: "composa-header-icon-action" }),
         ],
       })
@@ -387,20 +409,26 @@ export const ListCellContentFamily = {
 export const TextPairFamily = {
   name: "TextPair",
   args: {
-    title: "Poster frame",
-    description: "Swap the still image used before playback begins.",
+    content: "Poster frame",
+    body: "Swap the still image used before playback begins.",
+    metadata: "Updated 2 hours ago",
+    metadataPlacement: "bottom",
   },
   argTypes: {
-    title: { control: "text", name: "Title", type: { required: true }, table: { type: { summary: "ReactNode" }, defaultValue: { summary: "Poster frame" } } },
-    description: { control: "text", name: "Description", table: { type: { summary: "ReactNode" }, defaultValue: { summary: "null" } } },
+    content: { control: "text", name: "Content", type: { required: true }, description: "Primary slot (body-large).", table: { type: { summary: "ReactNode" }, defaultValue: { summary: "Poster frame" } } },
+    body: { control: "text", name: "Body", description: "Supporting slot (body-medium).", table: { type: { summary: "ReactNode" }, defaultValue: { summary: "null" } } },
+    metadata: { control: "text", name: "Metadata", description: "Quietest slot (body-small).", table: { type: { summary: "ReactNode" }, defaultValue: { summary: "null" } } },
+    metadataPlacement: { control: "inline-radio", name: "Metadata Placement", options: ["top", "bottom"], description: "Whether the metadata slot sits above or below the body.", table: { defaultValue: { summary: "bottom" } } },
     // Public API documented for completeness (not interactive controls here).
-    titleAs: { name: "Title As", control: false, description: "Element/tag the title renders as.", table: { type: { summary: "keyof JSX.IntrinsicElements" }, defaultValue: { summary: "strong" } } },
+    title: { name: "Title (alias)", control: false, description: "Backward-compatible alias for `content`.", table: { type: { summary: "ReactNode" } } },
+    description: { name: "Description (alias)", control: false, description: "Backward-compatible alias for `body`.", table: { type: { summary: "ReactNode" } } },
+    titleAs: { name: "Title As", control: false, description: "Element/tag the content renders as.", table: { type: { summary: "keyof JSX.IntrinsicElements" }, defaultValue: { summary: "strong" } } },
   },
-  render: ({ title, description }) =>
+  render: ({ content, body, metadata, metadataPlacement }) =>
     React.createElement(
       StoryRowFrame,
       { width: 320 },
-      React.createElement(TextPair, { title, description })
+      React.createElement(TextPair, { content, body, metadata, metadataPlacement })
     ),
 };
 
@@ -459,21 +487,23 @@ export const TreeFamily = {
   },
   args: {
     label: "Layers",
-    defaultSelectedId: "title",
+    defaultSelectedId: "hero",
+    childHighlight: true,
   },
   argTypes: {
     label: { control: "text", name: "Label", table: { type: { summary: "string" }, defaultValue: { summary: "Layers" } } },
     defaultSelectedId: { control: "text", name: "Default Selected Id", table: { type: { summary: "string" }, defaultValue: { summary: "undefined" } } },
+    childHighlight: { control: "boolean", name: "Child Highlight", description: "Tint the selected node's exposed descendants with the muted secondary selection color.", table: { defaultValue: { summary: "true" } } },
     // The rest of the public API (documented; not tweakable widgets here).
     items: { name: "Items", control: false, type: { required: true }, description: "Nested layer items ({ id, name, kind, children }).", table: { type: { summary: "TreeItem[]" }, defaultValue: { summary: "[]" } } },
     selectedId: { name: "Selected Id", control: false, description: "Controlled selected node id.", table: { type: { summary: "string" } } },
     onSelect: { name: "On Select", control: false, description: "Fires when a row is selected.", table: { type: { summary: "(id, node, event) => void" } } },
   },
-  render: ({ label, defaultSelectedId }) =>
+  render: ({ label, defaultSelectedId, childHighlight }) =>
     React.createElement(
       StoryRowFrame,
       { width: 260 },
-      React.createElement(Tree, { label, items: treeSampleItems, defaultSelectedId: defaultSelectedId || "title" })
+      React.createElement(Tree, { label, items: treeSampleItems, childHighlight, defaultSelectedId: defaultSelectedId || "hero" })
     ),
 };
 
@@ -594,7 +624,7 @@ export const ButtonFamily = {
 // `variant` values as Button (deliberate Composa consistency choice; Figma's
 // icon-button ships only Default/Secondary). `highlighted` kept for back-compat.
 const buttonFamilyVariantOptions = ["secondary", "primary", "ghost", "link", "link-danger", "destructive", "secondary-destruct", "inverse", "success", "highlighted"];
-const buttonFamilySizeOptions = ["small", "medium", "large"];
+const buttonFamilySizeOptions = ["small", "medium", "large", "xlarge"];
 
 export const IconButtonFamily = {
   name: "IconButton",
@@ -645,7 +675,7 @@ export const ToggleButtonFamily = {
     variant: { control: "select", name: "Variant", options: buttonFamilyVariantOptions, table: { defaultValue: { summary: "secondary" } } },
     disabled: { control: "boolean", name: "Disabled", table: { defaultValue: { summary: "false" } } },
     pressed: { control: "boolean", name: "Pressed", table: { defaultValue: { summary: "true" } } },
-    dialog: { control: "boolean", name: "Dialog", description: "Adds the corner dot marking a toggle that opens a dialog/popover.", table: { defaultValue: { summary: "false" } } },
+    dialog: { control: "boolean", name: "Dialog", description: "Dialog-opener model: adds the corner dot and makes the button active only while its dialog is open (here, until blur), untoggling on close — distinct from the persistent toggle.", table: { defaultValue: { summary: "false" } } },
     // Public API documented for completeness (not interactive controls here).
     context: { name: "Context", control: false, description: "Rendering context; on-selected adjusts colors for selected surfaces.", table: { type: { summary: '"default" | "on-selected"' }, defaultValue: { summary: "default" } } },
     onClick: { name: "On Click", control: false, description: "Fires when the toggle is activated.", table: { type: { summary: "(event) => void" } } },
@@ -783,7 +813,7 @@ export const HeaderFamily = {
         leading,
         expanded: leading === "icon-button" ? true : undefined,
         actions: [
-          React.createElement(IconButton, { key: "styles", icon: "styles", label: "Open styles", className: "composa-header-icon-action" }),
+          React.createElement(IconButton, { key: "styles", icon: "styles", label: "Apply styles and variables", className: "composa-header-icon-action" }),
           React.createElement(IconButton, { key: "plus", icon: "plusSmall", label: "Add property", className: "composa-header-icon-action" }),
         ],
       })
@@ -811,7 +841,7 @@ export const FillSectionFamily = {
           title: "Fill",
           hierarchy: "property",
           actions: [
-            React.createElement(IconButton, { key: "styles", icon: "styles", label: "Open fill styles", className: "composa-header-icon-action" }),
+            React.createElement(IconButton, { key: "styles", icon: "styles", label: "Apply styles and variables", className: "composa-header-icon-action" }),
             React.createElement(IconButton, { key: "plus", icon: "plusSmall", label: "Add fill", className: "composa-header-icon-action" }),
           ],
         }),
@@ -938,8 +968,10 @@ export const DropdownFamily = {
     label: { control: "text", name: "Label", type: { required: true }, table: { defaultValue: { summary: "Text" } } },
     icon: { table: { disable: true } },
     // Public API documented for completeness (not interactive controls here).
+    options: { name: "Options", control: false, description: "Simple value options rendered by Dropdown's built-in menu.", table: { type: { summary: "(string | option)[]" } } },
     open: { name: "Open", control: false, description: "Controlled open state of the attached menu.", table: { type: { summary: "boolean" } } },
     onOpenChange: { name: "On Open Change", control: false, description: "Fires when the open state should change.", table: { type: { summary: "(open, event) => void" } } },
+    onValueChange: { name: "On Value Change", control: false, description: "Fires when an option is selected.", table: { type: { summary: "(value, option, event) => void" } } },
     onClick: { name: "On Click", control: false, description: "Fires when the trigger is clicked.", table: { type: { summary: "(event) => void" } } },
   },
   render: (args) => React.createElement(InteractiveDropdown, args),
@@ -1297,12 +1329,14 @@ export const SegmentedControlFamily = {
   },
   args: {
     variant: "icon",
+    width: "auto",
     state: "rest",
     disabled: false,
     count: 3,
   },
   argTypes: {
     variant: { control: "select", name: "Variant", options: ["icon", "label"], table: { defaultValue: { summary: "icon" } } },
+    width: { control: "select", name: "Width", options: ["auto", "fill"], description: "Whether the track hugs content or stretches segments evenly to fill its parent.", table: { defaultValue: { summary: "auto" } } },
     state: { control: "select", name: "State", options: ["rest", "disabled"], table: { defaultValue: { summary: "rest" } } },
     disabled: { control: "boolean", name: "Disabled", table: { defaultValue: { summary: "false" } } },
     count: { control: "select", name: "Count", options: [2, 3, 4, 5, 6], description: "Storybook harness control only; code derives count from options.length.", table: { defaultValue: { summary: "3" } } },
@@ -1342,6 +1376,7 @@ export const TabsFamily = {
     variant: "pill",
     size: "medium",
     state: "rest",
+    divider: true,
     count: 2,
   },
   argTypes: {
@@ -1349,6 +1384,7 @@ export const TabsFamily = {
     variant: { control: "select", name: "Variant", options: ["underline", "pill"], table: { type: { summary: '"underline" | "pill"' }, defaultValue: { summary: "pill" } } },
     size: { control: "select", name: "Size", options: ["medium", "compact"], table: { type: { summary: '"medium" | "compact"' }, defaultValue: { summary: "medium" } } },
     state: { control: "select", name: "State", options: ["rest", "focused", "hover"], table: { type: { summary: '"rest" | "focused" | "hover"' }, defaultValue: { summary: "rest" } } },
+    divider: { control: "boolean", name: "Divider", description: "Full-width baseline rule below the tab row. Set false for inspector tabs (no underline).", table: { type: { summary: "boolean" }, defaultValue: { summary: "true" } } },
     label: { control: "text", name: "Label", table: { type: { summary: "string" }, defaultValue: { summary: "Tabs" } } },
     count: { control: "select", name: "Count", options: [1, 2, 3, 4], description: "Storybook harness control only; code derives count from tabs.length.", table: { defaultValue: { summary: "2" } } },
     // The rest of the public API — documented here (with types) even though they

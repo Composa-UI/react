@@ -8,6 +8,15 @@
   border-bottom: 1px solid var(--composa-color-border);
 }
 
+/* divider={false} removes the full-width line below the tab row. Official Figma
+   inspector tabs have no underline rule under the row; the inspector and the
+   color-picker tabs both opt out via this variant. The selected-tab indicator
+   (the underline variant's per-tab ::after) is unaffected — only the container
+   baseline line is removed. */
+.composa-tabs-no-divider {
+  border-bottom: 0;
+}
+
 .composa-tabs-underline {
   gap: 0;
   background: transparent;

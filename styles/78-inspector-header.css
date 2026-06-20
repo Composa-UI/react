@@ -1,0 +1,360 @@
+.composa-inspector-header {
+  width: 100%;
+  display: grid;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-inspector-header-row {
+  padding-inline: var(--composa-space-1) 0;
+}
+
+.composa-inspector-header-row .composa-list-cell-content {
+  display: flex;
+  align-items: center;
+}
+
+.composa-inspector-header-row .composa-list-cell-trailing {
+  gap: var(--composa-space-2);
+}
+
+.composa-inspector-play-split .composa-split-action > span:not(.composa-icon):not(.composa-split-action-icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.composa-inspector-play-split .composa-split-action-icon {
+  display: grid;
+  place-items: center;
+  overflow: visible;
+}
+
+.composa-inspector-play-split {
+  width: 41px;
+  height: 32px;
+  gap: 1px;
+  border: 0;
+  background: transparent;
+}
+
+.composa-inspector-play-split .composa-split-action {
+  width: 24px;
+  flex: 0 0 24px;
+  padding: 0;
+}
+
+.composa-inspector-play-split .composa-split-action-icon,
+.composa-inspector-play-split .composa-split-action-icon .composa-icon {
+  --composa-runtime-icon-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.composa-inspector-play-split .composa-split-menu {
+  width: 16px;
+  flex-basis: 16px;
+  border-left: 0;
+  color: var(--composa-color-text);
+}
+
+.composa-inspector-play-split .composa-split-menu .composa-icon-button-glyph,
+.composa-inspector-play-split .composa-split-menu .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.composa-layer-header {
+  width: 100%;
+  height: var(--composa-height-heading);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-1) var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  box-sizing: border-box;
+}
+
+.composa-layer-header-dropdown {
+  min-width: 0;
+  height: var(--composa-control-size-icon);
+  align-items: center;
+  gap: 0;
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
+  border-radius: var(--composa-radius-small);
+  color: var(--composa-color-text);
+  font: inherit;
+  cursor: default;
+}
+
+.composa-layer-header-dropdown .composa-dropdown-value {
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-layer-header-dropdown:focus-visible {
+  outline: 1px solid var(--composa-color-border-selected);
+  outline-offset: 0;
+}
+
+.composa-layer-header-title {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-layer-header-chevron {
+  --composa-runtime-icon-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 16px;
+  color: var(--composa-color-text);
+}
+
+.composa-layer-header-chevron .composa-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.composa-layer-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  flex: 0 0 auto;
+}
+
+.composa-layer-header-action {
+  color: var(--composa-color-text);
+}
+
+.composa-multiplayer-control {
+  min-width: 0;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 var(--composa-space-1) 0 0;
+  color: var(--composa-color-text);
+  background: transparent;
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-multiplayer-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.composa-multiplayer-tooltip {
+  white-space: nowrap;
+}
+
+.composa-multiplayer-control:hover,
+.composa-multiplayer-control.is-hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+.composa-avatar {
+  width: var(--composa-avatar-size, 24px);
+  height: var(--composa-avatar-size, 24px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--composa-avatar-radius, var(--composa-radius-full));
+  background: var(--composa-avatar-bg, #ffcd29);
+  color: var(--composa-avatar-fg, rgba(0, 0, 0, 0.9));
+}
+
+.composa-avatar-yellow {
+  --composa-avatar-bg: #ffcd29;
+  --composa-avatar-fg: rgba(0, 0, 0, 0.9);
+}
+
+.composa-avatar-blue {
+  --composa-avatar-bg: #007be5;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-green {
+  --composa-avatar-bg: #14ae5c;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-purple {
+  --composa-avatar-bg: #9747ff;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-grey {
+  --composa-avatar-bg: #667799;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-red {
+  --composa-avatar-bg: #f24822;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-pink {
+  --composa-avatar-bg: #ff24bd;
+  --composa-avatar-fg: #fff;
+}
+
+.composa-avatar-disabled {
+  --composa-avatar-bg: var(--composa-color-bg-tertiary);
+  --composa-avatar-fg: var(--composa-color-text);
+}
+
+.composa-avatar-small {
+  --composa-avatar-size: 16px;
+}
+
+.composa-avatar-medium,
+.composa-avatar-default {
+  --composa-avatar-size: 24px;
+}
+
+.composa-avatar-large {
+  --composa-avatar-size: 32px;
+}
+
+.composa-avatar-circle {
+  --composa-avatar-radius: var(--composa-radius-full);
+}
+
+.composa-avatar-square {
+  --composa-avatar-radius: var(--composa-radius-medium);
+}
+
+.composa-avatar-label {
+  color: rgba(0, 0, 0, 0.9);
+  color: var(--composa-avatar-fg);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  line-height: var(--composa-body-large-line);
+}
+
+.composa-avatar-small .composa-avatar-label {
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-avatar-large .composa-avatar-label {
+  font-weight: var(--composa-body-large-strong-weight);
+}
+
+.composa-avatar-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.composa-multiplayer-control .composa-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.composa-multiplayer-chevron {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 16px;
+  line-height: 0;
+}
+
+.composa-multiplayer-chevron .composa-icon {
+  display: grid;
+  place-items: center;
+}
+
+.composa-inspector-header .composa-tabs {
+  padding: 0;
+}
+
+.composa-tabs.composa-tabs-no-divider {
+  border-bottom: 0;
+}
+
+.composa-inspector-header .composa-dropdown {
+  min-width: 60px;
+  min-height: 24px;
+}
+
+.composa-inspector-zoom {
+  justify-content: center;
+  gap: 2px;
+}
+
+.composa-inspector-zoom-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.composa-inspector-zoom .composa-dropdown-chevron,
+.composa-inspector-zoom .composa-icon {
+  --composa-runtime-icon-size: 16px;
+  color: var(--composa-color-text);
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.composa-zoom-menu {
+  position: absolute;
+  z-index: var(--composa-inspector-overlay-z);
+  top: calc(var(--composa-height-heading) + var(--composa-height-row));
+  right: var(--composa-inspector-inset-end);
+  width: var(--composa-zoom-menu-width);
+  display: grid;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2) var(--composa-space-1);
+  border-radius: var(--composa-menu-radius);
+  background: var(--composa-menu-surface-bg);
+  box-shadow: var(--composa-elevation-400-menu-panel);
+}
+
+.composa-zoom-menu-input {
+  display: block;
+  padding: 0 var(--composa-space-1);
+}
+
+.composa-zoom-menu-input input {
+  width: 100%;
+  height: var(--composa-control-height);
+  padding: 0 var(--composa-space-2);
+  border: 1px solid var(--composa-color-border-selected);
+  border-radius: var(--composa-radius-medium);
+  background: transparent;
+  color: var(--composa-menu-row-fg);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+}
+
+.composa-zoom-menu-rows {
+  display: grid;
+  gap: var(--composa-menu-row-gap);
+}

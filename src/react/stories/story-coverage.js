@@ -19,9 +19,22 @@ export const storybookSupportCoverage = {
   VerticalCell: ["Playground"],
   TextPair: ["Playground"],
   Tree: ["Playground"],
+  NavigatorHeader: ["Playground"],
+  CollapseHeader: ["Playground"],
+  SlideThumb: ["Playground"],
+  SlideList: ["Playground"],
+  EditorNavigator: ["Default", "Selected", "Empty", "ManyItems", "Narrow"],
+  SlidesNavigator: ["Default", "Selected", "Empty", "ManyItems", "Narrow"],
   Dialog: ["Playground", "Header", "Footer", "Row", "Structured"],
   Menu: ["Playground", "Heading"],
   Label: ["Playground"],
+  CommentComposer: ["Composer", "ComposerFocused", "ChatInput", "ReplyInline"],
+  CommentItem: ["Item"],
+  CommentThreadWindow: ["Playground", "WithComments", "EmptyThread"],
+  Badge: ["Playground", "Tones", "CountAndDot", "OnHosts"],
+  NotificationBell: ["Bell"],
+  Notification: ["NotificationToast"],
+  VisualBell: ["VisualBellToast"],
 };
 
 export const storybookVariantMatrix = {

@@ -1,0 +1,318 @@
+/* Comments — composer + thread window.
+ *
+ * Figma UI3 kit 4kilp0ShQiYsoUPJdleqEH:
+ *   - comment.compose.input  (node 2012-63721) -> CommentComposer layout="card"
+ *   - comment.window.reply   (node 2012-63692) -> CommentComposer layout="inline"
+ *   - _comment.window.row    (node 2012-63679) -> CommentItem
+ *   - comment.thread.window  (node 2012-63732) -> CommentThreadWindow
+ *
+ * The composer is modeled as a GENERAL composer / chat input, not a comment-only
+ * box: an optional leading avatar, a growing text field, a trailing/footer
+ * action cluster (emoji/mention/attach by default, fully overridable), an
+ * optional `mode` scope slot, an attachments tray, and a submit affordance.
+ */
+
+/* ── Composer (shared) ───────────────────────────────────────────────────── */
+
+.composa-comment-composer {
+  --composa-comment-composer-pad: var(--composa-space-4); /* 16px */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.composa-comment-composer-input {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  resize: none;
+  color: var(--composa-color-text);
+  font: inherit;
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  line-height: var(--composa-body-large-line);
+  letter-spacing: var(--composa-body-large-letter-spacing);
+  /* Growing field: field-sizing where supported, with a textarea row floor. */
+  field-sizing: content;
+}
+
+.composa-comment-composer-input::placeholder {
+  color: var(--composa-color-text-tertiary);
+}
+
+.composa-comment-composer-input:focus {
+  outline: none;
+}
+
+.composa-comment-composer.is-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── Composer — card layout (the standalone composer / AI chat input) ─────── */
+
+.composa-comment-composer-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--composa-space-2);
+  background: var(--composa-color-bg);
+  border-radius: var(--composa-radius-large);
+  overflow: clip;
+  /* light/elevation 0,3,8 + hairline (Figma comment.compose.input shadow). */
+  box-shadow:
+    0 0 0.5px 0 rgba(0, 0, 0, 0.18),
+    0 3px 8px 0 rgba(0, 0, 0, 0.1),
+    0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.composa-comment-composer-card .composa-comment-composer-lead {
+  display: flex;
+  padding: var(--composa-comment-composer-pad) 0 0 var(--composa-comment-composer-pad);
+}
+
+.composa-comment-composer-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.composa-comment-composer-field {
+  padding: var(--composa-comment-composer-pad) var(--composa-comment-composer-pad) var(--composa-space-2);
+  min-height: 48px;
+}
+
+.composa-comment-composer-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--composa-space-1);
+  padding: 0 var(--composa-comment-composer-pad) var(--composa-space-2);
+}
+
+/* Footer toolbar — leading actions/mode on the left, send on the right, on a
+ * top hairline divider (Figma footer node 2012-63724). */
+.composa-comment-composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  height: 40px;
+  padding: 0 var(--composa-space-2);
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.composa-comment-composer-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  min-width: 0;
+}
+
+.composa-comment-composer-mode {
+  display: inline-flex;
+  align-items: center;
+  margin-right: var(--composa-space-1);
+}
+
+.composa-comment-composer-end {
+  display: flex;
+  align-items: center;
+}
+
+/* The card submit is the blue circular send (Figma accent-blue), distinct from
+ * the orange product brand. Inline layout keeps the quiet standard variant. */
+.composa-comment-composer-card .composa-comment-composer-submit {
+  border-radius: var(--composa-radius-full);
+  border-color: transparent;
+  background: var(--composa-color-accent-blue);
+  color: #fff;
+}
+
+.composa-comment-composer-card .composa-comment-composer-submit:hover,
+.composa-comment-composer-card .composa-comment-composer-submit.is-hover {
+  background: var(--composa-color-accent-blue);
+  filter: brightness(0.94);
+}
+
+.composa-comment-composer-card .composa-comment-composer-submit:disabled,
+.composa-comment-composer-card .composa-comment-composer-submit.is-disabled {
+  background: var(--composa-color-bg-disabled);
+  color: #fff;
+  filter: none;
+}
+
+/* ── Composer — inline layout (the thread reply pill) ────────────────────── */
+
+.composa-comment-composer-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-2);
+  background: var(--composa-color-bg);
+  padding: var(--composa-space-2) var(--composa-comment-composer-pad);
+}
+
+.composa-comment-composer-inline .composa-comment-composer-avatar {
+  flex: 0 0 auto;
+  display: flex;
+}
+
+.composa-comment-composer-pill {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--composa-space-1);
+  min-width: 0;
+  min-height: 32px;
+  padding: 0 var(--composa-space-1) 0 var(--composa-space-2);
+  background: var(--composa-color-bg-secondary);
+  border-radius: var(--composa-radius-large);
+}
+
+.composa-comment-composer-pill .composa-comment-composer-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Single visual row in the pill; no growth so the pill height stays stable. */
+  field-sizing: auto;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.composa-comment-composer-pill-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  flex: 0 0 auto;
+}
+
+/* ── Comment item (one thread row) ───────────────────────────────────────── */
+
+.composa-comment-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-1) var(--composa-space-4) var(--composa-space-1) var(--composa-space-4);
+}
+
+.composa-comment-item-avatar {
+  flex: 0 0 auto;
+  display: flex;
+  /* Align the avatar with the author line, not the vertical center of the body. */
+  margin-top: var(--composa-space-1);
+}
+
+.composa-comment-item-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0;
+}
+
+.composa-comment-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--composa-space-1);
+}
+
+.composa-comment-item-author {
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-strong-weight);
+  line-height: var(--composa-body-large-line);
+  letter-spacing: var(--composa-body-large-letter-spacing);
+}
+
+.composa-comment-item-time {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  line-height: var(--composa-body-large-line);
+  letter-spacing: var(--composa-body-large-letter-spacing);
+}
+
+.composa-comment-item-body {
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  line-height: var(--composa-body-large-line);
+  letter-spacing: var(--composa-body-large-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+.composa-comment-item-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--composa-space-1);
+  margin-top: var(--composa-space-1);
+}
+
+/* ── Thread window ───────────────────────────────────────────────────────── */
+
+.composa-comment-thread {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  max-width: 100%;
+  background: var(--composa-color-bg);
+  border-radius: var(--composa-radius-large);
+  overflow: clip;
+  /* light/elevation-400-menu-panel (Figma thread window shadow). */
+  box-shadow:
+    0 0 0.5px 0 rgba(0, 0, 0, 0.12),
+    0 10px 16px 0 rgba(0, 0, 0, 0.12),
+    0 2px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.composa-comment-thread-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  height: 40px;
+  padding: 0 var(--composa-space-2) 0 var(--composa-space-4);
+  border-bottom: 1px solid var(--composa-color-border);
+  flex: 0 0 auto;
+}
+
+.composa-comment-thread-title {
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size, 11px);
+  font-weight: var(--composa-body-medium-strong-weight, 600);
+  line-height: var(--composa-body-medium-line, 16px);
+  letter-spacing: var(--composa-body-medium-letter-spacing, 0.055px);
+}
+
+.composa-comment-thread-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-comment-thread-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--composa-space-2);
+  padding: var(--composa-space-2) 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.composa-comment-thread-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--composa-space-6) var(--composa-space-4);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  line-height: var(--composa-body-large-line);
+  text-align: center;
+}
+
+.composa-comment-thread-composer {
+  flex: 0 0 auto;
+}

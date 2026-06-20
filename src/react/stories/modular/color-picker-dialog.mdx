@@ -1,0 +1,88 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import * as ColorPickerDialogStories from "./color-picker-dialog.stories.js";
+
+<Meta of={ColorPickerDialogStories} />
+
+# ColorPickerDialog
+
+A floating inspector dialog for picking a color or fill: a Spectrum-style 2D area, hue/alpha sliders, an eyedropper, and editable value fields.
+
+**Capability:** Controllable. Every field is `value` + `on…Change`: `value`/`onValueChange`, `opacity`, `paintType`, `format`, `tab`, gradient stops, image fill-mode, and `onClose` round-trip bidirectionally. Wire it to a fill model.
+
+<Canvas of={ColorPickerDialogStories.FloatingOverRail} />
+
+## Guidelines
+
+### When to use it
+
+Use ColorPickerDialog for editing a paint: a solid color, a gradient, or an image fill, opened from an inline swatch in the inspector. It is the heaviest inspector dialog and the reference for the inspector-dialog house style.
+
+| Use instead | When |
+|---|---|
+| Dropdown | Choosing from a small fixed set of named values, not a color. |
+| InputField | Entering a single value the user already knows. |
+| A lighter inspector dialog (Typography, Stroke) | The setting is not a paint. |
+
+### The rules
+
+- **Mount it through `OverlayPortal` at inspector-dialog placement** (`followAnchor={false}`), floating beside the rail — never inside scroll content. `ColorPickerTrigger` wires that mount from an inline swatch button. Stage it in an overflow-friendly host so placement and clipping are visible.
+- **It follows the inspector-dialog house style** (shared by TypographyDialog, LayoutGuideSettingsDialog, StrokeSettingsDialog, ExportSettingsDialog):
+  - **Real `close` (X) glyph**, pulled toward the top-right corner. Never the `rotate(45deg)` plus-as-X hack.
+  - **Edge-to-edge hairlines.** The dialog surface carries zero horizontal padding; the header and section dividers are full-bleed borders.
+  - **Per-section insets** on `--composa-inspector-dialog-inset` (12px) plus the 8/12/16 block scale — not one uniform grid gap.
+- **The dialog stays open while its own Dropdowns operate.** Its menus portal to the `OverlayHost` as sibling overlay layers, so the dialog's outside-pointerdown handler must ignore clicks inside any `.composa-overlay-layer-portal`. Looks-interactive must be interactive: use a real `Dropdown`, never a decorative chevron-button.
+- **The body swaps on paint type:** solid, gradient (linear/radial + editable stops), image (fill-mode + drop-zone). Custom / Libraries are real `Tabs`. All value formats (hex, RGB, HSL, CSS) are editable and round-trip.
+
+**Do**
+
+- Open it from an inline swatch trigger and float it beside the rail.
+- Keep its menus inside the same `OverlayHost`; ignore portal-layer clicks in the close handler.
+- Use real `Dropdown`s and real `Tabs` inside it.
+
+**Don't**
+
+- Render it inside the scrollable inspector content.
+- Draw a plus-rotated X, or put dividers inside uniform surface padding.
+- Close the dialog when a click lands inside one of its own portaled menus.
+
+Grounded in the Figma color/fill picker frames (`rMq1M35u1iyKB2QaQMipZb` 89:4939 / 91:40246 / 99:5566 for the house style; gradient body 89:8771; image body 89:13859), distilled in `docs/design-system/components/dialog.md` → "Inspector-dialog house style".
+
+## Anatomy
+
+1. **Header** — Custom / Libraries `Tabs` and the real `close` (X) glyph pulled to the top-right.
+2. **Paint-type field set** — solid / gradient / image (hidden on the Libraries tab).
+3. **Body (swaps on paint type)** — solid: 2D saturation/brightness area + hue & alpha sliders + eyedropper; gradient: type dropdown + preview + editable stops list; image: fill-mode dropdown + drop-zone with upload.
+4. **Value fields** — hex / RGB / HSL / CSS, editable and bidirectional, plus opacity.
+5. **Swatches** — recent/managed swatches row.
+
+## Code & Specs
+
+### Props
+
+<Controls of={ColorPickerDialogStories.FloatingOverRail} />
+
+Key props from `function ColorPickerDialog`: `value` (hex, no `#`), `opacity`, `paintType` (`solid|gradient|image|video`), `format` (`hex|rgb|hsl|css`), `tab` (`custom|libraries`), `gradientType`, `gradientStops`, `imageFillMode`, `swatches`, and the matching `on…Change` callbacks plus `onEyedropper` and `onClose`. `ColorPickerTrigger` takes `label`, `value`, `defaultOpen`, and `dialogProps`.
+
+### Variant stories
+
+<Canvas of={ColorPickerDialogStories.GradientPaint} />
+<Canvas of={ColorPickerDialogStories.ImagePaint} />
+
+### Import
+
+```jsx
+import { ColorPickerTrigger } from "@composa-ui/react";
+
+<ColorPickerTrigger
+  label="Fill color"
+  value={fill.value}
+  dialogProps={{
+    value: fill.value,
+    opacity: fill.opacity,
+    paintType: fill.paintType,
+    onValueChange: (next) => setFill((f) => ({ ...f, value: next })),
+    onOpacityChange: (next) => setFill((f) => ({ ...f, opacity: next })),
+    onClose: closeFillEditor,
+  }}
+/>
+```

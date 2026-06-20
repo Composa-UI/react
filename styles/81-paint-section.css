@@ -1,0 +1,63 @@
+.composa-paint-section {
+  width: 100%;
+  display: grid;
+  gap: 0;
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.composa-paint-section .composa-paint-header {
+  min-height: var(--composa-height-heading);
+  padding: 0 var(--composa-inspector-inset-end) 0 var(--composa-inspector-inset-start);
+}
+
+.composa-paint-section.is-empty .composa-header-title {
+  color: var(--composa-color-text-secondary);
+  font-weight: var(--composa-body-medium-weight);
+}
+
+.composa-paint-section.is-collapsed:not(.is-empty) .composa-header-title {
+  color: var(--composa-color-text);
+}
+
+.composa-paint-section.is-empty .composa-header-disclosure,
+.composa-paint-section.is-collapsed .composa-header-disclosure,
+.composa-paint-section.is-empty .composa-header-icon-action,
+.composa-paint-section.is-collapsed .composa-header-icon-action {
+  color: var(--composa-color-icon-secondary);
+}
+
+.composa-paint-section.is-collapsed .composa-icon-button-tooltip-wrap:has(.composa-styles-action) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.composa-paint-section.is-collapsed .composa-paint-header:hover .composa-icon-button-tooltip-wrap:has(.composa-styles-action),
+.composa-paint-section.is-collapsed .composa-paint-header:focus-within .composa-icon-button-tooltip-wrap:has(.composa-styles-action) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.composa-paint-rows {
+  display: grid;
+  gap: 0;
+  padding-bottom: var(--composa-space-2);
+}
+
+.composa-paint-row {
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--composa-inspector-value-row-gap);
+  padding: var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-end) var(--composa-inspector-value-row-padding-block) var(--composa-inspector-inset-start);
+}
+
+.composa-paint-row .composa-color-input {
+  width: 100%;
+}
+
+.composa-paint-row-actions {
+  justify-content: flex-end;
+  gap: 0;
+}

@@ -49,10 +49,6 @@
   min-height: 0;
 }
 
-.composa-dialog-close .composa-icon-button-glyph {
-  transform: rotate(45deg);
-}
-
 .composa-dialog-title {
   margin: 0;
   /* Figma Modal header title is body/medium/strong (11px/16px/550),

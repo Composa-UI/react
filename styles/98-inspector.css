@@ -1,5 +1,5 @@
 .composa-inspector-section {
-  padding: 10px 16px;
+  padding: 10px var(--composa-space-3);
   border-bottom: 1px solid var(--composa-color-border);
 }
 
@@ -36,7 +36,7 @@
 .composa-property-grid {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 4px 8px;
+  gap: var(--composa-space-1) var(--composa-space-2);
   align-items: center;
 }
 
@@ -52,7 +52,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--composa-space-2);
-  margin-top: 12px;
+  margin-top: var(--composa-space-2-5);
   padding: var(--composa-space-2);
   border: 1px solid var(--composa-color-border);
   border-radius: var(--composa-radius-medium);
@@ -142,9 +142,124 @@
   color: var(--composa-color-text-secondary);
 }
 
+.composa-editing-inspector {
+  width: 240px;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+}
+
+.storybook-composa-inspector-stage {
+  width: var(--composa-inspector-story-stage-width);
+  height: var(--composa-inspector-story-stage-height);
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: var(--composa-inspector-story-stage-padding);
+  box-sizing: border-box;
+  overflow: visible;
+  background: var(--composa-color-bg-secondary);
+}
+
+.storybook-composa-inspector-rail {
+  width: 240px;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  overflow: visible;
+  background: var(--composa-color-bg);
+}
+
+.storybook-composa-inspector-rail > .composa-editing-inspector {
+  height: 100%;
+}
+
+.composa-editing-inspector-scroll-shell {
+  min-height: 0;
+  flex: 1 1 auto;
+  position: relative;
+  background: var(--composa-color-bg);
+}
+
+.composa-editing-inspector-scroll {
+  width: 100%;
+  height: 100%;
+  padding-right: var(--composa-space-1);
+  box-sizing: border-box;
+  background: var(--composa-color-bg);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.composa-editing-inspector-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.composa-editing-inspector-scrollbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.composa-editing-inspector-scrollbar.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.composa-editing-inspector-scrollbar::before {
+  content: "";
+  position: absolute;
+  top: var(--composa-scrollbar-thumb-top, 0);
+  right: 2px;
+  width: 4px;
+  height: var(--composa-scrollbar-thumb-height, 24px);
+  border-radius: var(--composa-radius-full);
+  background-color: color-mix(in srgb, var(--composa-color-icon-secondary) 62%, transparent);
+}
+
+.composa-editing-inspector-scroll > .composa-layer-header {
+  height: var(--composa-height-heading);
+  min-height: var(--composa-height-heading);
+  padding-block: var(--composa-space-2);
+}
+
+.composa-editing-inspector-scroll > .composa-layer-header,
+.composa-editing-inspector-scroll > .composa-position-section,
+.composa-editing-inspector-scroll > .composa-layout-section,
+.composa-editing-inspector-scroll > .composa-paint-section {
+  position: relative;
+  width: 100%;
+  border-bottom: 0;
+  box-sizing: border-box;
+}
+
+.composa-editing-inspector-scroll > .composa-layer-header::after,
+.composa-editing-inspector-scroll > .composa-position-section::after,
+.composa-editing-inspector-scroll > .composa-layout-section::after,
+.composa-editing-inspector-scroll > .composa-paint-section::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--composa-color-border);
+  pointer-events: none;
+}
+
 .is-collapsed {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-

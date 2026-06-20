@@ -1,7 +1,7 @@
 import { SwitchFamily } from "./composa-component-stories.js";
 
 export default {
-  title: "Composa UI/Base Components/Switch",
+  title: "Composa UI/Components/Base/Switch",
   parameters: {
     docs: {
       description: {

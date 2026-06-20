@@ -6,6 +6,10 @@
   background: var(--composa-color-bg-secondary);
 }
 
+.composa-segmented-width-fill {
+  width: 100%;
+}
+
 .composa-segmented-control.composa-segmented-label {
   width: 240px;
   padding: 0;
@@ -21,10 +25,27 @@
   color: var(--composa-color-icon-secondary);
 }
 
-.composa-segmented-control[data-tab-count="03"] .composa-icon-button,
-.composa-segmented-control[data-tab-count="04"] .composa-icon-button,
-.composa-segmented-control[data-tab-count="05"] .composa-icon-button,
-.composa-segmented-control[data-tab-count="06"] .composa-icon-button {
+.composa-segmented-icon.composa-segmented-width-fill .composa-icon-button-tooltip-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.composa-segmented-icon.composa-segmented-width-fill .composa-icon-button {
+  width: 100%;
+}
+
+.composa-segmented-control .composa-icon-button-glyph,
+.composa-segmented-control .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-basis: 20px;
+}
+
+.composa-segmented-width-auto[data-tab-count="03"] .composa-icon-button,
+.composa-segmented-width-auto[data-tab-count="04"] .composa-icon-button,
+.composa-segmented-width-auto[data-tab-count="05"] .composa-icon-button,
+.composa-segmented-width-auto[data-tab-count="06"] .composa-icon-button {
   width: var(--composa-segmented-icon-width);
 }
 
@@ -49,6 +70,13 @@
   color: var(--composa-color-icon);
 }
 
+.composa-segmented-control .composa-icon-button:hover:not(.is-selected),
+.composa-segmented-control .composa-icon-button.is-hover:not(.is-selected),
+.composa-segmented-control .composa-icon-button:focus-visible:not(.is-selected) {
+  background: var(--composa-color-bg-hover);
+  color: var(--composa-color-icon);
+}
+
 .composa-segmented-control.is-disabled {
   background: var(--composa-color-bg-disabled);
   cursor: default;
@@ -62,4 +90,3 @@
 .composa-segmented-picker {
   width: auto;
 }
-

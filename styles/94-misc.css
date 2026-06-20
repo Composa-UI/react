@@ -86,13 +86,13 @@
 }
 
 .composa-avatar {
-  width: 24px;
-  height: 24px;
+  width: var(--composa-avatar-size, 24px);
+  height: var(--composa-avatar-size, 24px);
   display: grid;
   place-items: center;
-  border-radius: var(--composa-radius-full);
-  background: var(--composa-color-multiplayer-yellow);
-  color: var(--composa-color-text-on-multiplayer-yellow);
+  border-radius: var(--composa-avatar-radius, var(--composa-radius-full));
+  background: var(--composa-avatar-bg, var(--composa-color-multiplayer-yellow));
+  color: var(--composa-avatar-fg, var(--composa-color-text-on-multiplayer-yellow));
   font-size: var(--composa-body-large-size);
 }
 
@@ -103,4 +103,3 @@
 .composa-split-button {
   width: 41px;
 }
-

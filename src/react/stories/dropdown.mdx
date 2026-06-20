@@ -1,0 +1,111 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import * as DropdownStories from "./dropdown.stories.js";
+
+<Meta of={DropdownStories} />
+
+# Dropdown
+
+A closed select trigger that shows the current value and a chevron. For simple lists it also owns the anchored option menu.
+
+**Capability:** Controllable. Drive it with `value` + `onValueChange` (and `open` + `onOpenChange` for the menu); uncontrolled by default.
+
+<Canvas of={DropdownStories.Playground} />
+
+## Guidelines
+
+### When to use it
+
+Use Dropdown to pick one value from a list too long for a SegmentedControl or a row of radios. It is styled as an **input, not a button**: a white surface with a 1px border, a value on the left, a chevron on the right.
+
+| Use instead | When |
+|---|---|
+| SegmentedControl | The options are few and fit on one row. |
+| Radio | The options are a short, always-visible form choice. |
+| InputField | The user types a free value rather than selecting one. |
+| Button | The control triggers an action, not a value selection. |
+
+Pass `options` for a simple one-value menu (export format, stroke position, stroke style). Compose `Menu` / `MenuRow` separately only when the open surface needs search, grouped commands, shortcuts, dividers, or custom rows.
+
+### The rules
+
+- **Dropdown is an input, never a button.** The surface stays **white through every state** — never paint a hover or active fill. This is the key divergence the fidelity audit records against the shared button/menu rules.
+- **Active / open swaps the border to selection-blue and highlights the value text.** The Figma source treats interaction as a 1px border change to `#0d99ff` plus a text-selection highlight on the value, not a surface fill. `aria-expanded` flips to `"true"`.
+- **The chevron hugs the right edge.** The value↔chevron gap and the right padding are both `space-1` (4px); the left padding stays `space-2` (8px) for the value. This gives the chevron the tight right-edge radius the inspector expects, matching NumericInput's dropdown variant.
+- **Portal option menus through `OverlayHost`.** Inside a scrollable inspector, wrap the inspector in `OverlayHost`; the menu renders through `OverlayPortal` so it escapes rail-scroll clipping. Size the menu from its content or a tokenized menu width, never the full overlay host.
+- **The leading icon needs both `icon` and `iconLead`.** Either alone hides it.
+
+**Do**
+
+- Use it when the list is too long for a SegmentedControl or radio group.
+- Show the current value as the trigger text and pass a `label` for the accessible name.
+- Pass `options` for simple value menus; use `stroke={false}` for borderless in-cell rows; `size="large"` for a 32px input row.
+
+**Don't**
+
+- Paint a hover or active surface fill — the dropdown stays white like an input.
+- Use it for an action (use a Button) or for free text entry (use InputField).
+- Show an icon without setting both `icon` and `iconLead`.
+- Overload `options` for grouped commands, checkmark+icon rows, or shortcuts — compose `Menu` / `MenuRow`.
+
+Grounded in the Figma "Dropdown" guideline frame (`2028:36589`): 16 variants across `Size=Default/Large`, `State=Default/Focused/Active`, plus `Disabled`, `Stroke`, and `Icon Lead`. The frame shows the white surface throughout, the blue border + value highlight on active, the tertiary-text disabled state, and the leading-icon and large variants.
+
+## Anatomy
+
+Dropdown renders a native `<button>` with `aria-haspopup="menu"` holding up to three slots in order:
+
+1. **Leading icon** (optional) — renders only when both `icon` and `iconLead` are set. Left of the value.
+2. **Value** (required) — the current selection in a `<span>`; truncates with an ellipsis.
+3. **Chevron** (always) — a trailing `chevronDown` glyph hugging the right edge.
+
+When `options` are passed, Dropdown also renders a dark `DropdownMenu` below/above the trigger; inside an `OverlayHost` it portals through `OverlayPortal`. The built-in menu is intentionally simple: single-value lists, outside-click dismissal, value updates — no full keyboard nav or typeahead yet.
+
+## Code & Specs
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | none | Current value text shown in the trigger. |
+| `defaultValue` | `string` | first option | Uncontrolled starting value for option menus. |
+| `options` | `(string \| { label, value?, shortcut?, disabled? })[]` | none | Enables the built-in one-value menu. |
+| `label` | `string` | none | Accessible name (`aria-label`). |
+| `size` | `"default" \| "large"` | `"default"` | Height axis. `large` = 32px min height. |
+| `icon` | `IconName` | none | Leading icon. Renders only when `iconLead` is set. |
+| `iconLead` | `boolean` | `false` | Toggles the leading icon. |
+| `stroke` | `boolean` | `true` | Draws the 1px border. `false` = borderless. |
+| `open` | `boolean` | none | Controlled open state. |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled starting open state. |
+| `onOpenChange` | `(open, event) => void` | none | Fires when the open state would change. |
+| `onValueChange` | `(value, option, event) => void` | none | Fires when an option row is selected. |
+| `state` | `"default" \| "focused" \| "active"` | `"default"` | Forces a visual state; overridden to `active` while open. |
+| `disabled` | `boolean` | `false` | Disables the trigger. |
+
+Extra props spread to the root `<button>`. `children` overrides the icon/value/chevron content.
+
+### Sizes & width
+
+- **Size (height):** `default` = 24px (`--composa-height-input`); `large` = 32px.
+- **Width:** `width="auto"` hugs content; `width="fill"` stretches the trigger and option-menu root.
+
+### States
+
+| State | Reached by | Treatment (input semantics) |
+|---|---|---|
+| Default | resting | White surface, 1px `--composa-color-border`, value text. |
+| Focused | focus / `state="focused"` | Border swaps to selection-blue (`#0d99ff`). No fill. |
+| Active / open | `open`, click, `state="active"` | White surface, blue border, value text-highlight. `aria-expanded="true"`. |
+| Disabled | `disabled` | White surface, tertiary text, dimmed chevron. Native `disabled`. |
+| Borderless | `stroke={false}` | Transparent border. |
+
+### Import
+
+```jsx
+import { Dropdown } from "@composa-ui/react";
+
+<Dropdown
+  label="Stroke position"
+  value={position}
+  options={["Inside", "Center", "Outside"]}
+  onValueChange={(next) => setPosition(next)}
+/>
+```

@@ -1,0 +1,136 @@
+/* AppNavigationRail — rebuilt to Figma node 103-10421 (Toolbar - Navigation Bar).
+   A 56px-wide vertical column: an app-mark "main menu" button, a 16px hairline
+   separator, then a stack of icon-over-label destinations. The selected
+   destination tints only its 32px icon container with bg-selected (#e5f4ff). */
+
+.composa-app-icon {
+  width: var(--composa-navigation-rail-brand-size);
+  height: var(--composa-navigation-rail-brand-size);
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+}
+
+/* Composa brand mark. The mark carries its own color and rounded geometry, so
+   the container no longer paints a surface; the SVG scales to the brand box. */
+.composa-app-icon-mark {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.composa-app-navigation-rail {
+  width: var(--composa-navigation-rail-width);
+  min-width: var(--composa-navigation-rail-width);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--composa-navigation-rail-gap);
+  padding: var(--composa-navigation-rail-padding-block-start)
+    var(--composa-navigation-rail-padding-inline)
+    var(--composa-navigation-rail-padding-block-end);
+  border-right: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  color: var(--composa-color-text-secondary);
+  box-sizing: border-box;
+}
+
+/* App-mark "main menu" button: 4px padding around a 24px mark, 5px radius. */
+.composa-app-navigation-rail-brand {
+  display: grid;
+  place-items: center;
+  padding: var(--composa-navigation-rail-brand-padding);
+  border: 0;
+  border-radius: var(--composa-navigation-rail-item-radius);
+  background: transparent;
+  color: var(--composa-color-text);
+  cursor: pointer;
+}
+
+.composa-app-navigation-rail-brand:hover {
+  background: var(--composa-color-bg-hover-transparent);
+}
+
+/* Hairline separator (16px wide) below the app mark, matching Figma's
+   "Container (margin)" dividers. 8px of block space on each side. */
+.composa-app-navigation-rail-separator {
+  flex: 0 0 auto;
+  width: var(--composa-navigation-rail-separator-width);
+  height: 1px;
+  margin-block: var(--composa-navigation-rail-separator-block);
+  border: 0;
+  background: var(--composa-color-border);
+}
+
+.composa-app-navigation-rail-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Destination: 56px-wide icon-over-label cell, 4px block padding. */
+.composa-navigation-rail-item {
+  width: var(--composa-navigation-rail-item-width);
+  display: grid;
+  place-items: center;
+  padding: var(--composa-navigation-rail-item-padding-block) 0;
+  color: var(--composa-color-text-secondary);
+  background: transparent;
+}
+
+.composa-navigation-rail-item-content {
+  width: 100%;
+  gap: var(--composa-navigation-rail-item-gap);
+  justify-content: center;
+}
+
+/* The destination's icon container is a 32px box (5px radius); the glyph is
+   24px. Override the xlarge icon-button frame (32px) glyph back down to 24px so
+   the icon fills the Figma proportion rather than the button default (28px). */
+.composa-navigation-rail-item-toggle {
+  color: inherit;
+}
+
+.composa-navigation-rail-item-toggle.composa-icon-button {
+  width: var(--composa-navigation-rail-item-container-size);
+  height: var(--composa-navigation-rail-item-container-size);
+  border-radius: var(--composa-navigation-rail-item-radius);
+}
+
+.composa-navigation-rail-item-toggle.composa-icon-button .composa-icon-button-glyph,
+.composa-navigation-rail-item-toggle.composa-icon-button .composa-icon-button-glyph .composa-icon {
+  --composa-runtime-icon-size: var(--composa-navigation-rail-item-glyph-size);
+  width: var(--composa-navigation-rail-item-glyph-size);
+  height: var(--composa-navigation-rail-item-glyph-size);
+  flex-basis: var(--composa-navigation-rail-item-glyph-size);
+}
+
+/* Selected destination: the icon container tints (bg-selected #e5f4ff) AND the
+   glyph turns accent/blue (founder rule: active colors the ICON, not only the
+   container). The glyph reads `currentColor`, so the accent goes on the button
+   `color`. The label below stays full-strength text. */
+.composa-navigation-rail-item.is-selected .composa-navigation-rail-item-toggle.composa-icon-button {
+  background: var(--composa-navigation-rail-item-bg-selected);
+  color: var(--composa-navigation-rail-item-icon-selected);
+}
+
+.composa-navigation-rail-item.is-selected .composa-navigation-rail-item-label {
+  color: var(--composa-color-text);
+}
+
+.composa-navigation-rail-item-label {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--composa-color-text);
+  font-family: var(--composa-font-family);
+  font-size: var(--composa-navigation-rail-item-label-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-navigation-rail-item-label-line);
+  letter-spacing: var(--composa-navigation-rail-item-label-tracking);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

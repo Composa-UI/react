@@ -6,9 +6,10 @@
 // asset set used by Storybook and the demo app lives in ./story-runtime.js and is
 // excluded from the published package.
 import React from "react";
+import { createPortal } from "react-dom";
 import { createComposaComponents } from "./factory.js";
 
-const components = createComposaComponents(React);
+const components = createComposaComponents(React, { createPortal });
 
 export const {
   Button,
@@ -28,6 +29,9 @@ export const {
   Radio,
   Checkbox,
   Tooltip,
+  OverlayLayer,
+  OverlayHost,
+  OverlayPortal,
   Dialog,
   Dropdown,
   Menu,
@@ -36,6 +40,15 @@ export const {
   MenuFooter,
   MenuMultiSelect,
   VerticalCell,
+  ComposaAppIcon,
+  NavigationRailItem,
+  AppNavigationRail,
+  NavigatorHeader,
+  CollapseHeader,
+  SlideThumb,
+  SlideList,
+  EditorNavigator,
+  SlidesNavigator,
   TextPair,
   Label,
   Tree,
@@ -50,8 +63,43 @@ export const {
   HeaderActions,
   Header,
   SegmentedControl,
+  ControlGroup,
+  AlignmentPicker,
   Tab,
   Tabs,
+  Avatar,
+  MultiplayerControl,
+  CommentComposer,
+  CommentItem,
+  CommentThreadWindow,
+  Badge,
+  BadgeAnchor,
+  NotificationBell,
+  Notification,
+  VisualBell,
+  InspectorHeader,
+  LayerHeader,
+  PositionSection,
+  LayoutSection,
+  FillSection,
+  StrokeSection,
+  StrokeControlsSection,
+  EffectsSection,
+  ColorPickerDialog,
+  ColorPickerTrigger,
+  TypographyDialog,
+  TypeStyleMenu,
+  TypeStyleRow,
+  FontsPickerMenu,
+  LayoutGuideSettingsDialog,
+  SelectionColorsSection,
+  LayoutGuideSection,
+  ExportSection,
+  AppearanceSection,
+  EditingInspector,
+  EditorToolbar,
+  EditorShell,
+  SlidesEditorTemplate,
   CanvasSelectionOverlay,
 } = components;
 

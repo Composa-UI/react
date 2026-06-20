@@ -1,0 +1,385 @@
+/* Navigator sidebars — EditorNavigator + SlidesNavigator and their primitives
+   (NavigatorHeader, CollapseHeader, SlideThumb, SlideList). Built to the UI3
+   design.sidebar.left anatomy (4kilp0ShQiYsoUPJdleqEH, node 1027347:6458) and the
+   Figma to Video slides bar (rMq1M35u1iyKB2QaQMipZb, node 98:12).
+
+   Placed last in the cascade so it can compose the already-defined Tree, Button,
+   and IconButton rows without reordering existing component layers. */
+
+/* ── NavigatorHeader ───────────────────────────────────────────────────────── */
+.composa-navigator-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  width: 100%;
+  min-height: var(--composa-navigator-header-height);
+  padding: var(--composa-space-2);
+  border-bottom: 1px solid var(--composa-color-border);
+  background: var(--composa-color-bg);
+  box-sizing: border-box;
+}
+
+.composa-navigator-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.composa-navigator-header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  min-width: 0;
+  padding: 0 var(--composa-space-2);
+  border: 0;
+  background: transparent;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  cursor: default;
+}
+
+button.composa-navigator-header-title {
+  cursor: pointer;
+}
+
+button.composa-navigator-header-title:hover {
+  color: var(--composa-color-text);
+}
+
+.composa-navigator-header-title-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-navigator-header-title-chevron {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon);
+}
+
+.composa-navigator-header-project {
+  padding: 0 var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-weight);
+  line-height: var(--composa-body-medium-line);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-navigator-header-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* ── CollapseHeader ────────────────────────────────────────────────────────── */
+.composa-collapse-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--composa-space-2);
+  width: 100%;
+  min-height: var(--composa-navigator-section-header-height);
+  padding: var(--composa-space-1) var(--composa-navigator-section-inset);
+  box-sizing: border-box;
+}
+
+.composa-collapse-header-lead {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  min-width: 0;
+  flex: 1 1 auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size);
+  font-weight: var(--composa-body-medium-strong-weight);
+  line-height: var(--composa-body-medium-line);
+  text-align: left;
+}
+
+button.composa-collapse-header-lead {
+  cursor: pointer;
+}
+
+.composa-collapse-header-chevron {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--composa-color-icon);
+  transition: transform 120ms ease;
+}
+
+.composa-collapse-header-chevron.is-collapsed {
+  transform: rotate(-90deg);
+}
+
+.composa-collapse-header-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composa-collapse-header-trail {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* ── EditorNavigator ───────────────────────────────────────────────────────── */
+.composa-editor-navigator {
+  display: flex;
+  flex-direction: column;
+  width: var(--composa-navigator-width);
+  height: 100%;
+  min-height: 0;
+  background: var(--composa-color-bg);
+  border-right: 1px solid var(--composa-color-border);
+  box-sizing: border-box;
+}
+
+.composa-navigator-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* The page region sits on top and is the resizable one (fixed height set inline).
+   The layer region takes the remaining space and scrolls. The pages region is a
+   fixed-height flex column: its CollapseHeader holds its size and the scroll
+   body fills the rest, so a long page list scrolls inside the fixed band instead
+   of overflowing it (the previous clip). */
+.composa-navigator-pages {
+  flex: 0 0 auto;
+  min-height: 0;
+  border-top: 1px solid var(--composa-color-border);
+}
+
+.composa-navigator-layers {
+  flex: 1 1 auto;
+  min-height: var(--composa-navigator-page-min-height);
+  border-top: 1px solid var(--composa-color-border);
+}
+
+/* The Layers section is the lower of the two stacked bands (Pages on top, Layers
+   below). Its content flows from the TOP and scrolls when long — it is NOT pushed
+   to the bottom edge. (A prior `margin-top:auto` bottom-push left a large empty gap
+   above a short layer tree, which read as a bug.) */
+.composa-navigator-layers .composa-navigator-list-scroll {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The CollapseHeader inside each list band must not be squeezed; only the scroll
+   body flexes and scrolls. Without this, a tall tree pushed the scroll body past
+   its band and the bottom rows were clipped by the navigator's overflow. */
+.composa-navigator-list > .composa-collapse-header {
+  flex: 0 0 auto;
+}
+
+.composa-navigator-list-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--composa-space-2);
+}
+
+/* Pages are label-only selection rows (Figma "Sidebar row simple"): suppress the
+   Tree kind glyph + disclosure gutter so the flat page Tree reads as plain rows. */
+.composa-navigator-page-tree .composa-layer-icon {
+  display: none;
+}
+
+.composa-navigator-page-tree .composa-tree-row {
+  padding-left: var(--composa-space-3);
+}
+
+.composa-navigator-page-tree .composa-tree-disclosure-spacer {
+  display: none;
+}
+
+/* ── Split divider (role="separator") ──────────────────────────────────────── */
+.composa-navigator-split-divider {
+  position: relative;
+  flex: 0 0 auto;
+  height: var(--composa-navigator-divider-hit);
+  margin-block: calc(var(--composa-navigator-divider-hit) / -2);
+  z-index: 1;
+  cursor: row-resize;
+  background: transparent;
+  border: 0;
+  touch-action: none;
+}
+
+.composa-navigator-split-divider::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: transparent;
+}
+
+.composa-navigator-split-divider:hover::after,
+.composa-navigator-split-divider:focus-visible::after {
+  background: var(--composa-color-accent);
+}
+
+.composa-navigator-split-divider:focus-visible {
+  outline: none;
+}
+
+/* ── SlidesNavigator ───────────────────────────────────────────────────────── */
+.composa-slides-navigator {
+  display: flex;
+  flex-direction: column;
+  width: var(--composa-navigator-width);
+  height: 100%;
+  min-height: 0;
+  background: var(--composa-color-bg);
+  border-right: 1px solid var(--composa-color-border);
+  box-sizing: border-box;
+}
+
+.composa-slides-navigator-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2);
+  box-sizing: border-box;
+}
+
+.composa-slides-navigator-new {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.composa-slides-navigator-new > span:first-child {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.composa-slides-navigator-new-chevron {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.composa-slides-navigator-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--composa-space-2);
+}
+
+/* ── SlideList + SlideThumb ────────────────────────────────────────────────── */
+.composa-slide-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--composa-space-1);
+  padding: var(--composa-slide-thumb-inset);
+  box-sizing: border-box;
+}
+
+.composa-slide-list-empty {
+  padding: var(--composa-space-3) var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size);
+  line-height: var(--composa-body-medium-line);
+  text-align: center;
+}
+
+.composa-slide-thumb {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  padding: var(--composa-space-2);
+  border: 0;
+  border-radius: var(--composa-slide-thumb-radius);
+  background: transparent;
+  color: var(--composa-color-text);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.composa-slide-thumb:hover {
+  background: var(--composa-color-bg-hover);
+}
+
+.composa-slide-thumb.is-selected {
+  background: var(--composa-slide-thumb-bg-selected);
+}
+
+.composa-slide-thumb-index {
+  flex: 0 0 var(--composa-slide-thumb-gutter);
+  width: var(--composa-slide-thumb-gutter);
+  padding-right: var(--composa-space-2);
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-slide-thumb-index-size);
+  line-height: var(--composa-body-medium-line);
+  text-align: left;
+}
+
+.composa-slide-thumb.is-selected .composa-slide-thumb-index {
+  color: var(--composa-color-text);
+}
+
+.composa-slide-thumb-preview {
+  flex: 1 1 auto;
+  display: block;
+  aspect-ratio: var(--composa-slide-thumb-aspect);
+  overflow: hidden;
+  border-radius: var(--composa-slide-thumb-radius);
+  box-sizing: border-box;
+  /* A real white preview card with a visible solid border, so every unselected
+     slide reads as a bordered card (Figma slides-bar 98-12) rather than floating
+     text. A real `border` (not an inset shadow) is used so an opaque thumbnail
+     child can't paint over the card edge. */
+  background: var(--composa-slide-thumb-preview-bg);
+  border: 1px solid var(--composa-slide-thumb-preview-border);
+}
+
+.composa-slide-thumb.is-selected .composa-slide-thumb-preview {
+  /* Selected card is a clean white surface floating on the blue selection tint;
+     the surrounding tint carries the selection signal, so the card drops its
+     border. */
+  background: var(--composa-slide-thumb-preview-bg-selected);
+  border-color: transparent;
+}
+
+.composa-slide-thumb-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.composa-slide-thumb-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

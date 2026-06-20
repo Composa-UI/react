@@ -16,10 +16,10 @@ export const Row = ({ token, value, note }) => (
 
 ## Control heights
 
-The input height is the standard control unit. The heading height sizes toolbars and section headers.
+The input height is the standard dense-control unit. Use it for the smallest buttons, dropdowns, inputs, tabs, segmented items, and icon controls instead of mixing 30px and 32px control heights. The heading height sizes toolbars and section headers.
 
 <div style={{ margin: "12px 0 16px" }}>
-  <Row token="--composa-height-input" value="24px" note="standard control height" />
+  <Row token="--composa-height-input" value="24px" note="dense controls" />
   <Row token="--composa-height-heading" value="40px" note="toolbar / heading row" />
 </div>
 
@@ -27,6 +27,16 @@ A 24px control rendered at the input height:
 
 <div style={{ display: "inline-flex", alignItems: "center", height: "var(--composa-height-input)", padding: "0 var(--composa-space-2)", background: "var(--composa-color-bg-secondary)", border: "1px solid var(--composa-color-border)", borderRadius: "var(--composa-radius-medium)", fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", marginBottom: 28 }}>
   height-input · 24px
+</div>
+
+## Row heights
+
+Rows should consolidate around two heights: heading rows and item rows. Heading rows are 40px tall so a 24px control can sit centered with 8px total vertical breathing room. List and item rows are 32px tall.
+
+<div style={{ margin: "12px 0 28px" }}>
+  <Row token="heading row" value="40px" note="section headers, toolbars, panel headers" />
+  <Row token="item row" value="32px" note="list rows, layer rows, repeated items" />
+  <Row token="dense control" value="24px" note="buttons, dropdowns, inputs, tabs, icon controls" />
 </div>
 
 ## Radius

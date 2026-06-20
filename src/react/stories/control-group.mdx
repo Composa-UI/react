@@ -1,4 +1,5 @@
 import { Meta, Canvas, Controls, ArgTypes } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
 import * as ControlGroupStories from "./control-group.stories.js";
 
 <Meta of={ControlGroupStories} />
@@ -9,23 +10,19 @@ A compact group of adjacent icon actions that reads as one control surface.
 
 **Capability:** Controllable. Each action fires `onAction` (and per-item `onClick`); the group owns no value. Use it for momentary actions, not a selected value.
 
-<Canvas of={ControlGroupStories.Default} />
+<DocTabs>
 
-## Guidelines
+<DocTab label="Usage">
+
+Use ControlGroup for adjacent icon actions that belong together — alignment groups, rotate/flip, transform utilities. It reads as one rounded surface, not a row of separate buttons.
+
+<Canvas of={ControlGroupStories.Default} />
 
 ### When to use it
 
 | Use ControlGroup | Use a different component |
 |---|---|
 | Adjacent icon actions that belong together: alignment groups, rotate/flip, transform utilities. | **SegmentedControl** when one option is the current selected value. **SplitButton** for one primary action plus a menu. **MenuRow `type="toolbar"`** when the choice needs a menu with a checkmark and a leading icon. |
-
-### The rules
-
-- **Outer-corner rounding only.** The group reads as one rounded rectangle: the first segment rounds its left corners, the last rounds its right corners, and every middle segment is square. A single-segment group keeps all four corners rounded. Never round each segment independently. The same edge-rounding contract applies to the multi-value input (`NumericInputMulti`).
-- **The group owns the visual split.** Separation between actions comes from the group's tokenized split spacing. Sections must not add their own divider lines or white backgrounds around grouped icon buttons.
-- **Stays dense: 24px track.** The default control height is 24px (`size="medium"`). Choose icon sizing at the primitive level and verify at right-panel width; if a glyph overpowers the 24px frame, reduce it in ControlGroup rather than patching each section.
-- **Hover is local.** Hover styling belongs only to the hovered action. A selected action may keep its selected styling, but hover color must not bleed into a neighbor.
-- **Tooltips are per action.** Each action carries its own tooltip from its `label`. Because those tooltips portal into the nearest `OverlayHost`, any story or stage that shows them must wrap its content in an `OverlayHost` — otherwise hovering shows nothing.
 
 **Do**
 
@@ -40,7 +37,18 @@ A compact group of adjacent icon actions that reads as one control surface.
 - Round each segment on its own, or draw your own dividers between actions.
 - Let a hovered action's color carry over to the previous one.
 
-## Anatomy
+</DocTab>
+
+<DocTab label="Style">
+
+### The rules
+
+- **Outer-corner rounding only.** The group reads as one rounded rectangle: the first segment rounds its left corners, the last rounds its right corners, and every middle segment is square. A single-segment group keeps all four corners rounded. Never round each segment independently. The same edge-rounding contract applies to the multi-value input (`NumericInputMulti`).
+- **The group owns the visual split.** Separation between actions comes from the group's tokenized split spacing. Sections must not add their own divider lines or white backgrounds around grouped icon buttons.
+- **Stays dense: 24px track.** The default control height is 24px (`size="medium"`). Choose icon sizing at the primitive level and verify at right-panel width; if a glyph overpowers the 24px frame, reduce it in ControlGroup rather than patching each section.
+- **Hover is local.** Hover styling belongs only to the hovered action. A selected action may keep its selected styling, but hover color must not bleed into a neighbor.
+
+### Anatomy
 
 ControlGroup renders one control surface with repeated icon-button slots:
 
@@ -50,18 +58,20 @@ ControlGroup renders one control surface with repeated icon-button slots:
 4. **Per-action selected/active state** — optional, when an action is itself a toggle.
 5. **Per-action tooltip** — from each item's `label`, portaled into the `OverlayHost`.
 
-## Code & Specs
+### Tokens
+
+- Track height: 24px at `size="medium"`.
+- Split spacing and outer radius are owned by the group's own component tokens (`styles/` ControlGroup rules), not by the consuming section.
+
+</DocTab>
+
+<DocTab label="Code">
 
 ### Props
 
 <ArgTypes of={ControlGroupStories.Default} />
 
 From `function ControlGroup` in `src/react/factory.js`: `label` (accessible name), `items` (array of `{ id, icon, label, onClick }`), `size` (`"medium"` default, the 24px track), `variant` (`"ghost"` default), `disabled`, `tooltipPlacement` (`"top"` default), and `onAction(id, item, event)`. Extra props spread to the root.
-
-### Tokens
-
-- Track height: 24px at `size="medium"`.
-- Split spacing and outer radius are owned by the group's own component tokens (`styles/` ControlGroup rules), not by the consuming section.
 
 ### Import
 
@@ -80,3 +90,16 @@ import { ControlGroup, OverlayHost } from "@composa-ui/react";
   />
 </OverlayHost>
 ```
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+- **Every action needs a `label`.** Each slot is an icon-only `IconButton`, so `label` is both its tooltip and its accessible name (`aria-label`). An unlabeled action is inaccessible.
+- **Tooltips need an `OverlayHost`.** Per-action tooltips portal into the nearest `OverlayHost`; any stage that shows them must wrap content in one, or hovering shows nothing.
+- **Momentary, not selected.** The group owns no value — each action is a discrete command. If one slot is a toggle it carries its own pressed/selected state; the group itself never reports a "current value".
+- **Hover stays local** to the hovered action so keyboard and pointer focus never reads as two actions at once.
+
+</DocTab>
+
+</DocTabs>

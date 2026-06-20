@@ -1,5 +1,6 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import remarkGfm from "remark-gfm";
 
 export default {
   stories: [
@@ -12,7 +13,24 @@ export default {
     options: {},
   },
 
-  addons: ["@storybook/addon-docs", "@storybook/addon-a11y", "@storybook/addon-mcp"],
+  addons: [
+    // GFM is NOT on by default in addon-docs' MDX pipeline, so every markdown
+    // table (foundations, component guidelines, the DocTabs docs) rendered as raw
+    // "| … | … |" pipe text. remark-gfm enables tables (plus strikethrough, task
+    // lists, autolinks) across ALL docs.
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
+    "@storybook/addon-a11y",
+    "@storybook/addon-mcp",
+  ],
 
   // Chrome fonts (IBM Plex Sans) are self-hosted via @fontsource/ibm-plex-sans
   // and imported as JS modules in manager.js / preview.js, so the bundler resolves

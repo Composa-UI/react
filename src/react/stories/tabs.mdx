@@ -6,11 +6,7 @@ import * as TabsStories from "./tabs.stories.js";
     Carbon-aligned 4-tab shape: Usage (incl. anatomy/content/behavior/states), Style
     (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
     all substance kept; only Figma-product scaffolding (node-ids, redline annotations,
-    light/dark panel framing) trimmed. */}
-{/* Source anomalies preserved for clean-up: the light "Unselected Focus" specimen
-    (2425:45602) and the dark fourth specimen (2425:45589) render with bg-secondary +
-    strong type rather than an unselected focus ring — treated here as the clean
-    unselected-focus state (unselected fill + selection border).
+    light/dark panel framing) trimmed.
 
     Open decisions (need ruling):
     - Automatic vs manual activation: the keyboard table currently implies MANUAL activation
@@ -39,12 +35,13 @@ switch between related information, with **one tab selected at a time**.
 
 ### Variants
 
-- **Underline** — the default tabstrip: the selected tab carries a `bg-secondary` fill and
-  strong type; unselected tabs are unstyled. The row anchors the top of the region it
-  controls.
-- **Pill** — the selected tab reads as a filled pill (`bg-secondary`, `radius-medium`)
-  against unstyled siblings. We sometimes make the first tab an aggregated view, such as
-  "All".
+<Canvas of={TabsStories.Variant} />
+
+- **Pill** — the default tabstrip: the selected tab reads as a filled pill (`bg-secondary`,
+  `radius-medium`) against unstyled siblings. We sometimes make the first tab an aggregated
+  view, such as "All".
+- **Underline** — the selected tab carries a colored baseline underline instead of a fill;
+  the row anchors the top of the region it controls via a bottom border.
 
 ### Anatomy
 
@@ -74,7 +71,7 @@ other tabs.
   region below it.
 - **Focus** — each tab can be focused individually, and focus can land on the current tab
   or an unselected one, so the user can navigate tabs within a panel by keyboard. A focused
-  tab shows a 1px `border.selected` ring.
+  tab shows a 1px `border.selected` ring without changing the tab's fill or type weight.
 - **Overflow** — when tabs overflow, the row scrolls horizontally. Tabs that flow outside
   the parent are masked with gradients that fade into the `bg` background, leaving room for
   a trailing close affordance. _(proposed)_ **Tabs never wrap or stack** — the row always
@@ -83,12 +80,14 @@ other tabs.
 
 #### States
 
+<Canvas of={TabsStories.States} />
+
 | State | Fill | Border | Type / color |
 |---|---|---|---|
 | Selected | `color.bg.secondary` | none | `body.medium.strong` · `color.text` |
 | Selected — focus | `color.bg.secondary` | `color.border.selected` | `body.medium.strong` · `color.text` |
 | Unselected | `color.bg` | none | `body.medium` · `color.text.secondary` |
-| Unselected — focus | `color.bg.secondary` | `color.border.selected` | `body.medium.strong` · `color.text` |
+| Unselected — focus | `color.bg` | `color.border.selected` | `body.medium` · `color.text.secondary` |
 | Unselected — hover _(proposed)_ | `color.bg.hover` | none | `body.medium` · `color.text.secondary` |
 | Disabled _(proposed)_ | `color.bg` | none | `body.medium` · `color.text.disabled` (no focus ring, omitted from the roving order) |
 
@@ -106,34 +105,41 @@ _Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaitin
 
 #### Structure
 
-| Element | Size |
-|---|---|
-| Tab container height | 24 (`height.input`) |
-| Tab horizontal padding | `spacer-2` (8) |
-| Tab internal gap | `spacer-1` (4) |
-| Tab radius | `radius-medium` (5) |
-| Gap between tabs | `spacer-1` (4) |
-| Counter badge height | 16 |
-| Badge padding / gap | `spacer-1` (4) |
-| Badge radius | `radius-medium` (5) |
-| Overflow scrim height | `spacer-6` (40) |
-| Overflow edge masks | 16 (left) / 8 (right) |
-| Overflow bottom border | 1px line |
+<Canvas of={TabsStories.Spacing} />
+
+| Element | Size | CSS custom property |
+|---|---|---|
+| Tab container height | 40px (`--composa-tabs-height`) | `--composa-tabs-height` |
+| Tab container height — compact | 24px | `--composa-tabs-compact` (via `height` override) |
+| Tab height | 24px (`height.input`) | `--composa-tab-height` |
+| Tab horizontal padding | `spacer-2` (8px) | `--composa-tab-padding-inline` |
+| Tab internal gap | `spacer-1` (4px) | — |
+| Tab radius | `radius-medium` (5px) | `--composa-radius-medium` |
+| Gap between tabs | `spacer-1` (4px) | — |
+| Counter badge height | 16px | — |
+| Badge padding / gap | `spacer-1` (4px) | — |
+| Badge radius | `radius-medium` (5px) | `--composa-radius-medium` |
+| Overflow scrim height | `spacer-6` (40px) | — |
+| Overflow edge masks | 16px (left) / 8px (right) | — |
+| Overflow bottom border | 1px line | — |
 
 #### Color
 
-| Element / state | Token |
-|---|---|
-| Tab fill — selected | `color.bg.secondary` |
-| Tab fill — unselected | `color.bg` |
-| Focus ring | `color.border.selected` |
-| Text — selected | `color.text` |
-| Text — unselected | `color.text.secondary` |
-| Badge — Count New, fill | `color.bg.selected` |
-| Badge — Count New, text | `color.text` |
-| Badge — Count Inactive, fill | `color.bg.hover` |
-| Badge — Count Inactive, text | `color.text.secondary` |
-| Overflow mask | gradient → `color.bg` |
+<Canvas of={TabsStories.Color} />
+
+| Element / state | Token | CSS custom property |
+|---|---|---|
+| Tab fill — selected | `color.bg.secondary` | `--composa-tab-bg-selected` |
+| Tab fill — unselected | `color.bg` | (inherits from parent; no explicit fill) |
+| Tab fill — hover | `color.bg.hover` | `--composa-tab-bg-hover` |
+| Focus ring | `color.border.selected` | `--composa-control-focus-ring` |
+| Text — selected | `color.text` | `--composa-tab-fg-selected` |
+| Text — unselected | `color.text.secondary` | `--composa-tab-fg` |
+| Badge — Count New, fill | `color.bg.selected` | — |
+| Badge — Count New, text | `color.text` | — |
+| Badge — Count Inactive, fill | `color.bg.hover` | — |
+| Badge — Count Inactive, text | `color.text.secondary` | — |
+| Overflow mask | gradient → `color.bg` | — |
 
 #### Typography
 
@@ -197,7 +203,7 @@ _Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaitin
 
 - Each tab can be focused individually. The focused tab shows a 1px selection-blue ring
   (`color.border.selected`), meeting the visible-focus requirement, whether the tab is the
-  current one or an unselected sibling.
+  current one or an unselected sibling. Focus does not change the tab's fill or type weight.
 
 </DocTab>
 

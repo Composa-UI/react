@@ -27,6 +27,9 @@ const row = (label, node) =>
     h("div", { key: "n", style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" } }, node),
   ]);
 
+// Presenter colors for the multiplayer variant (Bell Multiplayer 2015-43085).
+const MP_COLORS = ["blue", "green", "grey", "pink", "purple", "red", "yellow"];
+
 export default {
   title: "Composa UI/Components/Feedback/VisualBell",
   component: VisualBell,
@@ -36,13 +39,14 @@ export default {
       description: {
         component:
           "VisualBell is the in-app toast / snackbar: an optional leading icon (or `loading` spinner), a message, an optional `count`, " +
-          "up to two `actions`, and an optional `onDismiss`. `tone` switches the color family (e.g. `danger`).",
+          "up to two `actions`, and an optional `onDismiss`. `tone` switches the color family — `danger` or `multiplayer` (with a " +
+          "per-presenter `className` like `composa-visual-bell-mp-blue`).",
       },
     },
   },
   argTypes: {
     message: { control: "text" },
-    tone: { control: "select", options: ["default", "danger"] },
+    tone: { control: "select", options: ["default", "danger", "multiplayer"] },
     loading: { control: "boolean" },
   },
 };
@@ -80,6 +84,51 @@ export const Variants = {
     ]),
   parameters: {
     docs: { description: { story: "Message-only, dismiss, actions, loading + count, and the danger tone." } },
+  },
+};
+
+// Multiplayer — presenter-follow toasts (Bell Multiplayer 2015-43085).
+// tone="multiplayer" + className="composa-visual-bell-mp-{color}" sets the
+// presenter surface. States compose from existing VisualBell props:
+//   Waiting / Spotlight Load  → loading={true}
+//   Followers                 → count
+//   Spotlight / Following     → message + actions
+export const Multiplayer = {
+  render: () =>
+    stage(
+      [
+        row(
+          "All presenter colors (Waiting state)",
+          MP_COLORS.map((color) =>
+            h(VisualBell, {
+              key: color,
+              tone: "multiplayer",
+              className: `composa-visual-bell-mp-${color}`,
+              loading: true,
+              message: "Waiting for followers",
+              actions: [{ label: "Cancel", onClick: () => {} }],
+            })
+          )
+        ),
+        row("Blue — full state progression", [
+          h(VisualBell, { key: "wait", tone: "multiplayer", className: "composa-visual-bell-mp-blue", loading: true,  message: "Waiting for followers",                        actions: [{ label: "Cancel",       onClick: () => {} }] }),
+          h(VisualBell, { key: "foll", tone: "multiplayer", className: "composa-visual-bell-mp-blue",                message: "16 followers",                                actions: [{ label: "Stop",         onClick: () => {} }] }),
+          h(VisualBell, { key: "spot", tone: "multiplayer", className: "composa-visual-bell-mp-blue",                message: "Spotlight on Tim Van Damme",                  actions: [{ label: "Follow",       onClick: () => {} }] }),
+          h(VisualBell, { key: "load", tone: "multiplayer", className: "composa-visual-bell-mp-blue", loading: true,  message: "Spotlight on Tim Van Damme. Following...",    actions: [{ label: "Not now",      onClick: () => {} }] }),
+          h(VisualBell, { key: "sfol", tone: "multiplayer", className: "composa-visual-bell-mp-blue",                message: "Spotlight on Tim Van Damme",                  actions: [{ label: "Stop following", onClick: () => {} }] }),
+        ]),
+      ],
+      { pad: 32 }
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "All 7 presenter colors in the Waiting state, then the full 5-state progression for the Blue presenter. " +
+          "Waiting and Spotlight Load show a loading spinner; Followers uses the count slot; " +
+          "Spotlight and Spotlight Following use the message + actions pattern.",
+      },
+    },
   },
 };
 

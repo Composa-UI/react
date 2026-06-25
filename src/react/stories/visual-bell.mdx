@@ -50,11 +50,11 @@ was deleted, a library was published, an export is queued. It floats as a horizo
 - **Tabular numbers** — when a bell carries a count (for example a queue while exporting
   large images), the count renders in tabular figures so it stays easily digestible, e.g.
   `1/134`.
-- **Multiplayer** — simple alerts shown when you join someone else's presented file; an
-  efficient way to start following the presenter through the canvas. Walks the states
-  **Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load** and is tinted
-  with a presenter color (Blue, Green, Purple, Red, Pink, Grey, Yellow). _(Figma spec is
-  complete — see Bell Multiplayer in the design file; code implementation is deferred.)_
+- **Multiplayer** — presenter-follow alerts shown when a collaborator's presentation starts
+  or you join their spotlight. Tinted with the presenter's identity color (Blue, Green, Grey,
+  Pink, Purple, Red, Yellow). Walks five states: **Waiting → Followers → Spotlight →
+  Spotlight Load → Spotlight Following**. Use `tone="multiplayer"` and add the per-color
+  modifier class (e.g. `composa-visual-bell-mp-blue`).
 - **Error** — in exceptional cases, communicates data loss. Usually complemented by an
   explicit close button and **persists until the user closes it** rather than auto-dismissing.
 
@@ -94,9 +94,9 @@ placement consistent across the system.
   critical error — those persist until closed (see Persistent on error).
 - **Persistent on error** — the Error variant does not auto-dismiss; it stays until the user
   closes it explicitly.
-- **Loading** — the leading icon is replaced by a spinner; multiplayer Waiting, Spotlight
-  Load, and Spotlight Following states show an indeterminate loader fill tinted with the
-  presenter color.
+- **Loading** — the leading icon is replaced by a spinner; multiplayer Waiting and Spotlight
+  Load states show an indeterminate loader tinted with the presenter color (spinner inherits
+  `currentColor`).
 - **Manual close** — when a Close is present, activating it dismisses the bell immediately.
 
 #### States
@@ -104,9 +104,13 @@ placement consistent across the system.
 | State | Surface / behavior |
 |---|---|
 | Default | `color.bg` pill, label (+ optional count, actions, close). Auto-dismisses. |
-| Loading | Leading icon replaced by a spinner; for multiplayer, an indeterminate loader fill. |
+| Loading | Leading icon replaced by a spinner; for multiplayer, the spinner inherits the presenter color. |
 | Danger / Error | `color.bg.danger` surface; persists until closed by the user. |
-| Multiplayer _(deferred)_ | Presenter-color surface; walks Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load. |
+| Multiplayer — Waiting | Presenter-color surface + spinner; action: Cancel. |
+| Multiplayer — Followers | Presenter-color surface; message shows follower count; action: Stop. |
+| Multiplayer — Spotlight | Presenter-color surface; message names the presenter; action: Follow. |
+| Multiplayer — Spotlight Load | Presenter-color surface + spinner; message shows "Following…"; action: Not now. |
+| Multiplayer — Spotlight Following | Presenter-color surface; message names the presenter; action: Stop following. |
 
 </DocTab>
 
@@ -133,15 +137,15 @@ placement consistent across the system.
 |---|---|
 | Surface — default | `color.bg` |
 | Surface — danger / error | `color.bg.danger` |
-| Surface — multiplayer _(deferred)_ | `color.multiplayer.{blue,green,purple,red,pink,grey,yellow}` |
-| Multiplayer loader / dark surface | the presenter color's darker ramp shade |
-| Multiplayer action button | the presenter color's deep ramp shade |
+| Surface — multiplayer | `color.multiplayer.{blue,green,grey,pink,purple,red,yellow}` |
 | Label | `color.text` |
 | Label — danger | `color.text.ondanger` |
-| Label — multiplayer _(deferred)_ | `color.text.onbrand` (Yellow flips to `color.text` for contrast) |
+| Label — multiplayer | `color.text.on-multiplayer.{color}` (Yellow flips to `color.text` for contrast) |
 | Count | `color.text.secondary` |
 | Action button border | `color.border.translucent` |
+| Action button border — multiplayer | `rgba(0,0,0,0.2)` (dark tint, visible on all presenter colors) |
 | Close divider | `color.border.fs` |
+| Close divider — multiplayer | `rgba(0,0,0,0.2)` |
 
 #### Typography
 
@@ -161,11 +165,21 @@ All color tokens resolve per light/dark theme automatically.
 ```jsx
 import { VisualBell } from "@composa-ui/react";
 
+// Default heads-up
 <VisualBell
   icon="comment"
   message="File deleted"
   actions={[{ label: "Undo", onClick: restore }]}
   onDismiss={() => hideBell()}
+/>
+
+// Multiplayer — Waiting state (Blue presenter)
+<VisualBell
+  tone="multiplayer"
+  className="composa-visual-bell-mp-blue"
+  loading
+  message="Waiting for followers"
+  actions={[{ label: "Cancel", onClick: cancel }]}
 />
 ```
 
@@ -173,6 +187,10 @@ The Variants story shows the message-only, with-dismiss, with-actions, count, an
 shapes side by side:
 
 <Canvas of={VisualBellStories.Variants} />
+
+The Multiplayer story shows all 7 presenter colors and the full 5-state progression:
+
+<Canvas of={VisualBellStories.Multiplayer} />
 
 #### Props
 

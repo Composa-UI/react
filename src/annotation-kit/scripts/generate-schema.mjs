@@ -3,7 +3,7 @@
  * type registry — one source of truth. Run: `node src/annotation-kit/scripts/generate-schema.mjs`.
  * Imports the PURE type data only (no renderer / no ?raw icons), so it runs in plain Node.
  */
-import { writeFileSync } from "node:fs";
+import { writeFileSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { a11yTypes } from "../a11y/types.js";
@@ -86,7 +86,7 @@ const schema = {
     return { title: typeKey, type: "object", properties, required, additionalProperties: false };
   }),
 };
-writeFileSync(join(out, "annotation.schema.json"), JSON.stringify(schema, null, 2) + "\n");
+const schemaStr = JSON.stringify(schema, null, 2) + "\n";
 
 // ---- TypeScript types ----
 const iface = (typeKey) => {
@@ -113,6 +113,24 @@ ${ifaces.map((i) => i.body).join("\n\n")}
 
 export type Annotation =\n  | ${ifaces.map((i) => i.name).join("\n  | ")};
 `;
-writeFileSync(join(out, "annotation.d.ts"), ts);
+const schemaPath = join(out, "annotation.schema.json");
+const dtsPath = join(out, "annotation.d.ts");
 
-console.log(`Wrote annotation.schema.json (${schema.oneOf.length} types) + annotation.d.ts (${ifaces.length} interfaces)`);
+if (process.argv.includes("--check")) {
+  const read = (p) => { try { return readFileSync(p, "utf8"); } catch { return ""; } };
+  const drift = [];
+  if (read(schemaPath) !== schemaStr) drift.push("annotation.schema.json");
+  if (read(dtsPath) !== ts) drift.push("annotation.d.ts");
+  if (drift.length) {
+    console.error(
+      `generate-schema --check FAILED: ${drift.join(", ")} out of sync with the type registry. ` +
+        "Run `node src/annotation-kit/scripts/generate-schema.mjs` and commit the result."
+    );
+    process.exit(1);
+  }
+  console.log("generate-schema --check — annotation.schema.json + annotation.d.ts are in sync.");
+} else {
+  writeFileSync(schemaPath, schemaStr);
+  writeFileSync(dtsPath, ts);
+  console.log(`Wrote annotation.schema.json (${schema.oneOf.length} types) + annotation.d.ts (${ifaces.length} interfaces)`);
+}

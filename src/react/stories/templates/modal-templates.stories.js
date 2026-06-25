@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog } from "../story-runtime.js";
+import { Dialog } from "../../story-runtime.js";
 
 export default {
   title: "Composa UI/Templates/Modal",

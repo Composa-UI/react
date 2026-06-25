@@ -8,12 +8,15 @@ import {
   EditingInspector,
   OverlayHost,
 } from "../../story-runtime.js";
+import { AppTopBar, shellStage } from "./_shell-helpers.js";
 
 // SlidesEditorTemplate is a thin slides preset of EditorShell. This story composes
 // the REAL Composa modules into the slots with realistic sample data; the slides
 // navigator goes in the navigator slot. The template keeps its default present-mode
 // toggle as the floating canvas toolbar. Modules are wired here in the composition,
-// not hardcoded inside the template.
+// not hardcoded inside the template. AppTopBar sits above the shell via shellStage;
+// Slides omits top-level mode tabs because Design / Animate switching lives in
+// InspectorHeader.
 
 const navigationRail = React.createElement(AppNavigationRail, {
   appLabel: "Composa",
@@ -107,6 +110,20 @@ const inspector = React.createElement(
   })
 );
 
+// Top bar — Slides variant omits mode tabs; Design / Animate switching lives
+// in InspectorHeader's tab strip.
+const appTopBar = React.createElement(AppTopBar, {
+  appLabel: "Composa",
+  fileName: "Earthling Mobile Refresh",
+  collaborators: [
+    { initials: "W", color: "yellow", label: "Wendy" },
+    { initials: "A", color: "green", label: "Abe" },
+  ],
+  shareLabel: "Share",
+});
+
+const stage = function (story) { return shellStage(appTopBar, story); };
+
 export default {
   title: "Composa UI/Templates/Editor/SlidesEditor",
   component: SlidesEditorTemplate,
@@ -115,7 +132,7 @@ export default {
     docs: {
       description: {
         component:
-          "SlidesEditorTemplate is a thin slides-oriented preset of EditorShell. It supplies slides defaults and a present-mode toggle as the floating canvas toolbar, and forwards every slot to EditorShell. It owns no document model. This story composes the real Composa modules (AppNavigationRail, SlidesNavigator, EditingInspector) into the slots.",
+          "SlidesEditorTemplate is a thin slides-oriented preset of EditorShell. It supplies slides defaults and a present-mode toggle as the floating canvas toolbar, and forwards every slot to EditorShell. It owns no document model. This story composes the real Composa modules (AppNavigationRail, SlidesNavigator, EditingInspector) into the slots. AppTopBar sits above the shell — Slides omits top-level mode tabs; Design / Animate switching lives in InspectorHeader.",
       },
     },
   },
@@ -151,16 +168,13 @@ export default {
   },
 };
 
-const stage = (story) =>
-  React.createElement("div", { style: { width: "100%", height: "100vh", minHeight: "640px" } }, story);
-
 export const Default = {
-  render: (args) => stage(React.createElement(SlidesEditorTemplate, args)),
+  render: function (args) { return stage(React.createElement(SlidesEditorTemplate, args)); },
 };
 
 export const Presenting = {
   args: { presentMode: true },
-  render: (args) => stage(React.createElement(SlidesEditorTemplate, args)),
+  render: function (args) { return stage(React.createElement(SlidesEditorTemplate, args)); },
   parameters: {
     docs: {
       description: {

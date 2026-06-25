@@ -105,7 +105,7 @@ export const Anatomy = {
     ]),
   decorators: [withAnnotations],
   parameters: {
-    docs: { description: { story: "Auto-brackets every data-part in the Notification: content, message, separator, actions, action, dismiss." } },
+    docs: { description: { story: "Auto-brackets every data-part in the Notification: content, lead, message, actions, and each action CTA." } },
     annotations: [{ type: "anatomy", target: ".composa-notification" }],
   },
 };
@@ -215,6 +215,7 @@ export const Accessibility = {
       },
       {
         n: 2,
+        each: true,
         target: "[data-part=\"action\"]",
         type: "button",
         element: "<button>",
@@ -222,22 +223,8 @@ export const Accessibility = {
         marker: "bracket",
         side: "bottom",
         keyboard: [
-          { keys: "Tab", result: "moves focus to Action CTA" },
-          { keys: "Space / Enter", result: "activates Action" },
-        ],
-        tier: { priority: "mandatory", difficulty: "easy" },
-      },
-      {
-        n: 3,
-        target: "[data-part=\"dismiss\"]",
-        type: "button",
-        element: "<button>",
-        role: "button",
-        marker: "bracket",
-        side: "bottom",
-        keyboard: [
-          { keys: "Tab", result: "moves focus to Dismiss CTA" },
-          { keys: "Space / Enter", result: "activates Dismiss" },
+          { keys: "Tab", result: "moves focus to each CTA in order" },
+          { keys: "Space / Enter", result: "activates the focused CTA" },
         ],
         tier: { priority: "mandatory", difficulty: "easy" },
       },

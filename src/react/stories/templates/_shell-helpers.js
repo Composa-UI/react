@@ -1,7 +1,7 @@
 // Template-layer helpers shared by full-window editor stories.
 // None of these are part of the published @composa-ui/react package.
 import React from "react";
-import { Tabs, MultiplayerControl, Button } from "../../story-runtime.js";
+import { Tabs, MultiplayerControl, Button } from "../story-runtime.js";
 
 /**
  * AppTopBar — the 40px (--composa-height-heading) application navigation bar

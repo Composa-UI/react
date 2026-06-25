@@ -61,6 +61,25 @@ export const a11yTypes = {
       { key: "accessibleName", label: "alt" },
     ],
   },
+  // Video — WCAG 1.2.x media requirements: captions (1.2.2), audio descriptions (1.2.5).
+  // Separate from `image` because the required-alternative fields differ fundamentally.
+  video: {
+    system: "a11y", color: "#6639ba", badge: "number", label: (a) => a.label || "Video",
+    fields: [
+      { key: "accessibleName", label: "title / label" },
+      { key: "captions", label: "captions (WCAG 1.2.2)", bool: true, required: true },
+      { key: "audioDescription", label: "audio description (WCAG 1.2.5)", bool: true },
+      { key: "transcript", label: "transcript", bool: true },
+    ],
+  },
+  // Audio — WCAG 1.2.1: pre-recorded audio-only requires a transcript alternative.
+  audio: {
+    system: "a11y", color: "#4e2788", badge: "number", label: (a) => a.label || "Audio",
+    fields: [
+      { key: "accessibleName", label: "title / label" },
+      { key: "transcript", label: "transcript (WCAG 1.2.1)", bool: true, required: true },
+    ],
+  },
   // List (ol / ul / li) — a real GitHub/CVS toolkit type. The CONTAINER carries the list role
   // (list / menu / tablist); each ITEM is bracketed with the item type below. Use `list` on the
   // container and `listitem` on each child (menuitem / tab / option, surfaced via `role`).
@@ -82,6 +101,23 @@ export const a11yTypes = {
       { key: "role", required: true, mono: true },
       { key: "accessibleName", label: "name" },
       { key: "states", format: fmtStates },
+    ],
+  },
+  // Live region — maps to the GitHub/CVS "System Feedback" (live region) type. Annotates dynamic
+  // content that is announced to screen readers without a focus change. `role` drives the
+  // announcement model: "status" and "alert" are the primary ARIA roles; "log", "progressbar",
+  // and "timer" are more specific. `ariaLive` makes the polite/assertive contract explicit.
+  // Valid feedbackType: "error" | "warning" | "success" | "info" | "status"
+  // Valid role: "status" | "alert" | "log" | "progressbar" | "timer"
+  // Valid ariaLive: "polite" | "assertive"
+  "live-region": {
+    system: "a11y", color: "#bc4c00", badge: "number", label: (a) => a.label || a.feedbackType || "Live region",
+    fields: [
+      { key: "feedbackType", label: "feedback type" },
+      { key: "role", required: true, mono: true },
+      { key: "ariaLive", label: "aria-live", required: true, mono: true },
+      { key: "atomic", label: "aria-atomic", bool: true },
+      { key: "template", label: "template" },
     ],
   },
   note: {

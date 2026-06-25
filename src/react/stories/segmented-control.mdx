@@ -92,26 +92,34 @@ mirror the native browser behavior for such a list.
 |---|---|
 | Default — selected | Selected segment: `color.bg` fill + 1px `color.border`. Other segments flat on `color.bg.secondary`. |
 | Default — unselected | `color.bg.secondary`, no border. |
-| Focus | Focused segment: `color.bg` fill + 1px `color.border.selected`; inner `spacer-1` gap, `spacer-2` horizontal padding. |
-| Disabled | All segments lose fill and border (transparent over the secondary track); icons render dimmed. Paired with a tooltip. |
+| Focus | Focused selected segment: `color.bg` fill + 1px `color.border.selected`. Focused unselected segment: `color.bg.hover` fill, no border. |
+| Disabled | Track background: `color.bg.disabled`; label and icon text: `color.text.disabled`. Paired with a tooltip. |
 
 </DocTab>
 
 <DocTab label="Style">
 
-{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
-    facets across the Style tab, the way Figma annotates the real component. The token
-    tables below remain the source of record for exact token names. */}
+{/* Annotated component illustrations (derived, live) — Color / Layout / States /
+    Typography / Structural facets across the Style tab, the way Figma annotates the
+    real component. The token tables below remain the source of record for exact token
+    names. */}
 
 <Canvas of={SegmentedControlStories.Color} />
 
 <Canvas of={SegmentedControlStories.Layout} />
+
+<Canvas of={SegmentedControlStories.States} />
+
+<Canvas of={SegmentedControlStories.Typography} />
+
+<Canvas of={SegmentedControlStories.Structural} />
 
 #### Structure
 
 | Element | Size |
 |---|---|
 | Tab height | 24 |
+| Item height (inner pill) | 22 |
 | Icon box | 24 × 24 |
 | Tab flex | `1 0 0`, min-width 1, centered |
 | Strip width — narrow (2-tab) | 88 |
@@ -129,10 +137,11 @@ mirror the native browser behavior for such a list.
 | Strip track | `color.bg.secondary` |
 | Selected tab — fill | `color.bg` |
 | Selected tab — border | `color.border` |
+| Selected tab — border (focused) | `color.border.selected` |
 | Unselected tab | `color.bg.secondary` (no border) |
-| Focus tab — fill | `color.bg` |
-| Focus tab — border | `color.border.selected` |
-| Disabled tab | transparent over track, dimmed icon |
+| Hover tab — fill | `color.bg.hover` |
+| Disabled track | `color.bg.disabled` |
+| Disabled label / icon | `color.text.disabled` |
 | Active label text | `color.text` |
 | Inactive label text | `color.text.secondary` |
 | Tooltip — container | `color.bg.tooltip` |
@@ -204,8 +213,10 @@ The label variant sizes to fit its parent container and truncates an over-long l
 
 #### Focus
 
-- The focused segment shows a `color.border.selected` ring — distinct from the plain
-  `color.border` of a non-focused selected segment — meeting the visible-focus requirement.
+- A focused **selected** segment shows a `color.border.selected` ring — distinct from the
+  plain `color.border` of a non-focused selected segment — meeting the visible-focus
+  requirement.
+- A focused **unselected** segment shows a `color.bg.hover` fill.
 
 </DocTab>
 

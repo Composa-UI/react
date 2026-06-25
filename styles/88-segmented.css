@@ -70,6 +70,14 @@
   color: var(--composa-color-icon);
 }
 
+/* When a selected segment receives keyboard focus, upgrade its border to the
+   focus-ring color so focused-selected is visually distinct from rest-selected
+   (spec: color.border.selected). */
+.composa-segmented-control .composa-icon-button.is-selected:focus-visible,
+.composa-segmented-control > .composa-segmented-label.is-selected:focus-visible {
+  border-color: var(--composa-color-border-selected);
+}
+
 .composa-segmented-control .composa-icon-button:hover:not(.is-selected),
 .composa-segmented-control .composa-icon-button.is-hover:not(.is-selected),
 .composa-segmented-control .composa-icon-button:focus-visible:not(.is-selected) {

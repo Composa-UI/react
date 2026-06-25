@@ -93,3 +93,442 @@ export const SplitButton = {
     menu.disabled = false;
   },
 };
+
+// Sidebar mock: dark bg, 232px wide (256px - 2x12px outer padding), 16px
+// horizontal margin applied as padding inside the sidebar frame. Shows the
+// three sidebar variants stacked with wide width, plus a bordered section
+// containing a ghost action.
+export const WideSidebarPlacement = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "In a 256px sidebar, buttons use `width=\"wide\"` and a 16px horizontal margin. Primary marks the irreplaceable next step; secondary is the default choice; ghost sits inside a section that already has a visible border.",
+      },
+    },
+  },
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          background: "#1e1e1e",
+          width: "232px",
+          padding: "12px 16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "6px",
+          borderRadius: "4px",
+        },
+      },
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "primary",
+        label: "Publish",
+        width: "wide",
+      }),
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "secondary",
+        label: "Save draft",
+        width: "wide",
+      }),
+      React.createElement(
+        "div",
+        {
+          style: {
+            border: "1px solid #3a3a3a",
+            borderRadius: "4px",
+            padding: "6px",
+            marginTop: "4px",
+          },
+        },
+        React.createElement(ButtonFamily.render || (() => null), {
+          ...(ButtonFamily.args || {}),
+          variant: "ghost",
+          label: "View history",
+          width: "wide",
+        })
+      )
+    ),
+};
+
+// Large-size variants in a flex row on a light gray background. Shows the
+// standard Button variants (primary, secondary, ghost, destructive) and an
+// IconButton all at size="large" so reviewers can compare the 32px height.
+export const LargeVariants = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "32px (`size=\"large\"`) is reserved for control-focused toolbar surfaces like design editor toolbars. Do not use in dialogs, sidebars, or settings panels.",
+      },
+    },
+  },
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          background: "#f0f0f0",
+          padding: "16px",
+          display: "flex",
+          flexDirection: "row",
+          gap: "8px",
+          alignItems: "center",
+          flexWrap: "wrap",
+          borderRadius: "4px",
+        },
+      },
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "primary",
+        label: "Primary",
+        size: "large",
+      }),
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "secondary",
+        label: "Secondary",
+        size: "large",
+      }),
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "ghost",
+        label: "Ghost",
+        size: "large",
+      }),
+      React.createElement(ButtonFamily.render || (() => null), {
+        ...(ButtonFamily.args || {}),
+        variant: "destructive",
+        label: "Destructive",
+        size: "large",
+      }),
+      React.createElement(IconButtonFamily.render || (() => null), {
+        ...(IconButtonFamily.args || {}),
+        icon: "move",
+        label: "Move",
+        size: "large",
+      })
+    ),
+};
+
+// Two items side by side with small labels above: SplitButton (Figma "Multi-option")
+// and ToggleButton (Figma "Bool Modifier"), both at size="large".
+export const LargeMultiOptionBoolModifier = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "In Figma's Frame 2 taxonomy, \"Multi-option\" maps to `SplitButton size=\"large\"` and \"Bool Modifier\" maps to `ToggleButton size=\"large\"`. Use these components — not the Figma names — in code.",
+      },
+    },
+  },
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          background: "#f0f0f0",
+          padding: "16px",
+          display: "flex",
+          flexDirection: "row",
+          gap: "24px",
+          alignItems: "flex-start",
+          borderRadius: "4px",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#666",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Multi-option = SplitButton"
+        ),
+        React.createElement(SplitButtonFamily.render || (() => null), {
+          ...(SplitButtonFamily.args || {}),
+          label: "Publish",
+          size: "large",
+        })
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#666",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Bool Modifier = ToggleButton"
+        ),
+        React.createElement(ToggleButtonFamily.render || (() => null), {
+          ...(ToggleButtonFamily.args || {}),
+          icon: "move",
+          label: "Lock",
+          size: "large",
+          pressed: false,
+        })
+      )
+    ),
+};
+
+// Fixed-size transport row: skip-back IconButton, play/pause ToggleButton,
+// skip-forward IconButton. Feedback from color only — the row does not reflow.
+export const TogglePlayOption = {
+  args: { onClick: fn() },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Transport row using a ToggleButton for play/pause. Color is the only feedback signal — the row does not reflow when toggled. `pressed={false}` is the default (stopped) state.",
+      },
+    },
+  },
+  render: (args) =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "row",
+          gap: "4px",
+          alignItems: "center",
+          padding: "8px",
+          background: "#2c2c2c",
+          borderRadius: "4px",
+          width: "fit-content",
+        },
+      },
+      React.createElement(IconButtonFamily.render || (() => null), {
+        ...(IconButtonFamily.args || {}),
+        icon: "skip-back",
+        label: "Skip back",
+        onClick: args.onClick,
+      }),
+      React.createElement(ToggleButtonFamily.render || (() => null), {
+        ...(ToggleButtonFamily.args || {}),
+        icon: "play",
+        label: "Play / Pause",
+        pressed: false,
+        onClick: args.onClick,
+      }),
+      React.createElement(IconButtonFamily.render || (() => null), {
+        ...(IconButtonFamily.args || {}),
+        icon: "skip-forward",
+        label: "Skip forward",
+        onClick: args.onClick,
+      })
+    ),
+};
+
+// Two static ToggleButton instances with dialog={true}: one with the dialog
+// closed (dialogOpen=false) and one with the dialog open (dialogOpen=true).
+// Labels explain each state.
+export const ToggleDialogExample = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A dialog toggle (`dialog={true}`) is active — showing the corner dot as pressed — only while the dialog it controls is open. Two static instances show the closed and open states side by side.",
+      },
+    },
+  },
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "row",
+          gap: "24px",
+          alignItems: "flex-start",
+          padding: "16px",
+          background: "#2c2c2c",
+          borderRadius: "4px",
+          width: "fit-content",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "center",
+          },
+        },
+        React.createElement(ToggleButtonFamily.render || (() => null), {
+          ...(ToggleButtonFamily.args || {}),
+          icon: "settings",
+          label: "Settings",
+          dialog: true,
+          dialogOpen: false,
+          pressed: false,
+        }),
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#aaa",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Closed"
+        )
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "center",
+          },
+        },
+        React.createElement(ToggleButtonFamily.render || (() => null), {
+          ...(ToggleButtonFamily.args || {}),
+          icon: "settings",
+          label: "Settings",
+          dialog: true,
+          dialogOpen: true,
+          pressed: true,
+        }),
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#aaa",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Open"
+        )
+      )
+    ),
+};
+
+// Two static ToggleButton instances with variant="groove" (design-view toolbar
+// subtype). Shows the off and on states side by side with labels.
+// If the "groove" variant does not exist in the component, fall back to
+// variant="secondary" — see the Groove section in the Style tab for context.
+export const ToggleGroove = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Groove is a ToggleButton subtype (`variant=\"groove\"`) for design-view toolbars only. It uses a deeper pressed fill than a standard dialog-toggle to signal that the tool is locked into a persistent design-view mode. Do not use in dialogs, settings panels, or anywhere the standard dialog-toggle fits.",
+      },
+    },
+  },
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "row",
+          gap: "24px",
+          alignItems: "flex-start",
+          padding: "16px",
+          background: "#2c2c2c",
+          borderRadius: "4px",
+          width: "fit-content",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "center",
+          },
+        },
+        React.createElement(ToggleButtonFamily.render || (() => null), {
+          ...(ToggleButtonFamily.args || {}),
+          icon: "pen",
+          label: "Pen tool",
+          // Use variant="groove" for the design-view toolbar subtype.
+          // Fall back to variant="secondary" if the groove variant is not yet shipped.
+          variant: "groove",
+          dialog: true,
+          dialogOpen: false,
+          pressed: false,
+        }),
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#aaa",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Closed"
+        )
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+            alignItems: "center",
+          },
+        },
+        React.createElement(ToggleButtonFamily.render || (() => null), {
+          ...(ToggleButtonFamily.args || {}),
+          icon: "pen",
+          label: "Pen tool",
+          // Use variant="groove" for the design-view toolbar subtype.
+          // Fall back to variant="secondary" if the groove variant is not yet shipped.
+          variant: "groove",
+          dialog: true,
+          dialogOpen: true,
+          pressed: true,
+        }),
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "#aaa",
+              fontFamily: "sans-serif",
+            },
+          },
+          "Open"
+        )
+      )
+    ),
+};

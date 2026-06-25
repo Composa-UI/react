@@ -32,6 +32,18 @@ Button triggers an action. The `variant` carries intent: `primary` for the one m
 - Write vague labels like "OK" or "Click here".
 - Rely on `state` to model real interactivity; it is a display override.
 
+### Sidebar placement
+
+In a 256px sidebar, buttons use a 16px horizontal margin on each side, leaving 224px of usable width. Use `width="wide"` so all buttons in the sidebar share the same full-width footprint.
+
+| Variant | When to use in a sidebar |
+|---|---|
+| `primary` | The irreplaceable next step — at most one per sidebar section. |
+| `secondary` | The most common choice; use for the majority of sidebar actions. |
+| `ghost` | When the section already has a visible border or background and a filled button would feel heavy. |
+
+<Canvas of={ButtonStories.WideSidebarPlacement} />
+
 ### Choosing the right family member
 
 | Use instead | When |
@@ -53,6 +65,24 @@ The icon-button family member with explicit on/off semantics, driven by `pressed
 
 <Canvas of={ButtonStories.Toggle} />
 
+#### Dialog toggle
+
+A dialog toggle is active only while the dialog it controls is open. The corner dot signals the association between the toggle and the dialog. Use `dialog={true}` to render the corner dot.
+
+| Situation | Which component |
+|---|---|
+| Persistent setting that stays on/off | Plain `ToggleButton` (no `dialog` prop) |
+| Opens a dialog; appears pressed while dialog is open | `ToggleButton dialog={true}` |
+| Opens a dialog but should never appear pressed | Plain `IconButton` |
+
+<Canvas of={ButtonStories.ToggleDialogExample} />
+
+#### Toggle Play Option
+
+A fixed-size transport row uses ToggleButton for play/pause so the pressed state communicates playback without a layout shift. Feedback comes from color only — the row does not reflow when toggled.
+
+<Canvas of={ButtonStories.TogglePlayOption} />
+
 ### SplitButton
 
 A container with two halves: an action button (icon + label) firing `onClick`, and a chevron menu button firing `onMenuClick`, separated by a 1px divider. While the menu is open both halves suppress their tooltip.
@@ -72,6 +102,24 @@ Size and width are separate axes (Composa splits Figma's conflated "Size"):
 - **IconButton / ToggleButton stay square** and have no `width` axis; their size scale (`small` 20 / `default` 24 / `large` 28) is a Composa addition (Figma's icon-button set is 24px-only).
 - **SplitButton** keeps both axes and defaults to `size="small"`.
 
+### When to use large
+
+32px buttons are for control-focused toolbar surfaces such as design editor toolbars where targets need to be larger and the UI is dense with interactive elements.
+
+**Use `size="large"` when:**
+- The surface is a toolbar in a design or canvas editor (not a dialog or settings panel).
+- The control is the primary affordance on a dense row of tools.
+
+**Do not use `size="large"` when:**
+- The button appears in a dialog, sidebar, or settings panel — use `default` or `small` there.
+- The button is inline with body text or form fields.
+
+<Canvas of={ButtonStories.LargeVariants} />
+
+In Figma's Frame 2 naming, **"Multi-option"** refers to a `SplitButton` at `size="large"` and **"Bool Modifier"** refers to a `ToggleButton` at `size="large"`. These names are Figma's taxonomy for toolbar slots — use the corresponding component in code.
+
+<Canvas of={ButtonStories.LargeMultiOptionBoolModifier} />
+
 ### Variants
 
 `primary`, `secondary` (default), `ghost`, `link`, `link-danger`, `destructive`, `secondary-destruct`, `inverse`, `success` — all sharing the same semantic tokens across the family.
@@ -80,6 +128,7 @@ Size and width are separate axes (Composa splits Figma's conflated "Size"):
 
 - **IconButton** is a square frame (24px medium) wrapping a 20px glyph slot. The glyph is a swappable Icon slot, not a baked asset.
 - **ToggleButton** active state is `bg-selected` (`#e5f4ff`) with the glyph recolored to selection-blue (`#0d99ff`). Hover-on lightens to `bg-selected-secondary` (`#f2f9ff`).
+- **Groove** is a ToggleButton subtype for design-view toolbars only. Deeper pressed fill than a standard dialog-toggle to convey the tool is locked into a persistent design-view mode. Do not use in dialogs, settings panels, or anywhere the standard dialog-toggle fits.
 - **SplitButton** is action half + 1px divider + chevron half; the menu half is named `${label} options` by default.
 
 **Brand divergence (deliberate, not a defect):** the `primary` fill is brand orange `#ff5c16`, not the Figma accent blue `#0d99ff` (formalized as the `composa.color.brand-default` primitive). Link text and the focus ring deliberately stay blue. The nine-value variant vocabulary is shared across the whole family, where Figma's icon-button set ships only Default and Secondary.

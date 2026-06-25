@@ -52,17 +52,14 @@ It does, though, have a **property-panel column grid** for inspector controls �
 
 ## Relational spacing
 
-{/* PROPOSED (inferred, Carbon-benchmarked). Figma/UI3 gives the base-4 ramp but no named
-    relational model. Carbon names two concepts — Stack (vertical distance between
-    components) and Inset (padding) — and stays principle-only ("elements near each other
-    read as related; more space weakens the relationship and raises hierarchy"). Composa is
-    a dense desktop app, so we can be more prescriptive. Values below are inferred from the
-    keystone (8px) plus evidence captured in component imports: dropdown specimen rows sit
-    16px apart; toast label↔button-rail = 8px; input↔adjacent-button = 8px; menu
-    parent↔child = 4px; in-row element gaps = spacer-1/2. Awaiting founder ruling — see
-    Open decisions. */}
+{/* Inferred from the base-4 keystone (8px) and verified visually against Figma Slides
+    template frames: Default node 2723:238794, Design mode node 2723:239738,
+    Animate panel node 2723:240665 (file 4kilp0ShQiYsoUPJdleqEH).
+    Component evidence: dropdown specimen rows 16px apart; toast label↔button-rail = 8px;
+    input↔adjacent-button = 8px; menu parent↔child = 4px; in-row element gaps = space-1/2.
+    Carbon vocabulary (Stack / Inset / Inline) borrowed for naming only. */}
 
-_(proposed)_ The ramp answers "which values exist"; this answers "how much space goes where." Three roles, borrowing Carbon's vocabulary:
+The ramp answers "which values exist"; this answers "how much space goes where." Three roles, borrowing Carbon's vocabulary:
 
 - **Inset** — padding _inside_ a container or control.
 - **Inline** — horizontal gap between related items on one row.
@@ -96,5 +93,4 @@ _(proposed)_ Inside a property/inspector panel, controls snap to a **flexible co
 
 ## Open decisions
 
-- **Relational spacing values** above are proposed defaults inferred from the keystone + scattered component evidence, not a single Figma spacing-relationships frame. Confirm the stack steps (esp. 16px between sibling field rows, 24–32px section breaks).
 - **Property-panel column gutter** — confirm the exact token (8px assumed). Figma's Col-2 / Col-3 specimens rendered identically; confirm whether that's intentional or a source error, and whether a max-3-column cap is a hard rule.

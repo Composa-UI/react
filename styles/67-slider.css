@@ -1,0 +1,146 @@
+/* Slider — Figma UI3 node 2015:23280
+   A horizontal drag control with a track, progress fill, and draggable handle.
+   Variants: range (fill from left), delta (fill from center), stepper (discrete
+   ticks), color (track previews hue/opacity), gradient (chit stops), cornerRadius.
+   Min width: 100px (Figma spec — do not resize below this). */
+
+.composa-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 208px;
+  min-width: 100px;
+  height: 16px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ── Track ──────────────────────────────────────────────────────────────────── */
+
+.composa-slider-track {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-bg-secondary);
+  border: 0.5px solid var(--composa-color-border-translucent, rgba(0, 0, 0, 0.08));
+  overflow: hidden;
+}
+
+/* Gradient variant uses a less-rounded track (radius-small) */
+.composa-slider-gradient .composa-slider-track,
+.composa-slider-cornerRadius .composa-slider-track {
+  border-radius: var(--composa-radius-small);
+  overflow: visible;
+}
+
+/* ── Fill container ─────────────────────────────────────────────────────────── */
+
+.composa-slider-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: var(--composa-color-border-selected);
+  border-radius: var(--composa-radius-full);
+  pointer-events: none;
+}
+
+/* ── Ticks (Stepper variant) ────────────────────────────────────────────────── */
+
+.composa-slider-ticks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 6px;
+  pointer-events: none;
+}
+
+.composa-slider-tick {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-border);
+  flex-shrink: 0;
+}
+
+.composa-slider-tick.is-active {
+  background: var(--composa-color-bg);
+}
+
+/* ── Handle (thumb) ─────────────────────────────────────────────────────────── */
+
+.composa-slider-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-bg);
+  box-shadow: var(--composa-elevation-100-canvas, 0 1px 3px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.08));
+  transform: translateX(-50%);
+  pointer-events: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modified handle (value moved off default) — stroke style, no shadow */
+.composa-slider-handle.is-modified {
+  background: var(--composa-color-bg);
+  box-shadow: none;
+  border: 1.5px solid var(--composa-color-border-selected);
+}
+
+/* Hole punch inner fill for modified handle */
+.composa-slider-handle.is-modified::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-border-selected);
+  opacity: 0.18;
+}
+
+/* Color swatch inside the handle (Color variant) */
+.composa-slider-handle-swatch {
+  position: absolute;
+  inset: 2px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-bg-assistive, #0d99ff);
+  border: 0.5px solid var(--composa-color-border-translucent, rgba(0, 0, 0, 0.08));
+}
+
+/* ── Focus state ────────────────────────────────────────────────────────────── */
+
+.composa-slider:focus-visible,
+.composa-slider.is-focused {
+  outline: none;
+}
+
+.composa-slider:focus-visible .composa-slider-handle,
+.composa-slider.is-focused .composa-slider-handle {
+  outline: 2px solid var(--composa-control-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ── Disabled state ─────────────────────────────────────────────────────────── */
+
+.composa-slider.is-disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
+
+.composa-slider.is-disabled .composa-slider-fill {
+  display: none;
+}
+
+.composa-slider.is-disabled .composa-slider-handle {
+  background: var(--composa-color-bg-tertiary);
+  box-shadow: none;
+}

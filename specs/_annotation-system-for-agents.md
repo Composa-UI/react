@@ -148,9 +148,54 @@ export const Layout = {
 - **Schema:** `src/annotation-kit/annotation.schema.json` is the machine-readable contract; validate
   annotation objects against it if your tooling can.
 
-## 7. Two anti-patterns we have already hit (do not repeat)
+## 7. Recurring failure modes (every one of these has shipped and been caught — do not repeat)
 
-1. **Inventing a value that doesn't exist** — `variant: "groove"`, `width: "wide"`. They don't throw;
-   they render unstyled. Always grep the CSS for the class first.
-2. **Hardcoding a derived value** — writing the measured px/hex instead of leaving it to the renderer.
-   It rots the moment the token changes, defeating the whole self-correcting design.
+These are real bugs from prior PRs. None throw at build time — `build-storybook` passes while the
+story is silently wrong — so you MUST also open and look at the rendered story.
+
+1. **Targeting a `data-part`/class that doesn't exist** → the overlay silently renders *nothing*
+   (the renderer `continue`s on a null selector; anatomy auto-discovery finds zero parts).
+   - *Shipped:* Notification stories targeted `[data-part="message"|"action"|"dismiss"]` but the
+     component emitted **no `data-part` at all** — the Anatomy story rendered empty.
+   - **Rule:** before targeting `[data-part="X"]` or `.composa-foo-bar`, grep `src/react/factory.js`
+     and confirm the component emits it. If a part needs annotating but has no `data-part`, add the
+     `data-part` to the factory (Zag/Ark convention) — don't target a selector that isn't there.
+
+2. **Inventing an enum value** (variant / size / width / icon / tone) → silent *unstyled* fallback.
+   - *Shipped:* `variant: "groove"`, `width: "wide"`, `icon: "pen"|"chevronDown"|"search"|"eye"`,
+     `composa-button-brand`, `composa-avatar-org`.
+   - **Rule:** `width` is `"fill"` not `"wide"`. Icons come ONLY from the alias map in
+     `src/react/story-icons.js`. variant/size/tone must have a matching `composa-*` CSS class — grep
+     `styles/`. If the class isn't there, the value isn't real.
+
+3. **Hand-writing a generated artifact.** `annotation.schema.json` + `annotation.d.ts` are GENERATED.
+   - *Shipped:* a hand-written schema missing ~18 enum constraints passed CI.
+   - **Rule:** edit the type registry (`a11y/types.js` / `ds/types.js`), then run
+     `node src/annotation-kit/scripts/generate-schema.mjs` and commit its output. Never edit the schema
+     by hand. CI now runs `generate-schema --check` and fails on drift.
+
+4. **Wrong relative-import depth in a subdirectory.** A story in `src/react/stories/templates/` must
+   import `../../story-runtime.js` (two levels up), not `../story-runtime.js`.
+   - *Shipped:* `../story-runtime.js` from a `templates/` subdir → unresolved import → build failed.
+   - **Rule:** count the levels to `src/react/`. `build-storybook` catches this — run it.
+
+5. **An `import { X }` binding colliding with an `export const X`** → `Duplicate declaration "X"`.
+   - *Shipped:* `import { Button } from "@composa-ui/react"` alongside `export const Button = {...}`.
+   - **Rule:** components are imported ALIASED (e.g. `Button as ButtonControl`) from `../story-runtime.js`
+     precisely so they don't collide with story export names. Use those aliases; don't import from the package.
+
+6. **`React.createElement` without `import React`** → `"React is not defined"` *at render only*
+   (build-storybook passes — invisible unless you open the story).
+   - **Rule:** if the file uses `React.createElement`, it must `import React from "react"`. Match the
+     existing file (most use `const h = React.createElement` with React imported).
+
+7. **Hardcoding a derived value** (px / hex / size / `accessibleName`) → rots the moment the token
+   changes, defeating the self-correcting design. Author intent only; let the renderer derive.
+
+8. **Additive only.** Editing an existing `*.stories.js`: never remove/rename an existing `export const`;
+   append. Editing an `*.mdx`: every `<Canvas of={X} />` must reference a real export.
+
+### Validation is two steps, not one
+`build-storybook` exit 0 proves it *compiles* — NOT that it renders correctly. After the build, **open
+each story** and confirm: no `"React is not defined"`, no `"?"` missing-icon boxes, no empty overlay, no
+unstyled control. That second step is what catches failure modes 1, 2, and 6.

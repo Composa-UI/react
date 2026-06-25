@@ -45,6 +45,23 @@
   background: var(--composa-color-bg-hover-transparent);
 }
 
+/* Focus state — border switches to selection-blue per Figma spec (color.border.selected).
+   Covers both native keyboard focus (:focus-visible) and the JS .is-focused class
+   that Storybook controls apply when state="focused". */
+.composa-dropdown:focus-visible,
+.composa-dropdown.is-focused {
+  outline: none;
+  border-color: var(--composa-color-border-selected);
+}
+
+/* Disabled state — text dims to tertiary per Figma spec (color.text.tertiary).
+   Pointer blocking is handled by the native disabled attribute on <button>. */
+.composa-dropdown:disabled,
+.composa-dropdown.is-disabled {
+  color: var(--composa-color-text-tertiary);
+  cursor: not-allowed;
+}
+
 .composa-dropdown-leading-icon,
 .composa-dropdown-chevron {
   width: var(--composa-menu-icon-size);

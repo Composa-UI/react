@@ -134,7 +134,7 @@ export const Sharing480 = {
             }),
           ),
           ce("span", { className: "composa-list-cell-trailing", style: { fontSize: 11 } }, "can view"),
-          ce("button", { className: "composa-button composa-button-brand", style: { fontSize: 11 } }, "Share"),
+          ce("button", { className: "composa-button composa-button-primary", style: { fontSize: 11 } }, "Share"),
         ),
         ce("div", { style: { borderTop: "1px solid var(--composa-color-border)", margin: "0 calc(-1 * var(--composa-space-2-5))" } }),
         row(ce("span", { className: "composa-list-cell-content" }, "Anyone can view this file")),
@@ -164,14 +164,14 @@ export const Sharing480 = {
         "div",
         { className: "composa-dialog-actions", "data-part": "footer", style: { justifyContent: "space-between" } },
         ce("span", { style: { display: "flex", gap: 8, alignItems: "center", fontSize: 11 } },
-          ce("button", { className: "composa-button composa-button-quiet" }, "Copy Link"),
-          ce("button", { className: "composa-button composa-button-quiet" }, "Get Embed"),
+          ce("button", { className: "composa-button composa-button-ghost" }, "Copy Link"),
+          ce("button", { className: "composa-button composa-button-ghost" }, "Get Embed"),
           ce("label", { style: { display: "flex", gap: 4, alignItems: "center", fontSize: 11, cursor: "pointer" } },
             ce("input", { type: "checkbox" }),
             "Link to selection",
           ),
         ),
-        ce("button", { className: "composa-button composa-button-brand" }, "Button"),
+        ce("button", { className: "composa-button composa-button-primary" }, "Button"),
       ),
     ),
 };
@@ -209,7 +209,7 @@ export const CreateProject480 = {
       foot(
         "Step 1 of 3",
         ce("button", { className: "composa-button" }, "Cancel"),
-        ce("button", { className: "composa-button composa-button-brand" }, "Continue"),
+        ce("button", { className: "composa-button composa-button-primary" }, "Continue"),
       ),
     ),
 };
@@ -269,7 +269,7 @@ export const CreateTeam480 = {
       foot(
         "1 of 3",
         ce("button", { className: "composa-button" }, "Cancel"),
-        ce("button", { className: "composa-button composa-button-brand" }, "Continue"),
+        ce("button", { className: "composa-button composa-button-primary" }, "Continue"),
       ),
     ),
 };
@@ -321,7 +321,7 @@ export const Embed480 = {
         ),
         ce("span", { style: { display: "flex", gap: 8, alignItems: "center" } },
           ce("span", { style: { fontSize: 11, color: "var(--composa-color-text-secondary)" } }, "can view"),
-          ce("button", { className: "composa-button composa-button-brand" }, "Share"),
+          ce("button", { className: "composa-button composa-button-primary" }, "Share"),
         ),
       ),
     ),

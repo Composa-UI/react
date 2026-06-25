@@ -8,174 +8,69 @@
   "componentFamilies": {
     "Button": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Button",
-        "node 2012:46721"
-      ],
+      "figma": ["UI3 Button", "node 2012:46721"],
       "variantCount": 184,
       "props": {
-        "variant": [
-          "primary",
-          "secondary",
-          "ghost",
-          "link",
-          "link-danger",
-          "destructive",
-          "secondary-destruct",
-          "inverse",
-          "success"
-        ],
-        "size": [
-          "default",
-          "large",
-          "small"
-        ],
-        "width": [
-          "auto",
-          "fill"
-        ],
-        "state": [
-          "default",
-          "hover",
-          "active",
-          "focused"
-        ],
+        "variant": ["primary","secondary","ghost","link","link-danger","destructive","secondary-destruct","inverse","success"],
+        "size": ["default","large","small"],
+        "width": ["auto","fill"],
+        "state": ["default","hover","active","focused"],
         "disabled": "boolean",
-        "iconLead": [
-          "false",
-          "left-aligned",
-          "center-aligned"
-        ],
+        "iconLead": ["false","left-aligned","center-aligned"],
         "label": "string",
         "hotkey": "boolean"
       }
     },
     "IconButton": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Button icon",
-        "Button icon toggle",
-        "Button icon dialog toggle",
-        "node 2012:46721"
-      ],
+      "figma": ["UI3 Button icon","Button icon toggle","Button icon dialog toggle","node 2012:46721"],
       "variantCount": 62,
       "props": {
-        "component": [
-          "iconbutton",
-          "togglebutton",
-          "dialogtogglebutton",
-          "splitbutton"
-        ],
-        "variant": [
-          "primary",
-          "secondary",
-          "ghost",
-          "link",
-          "link-danger",
-          "destructive",
-          "secondary-destruct",
-          "inverse",
-          "success",
-          "highlighted"
-        ],
-        "size": [
-          "small",
-          "default",
-          "large",
-          "xlarge"
-        ],
-        "width": [
-          "auto",
-          "fill"
-        ],
-        "state": [
-          "default",
-          "hover",
-          "active",
-          "focused",
-          "primary-active",
-          "secondary-active",
-          "primary-focus",
-          "secondary-focus",
-          "disabled"
-        ],
+        "component": ["iconbutton","togglebutton","dialogtogglebutton","splitbutton"],
+        "variant": ["primary","secondary","ghost","link","link-danger","destructive","secondary-destruct","inverse","success","highlighted"],
+        "size": ["small","default","large","xlarge"],
+        "width": ["auto","fill"],
+        "state": ["default","hover","active","focused","primary-active","secondary-active","primary-focus","secondary-focus","disabled"],
         "disabled": "boolean",
         "pressed": "boolean",
-        "context": [
-          "default",
-          "on-selected"
-        ],
+        "context": ["default","on-selected"],
         "icon": "IconName",
         "label": "string",
         "alignmentNote": "variant shares Button's vocabulary across the family; size maps to the icon box for IconButton/Toggle; width applies to SplitButton only (IconButton/Toggle stay square)."
       }
     },
+    "Slider": {
+      "source": "src/react/factory.js",
+      "figma": ["UI3 Slider", "node 2015:23280"],
+      "variantCount": 40,
+      "props": {
+        "variant": ["range","delta","stepper","color","gradient","cornerRadius"],
+        "min": "number",
+        "max": "number",
+        "value": "number",
+        "defaultValue": "number",
+        "steps": "number",
+        "background": ["fill","gradient"],
+        "disabled": "boolean",
+        "state": ["default","focused","modified"],
+        "label": "string",
+        "onChange": "function",
+        "onValueChange": "function"
+      }
+    },
     "InputField": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Inputs",
-        "node 2028:75376"
-      ],
+      "figma": ["UI3 Inputs","node 2028:75376"],
       "variantCount": 119,
       "props": {
-        "componentSet": [
-          "text-input",
-          "color-input",
-          "numeric-input",
-          "numeric-input-multi",
-          "combo-input",
-          "_combo-input-dropdown"
-        ],
-        "shape": [
-          "circle",
-          "square"
-        ],
-        "variant": [
-          "single-line",
-          "multi-line",
-          "quick-action",
-          "default",
-          "partial-disable"
-        ],
-        "size": [
-          "default",
-          "large"
-        ],
-        "width": [
-          "auto",
-          "fill"
-        ],
-        "state": [
-          "default",
-          "focus",
-          "focused",
-          "hover",
-          "active",
-          "empty",
-          "disabled",
-          "disabled-secondary",
-          "disabled-tertiary",
-          "variable",
-          "active-empty",
-          "active-filled",
-          "selected-input",
-          "selected-chevron",
-          "selected-input",
-          "selected-chevron"
-        ],
-        "dropdownState": [
-          "default",
-          "hover",
-          "active"
-        ],
-        "type": [
-          "fill",
-          "opacity",
-          "image",
-          "gradient",
-          "variable",
-          "instance"
-        ],
+        "componentSet": ["text-input","color-input","numeric-input","numeric-input-multi","combo-input","_combo-input-dropdown"],
+        "shape": ["circle","square"],
+        "variant": ["single-line","multi-line","quick-action","default","partial-disable"],
+        "size": ["default","large"],
+        "width": ["auto","fill"],
+        "state": ["default","focus","focused","hover","active","empty","disabled","disabled-secondary","disabled-tertiary","variable","active-empty","active-filled","selected-input","selected-chevron","selected-input","selected-chevron"],
+        "dropdownState": ["default","hover","active"],
+        "type": ["fill","opacity","image","gradient","variable","instance"],
         "disabled": "boolean",
         "varIcon": "boolean",
         "varPill": "boolean",
@@ -190,25 +85,12 @@
     },
     "Dropdown": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Dropdown",
-        "node 2028:36589"
-      ],
+      "figma": ["UI3 Dropdown","node 2028:36589"],
       "variantCount": 16,
       "props": {
-        "size": [
-          "default",
-          "large"
-        ],
-        "width": [
-          "auto",
-          "fill"
-        ],
-        "state": [
-          "default",
-          "focused",
-          "active"
-        ],
+        "size": ["default","large"],
+        "width": ["auto","fill"],
+        "state": ["default","focused","active"],
         "disabled": "boolean",
         "stroke": "boolean",
         "iconLead": "boolean"
@@ -216,27 +98,12 @@
     },
     "Switch": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Switch",
-        "node 2015:24697"
-      ],
+      "figma": ["UI3 Switch","node 2015:24697"],
       "variantCount": 24,
       "props": {
-        "size": [
-          "default",
-          "compact"
-        ],
-        "type": [
-          "off",
-          "on",
-          "mixed"
-        ],
-        "state": [
-          "default",
-          "hover",
-          "focused",
-          "disabled"
-        ],
+        "size": ["default","compact"],
+        "type": ["off","on","mixed"],
+        "state": ["default","hover","focused","disabled"],
         "checked": "boolean",
         "mixed": "boolean",
         "disabled": "boolean",
@@ -245,23 +112,11 @@
     },
     "Radio": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Radio",
-        "node 2015:20365"
-      ],
+      "figma": ["UI3 Radio","node 2015:20365"],
       "variantCount": 20,
       "props": {
-        "variant": [
-          "input",
-          "button"
-        ],
-        "state": [
-          "default",
-          "hover",
-          "active",
-          "focused",
-          "disabled"
-        ],
+        "variant": ["input","button"],
+        "state": ["default","hover","active","focused","disabled"],
         "checked": "boolean",
         "disabled": "boolean",
         "label": "string"
@@ -269,21 +124,11 @@
     },
     "Checkbox": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Checkbox",
-        "node 2012:55461"
-      ],
+      "figma": ["UI3 Checkbox","node 2012:55461"],
       "variantCount": 12,
       "props": {
-        "state": [
-          "default",
-          "focused"
-        ],
-        "type": [
-          "unchecked",
-          "checked",
-          "mixed"
-        ],
+        "state": ["default","focused"],
+        "type": ["unchecked","checked","mixed"],
         "disabled": "boolean",
         "muted": "boolean",
         "ghost": "boolean",
@@ -295,57 +140,22 @@
     },
     "Tooltip": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Tooltip",
-        "node 2015:32842"
-      ],
+      "figma": ["UI3 Tooltip","node 2015:32842"],
       "variantCount": 16,
       "props": {
-        "placement": [
-          "top",
-          "right",
-          "bottom",
-          "left",
-          "top-left",
-          "top-right",
-          "bottom-left",
-          "bottom-right"
-        ],
-        "tone": [
-          "default",
-          "inverse"
-        ],
+        "placement": ["top","right","bottom","left","top-left","top-right","bottom-left","bottom-right"],
+        "tone": ["default","inverse"],
         "label": "string"
       }
     },
     "Dialog": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Modal (Modal header / Modal body / Modal footer)",
-        "Templates/320 (Basic, Advanced)",
-        "Templates/480 (Embed, Create Project, Create Team, Sharing)"
-      ],
+      "figma": ["UI3 Modal (Modal header / Modal body / Modal footer)","Templates/320 (Basic, Advanced)","Templates/480 (Embed, Create Project, Create Team, Sharing)"],
       "variantCount": 6,
       "props": {
-        "size": [
-          "320",
-          "480",
-          "small",
-          "default",
-          "large"
-        ],
-        "variant": [
-          "basic",
-          "advanced",
-          "embed",
-          "create-project",
-          "create-team",
-          "sharing"
-        ],
-        "tone": [
-          "default",
-          "destructive"
-        ],
+        "size": ["320","480","small","default","large"],
+        "variant": ["basic","advanced","embed","create-project","create-team","sharing"],
+        "tone": ["default","destructive"],
         "title": "string",
         "description": "string",
         "primaryLabel": "string",
@@ -354,140 +164,55 @@
     },
     "SegmentedControl": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Segmented control",
-        "node 2015:20960"
-      ],
+      "figma": ["UI3 Segmented control","node 2015:20960"],
       "variantCount": 20,
       "props": {
-        "variant": [
-          "icon",
-          "label"
-        ],
+        "variant": ["icon","label"],
         "options": "SegmentedOption[]",
         "selected": "per SegmentedOption",
-        "state": [
-          "default",
-          "disabled"
-        ],
+        "state": ["default","disabled"],
         "disabled": "boolean"
       }
     },
     "Tabs": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Tabs",
-        "node 2015:25519",
-        "_Tab node 2015:27758"
-      ],
+      "figma": ["UI3 Tabs","node 2015:25519","_Tab node 2015:27758"],
       "variantCount": 11,
       "props": {
-        "variant": [
-          "underline",
-          "pill"
-        ],
-        "size": [
-          "default",
-          "compact"
-        ],
-        "state": [
-          "default",
-          "focused",
-          "hover"
-        ],
+        "variant": ["underline","pill"],
+        "size": ["default","compact"],
+        "state": ["default","focused","hover"],
         "tabs": "TabItem[]",
         "selected": "per TabItem"
       }
     },
     "MenuRow": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI3 Menu",
-        "node 2028:86486"
-      ],
+      "figma": ["UI3 Menu","node 2028:86486"],
       "variantCount": 63,
       "props": {
-        "type": [
-          "simple",
-          "complex",
-          "checkmark",
-          "toggle",
-          "toolbar",
-          "heading",
-          "divider",
-          "expand",
-          "footer"
-        ],
-        "state": [
-          "default",
-          "hover",
-          "disabled"
-        ],
+        "type": ["simple","complex","checkmark","toggle","toolbar","heading","divider","expand","footer"],
+        "state": ["default","hover","disabled"],
         "submenu": "boolean",
         "selected": "boolean",
-        "lead": [
-          "false",
-          "avatar",
-          "icon"
-        ],
-        "trail": [
-          "false",
-          "shortcut",
-          "badge",
-          "checkbox",
-          "mixed"
-        ],
-        "checkVariant": [
-          "check",
-          "dot"
-        ],
-        "toggleState": [
-          "on",
-          "off"
-        ],
+        "lead": ["false","avatar","icon"],
+        "trail": ["false","shortcut","badge","checkbox","mixed"],
+        "checkVariant": ["check","dot"],
+        "toggleState": ["on","off"],
         "hasIcon": "boolean",
         "expanded": "boolean",
-        "alignment": [
-          "default",
-          "toggle"
-        ],
+        "alignment": ["default","toggle"],
         "label": "string",
-        "containerVariant": [
-          "default",
-          "label-only",
-          "avatars",
-          "mixed-icons"
-        ]
+        "containerVariant": ["default","label-only","avatars","mixed-icons"]
       }
     },
     "CanvasSelectionOverlay": {
       "source": "src/react/factory.js",
-      "figma": [
-        "UI2 Canvas decorations",
-        "node 0:20495"
-      ],
+      "figma": ["UI2 Canvas decorations","node 0:20495"],
       "variantCount": 16,
       "props": {
-        "type": [
-          "standard",
-          "textedit",
-          "component",
-          "instance",
-          "autolayout",
-          "smartselectionhorizontal",
-          "smartselectionvertical",
-          "smartselectiongrid",
-          "imagecrop",
-          "vector",
-          "slice",
-          "reparenting",
-          "cover"
-        ],
-        "direction": [
-          "horizontal",
-          "vertical",
-          "both"
-        ],
+        "type": ["standard","textedit","component","instance","autolayout","smartselectionhorizontal","smartselectionvertical","smartselectiongrid","imagecrop","vector","slice","reparenting","cover"],
+        "direction": ["horizontal","vertical","both"],
         "width": "number",
         "height": "number",
         "showDimensions": "boolean"
@@ -502,66 +227,37 @@
         "leading": "ReactNode",
         "content": "ReactNode",
         "trailing": "ReactNode",
-        "level": [
-          1,
-          2,
-          3
-        ],
-        "hierarchy": [
-          "panel",
-          "layer",
-          "property"
-        ],
+        "level": [1,2,3],
+        "hierarchy": ["panel","layer","property"],
         "underline": "boolean",
-        "align": [
-          "start",
-          "center",
-          "end"
-        ],
-        "width": [
-          "auto",
-          "fill"
-        ]
+        "align": ["start","center","end"],
+        "width": ["auto","fill"]
       }
     },
     "DialogRow": {
       "source": "src/react/factory.js",
       "role": "semantic dialog-body row composed from ListCell for modal and sheet content",
-      "props": {
-        "leading": "ReactNode",
-        "content": "ReactNode",
-        "trailing": "ReactNode"
-      }
+      "props": { "leading": "ReactNode", "content": "ReactNode", "trailing": "ReactNode" }
     },
     "DialogHeaderCell": {
       "source": "src/react/factory.js",
       "role": "semantic dialog-header row composed from ListCell for modal and sheet title bars",
-      "props": {
-        "title": "string",
-        "content": "ReactNode",
-        "trailing": "ReactNode"
-      }
+      "props": { "title": "string", "content": "ReactNode", "trailing": "ReactNode" }
     },
     "DialogHeader": {
       "source": "src/react/factory.js",
       "role": "semantic dialog header container for modal title bars",
-      "props": {
-        "children": "ReactNode"
-      }
+      "props": { "children": "ReactNode" }
     },
     "DialogBody": {
       "source": "src/react/factory.js",
       "role": "semantic dialog body container for modal content stacks and rows",
-      "props": {
-        "children": "ReactNode"
-      }
+      "props": { "children": "ReactNode" }
     },
     "DialogFooter": {
       "source": "src/react/factory.js",
       "role": "semantic dialog footer container for modal action bars",
-      "props": {
-        "children": "ReactNode"
-      }
+      "props": { "children": "ReactNode" }
     },
     "MenuHeadingCell": {
       "source": "src/react/factory.js",
@@ -570,15 +266,8 @@
         "label": "ReactNode",
         "content": "ReactNode",
         "trailing": "ReactNode",
-        "level": [
-          1,
-          2,
-          3
-        ],
-        "alignment": [
-          "default",
-          "toggle"
-        ]
+        "level": [1,2,3],
+        "alignment": ["default","toggle"]
       }
     },
     "Header": {
@@ -586,11 +275,7 @@
       "role": "semantic wrapper over ListCell for section, layer, and property headers",
       "props": {
         "title": "string",
-        "hierarchy": [
-          "panel",
-          "layer",
-          "property"
-        ],
+        "hierarchy": ["panel","layer","property"],
         "expanded": "boolean",
         "actions": "ReactNode"
       }
@@ -598,27 +283,15 @@
     "HeaderActions": {
       "source": "src/react/factory.js",
       "role": "content-hugging trailing action group used by Header and ListCell derivatives",
-      "props": {
-        "label": "string",
-        "children": "ReactNode"
-      }
+      "props": { "label": "string", "children": "ReactNode" }
     },
     "OverlayLayer": {
       "source": "src/react/factory.js",
       "role": "shared placement wrapper for transient surfaces such as tooltips, dropdown menus, and inspector dialogs",
       "props": {
         "open": "boolean",
-        "placement": [
-          "below-trigger",
-          "left-of-inspector",
-          "inspector-dialog",
-          "tooltip"
-        ],
-        "align": [
-          "start",
-          "center",
-          "end"
-        ],
+        "placement": ["below-trigger","left-of-inspector","inspector-dialog","tooltip"],
+        "align": ["start","center","end"],
         "followAnchor": "boolean",
         "children": "ReactNode"
       }
@@ -626,10 +299,7 @@
     "OverlayHost": {
       "source": "src/react/factory.js",
       "role": "overflow-safe coordinate space for portaled tooltips, menus, and inspector dialogs",
-      "props": {
-        "children": "ReactNode",
-        "className": "string"
-      }
+      "props": { "children": "ReactNode", "className": "string" }
     },
     "OverlayPortal": {
       "source": "src/react/factory.js",
@@ -637,33 +307,15 @@
       "props": {
         "open": "boolean",
         "anchorRef": "ReactRef",
-        "placement": [
-          "below-trigger",
-          "bottom-left",
-          "bottom-right",
-          "top",
-          "top-left",
-          "top-right",
-          "left",
-          "right",
-          "left-of-inspector",
-          "inspector-dialog"
-        ],
-        "align": [
-          "start",
-          "center",
-          "end"
-        ],
+        "placement": ["below-trigger","bottom-left","bottom-right","top","top-left","top-right","left","right","left-of-inspector","inspector-dialog"],
+        "align": ["start","center","end"],
         "children": "ReactNode"
       }
     },
     "ComposaAppIcon": {
       "source": "src/react/factory.js",
       "role": "small replaceable app mark for app-level navigation rails",
-      "props": {
-        "label": "string",
-        "initials": "string"
-      }
+      "props": { "label": "string", "initials": "string" }
     },
     "NavigationRailItem": {
       "source": "src/react/factory.js",
@@ -692,11 +344,8 @@
     },
     "NavigatorHeader": {
       "source": "src/react/factory.js",
-      "role": "file-title header shared by the editor and slides navigators; bold title with disclosure over a subdued project name and a trailing sidebar-toggle action",
-      "figma": [
-        "UI3 Sidebar left/Header",
-        "node 1027347:6460"
-      ],
+      "role": "file-title header shared by the editor and slides navigators",
+      "figma": ["UI3 Sidebar left/Header","node 1027347:6460"],
       "props": {
         "title": "ReactNode",
         "project": "ReactNode",
@@ -711,11 +360,8 @@
     },
     "CollapseHeader": {
       "source": "src/react/factory.js",
-      "role": "collapsible section header (disclosure chevron + label + trailing action) for navigator page/layer lists",
-      "figma": [
-        "UI3 Collapse.Header",
-        "node 1027347:6486"
-      ],
+      "role": "collapsible section header for navigator page/layer lists",
+      "figma": ["UI3 Collapse.Header","node 1027347:6486"],
       "props": {
         "label": "ReactNode",
         "expanded": "boolean",
@@ -727,11 +373,8 @@
     },
     "SlideThumb": {
       "source": "src/react/factory.js",
-      "role": "numbered slide preview row with an index gutter and a 16:9 thumbnail surface; the new primitive the slides navigator needs because Tree cannot express a preview",
-      "figma": [
-        "UI3 Button - Slide",
-        "node 98:179"
-      ],
+      "role": "numbered slide preview row with an index gutter and a 16:9 thumbnail surface",
+      "figma": ["UI3 Button - Slide","node 98:179"],
       "props": {
         "index": "number",
         "label": "string",
@@ -741,7 +384,7 @@
     },
     "SlideList": {
       "source": "src/react/factory.js",
-      "role": "vertical stack of SlideThumb rows with controlled/uncontrolled selection; reusable as a slide or clip strip",
+      "role": "vertical stack of SlideThumb rows with controlled/uncontrolled selection",
       "props": {
         "items": "SlideListItem[]",
         "selectedId": "string | number",
@@ -752,11 +395,8 @@
     },
     "EditorNavigator": {
       "source": "src/react/factory.js",
-      "role": "design-editor left sidebar: header over a draggable split of a flat page Tree and a nested layer Tree",
-      "figma": [
-        "UI3 design.sidebar.left",
-        "node 1027347:6458"
-      ],
+      "role": "design-editor left sidebar",
+      "figma": ["UI3 design.sidebar.left","node 1027347:6458"],
       "props": {
         "title": "ReactNode",
         "project": "ReactNode",
@@ -776,11 +416,8 @@
     },
     "SlidesNavigator": {
       "source": "src/react/factory.js",
-      "role": "slides bar: header, a create toolbar, and a vertical SlideList of numbered thumbnails; self-contained for reuse in a future video editor",
-      "figma": [
-        "UI3 Figma to Video slides bar",
-        "node 98:12"
-      ],
+      "role": "slides bar with header, create toolbar, and vertical SlideList",
+      "figma": ["UI3 Figma to Video slides bar","node 98:12"],
       "props": {
         "title": "ReactNode",
         "project": "ReactNode",
@@ -799,22 +436,17 @@
       "props": {
         "children": "ReactNode",
         "gap": "string",
-        "align": [
-          "stretch",
-          "start",
-          "center",
-          "end"
-        ]
+        "align": ["stretch","start","center","end"]
       }
     },
     "TextPair": {
       "source": "src/react/factory.js",
-      "role": "three-slot vertical text stack (content/body/metadata) mapping to body-large/medium/small; metadata can sit above or below the body; commonly used inside ListCell content slots",
+      "role": "three-slot vertical text stack mapping to body-large/medium/small",
       "props": {
         "content": "ReactNode",
         "body": "ReactNode",
         "metadata": "ReactNode",
-        "metadataPlacement": ["top", "bottom"],
+        "metadataPlacement": ["top","bottom"],
         "title": "ReactNode",
         "description": "ReactNode",
         "titleAs": "IntrinsicElement"
@@ -822,45 +454,30 @@
     },
     "Label": {
       "source": "src/react/factory.js",
-      "role": "hierarchical text label for section headings, property names, and subdued supporting text; level pairs 1:1 with ListCell level; default color is secondary and contextual",
+      "role": "hierarchical text label for section headings, property names, and subdued supporting text",
       "props": {
         "label": "string",
-        "level": [
-          1,
-          2,
-          3
-        ],
-        "weight": [
-          "regular",
-          "strong"
-        ],
+        "level": [1,2,3],
+        "weight": ["regular","strong"],
         "as": "IntrinsicElement"
       }
     },
     "Menu": {
       "source": "src/react/factory.js",
       "role": "menu surface that composes MenuRow variants",
-      "props": {
-        "label": "string",
-        "items": "MenuRowProps[]"
-      }
+      "props": { "label": "string", "items": "MenuRowProps[]" }
     },
     "MenuMultiSelect": {
       "source": "src/react/factory.js",
       "role": "composed multi-select menu surface built from MenuRow variants",
       "props": {
-        "variant": [
-          "default",
-          "label-only",
-          "avatars",
-          "mixed-icons"
-        ],
+        "variant": ["default","label-only","avatars","mixed-icons"],
         "label": "string"
       }
     },
     "EditorToolbar": {
       "source": "src/react/factory.js",
-      "role": "floating canvas creation toolbar; presentational + controlled tool selector that drops into EditorShell canvasToolbar slot. Four groups (Figma 86-5602): Move/Hand and Rectangle/Circle are SplitButton groups whose carets open tool-picker menus through OverlayPortal; Frame (Grid 3x3 glyph) and Text are caret-less single icon buttons. While a group's menu is open it suppresses its tooltip (no tooltip+menu co-show). Owns no canvas engine, selection, or document model.",
+      "role": "floating canvas creation toolbar",
       "props": {
         "activeTool": "string",
         "defaultActiveTool": "string",
@@ -870,32 +487,21 @@
     },
     "EditorShell": {
       "source": "src/react/factory.js",
-      "role": "purely presentational four-region editor layout template (navigationRail, navigator, canvas, inspector) with a floating canvas toolbar slot rendered through OverlayPortal; owns layout and responsive behavior only, never selection or a document model",
+      "role": "purely presentational four-region editor layout template",
       "props": {
         "navigationRail": "ReactNode",
         "navigator": "ReactNode",
         "canvas": "ReactNode",
         "inspector": "ReactNode",
         "canvasToolbar": "ReactNode",
-        "canvasToolbarPlacement": [
-          "top",
-          "bottom",
-          "top-left",
-          "top-right",
-          "bottom-left",
-          "bottom-right"
-        ],
-        "canvasToolbarAlign": [
-          "start",
-          "center",
-          "end"
-        ],
+        "canvasToolbarPlacement": ["top","bottom","top-left","top-right","bottom-left","bottom-right"],
+        "canvasToolbarAlign": ["start","center","end"],
         "label": "string"
       }
     },
     "SlidesEditorTemplate": {
       "source": "src/react/factory.js",
-      "role": "thin slides-oriented preset of EditorShell that supplies slides defaults and a present-mode toggle placeholder; owns no document model",
+      "role": "thin slides-oriented preset of EditorShell",
       "props": {
         "navigationRail": "ReactNode",
         "navigator": "ReactNode",
@@ -908,11 +514,11 @@
     },
     "CommentComposer": {
       "source": "src/react/factory.js",
-      "role": "reusable, controlled composer / chat input (Figma comment.compose.input 2012-63721); optional leading avatar, a growing text field, a trailing/footer action cluster (emoji/mention/attach by default, fully overridable), an optional mode/scope slot, an attachments tray, and a submit affordance. Card layout is the standalone composer + AI side-chat input; inline layout is the thread reply pill. Enter submits, Shift+Enter newlines.",
+      "role": "reusable, controlled composer / chat input",
       "props": {
         "value": "string",
         "placeholder": "string",
-        "layout": ["card", "inline"],
+        "layout": ["card","inline"],
         "avatar": "AvatarProps | ReactElement",
         "actions": "CommentComposerAction[] | ReactElement[]",
         "mode": "ReactNode",
@@ -930,7 +536,7 @@
     },
     "CommentItem": {
       "source": "src/react/factory.js",
-      "role": "one thread row (Figma _comment.window.row 2012-63679): avatar in the gutter, an author/timestamp header line, a body, and an optional reactions/reply footer slot",
+      "role": "one thread row: avatar, author/timestamp header, body, and optional reactions/reply footer slot",
       "props": {
         "author": "string",
         "timestamp": "ReactNode",
@@ -941,7 +547,7 @@
     },
     "CommentThreadWindow": {
       "source": "src/react/factory.js",
-      "role": "floating comment surface (Figma comment.thread.window 2012-63732): a titlebar (title + more/resolve/close actions), a scrollable list of CommentItems, and a CommentComposer pinned at the bottom; supports an empty state",
+      "role": "floating comment surface with titlebar, scrollable CommentItem list, and pinned CommentComposer",
       "props": {
         "title": "ReactNode",
         "comments": "CommentItemProps[] | ReactElement[]",
@@ -955,7 +561,7 @@
     },
     "Badge": {
       "source": "src/react/factory.js",
-      "role": "count / dot / label indicator (Figma Badges page 2012-32973: Badge small 2012-35027, Badge small alt count badges 2012-35077, Badge Dot 2012-35086, Badge large 2012-35016). dot=bare status dot, count=number badge (max clamps to {max}+), label/children=status pill. tone picks the color family; strong switches subtle->filled; overlay corner-positions it onto a host",
+      "role": "count / dot / label indicator",
       "props": {
         "label": "ReactNode",
         "count": "number | string",
@@ -971,7 +577,7 @@
     },
     "BadgeAnchor": {
       "source": "src/react/factory.js",
-      "role": "corner-positions a host control and an overlay Badge in one box; this is how Badge composes onto an IconButton/Avatar/nav item. badge accepts Badge props, a number (count), true (dot), or a Badge element",
+      "role": "corner-positions a host control and an overlay Badge in one box",
       "props": {
         "children": "ReactNode",
         "badge": "BadgeProps | number | string | boolean | ReactElement",
@@ -980,7 +586,7 @@
     },
     "NotificationBell": {
       "source": "src/react/factory.js",
-      "role": "the bell icon-button with an unread indicator (Figma icon.24.notification.bell.badged.small). Reuses IconButton + Badge via BadgeAnchor: count>0 shows a count badge, otherwise dot shows the bare unread dot",
+      "role": "the bell icon-button with an unread indicator",
       "props": {
         "icon": "ReactNode | string",
         "label": "string",
@@ -995,7 +601,7 @@
     },
     "Notification": {
       "source": "src/react/factory.js",
-      "role": "the dark HUD toast/list-row (Figma Notifications 2028-111255: Single/Multi x 1-or-2 buttons): a leading icon/avatar, a truncating message (1-2 lines), and a hairline-separated trailing column of 1-2 stacked CTAs (the second is conventionally Dismiss)",
+      "role": "dark HUD toast/list-row with leading icon, truncating message, and trailing CTAs",
       "props": {
         "message": "ReactNode",
         "icon": "ReactNode | string",
@@ -1009,7 +615,7 @@
     },
     "VisualBell": {
       "source": "src/react/factory.js",
-      "role": "Figma's in-app toast/snackbar pill (Figma Visual Bells page 2015-40421, Bell 2015-42989: Default / Message / Message w Dismiss / Danger): an optional leading icon/spinner, a strong message, an optional secondary count, an optional rail of bordered action buttons, and an optional dismiss (X) behind a hairline",
+      "role": "Figma in-app toast/snackbar pill",
       "props": {
         "message": "ReactNode",
         "icon": "ReactNode | string",

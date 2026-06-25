@@ -1,6 +1,6 @@
 // Story + internal-app runtime. This wires the components with the UI3-derived
-// `iconAssets` so Storybook and the Figma-Video app can render string-named
-// content icons (icon="move", etc.). It is NOT part of the published package —
+// iconAssets so Storybook and the Figma-Video app can render string-named
+// content icons (icon="move", etc.). It is NOT part of the published package --
 // the proprietary assets must not ship. The public entry is ./index.js, which
 // wires no icon set (content icons are passed in as slots; structural glyphs are
 // the built-in license-clean set).
@@ -25,6 +25,7 @@ export const {
   ComboInput,
   ComboInputDropdown,
   ChitInput,
+  Slider,
   Switch,
   Radio,
   Checkbox,

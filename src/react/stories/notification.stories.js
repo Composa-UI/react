@@ -1,5 +1,6 @@
 import React from "react";
 import { Notification } from "../story-runtime.js";
+import { withAnnotations } from "./_annotations.js";
 
 const h = React.createElement;
 
@@ -85,5 +86,148 @@ export const Variants = {
     ]),
   parameters: {
     docs: { description: { story: "Single action, two actions, multiline truncation, and the avatar variant." } },
+  },
+};
+
+// ── Annotation stories ───────────────────────────────────────────────────────
+
+// Anatomy — auto-discovers every element with a data-part attribute and brackets it.
+// Nothing to author beyond the root target; the renderer derives the part labels.
+export const Anatomy = {
+  render: () =>
+    stage([
+      h(Notification, {
+        icon: "componentSmall",
+        message: "Short descriptive message",
+        onAction: () => {},
+        onDismiss: () => {},
+      }),
+    ]),
+  decorators: [withAnnotations],
+  parameters: {
+    docs: { description: { story: "Auto-brackets every data-part in the Notification: content, lead, message, actions, and each action CTA." } },
+    annotations: [{ type: "anatomy", target: ".composa-notification" }],
+  },
+};
+
+// Color — surface background and text tokens. Values are derived by the renderer;
+// only the semantic token name is authored (never the hex).
+export const Color = {
+  render: () =>
+    stage([
+      h(Notification, {
+        icon: "componentSmall",
+        message: "Short descriptive message",
+        onAction: () => {},
+      }),
+    ]),
+  decorators: [withAnnotations],
+  parameters: {
+    docs: { description: { story: "Surface (background), message text, and HUD shadow tokens. All hex values are derived." } },
+    annotations: [
+      { n: 1, type: "token", kind: "color", target: ".composa-notification", prop: "background", name: "color.bg.menu", side: "top" },
+      { n: 2, type: "token", kind: "color", target: "[data-part=\"message\"]", prop: "color", name: "color.text.menu", side: "bottom" },
+      { n: 3, type: "token", kind: "effect", target: ".composa-notification", name: "elevation.hud", side: "right" },
+    ],
+  },
+};
+
+// Typography — message uses body.medium; CTA label uses body.medium.strong.
+// Values (size, weight, line-height) are derived.
+export const Typography = {
+  render: () =>
+    stage([
+      h(Notification, {
+        icon: "componentSmall",
+        message: "Short descriptive message",
+        onAction: () => {},
+      }),
+    ]),
+  decorators: [withAnnotations],
+  parameters: {
+    docs: { description: { story: "Message uses body.medium; CTA label uses body.medium.strong. All sizes are derived." } },
+    annotations: [
+      { n: 1, type: "token", kind: "typography", target: "[data-part=\"message\"]", anchor: "center" },
+      { n: 2, type: "token", kind: "typography", target: "[data-part=\"action\"]", anchor: "center" },
+    ],
+  },
+};
+
+// Structural — composition axis: one-action vs two-action layout.
+// Redlines on the container are derived; variant labels show which composition is active.
+export const Structural = {
+  render: () =>
+    h(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "column",
+          gap: 24,
+          padding: 32,
+          background: "var(--composa-color-bg-secondary, #f5f5f5)",
+        },
+      },
+      h("div", { className: "s-single" },
+        h(Notification, { icon: "componentSmall", message: "Short descriptive message", onAction: () => {} })
+      ),
+      h("div", { className: "s-two" },
+        h(Notification, { icon: "componentSmall", message: "Short descriptive message", onAction: () => {}, onDismiss: () => {} })
+      )
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    docs: { description: { story: "Composition axis: single-action bar (no separator between actions) vs two-action bar (Action + Dismiss stacked, split by a horizontal separator). Width and height redlines are derived." } },
+    annotations: [
+      { target: ".s-single .composa-notification", type: "variant", value: "One action", marker: "caret", side: "left" },
+      { target: ".s-two .composa-notification", type: "variant", value: "Two actions", marker: "caret", side: "left" },
+      { n: 1, type: "redline", target: ".composa-notification", dimension: "width" },
+      { n: 2, type: "redline", target: ".composa-notification", dimension: "height" },
+    ],
+  },
+};
+
+// Accessibility — Notification is a live region (role="status", aria-live="polite") that
+// does NOT steal focus. The user Tabs to Action / Dismiss voluntarily (see docs for the
+// deliberate divergence from Carbon's alertdialog / focus-trap model).
+export const Accessibility = {
+  render: () =>
+    stage([
+      h(Notification, {
+        icon: "componentSmall",
+        message: "Short descriptive message",
+        onAction: () => {},
+        onDismiss: () => {},
+      }),
+    ]),
+  decorators: [withAnnotations],
+  parameters: {
+    docs: { description: { story: "Live region + two focusable CTAs. Focus is not stolen when the notification appears — this is an explicit product decision documented in the Accessibility tab." } },
+    annotations: [
+      {
+        n: 1,
+        target: ".composa-notification",
+        type: "landmark",
+        element: "<div>",
+        role: "status",
+        marker: "lasso",
+        side: "top",
+      },
+      {
+        n: 2,
+        each: true,
+        target: "[data-part=\"action\"]",
+        type: "button",
+        element: "<button>",
+        role: "button",
+        marker: "bracket",
+        side: "bottom",
+        keyboard: [
+          { keys: "Tab", result: "moves focus to each CTA in order" },
+          { keys: "Space / Enter", result: "activates the focused CTA" },
+        ],
+        tier: { priority: "mandatory", difficulty: "easy" },
+      },
+    ],
   },
 };

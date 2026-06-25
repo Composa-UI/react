@@ -1,0 +1,112 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as IconSlotsStories from "./icon-slots.stories.js";
+
+{/* Content-preserving re-org of specs/_import/iconography.md (Figma page "Icons",
+    node 1:530873) into the Foundation shape: Purpose / Sizes & weights / Usage /
+    References. All load-bearing guidance kept; Figma-product specifics (the
+    Material asset grids, FigJam-only sizing-guide overlay component, glyph
+    inventories) dropped per the de-Figma-ify rule. The source frames carried no
+    accessibility/contrast/touch-target rules and no weight/grade scale beyond
+    "1px stroke, rounded caps" — see Open decisions. */}
+
+<Meta title="Composa UI/Foundations/Iconography" />
+
+# Iconography
+
+Icons are line-based glyphs drawn on a consistent frame, sized so they sit cleanly inside dense controls and layout rows.
+
+## Purpose
+
+Iconography governs the size, stroke, and alignment of every glyph in the system so icons read consistently across controls, toolbars, and dense lists. The geometry below is the contract; sourcing rules keep new icons matching it.
+
+## Sizes & weights
+
+The bulk of icons sit in a **24px frame**, drawn with **1px strokes** and **rounded caps (stroke endpoints)**. Each 24px icon can optionally come in a **"small"** variant geared toward a **12px bounding box** for tighter placements. In small, dense contexts — layer lists and similar — icons step down to a **16px frame**.
+
+export const FrameScale = ({ px, label, sub }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 72, height: 72 }}>
+      <div style={{ width: px, height: px, border: "1px solid var(--composa-color-bg-brand)", borderRadius: 2, background: "var(--composa-color-bg-brand-tertiary, rgba(255,92,22,0.1))" }} />
+    </div>
+    <div style={{ textAlign: "center", lineHeight: 1.3 }}>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "var(--composa-color-text)" }}>{label}</div>
+      <div style={{ fontFamily: "monospace", fontSize: 11, opacity: 0.65 }}>{sub}</div>
+    </div>
+  </div>
+);
+
+<div style={{ display: "flex", gap: 32, alignItems: "flex-end", margin: "16px 0 28px" }}>
+  <FrameScale px={24} label="Icon frame" sub="24px" />
+  <FrameScale px={16} label="Glyph" sub="16px" />
+  <FrameScale px={12} label="Small" sub="12px" />
+</div>
+
+| Size | Token | Use |
+|---|---|---|
+| Icon frame | `control-size-icon` (24px) | Default frame for the bulk of icons |
+| Glyph | `control-size-icon-glyph` (16px) | Dense contexts (layer lists, properties) |
+| Small | 12px bounding box | Optional tighter variant of a 24px icon |
+
+| Property | Value |
+|---|---|
+| Stroke width | 1px |
+| Stroke caps | Rounded |
+
+**Stroke-endpoint icons** are a special case used for stroke/line controls: they share a **16px height**, but their **widths are intentionally irregular** so each fits the input field it labels in the properties panel.
+
+#### Sizing guides
+
+Sizing guidance is provided for common shapes — circles, squares, and rectangles — as alignment templates a glyph should fit within. Treat them as guidelines: use your judgement for more exotic shapes. The guides come in three geometries:
+
+export const Guide = ({ label, ix, iy, sub }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+    <div style={{ position: "relative", width: 96, height: 96, border: "1px dashed var(--composa-color-border)", borderRadius: 3, background: "var(--composa-color-bg-secondary)" }}>
+      <div style={{ position: "absolute", left: `${ix}%`, right: `${ix}%`, top: `${iy}%`, bottom: `${iy}%`, border: "1.5px solid var(--composa-color-bg-brand)", borderRadius: 2, background: "var(--composa-color-bg-brand-tertiary, rgba(255,92,22,0.12))" }} />
+    </div>
+    <div style={{ textAlign: "center", lineHeight: 1.3 }}>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "var(--composa-color-text)" }}>{label}</div>
+      <div style={{ fontFamily: "monospace", fontSize: 11, opacity: 0.65 }}>{sub}</div>
+    </div>
+  </div>
+);
+
+<div style={{ display: "flex", gap: 28, flexWrap: "wrap", margin: "16px 0 24px" }}>
+  <Guide label="24px" ix={16.67} iy={16.67} sub="16.67% inset" />
+  <Guide label="24px Small" ix={20.83} iy={33.33} sub="20.83% × 33.33%" />
+  <Guide label="16px" ix={12.5} iy={31.25} sub="12.5% × 31.25%" />
+</div>
+
+The dashed box is the bounding frame; the filled inner shape is the area a glyph should fill.
+
+| Guide | Bounding box | Inner inset |
+|---|---|---|
+| 24px | 24px frame | 16.67% |
+| 24px Small | 24px frame | 25% (20.83% × 33.33%) |
+| 16px | 16px frame | 18.75% (12.5% × 31.25%) |
+
+## Usage
+
+Composa does not ship an icon asset library. Components accept icons as **slots** — pass a component type or an already-rendered node from any icon library, and the glyph inherits the slot's box (16px) and color with no extra wiring.
+
+For content icons, source from **Material Symbols** (rounded), which match the family of the built-in structural glyphs (chevrons, check, close). The self-hosted `@composa-ui/icons` Material Symbols runtime is recommended so fill, weight, grade, and optical size stay adjustable; the current runtime default is rounded weight 200. String names resolve to a built-in glyph for backward compatibility.
+
+<Canvas of={IconSlotsStories.Slots} />
+
+- **Do** keep new glyphs on the 24px frame with 1px strokes and rounded caps so they sit consistently with the rest of the set.
+- **Do** step down to the 16px glyph size in dense contexts like layer lists.
+- **Don't** mix icon families — pull content icons from Material Symbols (rounded) to match the built-in structural glyphs.
+- **Don't** hand-size stroke-endpoint icons to a square box; they keep a 16px height with irregular widths to fit their input fields.
+
+## References
+
+{/* Figma file 4kilp0ShQiYsoUPJdleqEH, page "Icons" (node 1:530873).
+    Guidance frames: "24" (1:530896), "16" (1:540200), "Stroke Endpoints"
+    (1:541864), "Icon Size Guides" / "Icon Guidelines" (1:542181).
+    Implementation: src/react/stories/icon-slots.stories.js. */}
+
+- Icon size tokens: see the **Sizing & Shape** foundation (`control-size-icon`, `control-size-icon-glyph`).
+- Slot pattern specimen: `icon-slots.stories.js`.
+
+## Open decisions
+
+- The source frames carried no accessibility, contrast, or touch-target rules for icons, and no weight/grade scale beyond "1px stroke, rounded caps." Should those be authored here, or do they live per-component?

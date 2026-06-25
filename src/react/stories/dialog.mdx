@@ -1,0 +1,230 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as DialogStories from "./dialog.stories.js";
+
+{/* Content-preserving re-org of specs/_import/modals-dialogs.md (Figma "Modals / Dialogs"
+    guideline page, fileKey 4kilp0ShQiYsoUPJdleqEH, entry node 2028:91765; frames 2327:121785
+    Overview, 2327:121906 Attributes, 2327:122333 Templates) into the Carbon-aligned 4-tab
+    shape: Usage (overview, when-to-use, parts, anatomy, content, behaviors, states), Style
+    (Structure/Color/Typography token tables), Code, Accessibility. All guideline substance
+    kept; only Figma-product specifics trimmed — the #design-ui3 / Wayne Sun "reach out" lines,
+    the "Local Templates / Assets panel" plugin navigation, and the FigJam/Figma-Filename
+    specimen chrome. Token names used, never raw values.
+
+    Source anomalies preserved as authored, reconcile at clean-up:
+    - Header prose says "three variants" (Default, Tabs, Navigation) but the component definition
+      (2327:122026) ships four symbols: Default, Navigation, Tabs, Dropdown.
+    - Footer prose names "Action, Pagination, and Share Modal" as conceptual groupings; the
+      component definition (2327:122060) ships twelve variant symbols.
+    - The 320/480 fixed-example specimen body copy (2726:32334, 2769:17536) is authored in the
+      `body (Deprecated)/medium` text style; the 240 popover body (2726:32258) uses live
+      `body/medium`. Captured as-is.
+    - The scrim token appears in copy as `special/modalbackdrop` and as the CSS var
+      `--color-modalbackdrop` (rgba(0,0,0,0.5)); named here as `color.modalbackdrop`.
+    - Template-instance specimen interiors were component-dependent and deferred in the import;
+      their verbatim strings are carried into Content below. */}
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+A dialog places content over the page, preventing interaction with the underlying page until the user completes a task or dismisses it.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={DialogStories.Playground} />
+
+### Overview
+
+A dialog is a window that floats above the page, paired with a scrim that dims and blocks the content behind it. It holds a self-contained task — renaming a layer, creating a project, confirming a delete, sharing a file — and stays up until the user finishes or dismisses it. The goal is to be as minimally intrusive as possible, so the focus stays on the content inside the dialog.
+
+### When to use
+
+- **Modal dialog** — when the task must be completed or dismissed before the user does anything else. The scrim blocks the page and background content shouldn't be readable while the dialog is up. Use it for focused, blocking tasks: forms, confirmations, sharing.
+- **Non-modal surface instead** — for lightweight, non-blocking guidance that sits beside the work rather than over it (tutorial bubbles, feature education popovers). These point at a target and don't dim the page.
+- **Match the width to the depth of controls** — text-only dialogs stay narrow; dialogs with labeled inputs, dropdowns, and checkboxes go wider (see Style → Structure).
+
+### Anatomy
+
+<Canvas of={DialogStories.Anatomy} />
+
+A dialog is assembled from three standardized pieces — a header, a body, and a footer — composed on the dialog window. Always use the dialog-specific sub-components rather than rebuilding these by hand.
+
+**Header** — ready-made title-and-controls bar. A left-aligned **title** and a right-aligned group of **icons**: an optional **Copy Link** link, an optional **add/plus** action, and a **close** button. A 1px border sits along the bottom. Variants cover Default, Navigation, Tabs, and Dropdown headers, wired to visibility props so you can toggle pieces from the call site.
+
+<Canvas of={DialogStories.Header} />
+
+**Footer** — ready-made action bar. The right side carries the call-to-action buttons: a primary **Action** button (brand fill) and an optional secondary **Cancel** button (outlined). The left side can show, by prop, a **stepper** ("1 of 3"), **helper text**, a **checkbox** ("Don't show this again"), or an **action link** ("Advanced"). A 1px border sits along the top when enabled. The footer covers a range of cases — action, pagination, and share-modal footers among them.
+
+<Canvas of={DialogStories.Footer} />
+
+**Row** — a body building block for list-style content: header rows, label rows, label-with-description rows, avatar-with-label rows, icon-with-label rows, dropdown rows, and tab rows, each with a hover state. Used to build out sharing lists and property panels inside the body.
+
+<Canvas of={DialogStories.Row} />
+
+**Structured body** — for richer dialogs, the body composes inputs and rows into a full layout (a sharing panel, a create-project form). Body content types include single- and multi-line text inputs, dropdowns, a code-embed field, and invite controls.
+
+<Canvas of={DialogStories.Structured} />
+
+#### Anatomy — numbered parts
+
+1. **Scrim** — a full-page backdrop in `color.modalbackdrop` that dims and blocks the page beneath. Clicking it dismisses the dialog.
+2. **Window** — the floating surface: `color.bg` fill, `radius-large` corners, and the `elevation-500-modal-window` shadow.
+3. **Header** — title plus controls (close, and optional link / add), with a bottom border.
+4. **Body** — the content area; inputs, rows, and text. Overflows beneath the footer with a scrollbar when the dialog hits its height limit.
+5. **Footer** — actions and optional stepper / helper text / checkbox, with a top border.
+6. **Scroll affordance** — a 4 × 70px `radius-full` pill shown when body content exceeds the visible height.
+
+### Content rules
+
+- **Header title** — short and without trailing punctuation (e.g. "Create new project", "Share this team").
+- **Body copy** — punctuated, one idea per screen; supporting detail comes after the lead sentence. Example: "We recommend creating workspaces based on product areas, business units, or working groups in your organization."
+- **Inputs** — use placeholder hints for examples ("eg Top Secret Ideas"); pair character-limited fields with a counter ("0/160").
+- **Footer CTAs** — name the primary action by what it does ("Continue", "Action", "Share"); the secondary is "Cancel".
+- **Steppers** read "Step 1 of 3" / "1 of 3" for multi-step flows.
+
+### Behaviors
+
+- **Scrim & blocking** — a dialog renders with a scrim on top of the page's z-index. While it's up, the page underneath can't be interacted with and its content shouldn't be readable.
+- **Dismissal** — clicking the scrim or the header **X** dismisses the dialog. (Escape dismisses too — see Accessibility.)
+- **Focus trap** — focus stays within the dialog while it's open, so Tab cycles through its controls and not the page behind it.
+- **Overflow** — when a dialog reaches its height limit, body content overflows beneath the footer and a scrollbar appears as a visual affordance; the scroll-affordance pill signals there's more to read.
+
+#### States
+
+| State | Treatment |
+|---|---|
+| Open | Window on `color.bg` over the `color.modalbackdrop` scrim; page behind blocked and dimmed. |
+| Scrolled / overflowing | Body scrolls beneath the footer; scroll-affordance pill (`radius-full`) shown. |
+| Dismissing | Closes on scrim click, **X**, or Escape; focus returns to the trigger. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={DialogStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Fixed width — tutorial / education | 240 |
+| Fixed width — text-only dialog | 320 |
+| Fixed width — dialog with controls | 480 |
+| Relative height — large | `70vh` |
+| Relative height — medium | `50vh` |
+| Header row height | `spacer-6` (40) |
+| Footer row height | `spacer-6` (40) |
+| Window corner radius | `radius-large` |
+| Button / badge / checkbox radius | `radius-medium` |
+| Scroll-affordance pill | 4 × 70, `radius-full` |
+| Row stack gap | `spacer-2` (8) |
+| Template stack gap (480) | 32 |
+
+Widths align to the 8px grid: 240 for tutorial bubbles, 320 for text-only dialogs, 480 for dialogs with labeled inputs, dropdowns, checkboxes, and more. The width follows the depth of controls in the body. In special cases (branching, merging, account settings) the dialog sizes relative to the viewport height instead.
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Scrim | `color.modalbackdrop` |
+| Window fill | `color.bg` |
+| Window shadow | `elevation-500-modal-window` |
+| Header / footer border | `color.border` |
+| Body secondary surface | `color.bg.secondary` |
+| Disabled fill | `color.bg.disabled` |
+| Primary CTA fill | `color.bg.brand` |
+| Primary CTA text | `color.text.onbrand` |
+| Secondary CTA border | `color.bordertranslucent` |
+| Secondary CTA text | `color.text` |
+| Title text | `color.text` |
+| Body / secondary text | `color.text.secondary` |
+| Link / brand text | `color.text.brand` |
+| Checkbox — checked fill | `color.bg.brand` |
+| Checkbox — checked border | `color.border.selected-strong` |
+| Badge — fill | `color.bg.assistive-tertiary` |
+| Badge — text | `color.text.assistive` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Header title | `body.medium.strong` |
+| Body text | `body.medium` |
+| Footer CTA / stepper / helper text | `body.medium` |
+| Row label | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Dialog, OverlayHost } from "@composa-ui/react";
+
+// A dialog floats over the page on a scrim. The scrim, focus management,
+// and Escape-to-close are wired at the call site — the Dialog component
+// renders the window, header, body, and footer but does not trap focus,
+// manage the backdrop, or handle Escape itself. Mount it inside an
+// `OverlayHost` ancestor so the window and scrim portal above the page.
+
+<OverlayHost>
+  {open && (
+    <Dialog
+      title="Create new project"
+      description="We recommend creating workspaces based on product areas, business units, or working groups."
+      primaryLabel="Continue"
+      secondaryLabel="Cancel"
+      onPrimary={createProject}
+      onClose={() => setOpen(false)}
+    />
+  )}
+</OverlayHost>
+```
+
+For richer layouts, drop the sub-components (`DialogHeader`, `DialogBody`, `DialogRow`, `DialogFooter`) into `children` instead of using the one-shot `title` / `description` props. An `OverlayHost` ancestor is required so the dialog and its scrim portal above the page — see the **OverlayHost** and **OverlayLayer** overlay primitives.
+
+#### Props
+
+<Controls of={DialogStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={DialogStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the next control inside the dialog; focus is trapped and does not reach the page behind |
+| `Shift` + `Tab` | Moves focus to the previous control inside the dialog |
+| `Esc` | Closes the dialog (same as the scrim click or the header X) |
+| `Enter` | Activates the focused control / submits the primary action |
+
+#### Screen reader & labeling
+
+- The dialog window exposes a `dialog` role with `aria-modal="true"`, so assistive tech treats the page behind it as inert while the dialog is open.
+- Give the dialog an accessible name via `aria-labelledby` pointing at the header title (or `aria-label` when there is no visible title), so the dialog is announced by what it's for.
+- The scrim blocks and hides background content, mirroring the visual blocking for assistive tech.
+
+#### Focus
+
+- **Initial focus** moves into the dialog when it opens — to the first interactive control, or the primary action for a confirmation.
+- **Focus trap** keeps Tab and Shift+Tab cycling within the dialog while it's open.
+- **Return focus** goes back to the element that opened the dialog once it's dismissed (scrim click, X, or Escape).
+
+</DocTab>
+
+</DocTabs>

@@ -12,23 +12,20 @@ Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", 
 
 The scale has two ladders: headings (display, large, medium, small) and body (large, medium, small). Body roles carry a regular weight of 450 and a strong weight of 550. Every role carries an explicit line-height and letter-spacing token. The samples below render at the live token values.
 
-export const Sample = ({ label, family, size, line, weight, letter, text }) => (
-  <div style={{ padding: "14px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
-    <div
-      style={{
-        fontFamily: `var(${family})`,
-        fontSize: `var(${size})`,
-        lineHeight: `var(${line})`,
-        fontWeight: `var(${weight})`,
-        letterSpacing: letter ? `var(${letter})` : "normal",
-        margin: 0,
-      }}
-    >
-      {text}
+export const Row = ({ token, desc, children }) => (
+  <div style={{ display: "flex", gap: 32, alignItems: "flex-start", padding: "18px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
+    <div style={{ width: 190, flexShrink: 0 }}>
+      <div style={{ fontFamily: "monospace", fontSize: 12, color: "var(--composa-color-text)" }}>{token}</div>
+      {desc ? <div style={{ fontSize: 12, opacity: 0.7, marginTop: 6, lineHeight: 1.45 }}>{desc}</div> : null}
     </div>
-    <div style={{ marginTop: 6, fontFamily: "monospace", fontSize: 11, opacity: 0.7 }}>
-      {label}
-    </div>
+    <div style={{ flex: 1, minWidth: 0, display: "flex", gap: 16, flexWrap: "wrap" }}>{children}</div>
+  </div>
+);
+
+export const Spec = ({ family, size, line, weight, letter, text, meta }) => (
+  <div style={{ flex: "1 1 0", minWidth: 240, padding: "16px 20px", border: "1px solid var(--composa-color-border-translucent)", borderRadius: 8, background: "var(--composa-color-bg-secondary)" }}>
+    <div style={{ fontFamily: `var(${family || "--composa-font-family"})`, fontSize: `var(${size})`, lineHeight: `var(${line})`, fontWeight: `var(${weight})`, letterSpacing: letter ? `var(${letter})` : "normal", margin: 0, color: "var(--composa-color-text)" }}>{text}</div>
+    {meta ? <div style={{ marginTop: 10, fontFamily: "monospace", fontSize: 11, opacity: 0.6 }}>{meta}</div> : null}
   </div>
 );
 
@@ -36,31 +33,35 @@ export const Sample = ({ label, family, size, line, weight, letter, text }) => (
 
 Headings step from a 48px display down to a 13px small. Weight is 450 at display and 550 for large, medium, and small. Letter-spacing tightens as size grows.
 
-<Sample label="heading/display — 48px / 56px / 450 / -0.0625em" family="--composa-heading-display-family" size="--composa-heading-display-size" line="--composa-heading-display-line" weight="--composa-heading-display-weight" letter="--composa-heading-display-letter-spacing" text="Display heading" />
-<Sample label="heading/large — 24px / 32px / 550 / -0.0708em" family="--composa-heading-large-family" size="--composa-heading-large-size" line="--composa-heading-large-line" weight="--composa-heading-large-weight" letter="--composa-heading-large-letter-spacing" text="Large heading" />
-<Sample label="heading/medium — 15px / 25px / 550 / -0.0333em" family="--composa-heading-medium-family" size="--composa-heading-medium-size" line="--composa-heading-medium-line" weight="--composa-heading-medium-weight" letter="--composa-heading-medium-letter-spacing" text="Medium heading" />
-<Sample label="heading/small — 13px / 22px / 550 / -0.0192em" family="--composa-heading-small-family" size="--composa-heading-small-size" line="--composa-heading-small-line" weight="--composa-heading-small-weight" letter="--composa-heading-small-letter-spacing" text="Small heading" />
+<Row token="heading/display" desc="The largest display size, for expressive moments and important announcements. Renders in IBM Plex.">
+  <Spec family="--composa-heading-display-family" size="--composa-heading-display-size" line="--composa-heading-display-line" weight="--composa-heading-display-weight" letter="--composa-heading-display-letter-spacing" text="Large display size" meta="48 / 56 · 450" />
+</Row>
+<Row token="heading/large" desc="Our largest heading size, reserved for elements like the primary page title within page views.">
+  <Spec family="--composa-heading-large-family" size="--composa-heading-large-size" line="--composa-heading-large-line" weight="--composa-heading-large-weight" letter="--composa-heading-large-letter-spacing" text="Large heading" meta="24 / 32 · 550" />
+</Row>
+<Row token="heading/medium" desc="A mid-level heading for section titles inside a view.">
+  <Spec family="--composa-heading-medium-family" size="--composa-heading-medium-size" line="--composa-heading-medium-line" weight="--composa-heading-medium-weight" letter="--composa-heading-medium-letter-spacing" text="Medium heading" meta="15 / 25 · 550" />
+</Row>
+<Row token="heading/small" desc="The smallest heading, for dense section and panel headers.">
+  <Spec family="--composa-heading-small-family" size="--composa-heading-small-size" line="--composa-heading-small-line" weight="--composa-heading-small-weight" letter="--composa-heading-small-letter-spacing" text="Small heading" meta="13 / 22 · 550" />
+</Row>
 
 ## Body
 
-Body is where most product text lives. Each size pairs a 450 regular with a 550 strong.
+Body is where most product text lives. Each size pairs a **450 regular** with a **550 strong** — use strong for emphasis within body text and for labels.
 
-<Sample label="body/large — 13px / 22px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-large-size" line="--composa-body-large-line" weight="--composa-body-large-weight" letter="--composa-body-large-letter-spacing" text="Body large. The quick brown fox jumps over the lazy dog." />
-<Sample label="body/medium — 11px / 16px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-medium-size" line="--composa-body-medium-line" weight="--composa-body-medium-weight" letter="--composa-body-medium-letter-spacing" text="Body medium. The quick brown fox jumps over the lazy dog." />
-<Sample label="body/small — 9px / 14px / 450 / 0.005em" family="--composa-font-family" size="--composa-body-small-size" line="--composa-body-small-line" weight="--composa-body-small-weight" letter="--composa-body-small-letter-spacing" text="Body small. The quick brown fox jumps over the lazy dog." />
-
-## Regular vs strong
-
-Body roles ship a strong-weight token at 550. Use it for emphasis within body text and for labels.
-
-<div style={{ display: "flex", gap: 32, alignItems: "baseline", padding: "12px 0" }}>
-  <span style={{ fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", lineHeight: "var(--composa-body-medium-line)", fontWeight: "var(--composa-body-medium-weight)" }}>
-    Regular 450
-  </span>
-  <span style={{ fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", lineHeight: "var(--composa-body-medium-line)", fontWeight: "var(--composa-body-medium-strong-weight)" }}>
-    Strong 550
-  </span>
-</div>
+<Row token="body/large" desc="Our largest body text size, usually saved for elements like multiline text.">
+  <Spec size="--composa-body-large-size" line="--composa-body-large-line" weight="--composa-body-large-weight" letter="--composa-body-large-letter-spacing" text="Body Large" meta="13 / 22 · 450" />
+  <Spec size="--composa-body-large-size" line="--composa-body-large-line" weight="--composa-body-large-strong-weight" letter="--composa-body-large-letter-spacing" text="Body Large Strong" meta="13 / 22 · 550" />
+</Row>
+<Row token="body/medium" desc="Our default text size for the majority of UI elements, such as inputs and buttons.">
+  <Spec size="--composa-body-medium-size" line="--composa-body-medium-line" weight="--composa-body-medium-weight" letter="--composa-body-medium-letter-spacing" text="Body Medium" meta="11 / 16 · 450" />
+  <Spec size="--composa-body-medium-size" line="--composa-body-medium-line" weight="--composa-body-medium-strong-weight" letter="--composa-body-medium-letter-spacing" text="Body Medium Strong" meta="11 / 16 · 550" />
+</Row>
+<Row token="body/small" desc="Our smallest text size, primarily used by small UI elements like avatars and badges.">
+  <Spec size="--composa-body-small-size" line="--composa-body-small-line" weight="--composa-body-small-weight" letter="--composa-body-small-letter-spacing" text="Body Small" meta="9 / 14 · 450" />
+  <Spec size="--composa-body-small-size" line="--composa-body-small-line" weight="--composa-body-small-strong-weight" letter="--composa-body-small-letter-spacing" text="Body Small Strong" meta="9 / 14 · 550" />
+</Row>
 
 ## Type scale
 

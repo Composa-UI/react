@@ -1,5 +1,6 @@
 import React from "react";
 import { Avatar } from "../story-runtime.js";
+import { withAnnotations } from "./_annotations.js";
 
 const variants = ["yellow", "blue", "green", "purple", "grey", "red", "pink", "overflow-unread", "overflow-read"];
 const sizes = ["small", "medium", "large"];
@@ -93,5 +94,85 @@ export const Variants = {
         story: "Shows the color/content variants available to MultiplayerControl and other identity surfaces.",
       },
     },
+  },
+};
+
+// Anatomy — the avatar's content slot (label initials, or image when src is set).
+export const Anatomy = {
+  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ type: "anatomy", target: ".composa-avatar" }] },
+};
+
+// Color — the avatar fill token (derived from computed style). Color facet.
+export const Color = {
+  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ n: 1, target: ".composa-avatar", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" }] },
+};
+
+// Typography — the initials label type token (size/line-height derived). Typography facet.
+export const Typography = {
+  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ n: 1, target: ".composa-avatar-label", marker: "pin", side: "bottom", type: "token", kind: "typography", anchor: "center" }] },
+};
+
+// Layout — diameter redline + corner-radius (NEW v2 visual). Layout facet. Derived live.
+export const Layout = {
+  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-avatar", type: "redline", dimension: "width" },
+      { target: ".composa-avatar", type: "radius", corner: "top-left" },
+    ],
+  },
+};
+
+// Accessibility — image type: named via `alt`, otherwise decorative (aria-hidden).
+export const Accessibility = {
+  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        target: ".composa-avatar",
+        marker: "pin",
+        side: "top",
+        type: "image",
+        accessibleName: "the `alt` prop",
+        decorative: false,
+        tier: { priority: "ideal", difficulty: "easy" },
+      },
+    ],
+  },
+};
+
+// Variant states (annotated grid) — the cross-cutting "substantial" lens: how the avatar changes
+// across its content/state set (photo · initials · disabled · square). Reuses the shared `variant`
+// caret renderer, so a global variant-label style change cascades here.
+export const VariantStates = {
+  render: () => {
+    const cell = (cls, props) =>
+      React.createElement("div", { className: cls, style: { display: "flex", justifyContent: "center", alignItems: "center" } }, React.createElement(Avatar, props));
+    return React.createElement(
+      "div",
+      { style: { display: "flex", gap: 64, padding: "56px 64px 40px" } },
+      cell("av-photo", { src: "https://i.pravatar.cc/80", alt: "Jane Doe" }),
+      cell("av-initials", { initials: "JD", alt: "Jane Doe" }),
+      cell("av-disabled", { initials: "JD", alt: "Jane Doe", state: "disabled" }),
+      cell("av-square", { initials: "JD", alt: "Jane Doe", shape: "square" })
+    );
+  },
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { target: ".av-photo .composa-avatar", type: "variant", marker: "caret", side: "top", value: "Photo" },
+      { target: ".av-initials .composa-avatar", type: "variant", marker: "caret", side: "top", value: "Initials" },
+      { target: ".av-disabled .composa-avatar", type: "variant", marker: "caret", side: "top", value: "Disabled" },
+      { target: ".av-square .composa-avatar", type: "variant", marker: "caret", side: "top", value: "Square" },
+    ],
   },
 };

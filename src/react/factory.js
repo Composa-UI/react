@@ -361,7 +361,7 @@ export function createComposaComponents(React, options = {}) {
         "data-hotkey": boolData(hotkey),
         disabled,
       },
-      children ?? [icon && iconLeadValue !== "false" ? h("span", { key: "icon", className: "composa-button-icon", "aria-hidden": "true" }, iconNode(h, Icon, icon)) : null, h("span", { key: "label" }, label), hotkey ? h("kbd", { key: "hotkey", className: "composa-button-hotkey" }, "K") : null]
+      children ?? [icon && iconLeadValue !== "false" ? h("span", { key: "icon", className: "composa-button-icon", "aria-hidden": "true", "data-scope": "button", "data-part": "icon" }, iconNode(h, Icon, icon)) : null, h("span", { key: "label", "data-scope": "button", "data-part": "label" }, label), hotkey ? h("kbd", { key: "hotkey", className: "composa-button-hotkey", "data-scope": "button", "data-part": "hotkey" }, "K") : null]
     );
   }
 
@@ -426,7 +426,7 @@ export function createComposaComponents(React, options = {}) {
     }
     if (pressed !== undefined) attrs["aria-pressed"] = pressed ? "true" : "false";
     if (resolvedSelected !== undefined && role === "tab") attrs["aria-selected"] = resolvedSelected ? "true" : "false";
-    const button = h("button", { ...attrs, key: "button" }, h("span", { className: "composa-icon-button-glyph" }, iconNode(h, Icon, icon)));
+    const button = h("button", { ...attrs, key: "button" }, h("span", { className: "composa-icon-button-glyph", "data-scope": "icon-button", "data-part": "glyph" }, iconNode(h, Icon, icon)));
     if (!showTooltip) return button;
     return h(
       "span",
@@ -918,6 +918,9 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-switch", `composa-switch-${size}`, mixed ? "is-mixed" : currentChecked && "is-checked", stateClass(state), className),
         "data-composa-component": "Switch",
+        // Part contract (Zag.js / Ark UI convention) — lets tooling anatomize the component.
+        "data-scope": "switch",
+        "data-part": "track",
         "data-size": size,
         "data-state": state,
         "data-type": mixed ? "mixed" : currentChecked ? "on" : "off",
@@ -929,7 +932,7 @@ export function createComposaComponents(React, options = {}) {
         onClick: handleClick,
         disabled,
       },
-      h("span", { className: "composa-switch-thumb" })
+      h("span", { className: "composa-switch-thumb", "data-scope": "switch", "data-part": "thumb" })
     );
   }
 
@@ -960,7 +963,7 @@ export function createComposaComponents(React, options = {}) {
       },
       resolvedVariant === "button"
         ? [h("span", { key: "label", className: "composa-selection-label" }, label)]
-        : [h("span", { key: "mark", className: "composa-radio-mark" }), h("span", { key: "label", className: "composa-selection-label" }, label)]
+        : [h("span", { key: "mark", className: "composa-radio-mark", "data-scope": "radio", "data-part": "control" }), h("span", { key: "label", className: "composa-selection-label", "data-scope": "radio", "data-part": "label" }, label)]
     );
   }
 
@@ -1020,7 +1023,7 @@ export function createComposaComponents(React, options = {}) {
       [
         h(
           "span",
-          { key: "mark", className: "composa-checkbox-mark" },
+          { key: "mark", className: "composa-checkbox-mark", "data-scope": "checkbox", "data-part": "control" },
           mixed
             ? builtinGlyph(h, BUILTIN_GLYPHS.minus, true)
             : isChecked
@@ -1029,8 +1032,8 @@ export function createComposaComponents(React, options = {}) {
         ),
         showLabel
           ? h("span", { key: "copy", className: "composa-selection-copy" }, [
-              h("span", { key: "label", className: "composa-selection-label" }, resolvedLabelText),
-              showDescription ? h("span", { key: "description", className: "composa-selection-description" }, descriptionText) : null,
+              h("span", { key: "label", className: "composa-selection-label", "data-scope": "checkbox", "data-part": "label" }, resolvedLabelText),
+              showDescription ? h("span", { key: "description", className: "composa-selection-description", "data-scope": "checkbox", "data-part": "description" }, descriptionText) : null,
             ])
           : null,
       ]
@@ -1042,7 +1045,7 @@ export function createComposaComponents(React, options = {}) {
     return h(
       "div",
       { ...props, className: cx("composa-tooltip", `composa-tooltip-${placement}`, `composa-tooltip-${tone}`, className), "data-composa-component": "Tooltip", "data-placement": placement, "data-tone": tone, role: "tooltip" },
-      [h("span", { key: "label", className: "composa-tooltip-label" }, label), h("span", { key: "arrow", className: "composa-tooltip-arrow" })]
+      [h("span", { key: "label", className: "composa-tooltip-label", "data-scope": "tooltip", "data-part": "label" }, label), h("span", { key: "arrow", className: "composa-tooltip-arrow", "data-scope": "tooltip", "data-part": "arrow" })]
     );
   }
 
@@ -1115,6 +1118,8 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-dialog-header", className),
         "data-composa-component": "DialogHeader",
+        "data-scope": "dialog",
+        "data-part": "header",
       },
       children
     );
@@ -1127,6 +1132,8 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-dialog-body", className),
         "data-composa-component": "DialogBody",
+        "data-scope": "dialog",
+        "data-part": "body",
       },
       children
     );
@@ -1139,6 +1146,8 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-dialog-actions", className),
         "data-composa-component": "DialogFooter",
+        "data-scope": "dialog",
+        "data-part": "actions",
       },
       children
     );
@@ -1458,6 +1467,8 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-menu-row", `composa-menu-row-${type}`, stateClass(state), selected && "is-selected", props.className),
         "data-composa-component": "MenuRow",
+        "data-scope": "menu",
+        "data-part": "item",
         "data-type": type,
         "data-state": state,
         "data-submenu": boolData(submenu),
@@ -1625,7 +1636,7 @@ export function createComposaComponents(React, options = {}) {
       if (React.isValidElement(value)) {
         return h(React.Fragment, { key }, value);
       }
-      return h(Tag, { key, className: cx(baseClass, extraClass) }, value);
+      return h(Tag, { key, className: cx(baseClass, extraClass), "data-scope": "text-pair", "data-part": key }, value);
     };
     const contentNode = slot(
       resolvedContent,
@@ -2319,9 +2330,9 @@ export function createComposaComponents(React, options = {}) {
       },
       [
         leadingNode !== null && leadingNode !== undefined && leadingNode !== false
-          ? h("div", { key: "leading", className: "composa-list-cell-leading" }, leadingNode)
+          ? h("div", { key: "leading", className: "composa-list-cell-leading", "data-scope": "list-cell", "data-part": "leading" }, leadingNode)
           : null,
-        h("div", { key: "content", className: "composa-list-cell-content" }, content),
+        h("div", { key: "content", className: "composa-list-cell-content", "data-scope": "list-cell", "data-part": "content" }, content),
         trailing ? h(HeaderActions, { key: "actions", className: "composa-list-cell-trailing" }, keyedChildren(trailing)) : null,
       ]
     );
@@ -2421,6 +2432,8 @@ export function createComposaComponents(React, options = {}) {
                 key: option.id ?? option.label ?? index,
                 className: cx("composa-segmented-label", selected && "is-selected"),
                 "data-composa-component": "SegmentedControlItem",
+                "data-scope": "segmented-control",
+                "data-part": "segment",
                 "data-value": nextValue,
                 role: "tab",
                 "aria-selected": selected ? "true" : "false",
@@ -2593,6 +2606,8 @@ export function createComposaComponents(React, options = {}) {
         ...props,
         className: cx("composa-tab", selected && "is-selected", singleTab && "is-single", stateClass(state), className),
         "data-composa-component": "Tab",
+        "data-scope": "tabs",
+        "data-part": "tab",
         "data-state": state,
         role: "tab",
         "aria-selected": selected ? "true" : "false",
@@ -2641,8 +2656,8 @@ export function createComposaComponents(React, options = {}) {
       },
       [
         src
-          ? h("img", { key: "image", className: "composa-avatar-image", src, alt: alt || "" })
-          : h("span", { key: "label", className: "composa-avatar-label" }, String(initials || "").slice(0, 2).toUpperCase()),
+          ? h("img", { key: "image", className: "composa-avatar-image", src, alt: alt || "", "data-scope": "avatar", "data-part": "image" })
+          : h("span", { key: "label", className: "composa-avatar-label", "data-scope": "avatar", "data-part": "label" }, String(initials || "").slice(0, 2).toUpperCase()),
       ]
     );
   }

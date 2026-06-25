@@ -1,0 +1,284 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as ButtonStories from "./button.stories.js";
+
+{/* Re-org of specs/_import/buttons.md (Figma "Buttons" page 2012:46721 — guideline frames
+    2012:47604 Default, 2012:47920 Large, 2012:48139 Wide, 2012:48341 Icon) into the
+    Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/behavior + states),
+    Style (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
+    all button styles, states, and color tokens kept; tokens named, not hex. Stripped per the
+    de-Figma-ify rule: the FigJam-themed button + theme-hue note, the Growth/Community framing
+    on the Large size, the logged-out Sign-up button, and the redline/Dev-Mode specimen
+    scaffolding. Source anomalies preserved as authored: the Inverse button shows no Active
+    state (3 rows — Rest / Focus / Disabled); the alternate-icon-swap and dialog-toggle sections
+    are prose-only with no Component Name heading; the toggle "on" grey fill is conveyed via a
+    connected-vs-broken link icon in the import rather than a fill swatch.
+
+    Open decisions (need ruling):
+    - Loading / in-progress state: confirm the proposed `icon.24.spinner` token name and that
+      the loading control holds its rest fill (rather than dimming) while non-interactive. */}
+
+<Meta of={ButtonStories} />
+
+# Button
+
+A button lets someone initiate an action, acknowledge something, make a choice, or navigate.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={ButtonStories.Button} />
+
+### Overview
+
+Buttons are 24px tall by default, come in two core styles — **primary** and **secondary** — and
+can optionally include a leading icon. A larger 32px size is available for prominent,
+transactional moments, and buttons can stretch to fill the width of a sidebar.
+
+### When to use
+
+- **Primary button** — the single most important action in a view, like "Share". In a dialog
+  used for navigation, prefer terms like "Next", "Done", and "Got it".
+- **Secondary button** — for an action that isn't critical, or one paired with a primary button
+  (such as "Skip" or "Cancel"); it uses the outline style.
+- **Destructive button** — when an action is dangerous (like "Delete"), use the red fill to
+  signal that the user needs to be careful. If the destructive action is the *secondary* one
+  (sitting next to a primary button), fall back to the secondary destructive outline style.
+- **Link button** — when a button should visually read as a link: no background, brand-colored
+  text.
+- **Ghost button** — when you want link-like appearance but real button behavior and focus
+  states for assistive tech. It looks like a link but functions like a button.
+
+### When not to use
+
+- **Don't** use a button for a setting that takes effect immediately — that's a Switch.
+- **Don't** stack multiple primary buttons in one group; there is one primary action per view.
+- **Don't** use a destructive fill for a non-dangerous action; reserve red for genuinely risky
+  or irreversible operations.
+
+### Variants
+
+The button family shares one anatomy and state model; the variants differ in size, width, and
+interaction model.
+
+<Canvas of={ButtonStories.IconButton} />
+
+- **Icon button** — an icon-only button in a 24×24 container that guarantees a consistent click
+  target. In most cases, pair it with a tooltip so its purpose is clear. The common pattern is a
+  light grey hover state and a blue filled active state when a related panel is open.
+
+<Canvas of={ButtonStories.Toggle} />
+
+- **Toggle (icon) button** — an icon button with a toggleable on/off state. Clicking flips
+  between the two states. The "on" state recolors the glyph to selection-blue on a pale-blue
+  tint, the visible signal that the toggle is active. A dialog-toggle variant uses a selected
+  blue fill for "on"; a stroked variant adds a hairline border to ground the icon on larger
+  surfaces.
+
+<Canvas of={ButtonStories.SplitButton} />
+
+- **Split button** — a primary action paired with an adjacent chevron half that opens related
+  choices, separated by a 1px divider, so the main action and its alternates live in one control.
+
+Beyond these, the same button supports a **Large** size (32px tall, primary or secondary, with
+an optional icon) for prominent transactional actions, a **Wide sidebar** layout that fills the
+width of a sidebar with 16px margins on each side (available as primary, secondary, and ghost),
+and an **Inverse** style for the "on" state of a button that flips between two labels — for
+example "Install" / "Installed". The inverse style is paired with a secondary button for the
+"off" state.
+
+### Anatomy
+
+<Canvas of={ButtonStories.Anatomy} />
+
+- **Container** — a rounded rectangle (radius `radius-medium`) holding the label and optional
+  icon. The default container is 24px tall; the large size is 32px tall.
+- **Label** — the action text, set in `body.medium`.
+- **Leading icon** (optional) — a 24px glyph before the label (icon + text variant).
+- **Enter glyph** (optional) — primary and link buttons may carry a trailing `⏎` enter glyph in
+  `color.text.onbrand-secondary` to signal the default/confirm action.
+- **Icon button** — icon-only, with a 24×24 click-target container and no label slot.
+- **Split button** — an action half + a 1px divider + a chevron menu half.
+
+### Content / label rules
+
+- Label buttons with a clear, action-first verb naming what happens ("Share", "Delete", "Next").
+- For navigation in a dialog, use "Next", "Done", or "Got it".
+- For inverse on/off pairs, use the two states as the label ("Install" / "Installed").
+- Icon buttons have no visible label, so they should almost always carry a tooltip.
+
+### Placement & order _(proposed)_
+
+- In a dialog footer or action bar, place the **primary on the right**, with the secondary
+  (or "Cancel") to its left, separated by `--composa-space-2`.
+- When the pair is **stacked vertically** (such as a narrow sidebar), the **primary sits on
+  top**, with the secondary/Cancel below it.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+### Behaviors
+
+- **Primary** carries the most visual weight; **secondary** is the quieter outline. The primary
+  fill automatically shifts hue to match the current product theme — a primary button is not
+  always one fixed color.
+- **Active / pressed** darkens the fill (or, for outline styles, adds a pressed background under
+  the border).
+- **Focus** shows a `color.border.selected` outline; filled buttons add an inset 2px ring so the
+  focus indicator reads against the fill.
+- **Disabled** dims the control to the disabled fill and text tokens.
+- **Icon buttons** add a light grey hover fill (`color.bg.hover-transparent`) and a pointer
+  cursor; a related-panel-open state can use a blue filled active treatment.
+- **Toggle buttons** flip between on and off on click; the on state carries a grey or selected
+  fill with a recolored glyph. A single-choice toggle does not deselect itself on a repeated
+  activation.
+
+#### States
+
+| State | Primary | Secondary | Destructive | Link | Ghost |
+|---|---|---|---|---|---|
+| Rest | `color.bg.brand` fill, `color.text.onbrand` | transparent, `color.border-translucent`, `color.text` | `color.bg.danger` fill, `color.text.ondanger` | transparent, `color.text.brand` | transparent, `color.text` |
+| Active / pressed | `color.bg.brand-pressed` | `color.bg.pressed` under border | `color.bg.danger-pressed` | `color.bg.brand-tertiary` | `color.bg-transparent.secondary-pressed` |
+| Focus | `color.border.selected` outline + inset 2px ring over `color.bg.brand` | `color.border.selected` | `color.border.selected` over `color.bg.danger` | `color.border.selected` | `color.border.selected` |
+| Disabled | `color.bg.disabled`, `color.text.ondisabled` | `color.border.disabled`, `color.text.disabled` | `color.bg.disabled`, `color.text.ondisabled` | `color.text.disabled` | `color.text.disabled` |
+| Loading / in-progress _(proposed)_ | holds rest `color.bg.brand` fill with a Spinner glyph (proposed `icon.24.spinner`) in the 24×24 leading-icon slot | holds rest fill + border with the same Spinner glyph | holds rest `color.bg.danger` fill + Spinner | holds rest, Spinner in icon slot | holds rest, Spinner in icon slot |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+While an action is pending the button enters a **loading** state: it keeps its current size (the Spinner occupies the 24×24 leading-icon slot so width doesn't jump) and holds the rest fill rather than dimming, so the action still reads as the one in progress. The control is non-interactive — disabled for input/hit-testing — for the duration. _(proposed)_
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={ButtonStories.Color} />
+
+<Canvas of={ButtonStories.Typography} />
+
+<Canvas of={ButtonStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Height — default | 24 |
+| Height — large | 32 |
+| Container radius | `radius-medium` |
+| Text-only padding — default | `spacer-2` (8) sides |
+| Text-only padding — large | 12 sides |
+| With-icon padding — large | `spacer-1` (4) leading / `spacer-2` (8) trailing |
+| Vertical padding — large | `spacer-1` (4) |
+| Leading icon | 24 × 24 |
+| Icon-button container | 24 × 24 |
+| Split-button divider | 1px |
+| Wide-button side margin | 16 |
+| Wide-button cell | 240 (content 208) |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Primary — rest fill | `color.bg.brand` |
+| Primary — pressed fill | `color.bg.brand-pressed` |
+| Primary — text | `color.text.onbrand` |
+| Primary — enter glyph | `color.text.onbrand-secondary` |
+| Secondary — border | `color.border-translucent` |
+| Secondary — pressed fill | `color.bg.pressed` |
+| Secondary — text | `color.text` |
+| Destructive — rest fill | `color.bg.danger` |
+| Destructive — pressed fill | `color.bg.danger-pressed` |
+| Destructive — text | `color.text.ondanger` |
+| Secondary destructive — border | `color.border.danger` |
+| Secondary destructive — text | `color.text.danger` |
+| Link — text | `color.text.brand` |
+| Link — active fill | `color.bg.brand-tertiary` |
+| Ghost — text | `color.text` |
+| Ghost — active fill | `color.bg-transparent.secondary-pressed` |
+| Inverse — rest fill | `color.bg.inverse` |
+| Inverse — text | `color.text.oninverse` |
+| Icon button — hover fill | `color.bg.hover-transparent` |
+| Toggle (dialog) — on fill | `color.bg.selected` |
+| Toggle (dialog) — on hover fill | `color.bg.selected-secondary` |
+| Focus ring | `color.border.selected` |
+| Disabled — fill | `color.bg.disabled` |
+| Disabled — border | `color.border.disabled` |
+| Disabled — text (filled) | `color.text.ondisabled` |
+| Disabled — text (outline) | `color.text.disabled` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Label | `body.medium` |
+| Large label | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Button, IconButton, ToggleButton, SplitButton } from "@composa-ui/react";
+
+<Button variant="primary" icon="star" onClick={() => share()}>
+  Share
+</Button>
+
+<ToggleButton
+  icon="lock"
+  label="Lock layer"
+  pressed={isLocked}
+  onClick={() => setLocked((v) => !v)}
+/>
+```
+
+#### Props
+
+<Controls of={ButtonStories.Button} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={ButtonStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the button |
+| `Space` / `Enter` | Activates the button |
+
+#### Screen reader & labeling
+
+- Every member is a native `<button>` exposing the `button` role; its visible label is the
+  accessible name.
+- **Icon buttons have no visible text**, so always provide an accessible label (and usually a
+  tooltip) — otherwise the control is unlabeled to assistive tech.
+- Ghost buttons look like links but are real buttons, so they expose button semantics and focus
+  states for screen readers.
+- A toggle button announces its state with `aria-pressed`, so assistive tech reports on vs. off;
+  the recolored glyph is a visible reinforcement, not the only signal.
+- A split button exposes two separately focusable, separately labeled controls — the action half
+  and the menu half (named `${label} options` by default).
+- A disabled button is announced as unavailable and is removed from the activation flow.
+- Don't rely on color alone — destructive intent is carried by the label verb ("Delete…") and
+  placement, not only the red fill.
+
+#### Focus
+
+- The focused button shows a `color.border.selected` outline; filled buttons add an inset 2px
+  ring so the focus indicator stays visible against the fill, meeting the visible-focus
+  requirement.
+
+</DocTab>
+
+</DocTabs>

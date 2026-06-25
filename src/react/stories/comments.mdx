@@ -1,0 +1,198 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as CommentsStories from "./comments.stories.js";
+
+{/* Re-org of specs/_import/comments.md (Figma "Comments" page 2012:56281 — Frame A
+    "Comment Thread Guidelines" 2012:63567 and Frame B "Comment Sidebar Guidelines"
+    2012:63534) into the Carbon-aligned 4-tab shape: Usage (incl. variants/parts, anatomy,
+    content, behaviors + states), Style (Structure/Color/Typography token tables), Code,
+    Accessibility. Content-preserving — all substance kept; only Figma-product specifics
+    (multiplayer presence rationale, FigJam, Community, Dev-Mode) trimmed. Tokens named, not hex.
+    Source anomalies preserved as authored:
+    - The sidebar row Selected specimen (2012:63551) is a flattened instance using
+      color.bg.selected, not a `state` enum value (the enum is Default | Hover).
+    - icon.16.unread (1:540223) carries an unrelated boilerplate component description in the
+      source ("zooming in / full-screen") — a stale/wrong Figma note, not a real behavior.
+    - Redline/state-grid panels (nodes 2012:63593, 2012:63635, 2012:63657, 2012:63543) were
+      [Deferred: render live] in the import; the prose, labels, props, strings, and token
+      styling were captured non-deferred and are reorganized here. */}
+
+<Meta of={CommentsStories} />
+
+# Comments
+
+Comments let people leave threaded feedback on a surface — pinning a remark to a spot, reading and replying in a thread, or composing a fresh note on the canvas or in the right-hand sidebar.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={CommentsStories.Playground} />
+
+### Overview
+
+A comment is a threaded conversation anchored to a place on the surface. Clicking a comment pin opens a **thread window** where the conversation can be read and replied to. New comments can be composed directly on the canvas, and the full set of comments (and similar content types) is listed in a **dismissible sidebar** on the right when the comment tool is selected.
+
+### When to use
+
+- **Comments** — to leave feedback or start a conversation tied to a specific spot on a surface, where the discussion lives alongside the work rather than in a separate tool.
+- The sidebar surfaces every comment at once; the thread window focuses one conversation; the on-canvas composer starts a new one in place.
+
+### Variants / parts
+
+The thread window opens from a pin and holds the title bar, the replies, and the reply input.
+
+<Canvas of={CommentsStories.WithComments} />
+
+An empty thread is a window with no replies yet — just the title bar and the reply input waiting for the first message.
+
+<Canvas of={CommentsStories.EmptyThread} />
+
+The on-canvas composer starts a brand-new comment in place. It uses the same typing interaction as a reply, but with the floating "outer" radius and shadow rather than the inset field.
+
+<Canvas of={CommentsStories.Composer} />
+
+The chat-style input is the reply field at the bottom of a thread. It begins as a single compact line and grows as the user types.
+
+<Canvas of={CommentsStories.ChatInput} />
+
+A reply shown inline is a single message in the thread — avatar, name, timestamp, and body — stacked under the title bar.
+
+<Canvas of={CommentsStories.ReplyInline} />
+
+### Anatomy
+
+**Thread window** — a 360px floating card on `color.bg`, radius `radius-large`, with a soft shadow:
+
+1. **Title bar** — a 40px bar with the "Comment" title and a right-aligned action group (`icon.24.more`, `icon.24.resolve`, `icon.24.close.small`), separated from the thread by a 1px `color.border`.
+2. **Thread** — a column of comment rows, each with an avatar, the author name (`body.large.strong`), a timestamp (`body.large`), and the message body (`body.large`).
+3. **Reply input** — the chat input at the foot of the window.
+
+**Comment row** content reads as: avatar, name, "6 hours ago", then the body, for example — _"I love where this is headed, but I'm not quite sure about the spacing here. I think things could be nudged over a bit to get to a tighter rhythm."_
+
+**Sidebar row** — a row in the comment list, with an avatar list, the author name, the page reference and timestamp, a one-line message preview, and a reply count. The unread dot sits on the **right** (rather than the left), which keeps it aligned with the section header in the collapsed state.
+
+### Content rules
+
+- **Reply input** placeholder reads "Reply"; the on-canvas composer placeholder reads "Add a comment".
+- **Sidebar row** shows the author name, a page reference (for example "#3 ∙ Page 1"), a timestamp ("Just now"), a truncated one-line message preview, and a reply count ("2 replies"). The preview message truncates with a trailing ellipsis, for example — _"What happens if we adjust this to handle a light and dark mode? I'm not sure we're ready to handle that quite…"_
+- The reply count reads in secondary text when the thread is read, and switches to brand text when it is unread.
+
+### Behaviors
+
+- **Thread window opens from a pin.** Clicking a comment pin shows the thread view, sized to a clean width for reading and replying.
+- **Reply input grows on typing.** As the user starts typing into the reply input, the reply area grows taller to reveal additional controls — **add emoji** (`icon.24.emoji`), **add mention** (`icon.24.mention`), **add image** (`icon.24.image.small`) — and the **send** arrow (`icon.24.send`) flips to its primary state.
+- **On-canvas composer** uses the same reply interaction, expanding from a single line (placeholder "Add a comment") to the taller composer as typing begins. It differs from the thread reply only in its floating "outer" radius and shadow, versus the thread reply's inset secondary-background field.
+- **Sidebar row hover / selection.** A row has hover and selected styles: hover fills the inner card with `color.bg.hover` and reveals a top-right action group (`icon.24.more`, `icon.24.resolve`); selected fills it with `color.bg.selected`.
+- **Sidebar is dismissible.** The comment sidebar appears on the right when the comment tool is selected and can be dismissed.
+
+#### States
+
+| State | Styling |
+|---|---|
+| Reply input — idle | Single-line field; placeholder "Reply". Inset over `color.bg.secondary` (thread) or floating on `color.bg` (composer). |
+| Reply input — typing | Area grows to reveal emoji / mention / image controls; send arrow flips to primary. |
+| Sidebar row — default | Inner card on `color.bg`, no fill. |
+| Sidebar row — unread | Unread dot (`icon.16.unread`) on the right; reply count in `color.text.brand`. |
+| Sidebar row — hover | Inner card fills `color.bg.hover`; top-right `more` / `resolve` actions appear. |
+| Sidebar row — selected | Inner card fills `color.bg.selected`. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Thread window width | 360 |
+| Thread window radius | `radius-large` |
+| Title bar height | 40 |
+| Thread row padding | `pl-48` / `pr-16` / `py-4` |
+| Reply input height — idle | 32 |
+| Reply input radius | `radius-large` |
+| On-canvas composer — idle | 56 (input 40 high, left 56 / top 12) |
+| On-canvas composer — typing | 112 (input 96 high) |
+| Expanded composer padding | `spacer-2` (gap), 16 (pad) |
+| Sidebar row outer padding | 8 / 4 |
+| Sidebar row inner card padding | 8 / `spacer-2` |
+| Sidebar row inner card radius | `radius-medium` |
+| Sidebar row inner card width | 224 |
+| Sidebar row message width | 208 |
+| Avatar | 24 × 24, `radius-full` |
+| Avatar list gap | `spacer-1` |
+| Unread dot position | `right-4` / `top-12` |
+| Hover action group position | `right-8` / `top-8`, gap `spacer-2` |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Thread window / composer fill | `color.bg` |
+| Title bar border | `color.border` |
+| Reply input — inset field | `color.bg.secondary` |
+| Sidebar row inner card | `color.bg` |
+| Sidebar row inner card — hover | `color.bg.hover` |
+| Sidebar row inner card — selected | `color.bg.selected` |
+| Author name | `color.text` |
+| Page reference / timestamp / message | `color.text.secondary` |
+| Reply count — read | `color.text.secondary` |
+| Reply count — unread | `color.text.brand` |
+| Comment pin | `color.bg.brand` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Thread row — name | `body.large.strong` |
+| Thread row — timestamp / body | `body.large` |
+| Reply input placeholder | `body.large` |
+| Sidebar row — name / message / meta | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { CommentThread } from "@composa-ui/react";
+
+<CommentThread
+  title="Comment"
+  comments={comments}
+  onReply={(text) => postReply(text)}
+  onResolve={() => resolveThread()}
+/>
+```
+
+#### Props
+
+<Controls of={CommentsStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus into the thread window, then through its title-bar actions, the thread, and the reply input |
+| `Enter` | Sends the reply when the reply input has focus |
+| `Escape` | Closes the thread window / dismisses the sidebar |
+
+#### Screen reader & labeling
+
+- The reply input has an accessible name from its placeholder ("Reply") or composer placeholder ("Add a comment"); pair it with a label so the field is named to assistive tech.
+- Title-bar actions (`more`, `resolve`, `close`) carry text labels rather than relying on the glyph alone.
+- A sidebar row announces its author, message preview, reply count, and unread state, so the conversation can be navigated without sight.
+
+#### Focus
+
+- Focus moves in reading order through the window: title-bar actions, then each comment row, then the reply input.
+- The reply input shows a visible focus indicator, and typing expands it in place without moving focus.
+
+</DocTab>
+
+</DocTabs>

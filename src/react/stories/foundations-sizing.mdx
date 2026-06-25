@@ -59,6 +59,14 @@ export const RadiusSwatch = ({ token, value, radius }) => (
   <RadiusSwatch token="--composa-radius-full" value="9999px" radius="--composa-radius-full" />
 </div>
 
+### Nesting
+
+Radii nest concentrically: an inner element uses `radius-medium` (5px); its parent container uses `radius-large` (13px). With the default 8px gap between them the curves stay parallel — because **5 + 8 = 13**. The outer box below is `radius-large` with `space-2` padding around a `radius-medium` inner box.
+
+<div style={{ display: "inline-flex", margin: "12px 0 28px", padding: "var(--composa-space-2)", background: "var(--composa-color-bg-secondary)", border: "1px solid var(--composa-color-border)", borderRadius: "var(--composa-radius-large)" }}>
+  <div style={{ width: 132, height: 72, background: "var(--composa-color-bg-brand-tertiary, rgba(255,92,22,0.12))", border: "1px solid var(--composa-color-bg-brand)", borderRadius: "var(--composa-radius-medium)" }} />
+</div>
+
 ## Icons
 
 Icons ship at two sizes. The frame is 24px. The glyph inside it is 16px. Both are exposed as control-size tokens.

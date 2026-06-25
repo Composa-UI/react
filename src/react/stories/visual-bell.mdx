@@ -1,0 +1,210 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as VisualBellStories from "./visual-bell.stories.js";
+
+{/* Re-org of specs/_import/visual-bells.md (Figma "Visual Bells" page 2015:40421 — frames
+    2015:43036 Bells Guidelines, 2015:43792 Bell Variants Guidelines, 2015:42989 Bell def,
+    2015:43085 Bell Multiplayer def) into the Carbon-aligned 4-tab shape: Usage (incl. variants/
+    anatomy/content/behavior + states), Style (Structure/Color/Typography token tables), Code,
+    Accessibility. Content-preserving — all transient-toast substance kept: the heads-up,
+    tabular-numbers, multiplayer, and error variants; positioning above the toolbar; auto-dismiss
+    timing. Only Figma-product specifics trimmed (FigJam, Dev-Mode, multiplayer-presence as a
+    Figma-only feature is kept as a documented variant since it is a general toast pattern).
+    Tokens named, not hex; node ids / redline scaffolding dropped.
+    Source anomalies preserved as authored: Frame A's "Alignment" section description is the
+    single placeholder character "c" in source — its substance (Bell aligns above the toolbar)
+    is folded into Overview here. The Bell Multiplayer Yellow surface flips its label to
+    `color.text` for contrast (all other colors use `color.text.onbrand`). */}
+
+<Meta of={VisualBellStories} />
+
+# Visual Bell
+
+A visual bell is a transient message that appears over the page without blocking interaction, then removes itself after a short time — the in-app toast / snackbar.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={VisualBellStories.Playground} />
+
+### Overview
+
+A visual bell confirms a user-initiated action without interrupting the workflow — a file
+was deleted, a library was published, an export is queued. It floats as a horizontal pill,
+**centered above the editor toolbar**, and dismisses itself after a short interval.
+
+#### When to use
+
+- **Visual Bell** — to give lightweight, transient feedback on something the user just did,
+  where no acknowledgement is required and the message can disappear on its own.
+- **Notification instead** — for messages that must persist, stack, or be reviewed later,
+  or that originate from the system rather than the user's immediate action.
+
+### Variants
+
+- **Heads-up** — quickly informs you about a user-initiated action (a file was deleted, a
+  library was published, accompanying plugin text). The everyday variant; communicates
+  without interrupting the workflow. May carry a label only, or a label plus up to two
+  Action buttons.
+- **Tabular numbers** — when a bell carries a count (for example a queue while exporting
+  large images), the count renders in tabular figures so it stays easily digestible, e.g.
+  `1/134`.
+- **Multiplayer** — simple alerts shown when you join someone else's presented file; an
+  efficient way to start following the presenter through the canvas. Walks the states
+  **Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load** and is tinted
+  with a presenter color (Blue, Green, Purple, Red, Pink, Grey, Yellow).
+- **Error** — in exceptional cases, communicates data loss. Usually complemented by an
+  explicit close button and **persists until the user closes it** rather than auto-dismissing.
+
+### Anatomy
+
+A bell consists of two zones — a **label** and a **button rail** — with `spacer-2` (8px)
+between them. Within each zone, parts are spaced `spacer-1` (4px). This spatial rhythm keeps
+placement consistent across the system.
+
+- **Leading icon** (optional) — a 24px icon box ahead of the label; replaced by a spinner in
+  the `loading` state.
+- **Label** — the message text, `body.medium.strong`.
+- **Count** (optional) — tabular figures trailing the label, `body.medium`,
+  `color.text.secondary`.
+- **CTA rail** (optional) — up to two **Action** buttons (height 24, `radius-medium`), then
+  an optional **Close**: a 1px full-height divider followed by a close icon.
+
+### Content rules
+
+- Keep the label to a single short, plain phrase naming what happened ("File deleted",
+  "Publishing library", "You will be notified about replies").
+- Use the **count** slot only for genuine progress / queue figures, rendered as tabular
+  numbers so digits stay aligned.
+- Reserve **two** Action buttons for cases that truly offer two follow-ups; most heads-up
+  bells need none or one.
+- Use the **Error** variant only to report data loss, and always pair it with an explicit
+  Close.
+
+### Behaviors
+
+- **Auto-dismiss** — a bell removes itself after a short interval; it never blocks
+  interaction with the page beneath it.
+- **Auto-dismiss timing** _(proposed)_ — the default interval is **~5s** before the bell
+  removes itself. The timer **pauses on hover/focus** (and on dismiss-on-interaction) so a
+  user reading the message or tabbing into an Action isn't cut off, then resets on a new bell.
+  **Don't auto-dismiss** a bell that contains an action the user must reach, or that reports a
+  critical error — those persist until closed (see Persistent on error).
+- **Persistent on error** — the Error variant does not auto-dismiss; it stays until the user
+  closes it explicitly.
+- **Loading** — the leading icon is replaced by a spinner; multiplayer Waiting, Spotlight
+  Load, and Spotlight Following states show an indeterminate loader fill tinted with the
+  presenter color.
+- **Manual close** — when a Close is present, activating it dismisses the bell immediately.
+
+#### States
+
+| State | Surface / behavior |
+|---|---|
+| Default | `color.bg` pill, label (+ optional count, actions, close). Auto-dismisses. |
+| Loading | Leading icon replaced by a spinner; for multiplayer, an indeterminate loader fill. |
+| Danger / Error | `color.bg.danger` surface; persists until closed by the user. |
+| Multiplayer | Presenter-color surface; walks Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Pill height | 40 |
+| Pill horizontal padding | `spacer-2` (8) |
+| Pill / zone gap | `spacer-2` (8) |
+| Within-zone gap | `spacer-1` (4) |
+| Pill radius | `radius-large` (13) |
+| Leading icon box | 24 × 24 |
+| Action button height | 24 |
+| Action button padding | `spacer-2` / `spacer-1` |
+| Action button radius | `radius-medium` (5) |
+| Close divider | 1 × 40 |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Surface — default | `color.bg` |
+| Surface — danger / error | `color.bg.danger` |
+| Surface — multiplayer | `color.multiplayer.{blue,green,purple,red,pink,grey,yellow}` |
+| Multiplayer loader / dark surface | the presenter color's darker ramp shade |
+| Multiplayer action button | the presenter color's deep ramp shade |
+| Label | `color.text` |
+| Label — danger | `color.text.ondanger` |
+| Label — multiplayer | `color.text.onbrand` (Yellow flips to `color.text` for contrast) |
+| Count | `color.text.secondary` |
+| Action button border | `color.border.translucent` |
+| Close divider | `color.border.fs` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Label | `body.medium.strong` |
+| Count | `body.medium` |
+| Action button | `body.medium` |
+| Multiplayer label | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { VisualBell } from "@composa-ui/react";
+
+<VisualBell
+  icon="comment"
+  message="File deleted"
+  actions={[{ label: "Undo", onClick: restore }]}
+  onDismiss={() => hideBell()}
+/>
+```
+
+The Variants story shows the message-only, with-dismiss, with-actions, count, and danger
+shapes side by side:
+
+<Canvas of={VisualBellStories.Variants} />
+
+#### Props
+
+<Controls of={VisualBellStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the bell's first interactive element (an Action or Close) |
+| `Space` / `Enter` | Activates the focused Action or Close button |
+| `Esc` | Dismisses the bell when a Close is present |
+
+#### Screen reader & labeling
+
+- The bell is announced through a **live region** so its message is read without moving
+  focus away from the user's current task — `role="status"` (`aria-live="polite"`) for
+  routine heads-up bells, and `role="alert"` (`aria-live="assertive"`) _(proposed)_ for the
+  Error variant so data-loss messages are announced at once.
+- The **message** is the accessible content; keep it a clear, self-contained phrase.
+- Give the **Close** control a meaningful label (e.g. "Dismiss") so it is named to
+  assistive tech rather than read as a bare icon.
+
+#### Focus
+
+- A transient bell does not steal focus — it appears without interrupting the page.
+- When the bell carries interactive controls, they are reachable with `Tab` and show a
+  visible focus ring; an Error bell that persists keeps its Close reachable until dismissed.
+
+</DocTab>
+
+</DocTabs>

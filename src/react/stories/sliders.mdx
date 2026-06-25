@@ -1,0 +1,289 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+
+{/* Re-org of specs/_import/sliders.md (Figma "Slilder Guidelines" 2015:23027) into the
+    Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/behavior + states),
+    Style (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
+    every slider variant kept (Range, Delta, Stepper, Color, Gradient, Corner Radius, Disabled,
+    plus handle states). Only Figma-product specifics trimmed. Tokens named, not hex.
+    No Slider story exists yet, so Canvas/Controls are deferred — see the [Deferred] markers.
+    Source anomalies preserved as authored: Stepper description drops a "to" ("able toggle
+    along"); Gradient description has a subject/verb slip ("a chit.24 component and inherits");
+    Handle States description has a double period. The component carries a hard min width:
+    "Do not resize this component to less than 100px width." */}
+
+<Meta title="Composa UI/Components/Base/Sliders" />
+
+# Slider
+
+Used for adjusting between a range with a min and a max value.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+{/* [Deferred: render live — no Slider story yet; ref node 2015:23027] */}
+_Live specimen pending a Slider component story._
+
+### Overview
+
+A slider lets the user adjust a value continuously between a minimum and a maximum by
+dragging a handle along a track. It shows up wherever a value moves over a range — video
+scrubbing, image properties, color channels, corner radius — and adapts its track, fill,
+ticks, and handle to the kind of value being changed.
+
+Always include the **numeric value alongside the heading** of the property being
+manipulated, so the user can read the exact value as well as see the handle position.
+When a value has common stopping points, add **vertical bars** along the track to mark
+those indices.
+
+The track is a minimum width — never resize a slider narrower than **100px**.
+
+### When to use
+
+- **Slider** — to adjust a value across a continuous (or stepped) range with a defined
+  minimum and maximum.
+- **Stepper variant** — when the adjustment lands on discrete points (such as the weight
+  axis of a variable font) rather than anywhere along the range.
+- **Color / Gradient variants** — when the value being changed is a color, a hue, an
+  opacity, or a gradient, so the track itself can preview the value.
+
+### Variants
+
+- **Range** — the base slider. Fill grows from the left edge up to the handle, and the
+  handle reports the current position across the range (for example, a video scrubber).
+  Where there are common stopping points, vertical index bars sit along the track.
+  `knobPosition` runs `1`–`5`.
+- **Delta** (the `Slider` variant) — for manipulating a **change from a default value**,
+  such as image exposure. The fill emanates from a center "Default" tick rather than the
+  left edge, and the handle takes a modified style as it moves off the default. The handle
+  at the default position is the solid Fill (Default) handle; off-default positions use the
+  Stroke (Modified) handle. `knobPosition` runs `1`–`5` (position `3` is the centered
+  default).
+- **Stepper** — for **discrete adjustment points**, such as toggling along the weights of a
+  variable font. The track carries a row of ticks (one per step), the fill grows from the
+  left, and the active step reads as a knob via a "selected tick" that pairs the tick with a
+  centered handle. The number of ticks follows the number of steps (for example, weights in
+  the font). `knobPosition` runs `1`–`5`.
+- **Color (Hue + Opacity)** — a special slider that **previews the value being changed**
+  behind the handle. The Hue track shows a hue gradient; the Opacity track shows a
+  checkerboard plus a fill preview so transparency is visible. Both use the solid Fill
+  (Default) handle. The track background switches between a `Fill` and a `Gradient` state.
+- **Gradient** — contains a chit-style swatch and inherits its properties (including a 1px
+  stroke separating fill from background), matching how 24px chit squares appear elsewhere
+  in the product (properties panel, color-library swatches); they are less rounded. The
+  track is a checkerboard-plus-gradient preview, and gradient stops sit above it as chit
+  swatches — one selected, one not.
+- **Corner Radius** — used to adjust corner rounding in the detailed view. A default track
+  with the fill at roughly a third, the handle at the right edge, and a single elliptical
+  tick marking the rounding indicator. `knobPosition` is `1` only.
+- **Disabled** — a non-interactive state used when the slider can't be adjusted (for
+  example, when GIF or video media has been uploaded and auto-plays). The track keeps its
+  default styling, there's no fill, and the handle uses a flat, shadowless body.
+  `knobPosition` is `1` only.
+
+### Anatomy
+
+- **Track** — the 208 × 16px rail the handle travels along. It sits on `color.bg.secondary`
+  with a translucent border and a fully rounded radius (a less-rounded small radius for the
+  Gradient track).
+- **Fill container** — the portion of the track filled in `color.bg.brand` up to the
+  handle. In the Range and Stepper variants it grows from the left edge; in the Delta
+  variant it emanates from the center default tick.
+- **Handle** — the 16 × 16px knob the user drags. It changes appearance by state and by
+  whether the value has moved off its default (see Handle states below).
+- **Ticks** — 4 × 4px marks along the track: index bars (Range), per-step ticks (Stepper),
+  or a single elliptical rounding tick (Corner Radius). A distinct tick asset marks the
+  default / selected step.
+- **Background preview** — for Color and Gradient variants, the track background is an
+  asset-backed hue gradient or a checkerboard-plus-fill that previews the value.
+- **Gradient stops** — chit swatches sitting above the Gradient track, one per stop, with a
+  pointer beneath; the selected stop is highlighted.
+
+### Handle states
+
+The handle carries different states depending on whether the value has changed from its
+default position, and it can house a fill color behind it — most prominent when choosing
+colors or adjusting corner radius. It also has a focused state.
+
+- **Default** — solid Fill (Default) body, drop-shadowed.
+- **Disabled** — solid body, no drop-shadow.
+- **Modified** — Stroke (Modified) body with a hole punch, no drop-shadow; shown when the
+  value has moved off its default.
+- **Focused** — Fill (Default) body with a focus ring, drop-shadowed.
+- **Focused, Modified** — Stroke (Modified) body with a hole punch plus the focus ring.
+- **Color** — Fill (Default) body with a circular color swatch (`color.bg.assistive`)
+  embedded, drop-shadowed.
+- **Focused, Color** — the color handle plus a focus ring and a thin translucent border
+  around the swatch.
+
+### Content rules
+
+- Pair every slider with the **property heading and its numeric value**, so the exact
+  value is readable, not just the handle position.
+- Add **vertical index bars** where the range has common stopping points.
+- For the Stepper, the **number of ticks matches the number of discrete steps** (for
+  example, the available weights in a font).
+- For Color, Gradient, and similar value-as-preview cases, let the **track itself preview**
+  the value being changed.
+
+### Behaviors
+
+- **Continuous drag** — dragging the handle adjusts the value across the range in real time.
+- **Off-default change** — when the value moves away from its default, the handle switches
+  to the Modified style and (for Delta) the fill emanates from the center default tick.
+- **Discrete stepping** — in the Stepper variant the handle settles on the nearest tick,
+  and the selected step reads as a knob.
+- **Disabled** — the slider becomes non-interactive (for example, once auto-playing GIF or
+  video media is uploaded); it keeps its track but drops the fill and shadow.
+- **Focus** — the handle shows a focus ring, available in combination with the modified and
+  color states.
+
+#### States
+
+| State | Track / handle styling |
+|---|---|
+| Default | Track on `color.bg.secondary`; `color.bg.brand` fill up to the handle; solid Fill (Default) handle, drop-shadowed. |
+| Modified | Value moved off default; Stroke (Modified) handle (body + hole punch), no drop-shadow; Delta fill emanates from the center tick. |
+| Focused | Handle shows a focus ring (combinable with Modified and Color). |
+| Color | Handle embeds a `color.bg.assistive` swatch with a translucent border; track previews the hue/opacity. |
+| Disabled | Default track, no fill, shadowless handle body; non-interactive. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Track | 208 × 16 |
+| Track min width | 100 |
+| Handle | 16 × 16 |
+| Fill container radius | 8 |
+| Tick | 4 × 4 |
+| Stepper ticks | 7 across, `justify-between`, inset 6 |
+| Color track gap (background → handle stack) | 8 |
+| Track radius — range / delta / stepper / color / corner / disabled | `radius-full` |
+| Track radius — gradient | `radius-small` |
+| Gradient chit container | 24, `radius-medium` |
+| Color swatch (handle) | 16 (`circle.16`) |
+| Redline label | px 3 / py 2, radius 2, 6px diamond pointer |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Track background | `color.bg.secondary` |
+| Track border | `color.bordertranslucent` |
+| Fill container | `color.bg.brand` |
+| Panel background | `color.bg` |
+| Gradient chit — default | `color.bg.hover` |
+| Gradient chit — selected | `color.bg.brand` |
+| Gradient split fill | `color.bg.figjam` |
+| Handle color swatch | `color.bg.assistive` |
+| Handle color swatch border | `color.bordertranslucent` |
+| Redline label — background | `color.bg.assistive-tertiary` |
+| Redline label — text | `color.text.assistive` |
+
+The Color and Gradient track backgrounds are asset-backed (hue gradient, checkerboard +
+fill preview) rather than a single token fill. The handle drop-shadow is a fixed multi-layer
+shadow applied to the active handle bodies; the Disabled handle drops it.
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Property heading + value | `body.medium` |
+| Redline / state label | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+{/* Proposed API — there is no Slider story yet, so this is the intended usage shape, not a
+    live, story-backed example. No <Controls> for the same reason. */}
+
+```jsx
+import { Slider } from "@composa-ui/react";
+
+// Range — value across a continuous min/max
+<Slider
+  label="Position"
+  variant="range"
+  min={0}
+  max={100}
+  value={position}
+  onValueChange={(next) => setPosition(next)}
+/>
+
+// Delta — change from a default; fill emanates from the center
+<Slider
+  label="Exposure"
+  variant="delta"
+  min={-100}
+  max={100}
+  defaultValue={0}
+  value={exposure}
+  onValueChange={(next) => setExposure(next)}
+/>
+
+// Stepper — discrete adjustment points (e.g. font weights)
+<Slider
+  label="Weight"
+  variant="stepper"
+  steps={7}
+  value={weight}
+  onValueChange={(next) => setWeight(next)}
+/>
+
+// Color — track previews the value (hue / opacity)
+<Slider
+  label="Hue"
+  variant="color"
+  background="gradient"
+  value={hue}
+  onValueChange={(next) => setHue(next)}
+/>
+
+// Corner Radius — single tick, detailed view
+<Slider label="Radius" variant="cornerRadius" value={radius} onValueChange={setRadius} />
+
+// Disabled — non-interactive (e.g. auto-playing media)
+<Slider label="Position" variant="range" value={0} disabled />
+```
+
+{/* [Deferred: render live — no Slider story yet; ref node 2015:23027] */}
+_Props table pending a Slider component story._
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the slider handle |
+| Arrow keys | Move the handle along the track, adjusting the value |
+| `Home` / `End` | Jump to the minimum / maximum of the range |
+
+#### Screen reader & labeling
+
+- The slider exposes a `slider` role with `aria-valuemin`, `aria-valuemax`, and
+  `aria-valuenow` so the current value and bounds are announced.
+- Give the slider a meaningful `label` — paired with the property heading and its numeric
+  value — so the control is named and the value is readable to assistive tech.
+- A disabled slider exposes its disabled state and is non-interactive (for example, once
+  auto-playing GIF or video media is uploaded).
+
+#### Focus
+
+- The focused handle shows a focus ring, available in combination with the Modified and
+  Color states, meeting the visible-focus requirement.
+
+</DocTab>
+
+</DocTabs>

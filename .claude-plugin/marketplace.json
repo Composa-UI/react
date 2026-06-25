@@ -1,0 +1,14 @@
+{
+  "name": "composa-ui",
+  "owner": {
+    "name": "Composa UI",
+    "url": "https://github.com/Composa-UI/react"
+  },
+  "plugins": [
+    {
+      "name": "composa-ui",
+      "source": "./",
+      "description": "Build on-spec UI with the Composa design system (@composa-ui/react): component catalog + usage rules so agents use real props/variants. Install, then ask Claude to build with Composa components."
+    }
+  ]
+}

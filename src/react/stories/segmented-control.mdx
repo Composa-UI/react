@@ -1,110 +1,212 @@
 import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
 import * as SegmentedControlStories from "./segmented-control.stories.js";
+
+{/* Re-org of specs/_import/segmented-control.md (Figma "Segmented Control Guidelines"
+    2015:20827) into the Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/
+    behavior + states), Style (Structure/Color/Typography token tables), Code, Accessibility.
+    Content-preserving — all substance kept; only Figma-product specifics (node ids, light/dark
+    specimen scaffolding, redline labels) trimmed. Tokens named, not hex.
+    Source anomalies preserved as authored: the leading `minus` glyph is the horizontal-bar
+    "default / no modification" segment in the 5- and 6-tab specimens; in the Disabled section
+    the light strip's last tab renders the disabled treatment (text.caps-all / Union). */}
 
 <Meta of={SegmentedControlStories} />
 
 # SegmentedControl
 
-A single-select control: a row of mutually exclusive segments on a shared track, with one selected at a time.
+A segmented control is a row of mutually exclusive segments on a shared track, with **one
+selected at a time**. Use it to switch between a small set of independent states — views or
+modes — inside a single surface. (Formerly known as the "Option Strip".)
 
-**Capability:** Controllable. Pass `value` + `onValueChange` to drive selection from a model; uncontrolled by default via `defaultValue`.
+<DocTabs>
+
+<DocTab label="Usage">
 
 <Canvas of={SegmentedControlStories.Playground} />
 
-## Guidelines
+### Overview
 
-### When to use it
+A segmented control presents a small set of independent states and lets the user pick one.
+It typically sizes to fit the wide/narrow grid system, occupying **88px** (narrow, 2 tabs)
+or **168px** (wide, 3+ tabs) of width depending on the panel.
 
-Use SegmentedControl to switch between a small set of mutually exclusive views or modes inside one surface — 2 to 6 options that fit on one row: alignment modes, view toggles, a compact filter. The selected segment is a **white raised pill on a gray track**, so the current choice reads at a glance.
+When a "default" state is needed — meaning *no modification has been made* — it's
+represented by a horizontal bar (the leading `minus` segment).
 
-| Use instead | When |
+#### When to use
+
+- **SegmentedControl** — to switch between 2 to 6 mutually exclusive options that fit on a
+  single row inside one surface (e.g. layout flow, text alignment, number/text transforms).
+- **Tabs instead** — for page-level content regions, not an inline mode.
+- **Dropdown instead** — when there are too many options to fit on one row.
+
+#### Variants
+
+- **Icon** — each segment is a 24px icon glyph. The common case: layout flow, text
+  alignment, number transforms, text transforms.
+- **Label** — each segment is a text label, sized to fit its parent container. Used when
+  segments read more clearly as words than as glyphs.
+
+### Anatomy
+
+<Canvas of={SegmentedControlStories.Anatomy} />
+
+- **Track** — the shared container (radius `radius-medium`, `overflow-clip`) sitting on
+  `color.bg.secondary`.
+- **Segment / tab** — a flex `1 0 0` cell, height 24, min-width 1, centered content, radius
+  `radius-medium`. The **selected** segment is a raised pill: `color.bg` fill + a 1px
+  `color.border` border. Unselected segments sit flat on the track.
+- **Icon** — a 24px icon box (icon variant).
+- **Label** — `body.medium` text, `overflow-hidden` with `text-ellipsis` for truncation
+  (label variant).
+
+There is no divider between segments; separation comes from the raised pill and the track.
+
+### Content
+
+- **Icon variant** glyphs (24px set) cover layout, alignment, and type transforms — for
+  example `layout-vertical` / `layout-horizontal` / `layout-wrap`, `align-left` /
+  `align-center` / `align-right` / `align-justified`, and the type-transform glyphs
+  (proportional/monospace upper- and lowercase numbers, small caps, title case, uppercase).
+  The leading `minus` (horizontal bar) is the "default / no modification" segment.
+- **Label variant** — size segments to fit their parent container. **If a label is too big
+  for the container, it truncates** with a trailing ellipsis.
+
+### Behaviors
+
+Each individual segment is focusable, allowing refined, precise keyboard interaction. The
+control is treated like a **list where each item contains a button**, and directional keys
+mirror the native browser behavior for such a list.
+
+- Pressing **Enter** or **Space** on a deselected segment **selects** it (the default button
+  behavior).
+- If the focused segment is **already selected**, Enter / Space does **not** deselect it.
+- A **disabled** segment is a rare case — for example, a font that doesn't support small caps
+  in the text properties panel. It takes on the disabled color tokens and is supplemented
+  with a detailed tooltip.
+
+#### States
+
+| State | Track / segment styling |
 |---|---|
-| Tabs | The options switch page-level content regions, not an inline mode. |
-| Radio | The options stack vertically or need long labels and descriptions. |
-| Dropdown | There are too many options to fit on one row. |
-| ToggleButton | It is a single on/off toggle, not a choice among several. |
+| Default — selected | Selected segment: `color.bg` fill + 1px `color.border`. Other segments flat on `color.bg.secondary`. |
+| Default — unselected | `color.bg.secondary`, no border. |
+| Focus | Focused segment: `color.bg` fill + 1px `color.border.selected`; inner `spacer-1` gap, `spacer-2` horizontal padding. |
+| Disabled | All segments lose fill and border (transparent over the secondary track); icons render dimmed. Paired with a tooltip. |
 
-### The rules
+</DocTab>
 
-- **Exactly one segment is selected at all times.** Segments are mutually exclusive; this is single-select, never multi-select.
-- **The selected segment is a white pill, not a brand fill.** This is a deliberate divergence from the shared icon-button selected treatment, matched to the Figma source where the selected segment is a white chip on the gray track. The segmented stylesheet overrides the button-family selected-blue back to a white surface + 1px border.
-- **2 to 6 options that fit on one row.** Past that, reach for Dropdown.
-- **Keep labels short.** In the label variant, segments share a fixed track width.
-- **Give the track a `label`.** It becomes the `aria-label` on the `role="tablist"`.
+<DocTab label="Style">
 
-**Do**
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
 
-- Use it for 2–6 mutually exclusive options on one row.
-- Use the icon variant when a glyph is unambiguous (alignment, view density).
-- Keep one segment selected at all times.
+<Canvas of={SegmentedControlStories.Color} />
 
-**Don't**
+<Canvas of={SegmentedControlStories.Layout} />
 
-- Use it for more options than fit on one row — use Dropdown.
-- Mix icon and text segments to mean different kinds of thing.
-- Use it for page-level navigation — use Tabs.
-- Use it for multi-select.
+#### Structure
 
-Grounded in the Figma "Segmented control" guideline frame (`2015:20960`): 20 variants across `Variant=Icon/Label`, `Tab Count=02..06`, `State=Default/Disabled`. The selected white pill, the icon vs label split, and the whole-track dim on disabled all read from that frame.
+| Element | Size |
+|---|---|
+| Tab height | 24 |
+| Icon box | 24 × 24 |
+| Tab flex | `1 0 0`, min-width 1, centered |
+| Strip width — narrow (2-tab) | 88 |
+| Strip width — wide (3+ tab) | 168 |
+| Strip width — label variant | 240 |
+| Strip / tab radius | `radius-medium` |
+| Focus tab inner gap | `spacer-1` |
+| Focus tab horizontal padding | `spacer-2` |
+| Label segment padding | 8 / 4 |
 
-## Anatomy
+#### Color
 
-SegmentedControl renders a `<div>` track with `role="tablist"`, holding one segment per option in array order:
+| Element / state | Token |
+|---|---|
+| Strip track | `color.bg.secondary` |
+| Selected tab — fill | `color.bg` |
+| Selected tab — border | `color.border` |
+| Unselected tab | `color.bg.secondary` (no border) |
+| Focus tab — fill | `color.bg` |
+| Focus tab — border | `color.border.selected` |
+| Disabled tab | transparent over track, dimmed icon |
+| Active label text | `color.text` |
+| Inactive label text | `color.text.secondary` |
+| Tooltip — container | `color.bg.tooltip` |
+| Tooltip — primary text | `color.text.tooltip` |
+| Tooltip — shortcut text | `color.text.tooltip-secondary` |
 
-1. **Track** — gray `bg-secondary` surface, 5px radius, 1px padding. Sizes to content.
-2. **Segments** — one `role="tab"` per option. In the **icon** variant each is an `IconButton` glyph; in the **label** variant each is a text `<button>`.
-3. **Selected pill** — the selected segment gets a white fill, a 1px border, and primary text/icon color, raising it off the track.
+#### Typography
 
-There is no divider between segments; separation comes from the pill and the track padding.
+| Element | Token |
+|---|---|
+| Label segment | `body.medium` |
+| Tooltip label | `body.medium` |
 
-## Code & Specs
+All color tokens resolve per light/dark theme automatically.
 
-### Props
+</DocTab>
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `options` | `SegmentedOption[]` | `[]` | The segments. Each carries `label`, `icon`, optional `id`, `value`, `selected`, `disabled`, `onClick`. |
-| `variant` | `"icon" \| "label"` | `"icon"` | Render each segment as a glyph or a text button. |
-| `value` | `string` | none | Controlled selected value. Pair with `onValueChange`. |
-| `defaultValue` | `string` | first selected, else first option | Uncontrolled initial value. |
-| `onValueChange` | `(value, option, index, event) => void` | none | Fires on selection. |
-| `width` | `"auto" \| "fill"` | `"auto"` | `fill` stretches segments evenly to the container. |
-| `state` | `"default" \| "disabled"` | `"default"` | Forces a visual state; real interaction is browser-driven. |
-| `disabled` | `boolean` | `false` | Disables the whole control. |
-| `label` | `string` | none | Accessible name for the tablist (`aria-label`). |
-
-Per-option `disabled` disables a single segment; top-level `disabled` disables all. Selection resolves through `value ?? internalValue`. Extra props spread to the root `<div>`.
-
-### Sizes & width
-
-- **Height** is fixed: 24px track (`--composa-segmented-height`), 1px padding, 22px segments.
-- **Width:** icon variant hugs content (42px per segment for 2 options, 28px for 3–6). Label variant fixes the track to 240px (160px for 2 options) and segments share it (`flex: 1 1 0`). `width="fill"` stretches evenly.
-
-<Canvas of={SegmentedControlStories.FillWidth} />
-
-### States
-
-| State | Reached by | Treatment |
-|---|---|---|
-| Default (unselected) | resting | Segment on the gray track; `text-secondary` / `icon-secondary`. |
-| Selected | the selected `value` | White fill, 1px `--composa-color-border`, primary text/icon. Raised pill. |
-| Focus-visible | keyboard focus | Control focus ring on the focused segment. |
-| Disabled | `disabled` / `state="disabled"` | Whole track dims to the disabled surface; labels drop to `text-disabled`. |
-
-### Import
+<DocTab label="Code">
 
 ```jsx
 import { SegmentedControl } from "@composa-ui/react";
 
 <SegmentedControl
-  variant="label"
-  label="View mode"
-  value={mode}
-  onValueChange={(next) => setMode(next)}
+  label="Flow"
+  variant="icon"
+  value={flow}
+  onValueChange={(next) => setFlow(next)}
   options={[
-    { label: "Design", value: "design" },
-    { label: "Prototype", value: "prototype" },
-    { label: "Inspect", value: "inspect" },
+    { id: "none", icon: "flowNone", label: "No auto layout flow" },
+    { id: "horizontal", icon: "flowHorizontal", label: "Horizontal auto layout" },
+    { id: "vertical", icon: "flowVertical", label: "Vertical auto layout" },
+    { id: "wrap", icon: "flowWrap", label: "Wrap auto layout" },
   ]}
 />
 ```
+
+The label variant sizes to fit its parent container and truncates an over-long label:
+
+<Canvas of={SegmentedControlStories.FillWidth} />
+
+#### Props
+
+<Controls of={SegmentedControlStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={SegmentedControlStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus into the control; behaves just like a list of focusable elements |
+| Arrow keys | Move focus between segments, mirroring native browser list behavior |
+| `Space` / `Enter` | Selects the focused segment (no effect if it is already selected) |
+
+#### Screen reader & labeling
+
+- The control is treated like a **list where each item contains a button**, so each segment
+  is an individually focusable button.
+- Give the control a meaningful `label` so the option set is named to assistive tech.
+- A disabled segment exposes the disabled state and is supplemented with a detailed tooltip
+  explaining why the option is unavailable.
+
+#### Focus
+
+- The focused segment shows a `color.border.selected` ring — distinct from the plain
+  `color.border` of a non-focused selected segment — meeting the visible-focus requirement.
+
+</DocTab>
+
+</DocTabs>

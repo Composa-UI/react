@@ -1,0 +1,300 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as MenuStories from "./menu.stories.js";
+
+{/* Re-org of specs/_import/menus.md (Figma "Menus Guidelines" 2327:95726) into the
+    Carbon-aligned 4-tab shape: Usage (overview/when-to-use/variants/anatomy/content/
+    behavior + states), Style (Structure/Color/Typography token tables), Code, Accessibility.
+    Content-preserving — all eight sections kept (context menus, on/off, multi-select,
+    trail variations, headers, overflow, expanded positioning). Tokens named, not hex.
+    Trimmed: Figma-product-only row labels carried through verbatim as illustrative examples,
+    but no FigJam/Dev-Mode/Community-specific guidance was authored — none existed in source.
+    Source anomalies preserved: "Group selection" and "Ungroup" both show ⌘G in the context-
+    menu specimen; the Teams vs Organizations checkbox groups use two different brand ramps
+    (#0d99ff/#007be5 vs #0c8ce9/#7cc4f8) side-by-side; all specimen panels are named "Light"
+    but render the menu on the dark menu chrome — there is no separate light/dark pair.
+
+    Open decisions (need ruling):
+    - Danger / destructive row kind: Carbon defines a dedicated danger item for delete/remove
+      actions ("A danger hover state can be applied to actions that could cause significant
+      changes, such as delete."), with "danger hover" and "danger hover and focus" states.
+      Composa has no danger row kind or destructive menu token. Adding one introduces a new
+      row kind (Usage → Variants), a new States row, and new tokens (proposed: row hover
+      color.bg.danger, text color.text.ondanger — to mirror our destructive button tokens if
+      present) — routed here rather than restructuring the locked tables. */}
+
+<Meta of={MenuStories} />
+
+# Menu
+
+A menu presents a list of items — commands, attributes, or states — from which a user can choose.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={MenuStories.Playground} />
+
+### Overview
+
+A menu is a floating surface holding a vertical list of rows. Each row is a command, a
+binary state, or a multi-select item; rows can carry keyboard shortcuts, lead with an
+avatar or checkmark, trail with a submenu chevron, and open nested submenus. When a menu
+has many actions, separators group related actions and submenus nest deeper choices.
+
+Menus render on the dark menu surface (`color.bg.menu`) regardless of the surrounding
+page, giving the floating chrome a consistent look. The standard menu panel is 208px wide.
+
+### When to use
+
+- **Context menu** — frequently used commands related to the current context or selection,
+  revealed by right-clicking a view or a selected element.
+- **State menu** — a list where items toggle on and off (an indented checkmark column) or
+  are multi-selected (a right-aligned checkbox per row).
+- **Submenu** — when a single command branches into more choices, nest them under a
+  submenu rather than crowding the parent list.
+
+### Variants / parts
+
+<Canvas of={MenuStories.Heading} />
+
+Menus compose from a small set of row kinds:
+
+- **Simple row** — a label, optionally with a keyboard shortcut and/or a trailing submenu
+  chevron.
+- **Checkmark row** — reserves a leading check column so items can show an **on** state
+  (leading `icon.16.check`) or an **off** state (indented, no check). Used for on/off menus.
+- **Complex / multi-select row** — leads with an avatar and trails with a right-aligned
+  checkbox for multi-selection.
+- **Heading row** — a non-interactive label above a group of related items.
+- **Divider** — a thin rule separating groups.
+- **Footer** — a bordered button pinned at the bottom of the menu (for example "Clear all").
+- **Expand row** — a chevron-only row used for overflow, pinned to the panel bottom.
+
+### Anatomy
+
+<Canvas of={MenuStories.Anatomy} />
+
+- **Panel** — the floating container: `color.bg.menu` fill, `radius-large` corners,
+  `spacer-2` vertical padding, 208px wide, raised on the `elevation-400-menu-panel` shadow.
+- **Row container** — min-height 24, `spacer-2` horizontal padding, `radius-medium`
+  corners, `spacer-1` gap between row elements.
+- **Label** — `body.medium` text in `color.text.menu`.
+- **Shortcut / secondary trail** — right-aligned, in `color.text.menu-secondary`.
+- **Check column** — when a menu shows on/off states, every row is indented by `spacer-4`
+  to reserve space; the on-state glyph is `icon.16.check` sitting 4px from the left in a
+  16px box.
+- **Submenu indicator** — a right-aligned `icon.16.chevron.right` (24px box) on rows that
+  open a submenu.
+- **Divider** — a 1px `color.border.menu` rule inside a 16px-high box (an 8px variant is
+  also used for tighter groupings).
+- **Heading** — `spacer-3` × `spacer-1` padding, `color.text.menu-tertiary` text.
+
+### Content rules
+
+- **Group with separators.** Use dividers to break a long menu into related clusters;
+  use a heading row to name a group when the grouping isn't self-evident.
+- **On / off menus** indent every item to include space for a checkmark, so on and off
+  rows stay aligned. The on state shows a leading check; the off state is the same row,
+  indented, with no check.
+- **Multi-select** uses a checkbox right-aligned on each menu row, so several items can be
+  on at once.
+- **Trail variants** carry different per-row context: **subtext** (a secondary-text count
+  such as "24"), **badge** (a small label chip), **checkbox** (multi-select), or **mixed**
+  (subtext and checkbox together).
+- **Avatars** lead complex rows: a square avatar (`radius-small`) for teams, a circle
+  avatar (`radius-full`) for organizations, in a 16px box with a `body.small.strong` initial.
+- **Keep menus short** _(proposed)_ — aim for roughly **12 items or fewer**; break longer
+  lists into divider-separated groups or nest less-used choices under a submenu rather than
+  growing one flat list.
+- **Truncate long labels** _(proposed)_ — when a label exceeds the panel width it truncates
+  with an ellipsis and surfaces the full text via a `title`/tooltip on hover or focus,
+  reusing the disabled-row tooltip pattern.
+
+### Behaviors
+
+- **Hover / selection** highlights the row with a `color.bg.menu-selected` fill; on a
+  checkmark row the shortcut text flips to full-strength `color.text.menu` on hover.
+- **Submenus** expand **downward and diagonally** from their parent, with **4px of space**
+  between each parent and child menu.
+- **Overflow** — when a menu's options run below the fold (many options in a small
+  viewport), an expand row is pinned to the panel bottom. **It scrolls the menu to expose
+  more options on hover** rather than acting like a button. Its background is `color.bg.menu`
+  at rest and `color.bg.menu-hover` on hover; collapsed it is bottom-rounded with a
+  down chevron, expanded it is top-rounded with the chevron rotated 180°. **The overflow
+  row has no focus state.**
+- **Disabled** items take the dimmed color tokens and may be paired with a tooltip
+  explaining why the option is unavailable.
+- **Placement / collision** _(proposed)_ — a menu opens in its preferred direction (down,
+  and submenus diagonally) but **flips vertically or horizontally when it would clip the
+  viewport**, choosing the side with the most available space; under RTL the horizontal
+  direction is mirrored.
+
+_Notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### States
+
+| State | Row styling |
+|---|---|
+| Default | `color.bg.menu` panel; label `color.text.menu`, shortcut `color.text.menu-secondary`. |
+| Hover / selected | Row fill `color.bg.menu-selected`; on checkmark rows the shortcut flips to `color.text.menu`. |
+| Focus _(proposed)_ | Keyboard-focused row carries a focus ring (`color.border.focus`) on the row container, distinct from the hover/selected fill so pointer and keyboard targeting read differently. |
+| Focus + hover _(proposed)_ | A row that is both focused and hovered shows the `color.bg.menu-selected` fill together with the focus ring. |
+| On (checkmark) | Leading `icon.16.check` shown; row indented by `spacer-4`. |
+| Off (checkmark) | No check glyph; row stays indented to keep the check column aligned. |
+| Checkbox on | Checkbox fill `color.bg.brand`, border `color.border.selected-strong`, `icon.16.check`. |
+| Checkbox off | Checkbox fill `color.bg.secondary`, border `color.border`. |
+| Overflow hover | Expand row fill `color.bg.menu-hover`; no focus state. |
+| Disabled | Dimmed tokens; optionally paired with an explanatory tooltip. |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={MenuStories.Color} />
+
+<Canvas of={MenuStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Panel width | 208 |
+| Panel vertical padding | `spacer-2` (8) |
+| Panel radius | `radius-large` (13) |
+| Panel shadow | `elevation-400-menu-panel` |
+| Row min-height | 24 |
+| Row horizontal padding | `spacer-2` (8) |
+| Row radius | `radius-medium` (5) |
+| Row element gap | `spacer-1` (4) |
+| Check / avatar / checkbox box | 16 |
+| Check column indent | `spacer-4` (24) |
+| Check glyph offset | 4 (from left) |
+| Submenu chevron box | 24 |
+| Heading padding | `spacer-3` (16) × `spacer-1` (4) |
+| Divider | 1px rule in a 16-high box (8 variant available) |
+| Square avatar radius | `radius-small` (2) |
+| Circle avatar radius | `radius-full` |
+| Badge height | 16, padding `spacer-1`, radius `radius-medium` |
+| Footer button height | 24, radius `radius-medium` |
+| Parent ↔ child submenu gap | 4 |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Panel | `color.bg.menu` |
+| Row — hover / selected | `color.bg.menu-selected` |
+| Overflow row — hover | `color.bg.menu-hover` |
+| Label | `color.text.menu` |
+| Shortcut / secondary trail | `color.text.menu-secondary` |
+| Heading | `color.text.menu-tertiary` |
+| Divider | `color.border.menu` |
+| Checkbox on — fill | `color.bg.brand` |
+| Checkbox on — border | `color.border.selected-strong` |
+| Checkbox off — fill | `color.bg.secondary` |
+| Checkbox off — border | `color.border` |
+| Badge — container | `color.bg.toolbar` |
+| Badge — text | `color.text.onbrand` |
+| Footer button — border | `color.border-translucent` |
+| Footer button — text | `color.text` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Row label | `body.medium` |
+| Shortcut / secondary trail | `body.medium` |
+| Heading | `body.medium` |
+| Badge label | `body.medium` |
+| Avatar initial | `body.small.strong` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Menu, MenuRow, MenuDivider } from "@composa-ui/react";
+
+<Menu label="Actions">
+  <MenuRow label="Copy" shortcut="⌥⇧⌘O" />
+  <MenuRow label="Paste as" submenu />
+  <MenuDivider />
+  <MenuRow label="Bring to front" shortcut="]" />
+  <MenuRow label="Send to back" shortcut="[" />
+</Menu>
+```
+
+Compose richer menus by mixing row kinds — headings, checkmark (on/off) rows, multi-select
+checkboxes, and a footer button:
+
+```jsx
+<Menu label="View options">
+  <MenuRow kind="heading" label="Sort by" />
+  <MenuRow kind="checkmark" label="Date" on />
+  <MenuRow kind="checkmark" label="Alphabetical" />
+  <MenuDivider />
+  <MenuRow kind="checkmark" label="Mentions and replies" />
+</Menu>
+```
+
+#### Props
+
+<Controls of={MenuStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={MenuStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the menu trigger; opening the menu moves focus into the list |
+| `↓` / `↑` | Moves focus to the next / previous menu item, wrapping at the ends |
+| `→` | Opens a submenu (on a submenu row) and moves focus into it |
+| `←` | Closes the current submenu and returns focus to the parent item |
+| `Enter` / `Space` | Activates the focused command, or toggles a checkmark / checkbox item |
+| `Esc` | Closes the menu (or the current submenu) and returns focus to the trigger |
+| `Home` / `End` | Moves focus to the first / last item |
+| Type a character | Typeahead — moves focus to the next item whose label starts with that character |
+
+#### Screen reader & labeling
+
+- The menu exposes a `menu` role; each command is a `menuitem`, on/off items are
+  `menuitemcheckbox`, and submenu parents expose `aria-haspopup` with `aria-expanded`.
+- _(proposed)_ Single-select-one-of-group items expose `menuitemradio`, and a checkable
+  group (radio or checkbox cluster) is wrapped in a `role="group"` container so assistive
+  tech announces the items as a set.
+- Give the menu a meaningful `label` so the command set is named to assistive tech.
+- Heading rows label their following group and are not focusable or actionable.
+- A disabled item exposes the disabled state; pair it with a tooltip when the reason it is
+  unavailable isn't obvious.
+- The overflow expand row is a scrolling affordance, not a command — it is not part of the
+  focusable item sequence and has no focus state.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Focus
+
+- Focus is trapped inside the open menu: arrow keys cycle through items and `Esc` returns
+  focus to the trigger that opened it.
+- Opening a submenu moves focus into the child menu; `←` or `Esc` returns focus to the
+  parent item, keeping the cascade navigable by keyboard alone.
+
+</DocTab>
+
+</DocTabs>

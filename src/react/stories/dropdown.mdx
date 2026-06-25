@@ -2,131 +2,218 @@ import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { DocTabs, DocTab } from "./_doc-tabs";
 import * as DropdownStories from "./dropdown.stories.js";
 
+{/* Re-org of specs/_import/dropdown.md (Figma "Dropdown Guidelines" 2327:48576) into the
+    Carbon-aligned 4-tab shape: Usage (incl. behavior/states), Style (Structure/Color/
+    Typography token tables), Code, Accessibility. Content-preserving — all substance kept.
+    Source anomaly: Default and Hover render identically in the static export (both
+    `color.border`), so the "borders on hover/focus only" rule isn't reflected by the
+    captured Default token — described here per the authored intent.
+    Source anomaly: snap-to-grid col.2 and col.3 specimens both render at 184px; the dark
+    col.2/col.3 use full-width. Treated here as the two/three-column lock widths.
+
+    Open decisions (need ruling):
+    - Confirm proposed error/warning token names (`color.border.error`, `color.border.warning`)
+      or map to support tokens (`color.support.error` / `color.support.warning`).
+    - Confirm the read-only state is in scope for Dropdown (value-shown-not-editable distinct
+      from disabled). */}
+
 <Meta of={DropdownStories} />
 
 # Dropdown
 
-A closed select trigger that shows the current value and a chevron. For simple lists it also owns the anchored option menu.
-
-**Capability:** Controllable. Drive it with `value` + `onValueChange` (and `open` + `onOpenChange` for the menu); uncontrolled by default.
+A dropdown works like a select menu: it lets you **choose one option from a menu**. It is
+styled as an input, not a button — a surface with a 1px border that stays put on
+interaction rather than filling.
 
 <DocTabs>
 
 <DocTab label="Usage">
 
-Use Dropdown to pick one value from a list too long for a SegmentedControl or a row of radios. It is styled as an **input, not a button**: a white surface with a 1px border, a value on the left, a chevron on the right.
-
 <Canvas of={DropdownStories.Playground} />
 
-### When to use it
+### When to use
 
-| Use instead | When |
-|---|---|
-| SegmentedControl | The options are few and fit on one row. |
-| Radio | The options are a short, always-visible form choice. |
-| InputField | The user types a free value rather than selecting one. |
-| Button | The control triggers an action, not a value selection. |
+- **Dropdown** — to pick a single value from a known set of options, especially in a
+  property panel or form row.
+- **Menu instead** — for richer surfaces that need grouping, search, or actions rather
+  than a single selected value, compose a Menu separately.
 
-Pass `options` for a simple one-value menu (export format, stroke position, stroke style). Compose `Menu` / `MenuRow` separately only when the open surface needs search, grouped commands, shortcuts, dividers, or custom rows.
+### Variants
 
-**Do**
+- **Icon-leading** — a leading glyph sits at the left of the row, then the value, then the
+  trailing chevron.
+- **Icon-less** — no leading glyph; the value starts after a small left padding
+  (`spacer-2`), then the trailing chevron. A trailing chevron is always present.
 
-- Use it when the list is too long for a SegmentedControl or radio group.
-- Show the current value as the trigger text and pass a `label` for the accessible name.
-- Pass `options` for simple value menus; use `stroke={false}` for borderless in-cell rows; `size="large"` for a 32px input row.
+### Anatomy
 
-**Don't**
+- **Surface** — a bordered row, 24px high, with `radius-medium` corners and a `color.bg`
+  surface that does not fill on interaction.
+- **Leading icon** (optional) — a 24px icon box at the left.
+- **Value** — the selected option text, filling the row.
+- **Chevron** — a trailing `chevron.down` glyph in a 24px box, always present, signaling
+  the menu can open.
 
-- Paint a hover or active surface fill — the dropdown stays white like an input.
-- Use it for an action (use a Button) or for free text entry (use InputField).
-- Show an icon without setting both `icon` and `iconLead`.
-- Overload `options` for grouped commands, checkmark+icon rows, or shortcuts — compose `Menu` / `MenuRow`.
+### Content
+
+- The value is the selected option, rendered as plain text (for example "Value" or
+  "Longer value" on the specimens).
+- Like the Value component, option menus **do not show a border by default** — borders are
+  intended to appear on hover and focus.
+- **Label** _(proposed)_ — keep the label short and concise, limited to a single line; do not
+  drop the label in favor of placeholder text.
+- **Placeholder** _(proposed)_ — placeholder text is optional and signals interaction (for
+  example "Choose an option"); it disappears on selection, so never put critical information
+  there.
+- **Helper text** _(proposed)_ — optional helper text sits beneath the control for selection
+  guidance and persists while the control is focused.
+
+### Behaviors
+
+#### Width
+
+- **Flexible width (default)** — a dropdown adjusts its width to its text length, hugging
+  its content. A longer value produces a wider control.
+- **Snap to grid** — to keep property panels consistent, dropdowns can snap to the flexible
+  grid, locking to one, two, or three columns:
+
+  | Grid lock | Width |
+  |---|---|
+  | One column | 88 |
+  | Two columns | 184 |
+  | Three columns | 184 |
+
+#### States
+
+| State | Border | Label | Surface |
+|---|---|---|---|
+| Default | `color.border` | `color.text` | `color.bg` |
+| Hover | `color.border` | `color.text` | `color.bg` |
+| Focus | `color.border.selected` | `color.text` | `color.bg` |
+| Disabled | `color.border` | `color.text.tertiary` | `color.bg` |
+| Read-only _(proposed)_ | `color.border` | `color.text` | `color.bg` |
+| Error _(proposed)_ | `color.border.error` _(proposed)_ | `color.text` | `color.bg` |
+| Warning _(proposed)_ | `color.border.warning` _(proposed)_ | `color.text` | `color.bg` |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+- **Default / Hover** — the surface stays white with its border; the control does not fill.
+- **Focus** — the border switches to the selection-blue `color.border.selected`.
+- **Disabled** — the value dims to `color.text.tertiary`; the control reads as inactive.
+- **Read-only** _(proposed)_ — the value stays full-strength `color.text` (not dimmed like
+  disabled) and the control is not focusable and offers no chevron interactivity; it reads as
+  "value shown, not editable" rather than inactive.
+- **Error** _(proposed)_ — the border uses `color.border.error` _(proposed)_ with an optional
+  trailing error glyph; pair with helper/error text below the control.
+- **Warning** _(proposed)_ — the border uses `color.border.warning` _(proposed)_; pair with
+  helper text below the control.
 
 </DocTab>
 
 <DocTab label="Style">
 
-### The rules
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
 
-- **Dropdown is an input, never a button.** The surface stays **white through every state** — never paint a hover or active fill. This is the key divergence the fidelity audit records against the shared button/menu rules.
-- **Active / open swaps the border to selection-blue and highlights the value text.** The Figma source treats interaction as a 1px border change to `#0d99ff` plus a text-selection highlight on the value, not a surface fill. `aria-expanded` flips to `"true"`.
-- **The chevron hugs the right edge.** The value↔chevron gap and the right padding are both `space-1` (4px); the left padding stays `space-2` (8px). Matches NumericInput's dropdown variant.
-- **The leading icon needs both `icon` and `iconLead`.** Either alone hides it.
+<Canvas of={DropdownStories.Color} />
 
-### Anatomy
+<Canvas of={DropdownStories.Typography} />
 
-Dropdown renders a native `<button>` with `aria-haspopup="menu"` holding up to three slots in order:
+<Canvas of={DropdownStories.Layout} />
 
-1. **Leading icon** (optional) — renders only when both `icon` and `iconLead` are set. Left of the value.
-2. **Value** (required) — the current selection in a `<span>`; truncates with an ellipsis.
-3. **Chevron** (always) — a trailing `chevronDown` glyph hugging the right edge.
+#### Structure
 
-When `options` are passed, Dropdown also renders a `DropdownMenu` below/above the trigger; inside an `OverlayHost` it portals through `OverlayPortal`.
+| Element | Size |
+|---|---|
+| Row height | 24 |
+| Matrix specimen width | 117 |
+| Snap width — one column | 88 |
+| Snap width — two / three columns | 184 |
+| Corner radius | `radius-medium` (5) |
+| Icon-less left padding | `spacer-2` (8) |
+| Label-to-chevron gap | `spacer-1` |
+| Trailing chevron box | 24 × 24 (`chevron.down`) |
+| Leading icon box | 24 × 24 (`al.constrain-horiz`) |
 
-### Sizes & width
+#### Color
 
-- **Size (height):** `default` = 24px (`--composa-height-input`); `large` = 32px.
-- **Width:** `width="auto"` hugs content; `width="fill"` stretches the trigger and option-menu root.
+| Element / state | Token |
+|---|---|
+| Surface | `color.bg` |
+| Border — default / hover | `color.border` |
+| Border — focus | `color.border.selected` |
+| Border — disabled | `color.border` |
+| Label | `color.text` |
+| Label — disabled | `color.text.tertiary` |
 
-### States
+#### Typography
 
-| State | Reached by | Treatment (input semantics) |
-|---|---|---|
-| Default | resting | White surface, 1px `--composa-color-border`, value text. |
-| Focused | focus / `state="focused"` | Border swaps to selection-blue (`#0d99ff`). No fill. |
-| Active / open | `open`, click, `state="active"` | White surface, blue border, value text-highlight. `aria-expanded="true"`. |
-| Disabled | `disabled` | White surface, tertiary text, dimmed chevron. Native `disabled`. |
-| Borderless | `stroke={false}` | Transparent border. |
+| Element | Token |
+|---|---|
+| Label / value | `body.medium` |
 
-Grounded in the Figma "Dropdown" guideline frame (`2028:36589`): 16 variants across `Size=Default/Large`, `State=Default/Focused/Active`, plus `Disabled`, `Stroke`, and `Icon Lead`.
+All color tokens resolve per light/dark theme automatically.
 
 </DocTab>
 
 <DocTab label="Code">
 
-### Props
-
-<Controls of={DropdownStories.Playground} />
-
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `value` | `string` | none | Current value text shown in the trigger. |
-| `defaultValue` | `string` | first option | Uncontrolled starting value for option menus. |
-| `options` | `(string \| { label, value?, shortcut?, disabled? })[]` | none | Enables the built-in one-value menu. |
-| `label` | `string` | none | Accessible name (`aria-label`). |
-| `size` | `"default" \| "large"` | `"default"` | Height axis. `large` = 32px min height. |
-| `icon` | `IconName` | none | Leading icon. Renders only when `iconLead` is set. |
-| `iconLead` | `boolean` | `false` | Toggles the leading icon. |
-| `stroke` | `boolean` | `true` | Draws the 1px border. `false` = borderless. |
-| `open` | `boolean` | none | Controlled open state. |
-| `onOpenChange` | `(open, event) => void` | none | Fires when the open state would change. |
-| `onValueChange` | `(value, option, event) => void` | none | Fires when an option row is selected. |
-| `disabled` | `boolean` | `false` | Disables the trigger. |
-
-Extra props spread to the root `<button>`. `children` overrides the icon/value/chevron content.
-
-### Import
-
 ```jsx
 import { Dropdown } from "@composa-ui/react";
 
 <Dropdown
-  label="Stroke position"
-  value={position}
-  options={["Inside", "Center", "Outside"]}
-  onValueChange={(next) => setPosition(next)}
+  label="Value"
+  options={options}
+  value={value}
+  onChange={(next) => setValue(next)}
 />
 ```
+
+Use `options` for simple value menus; compose a Menu separately for richer grouped or
+searchable surfaces.
+
+#### Props
+
+<Controls of={DropdownStories.Playground} />
 
 </DocTab>
 
 <DocTab label="Accessibility">
 
-- **Native button semantics.** The trigger is a real `<button>` with `aria-haspopup="menu"`; pass `label` so it has an accessible name (`aria-label`) even when the value text is terse.
-- **Open state is announced.** Opening the menu flips `aria-expanded` to `"true"`, so assistive tech reports the expanded/collapsed state.
-- **Disabled uses the native attribute** — it is removed from the tab order and announced as disabled, not just dimmed.
-- **Keyboard (current limitation).** The built-in `options` menu handles click selection and outside-click dismissal but does **not** yet implement arrow-key navigation or typeahead. When full keyboard nav matters, compose `Menu` / `MenuRow`, which own richer interaction. This gap is tracked, not intended.
-- **Menu placement.** Inside a scrollable inspector, wrap it in `OverlayHost` so the menu portals out of rail-scroll clipping rather than being cut off.
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={DropdownStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the dropdown |
+| `Space` / `Enter` | Opens the menu |
+| `Esc` | Closes the menu without changing the value |
+| `Enter` / `Space` / `Down` _(proposed)_ | Opens the menu and focuses the first or currently selected option |
+| `Up` / `Down` _(proposed)_ | Moves through the options while the menu is open |
+| `Enter` _(proposed)_ | Selects the focused option |
+| `Esc` _(proposed)_ | Closes the menu without changing the value |
+| Typeahead _(proposed)_ | Typing a character jumps to the matching option |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Screen reader & labeling
+
+- The dropdown exposes its current value as the accessible name, so set a meaningful
+  `label` — otherwise the control is unlabeled to assistive tech.
+- The trailing chevron is decorative and is not announced on its own.
+- **Listbox / option roles** _(proposed)_ — the trigger is a `button` with
+  `aria-haspopup="listbox"` and an `aria-expanded` that reflects the open state; the menu is a
+  `listbox` of `option`s, and the selected option is conveyed to assistive tech.
+
+#### Focus
+
+- The focused dropdown shows the selection-blue border (`color.border.selected`), meeting
+  the visible-focus requirement.
 
 </DocTab>
 

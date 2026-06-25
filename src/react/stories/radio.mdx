@@ -1,0 +1,186 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as RadioStories from "./radio.stories.js";
+
+{/* Re-org of specs/_import/radio.md (Figma "Radio Button Guidelines" 2015:20311) into the
+    Carbon-aligned 4-tab shape: Usage (incl. behavior/states), Style (Structure/Color/
+    Typography token tables), Code, Accessibility. Content-preserving — all substance kept.
+    Source note: ring + filled dot ship as SVG image assets and the focus state swaps the
+    Container asset rather than applying a separate CSS ring — preserved as captured.
+
+    Open decisions (need ruling):
+    - Proposed state tokens awaiting confirmation: color.icon.disabled, color.text.disabled,
+      color.border.error, color.text.error, color.support.warning.
+    - Ship the warning state at all (dense editor) — only if we add a form-validation tier?
+    - Read-only on-dot keeps color.icon fill while ring uses color.icon.disabled — confirm. */}
+
+<Meta of={RadioStories} />
+
+# Radio
+
+A radio button represents a list of choices where the user can pick **only one option**.
+Unlike a list of checkboxes — which toggle independently — radios in a group allow just one
+selection at a time.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={RadioStories.Playground} />
+
+### When to use
+
+- **Radio** — when the user must choose exactly one option from a mutually exclusive set.
+  Selecting one option clears the rest.
+- **Checkbox instead** — when more than one option can be selected at once.
+
+### Variants
+
+- **Input** — the standard radio control for option lists.
+- **On / Off** — the two base states: selected (filled dot) and unselected (empty ring).
+
+### Anatomy
+
+<Canvas of={RadioStories.Anatomy} />
+
+- **Control** — a 16 × 16 box rendering the ring, with an 8 × 8 filled dot centered inside
+  it when the option is selected.
+- **Label** — optional text naming the distinct option, set to the right of the control.
+
+### Content
+
+- A radio is usually accompanied by a **label** describing a distinct option.
+- Keep each label short and specific; it names a single choice within the group.
+
+### Behavior
+
+- **Single selection** — choosing one radio in a group deselects whatever was selected
+  before. This is the defining difference from a checkbox.
+- **Focus** swaps the control's ring to a selection-blue focus ring; the filled dot, if
+  present, stays put.
+- The selected and unselected states differ only by the centered dot — the ring is constant.
+- **Default selection** _(proposed)_ — by default, leave no option preselected. If users
+  must be able to clear a choice, add an explicit "None" or "Other" option rather than
+  relying on deselection — a radio can't be unselected by re-clicking it.
+
+### Do / Don't
+
+- **Do** group radios so the choices are clearly mutually exclusive, and pair each with a
+  clear label.
+- **Don't** use a radio when more than one option can be selected — that's a Checkbox.
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={RadioStories.Color} />
+
+<Canvas of={RadioStories.Typography} />
+
+<Canvas of={RadioStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Control box | 16 × 16 |
+| On dot | 8 × 8 (centered) |
+| Control radius | `radius-medium` (5) |
+| Label gap | `spacer-1` (4) |
+| Row padding | `4` left, `spacer-1` (4) right, `4` vertical |
+| Row pitch (stacked) | 48 |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Control background | `color.bg` |
+| Ring / dot | `color.icon` |
+| Label | `color.text` |
+| Focus ring | `color.border.fs-selected-strong` |
+
+#### States
+
+| State | Ring / dot | Label | Notes |
+|---|---|---|---|
+| Disabled _(proposed)_ | `color.icon.disabled` _(proposed)_ | `color.text.disabled` | Non-interactive; skipped in tab order |
+| Read-only _(proposed)_ | ring `color.icon.disabled` _(proposed)_, on-dot keeps `color.icon` | `color.text` (full contrast) | Selection stays legible; distinct from disabled |
+| Error _(proposed)_ | ring `color.border.error` _(proposed)_ | message text `color.text.error` _(proposed)_ | Group-level; message below the group |
+| Warning _(proposed)_ | icon `color.support.warning` _(proposed)_, fixed dark inner fill | — | For a form-validation tier |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Label | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Radio } from "@composa-ui/react";
+
+<Radio
+  label="Standard shipping"
+  checked={selected === "standard"}
+  onChange={() => setSelected("standard")}
+/>
+```
+
+#### Props
+
+<Controls of={RadioStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={RadioStories.Accessibility} />
+
+#### Keyboard
+
+The group is a single tab stop (roving focus).
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus into the group — onto the selected radio, or the first radio if none is selected _(proposed)_ |
+| `↑` / `↓` / `←` / `→` | Moves focus and selection between radios within the group _(proposed)_ |
+| `Space` | Selects the focused radio |
+| `Tab` (again) | Exits the group, moving focus to the next component _(proposed)_ |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Screen reader & labeling
+
+- The radio exposes a `radio` role with `aria-checked` (`true` / `false`), grouped under a
+  `radiogroup` so assistive tech announces the set as mutually exclusive.
+- **`label` is the accessible name** — always set a meaningful one, or the radio is
+  unlabeled to assistive tech.
+- **Group semantics** _(proposed)_ — wrap the set in a `fieldset` with a `legend` as the
+  group's name, and connect each control to its `label` via `for`. The `legend` is the
+  group's accessible name in addition to the per-radio labels.
+- **Visible group label** _(proposed)_ — give the group a visible label above the options,
+  in sentence case.
+- **Helper text** _(proposed)_ — optional supporting text for the group sits below the
+  label.
+
+#### Focus
+
+- The focused radio swaps its ring to a selection-blue focus ring
+  (`color.border.fs-selected-strong`), meeting the visible-focus requirement.
+
+</DocTab>
+
+</DocTabs>

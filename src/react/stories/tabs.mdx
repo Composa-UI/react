@@ -1,0 +1,204 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as TabsStories from "./tabs.stories.js";
+
+{/* Re-org of specs/_import/tabs.md (Figma "Tabs Guidelines" 2015:27601) into the
+    Carbon-aligned 4-tab shape: Usage (incl. anatomy/content/behavior/states), Style
+    (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
+    all substance kept; only Figma-product scaffolding (node-ids, redline annotations,
+    light/dark panel framing) trimmed. */}
+{/* Source anomalies preserved for clean-up: the light "Unselected Focus" specimen
+    (2425:45602) and the dark fourth specimen (2425:45589) render with bg-secondary +
+    strong type rather than an unselected focus ring — treated here as the clean
+    unselected-focus state (unselected fill + selection border).
+
+    Open decisions (need ruling):
+    - Automatic vs manual activation: the keyboard table currently implies MANUAL activation
+      (arrow keys move focus only; Space/Enter selects and swaps the panel). Carbon asks the
+      team to annotate which model is implemented. Confirm manual — or rule for automatic
+      (focus + selection synced on arrow) before locking. */}
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+Tabstrips let users navigate between two or more related views. They're a quick way to
+switch between related information, with **one tab selected at a time**.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={TabsStories.Playground} />
+
+### When to use
+
+- **Tabs** — for sibling content regions in the same view that the user moves between,
+  like an inspector's Design / Prototype / Inspect, or page- and panel-level content.
+- **SegmentedControl instead** — for an inline mode toggle rather than a content switch.
+
+### Variants
+
+- **Underline** — the default tabstrip: the selected tab carries a `bg-secondary` fill and
+  strong type; unselected tabs are unstyled. The row anchors the top of the region it
+  controls.
+- **Pill** — the selected tab reads as a filled pill (`bg-secondary`, `radius-medium`)
+  against unstyled siblings. We sometimes make the first tab an aggregated view, such as
+  "All".
+
+### Anatomy
+
+<Canvas of={TabsStories.Anatomy} />
+
+There are visual cues that help a user quickly distinguish between the current tab and the
+other tabs.
+
+- **Current tab** — a 24px-height container styled with `bg-secondary` fill,
+  `radius-medium`, `body.medium.strong` type, and `text` color.
+- **Other tabs** — a 24px-height container, unstyled, `body.medium`, `text-secondary`.
+- **Spacing** — each tab is separated by 4px (`spacer-1`) of space.
+
+### Content
+
+- A tab carries a short **text** label (default "Tab Title").
+- A tab may add a **counter badge** to broadcast the difference between newly updated and
+  stale information — seen in admin / billing surfaces. The badge sits beside the label
+  and reads **Count New** when there's unread content and **Count Inactive** once read.
+- **Single tab** — when a panel's tabstrip has only one tab, that tab reverts to
+  dialog-title styling: `bg` fill, `text`, `body.medium.strong` — i.e. it drops the
+  selected pill.
+
+### Behavior
+
+- **Selection** — exactly one tab is selected at a time; selecting a tab swaps the content
+  region below it.
+- **Focus** — each tab can be focused individually, and focus can land on the current tab
+  or an unselected one, so the user can navigate tabs within a panel by keyboard. A focused
+  tab shows a 1px `border.selected` ring.
+- **Overflow** — when tabs overflow, the row scrolls horizontally. Tabs that flow outside
+  the parent are masked with gradients that fade into the `bg` background, leaving room for
+  a trailing close affordance. _(proposed)_ **Tabs never wrap or stack** — the row always
+  scrolls horizontally rather than flowing onto a second line, so the tablist stays a single
+  row at any width. _Notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### States
+
+| State | Fill | Border | Type / color |
+|---|---|---|---|
+| Selected | `color.bg.secondary` | none | `body.medium.strong` · `color.text` |
+| Selected — focus | `color.bg.secondary` | `color.border.selected` | `body.medium.strong` · `color.text` |
+| Unselected | `color.bg` | none | `body.medium` · `color.text.secondary` |
+| Unselected — focus | `color.bg.secondary` | `color.border.selected` | `body.medium.strong` · `color.text` |
+| Unselected — hover _(proposed)_ | `color.bg.hover` | none | `body.medium` · `color.text.secondary` |
+| Disabled _(proposed)_ | `color.bg` | none | `body.medium` · `color.text.disabled` (no focus ring, omitted from the roving order) |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={TabsStories.Typography} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Tab container height | 24 (`height.input`) |
+| Tab horizontal padding | `spacer-2` (8) |
+| Tab internal gap | `spacer-1` (4) |
+| Tab radius | `radius-medium` (5) |
+| Gap between tabs | `spacer-1` (4) |
+| Counter badge height | 16 |
+| Badge padding / gap | `spacer-1` (4) |
+| Badge radius | `radius-medium` (5) |
+| Overflow scrim height | `spacer-6` (40) |
+| Overflow edge masks | 16 (left) / 8 (right) |
+| Overflow bottom border | 1px line |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Tab fill — selected | `color.bg.secondary` |
+| Tab fill — unselected | `color.bg` |
+| Focus ring | `color.border.selected` |
+| Text — selected | `color.text` |
+| Text — unselected | `color.text.secondary` |
+| Badge — Count New, fill | `color.bg.selected` |
+| Badge — Count New, text | `color.text` |
+| Badge — Count Inactive, fill | `color.bg.hover` |
+| Badge — Count Inactive, text | `color.text.secondary` |
+| Overflow mask | gradient → `color.bg` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Tab — selected | `body.medium.strong` |
+| Tab — unselected | `body.medium` |
+| Single tab | `body.medium.strong` |
+| Counter badge | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Tabs, Tab } from "@composa-ui/react";
+
+<Tabs selected={active} onChange={(next) => setActive(next)}>
+  <Tab text="Design" />
+  <Tab text="Prototype" />
+  <Tab text="Inspect" badge="21" />
+</Tabs>
+```
+
+#### Props
+
+<Controls of={TabsStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={TabsStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus into / out of the tabstrip (roving focus — a single tab stop for the whole row) |
+| `←` / `→` | Moves focus between tabs within the row |
+| `Space` / `Enter` _(proposed)_ | Activates the focused tab and swaps the content region — **manual activation**, so arrow keys move focus without changing the selection until `Space`/`Enter` is pressed |
+| `Home` / `End` | Moves focus to the first / last tab |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Screen reader & labeling
+
+- The tabstrip exposes a `tablist` role; each tab is a `tab` with `aria-selected`
+  (`true` / `false`), and the content region is a `tabpanel` associated with its tab.
+- **The tab `text` is the accessible name** — keep it short and meaningful so each tab is
+  distinguishable to assistive tech.
+- A counter badge's number is announced as part of the tab, so unread / stale counts reach
+  screen-reader users too.
+
+#### Focus
+
+- Each tab can be focused individually. The focused tab shows a 1px selection-blue ring
+  (`color.border.selected`), meeting the visible-focus requirement, whether the tab is the
+  current one or an unselected sibling.
+
+</DocTab>
+
+</DocTabs>

@@ -1,0 +1,217 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as CheckboxStories from "./checkbox.stories.js";
+
+{/* Re-org of specs/_import/checkbox.md (Figma "Checkbox Guidelines" 2012:55362) into the
+    Carbon-aligned 4-tab shape: Usage (incl. behavior/states), Style (Structure/Color/
+    Typography token tables), Code, Accessibility. Content-preserving — all substance kept.
+    Source frames: intro 2012:55365, states matrix 2012:55372, with-label 2012:55411,
+    with-description 2012:55446.
+    Source anomaly (faithful capture): the states grid maps specimens to cells by Figma
+    absolute left/top coordinates, not node-id order; Off-column specimens carry `muted`
+    (off-state styling) and the Disabled column carries `disabled` styling. Treated here as
+    the clean Off / Disabled states. Mixed is rendered via the `icon.16.mixed` glyph rather
+    than a separate `type` enum value.
+
+    Open decisions (need ruling):
+    - Warning state: Carbon defines one (border `$icon-primary`, icon `$support-warning`),
+      but Composa has no warning semantic surface for controls yet. Adopt a warning state
+      for Checkbox, or defer?
+    - Error tokens `color.border.error` / `color.text.error` are proposed names — confirm
+      the canonical error token names (vs. a `*.danger` set) before the error rows ship. */}
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+A checkbox toggles a single option **on or off** — used for binary choices like settings
+in the design editor, and for selecting individual rows in the admin interface.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={CheckboxStories.Playground} />
+
+### Overview
+
+#### When to use
+
+- **Checkbox** — for opt-in settings, multi-select lists, "select all" rows, and any
+  choice that applies on a later Save/submit rather than immediately.
+- **Switch instead** — _if this state changes immediately, you may want to consider using
+  a switch instead._
+- **Radio instead** — when the user picks one option from a mutually exclusive set.
+
+#### Variants
+
+- **On / Off** — the two base states.
+- **Mixed** — an indeterminate state, used when a checkbox has nested checkboxes with a
+  mix of "on" and "off" states.
+
+### Anatomy
+
+<Canvas of={CheckboxStories.Anatomy} />
+
+- **Box** — the 16 × 16 control that carries the on / off / mixed glyph.
+- **Label** — usually present; names the option. _If a checkbox is disabled, the label is
+  disabled as well._
+- **Description** — optional text aligned under the label, for cases that need more room
+  to add context to an option (it may briefly highlight side effects or conditions of the
+  setting).
+
+### Content
+
+- **Label** — checkboxes are usually accompanied by a label naming the option.
+- **Description** — optional supporting text aligned with the label, e.g. _"Helpful
+  description of the setting which may briefly highlight side effects or conditions of the
+  setting."_
+- **Label rules** _(proposed)_ — keep labels short and in sentence case (only the first
+  word and any proper nouns capitalized). Never truncate a checkbox label with an
+  ellipsis — let it wrap instead. A programmatic label is always required, even when
+  visually hidden.
+
+#### Do / Don't _(proposed)_
+
+- **Do** let a long label wrap beneath the box so the box and the label's first line stay
+  top-aligned.
+- **Don't** truncate a label with an ellipsis or vertically center wrapped text against
+  the 16 × 16 box.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+### Behaviors
+
+A checkbox combines a **type** (On / Off, with Mixed via the mixed glyph) with a **state**
+(Default / Focused) and the `muted` (off) and `disabled` flags. Focus shows a 2px inset
+ring; disabling the checkbox also disables its label.
+
+#### States
+
+| Type | State | Box background | Border | Glyph |
+|---|---|---|---|---|
+| On | Default | `color.bg.brand` | `color.border.selected-strong` | `icon.16.check` |
+| On | Focused | `color.bg.brand` + 2px inset white ring | `color.border.selected-strong` | `icon.16.check` |
+| On | Disabled | `color.bg.disabled` | none | `icon.16.check` (disabled fill) |
+| Mixed | Default | `color.bg.brand` | `color.border.selected-strong` | `icon.16.mixed` |
+| Mixed | Focused | `color.bg.brand` + 2px inset white ring | `color.border.selected-strong` | `icon.16.mixed` |
+| Mixed | Disabled | `color.bg.disabled` | none | `icon.16.mixed` (disabled fill) |
+| Off | Default (muted) | `color.bg.secondary` | `color.border` | none |
+| Off | Focused (muted) | `color.bg.secondary` | `color.border.selected-strong` | none |
+| Off | Disabled | none | `color.border.disabled` | none |
+| Off / On | Read-only _(proposed)_ | inherits state | `color.border.disabled` | glyph at full `icon.16.check` fill; label stays `color.text`, not in tab order |
+| Off / On | Error _(proposed)_ | inherits state | `color.border.error` _(proposed)_ | inline message below in `color.text.error` _(proposed)_; label stays `color.text` |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={CheckboxStories.Color} />
+
+<Canvas of={CheckboxStories.Typography} />
+
+<Canvas of={CheckboxStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Box (`Check`) | 16 × 16 |
+| Box radius | `radius-medium` (5) |
+| Check glyph | 8 × 7 (offset left 4 / top 4) |
+| Mixed glyph | 8 × 1 (centered) |
+| Box → label gap | `spacer-2` (8) |
+| Specimen wrapper gap | `spacer-1` (4) |
+| Description indent | 24 (box 16 + gap 8) |
+| Description width | 252 |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Box — on / mixed | `color.bg.brand` |
+| Box — off (muted) | `color.bg.secondary` |
+| Box — disabled (on / mixed) | `color.bg.disabled` |
+| Border — on / mixed | `color.border.selected-strong` |
+| Border — off | `color.border` |
+| Border — off disabled | `color.border.disabled` |
+| Focus ring | 2px inset white over `color.bg.brand` (off: `color.border.selected-strong`) |
+| Check glyph | `icon.16.check` |
+| Mixed glyph | `icon.16.mixed` |
+| Label | `color.text` ( `color.text.disabled` when disabled) |
+| Description | `color.text.secondary` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Label | `body.medium` |
+| Description | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Checkbox } from "@composa-ui/react";
+
+<Checkbox
+  label="Show grid"
+  checked={showGrid}
+  onChange={(next) => setShowGrid(next)}
+/>
+```
+
+#### Props
+
+<Controls of={CheckboxStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={CheckboxStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the checkbox |
+| `Space` | Toggles the checkbox on/off |
+| `Tab` (grids) _(proposed)_ | In a multi-column grid of checkboxes, annotate whether tab order runs by row or by column |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Screen reader & labeling
+
+- The checkbox exposes a `checkbox` role with `aria-checked` (`true` / `false`, or `mixed`
+  for the indeterminate state).
+- **`label` is the accessible name** — always set a meaningful one, or the checkbox is
+  unlabeled to assistive tech.
+- A disabled checkbox disables its label too, so the whole control reads as inactive.
+- A `description`, when present, gives extra context aligned under the label.
+- **Checkbox-group semantics** _(proposed)_ — wrap a set of related checkboxes in a
+  `<fieldset>` with a `<legend>` so screen readers detect the set and announce the group
+  label as its accessible name; individual labels remain each checkbox's own name. A group
+  carries its own label plus helper or error text, and read-only / disabled / error states
+  can apply at the group level.
+
+#### Focus
+
+- The focused checkbox shows a 2px inset ring meeting the visible-focus requirement
+  (`color.border.selected-strong`).
+
+</DocTab>
+
+</DocTabs>

@@ -1,4 +1,7 @@
+import React from "react";
 import { LabelFamily } from "./composa-component-stories.js";
+import { Label } from "../story-runtime.js";
+import { withAnnotations } from "./_annotations.js";
 
 export default {
   title: "Composa UI/Components/Base/Label",
@@ -13,3 +16,20 @@ export default {
 };
 
 export const Playground = LabelFamily;
+
+// Label is a single text primitive (no parts), so it's annotated by what it IS:
+// a typography token, and a heading when rendered as one.
+
+// Typography — derives the type token + size/line-height from the rendered label.
+export const Typography = {
+  render: () => React.createElement(Label, { label: "Section title", hierarchy: 1 }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ n: 1, target: ".composa-label", marker: "pin", side: "top", type: "token", kind: "typography", name: "label.level-1" }] },
+};
+
+// Heading (a11y) — when `as` is a heading tag, the heading type applies (badge = level).
+export const Heading = {
+  render: () => React.createElement(Label, { label: "Section title", as: "h2", hierarchy: 1 }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ n: 1, target: ".composa-label", marker: "pin", side: "top", type: "heading", level: "h2" }] },
+};

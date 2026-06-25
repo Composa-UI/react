@@ -1,0 +1,226 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as NotificationStories from "./notification.stories.js";
+
+{/* Re-org of specs/_import/notifications.md (Figma "Notifications Guidelines" 2028:111193)
+    into the Carbon-aligned 4-tab shape: Usage (incl. overview/variants/anatomy/content/
+    behavior + states), Style (Structure/Color/Typography token tables), Code, Accessibility.
+    Content-preserving — all substance kept (toast variants, message rules, actions, truncation,
+    persistence behavior); only Figma-product specifics (node ids, editor.template specimen
+    chrome, light/dark panel scaffolding, raster asset URLs) trimmed. Tokens named, not hex.
+    Source anomalies preserved as authored: the in-context Section 2 specimen floats a Multi /
+    2-button Notifications over the editor canvas; the Truncation specimen's literal Message
+    string ends in "..." and its second CTA label reads "Cation" (likely a truncated
+    "Caption"/"Action") — captured as-is, not corrected.
+
+    Open decisions (need ruling):
+    - Notification focus model: Carbon's actionable notification uses `alertdialog` and grabs
+      and traps focus until acted on or dismissed. Composa deliberately does the opposite — the
+      Notification is a non-modal canvas HUD with `role="status"`, focus not stolen, user Tabs to
+      it voluntarily — so it never interrupts work on the canvas. Document this as an owned
+      decision (state the divergence and the rationale) rather than a silent gap? */}
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+A heads-up-display notification alerts the user to a change in conditions and offers them a choice of what to do next.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={NotificationStories.Playground} />
+
+### Overview
+
+A notification is a heads-up-display alert that floats over the editor canvas. It tells the
+user that conditions have changed — for example, a newer version of a component is available,
+or a request to duplicate a file has finished — and gives them a way to respond.
+
+Notifications are **persistent**: they stay on screen until the user takes an action on them.
+They don't auto-dismiss on a timer. Instead, every notification carries at least one action
+(for example, asking the user whether they want to **Review** a component update or **Dismiss**
+it), and the notification clears when the user resolves it.
+
+### When to use
+
+- **Notification** — to surface a change in conditions that the user should know about and act
+  on, without pulling them out of the canvas (a new component version, a completed background
+  task).
+- **Keep it short** — the bar is fixed in size to limit how much of the canvas it covers, so
+  the user can stay focused on their work. Write the message to fit; long content truncates.
+
+### Variants
+
+Two axes combine to give four base specimens:
+
+- **Single** — a short one-line message. The default. Example message: "Short descriptive
+  message".
+- **Multi** — a message that spans more than one line. Example message: "Message can span
+  across multiple lines. Try to keep it short."
+- **One action** (`prop2Button` off) — a single **Action** CTA.
+- **Two actions** (`prop2Button` on) — the **Action** CTA plus a stacked **Dismiss** CTA below
+  it, split by a separator.
+
+<Canvas of={NotificationStories.Variants} />
+
+#### Status _(proposed)_
+
+A **status** axis tunes the bar to the kind of change it reports, so a failed background task
+reads as a failure rather than a neutral HUD:
+
+- **Info** _(proposed)_ — a neutral change in conditions (the default; a new component version).
+- **Success** _(proposed)_ — confirm a task finished (a file finished duplicating).
+- **Warning** _(proposed)_ — something completed with caveats or may have unexpected results.
+- **Error** _(proposed)_ — an error or critical failure the user should know about and resolve.
+
+Status drives a leading status icon and surface accent, not a heavy left-border slab. Tokens are
+named under Style › Color.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+### Anatomy
+
+A notification is a horizontal bar with three regions, left to right:
+
+- **Content** — a leading 24px component icon, followed by the **message** text. The content
+  region right-pads with `spacer-1`.
+- **Separator** — a 1px vertical line dividing Content from Actions.
+- **Actions** — a column of one or two CTAs, aligned to the end. The first CTA is **Action**;
+  when a second is present it is **Dismiss**, stacked beneath and split by a horizontal
+  separator.
+
+### Content rules
+
+- **Message** — keep it short. The Single variant is a one-liner; the Multi variant allows a
+  short multi-line message. The message stays within a fixed width and **truncates with a
+  trailing ellipsis** if it runs long.
+- **CTA labels** — short verbs naming the choice (for example **Action**, **Dismiss**,
+  **Review**). CTA labels also truncate with an ellipsis within their fixed width.
+- **Truncation** — the width and height of the bar are fixed to limit the real estate it
+  occupies, so both the message and the CTA labels truncate rather than growing the bar. A
+  message longer than two lines is cut off with an ellipsis.
+
+### Behaviors
+
+- **Persistent, no auto-dismiss** — a notification stays on screen until the user acts on it.
+  There is no timed auto-dismiss; the user clears it by choosing an action (or **Dismiss**).
+- **In context** — notifications float over the editor canvas (for example, anchored near the
+  bottom-right of the editor surface) rather than interrupting in a modal.
+- **Stacking** — multiple notifications stack as a vertical column with an `spacer-2` (8) gap
+  between bars.
+- **Fixed footprint** — the bar does not grow to fit content; content truncates instead, so
+  the canvas stays the focus.
+
+#### States
+
+| State | Styling |
+|---|---|
+| Single — one action | One-line message + single **Action** CTA. |
+| Single — two actions | One-line message + **Action** and **Dismiss** CTAs, stacked and separated. |
+| Multi — one action | Multi-line message + single **Action** CTA. |
+| Multi — two actions | Multi-line message + **Action** and **Dismiss** CTAs, stacked and separated. |
+| Truncated | Over-long message and CTA labels cut off with a trailing ellipsis within the fixed widths. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Container | 292 × 56 |
+| Content region | 212 wide |
+| Message | 176 wide |
+| Actions region | 72 wide |
+| CTA label | 56 wide |
+| Container left padding | `spacer-2` (8) |
+| Content gap / right padding | `spacer-1` (4) |
+| CTA horizontal padding | `spacer-2` (8) |
+| Stack gap (between bars) | `spacer-2` (8) |
+| Component icon box | 24 × 24 (`icon.24.component.small`) |
+| Container radius | `radius-medium` |
+| Separator (vertical) | 1px line between Content and Actions |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Container background | `color.bg.menu` |
+| Container border (truncation specimen) | `color.border.menu` |
+| Message text | `color.text.menu` |
+| CTA label text | `color.text.menu` |
+| Drop shadow | HUD shadow — `0px 2px 3.5px rgba(0,0,0,0.15)`, `0px 5px 8.5px rgba(0,0,0,0.2)` |
+| Status accent / icon — info _(proposed)_ | `color.icon.info` |
+| Status accent / icon — success _(proposed)_ | `color.icon.success` |
+| Status accent / icon — warning _(proposed)_ | `color.icon.warning` |
+| Status accent / icon — error _(proposed)_ | `color.icon.danger` |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Message | `body.medium` |
+| CTA label | `body.medium.strong` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Notification } from "@composa-ui/react";
+
+<Notification
+  variant="Multi"
+  message="Message can span across multiple lines. Try to keep it short."
+  actions={[
+    { label: "Action", onClick: review },
+    { label: "Dismiss", onClick: dismiss },
+  ]}
+/>
+```
+
+Set `variant="Single"` for a one-line message, and supply a single action when only one CTA is
+needed.
+
+#### Props
+
+<Controls of={NotificationStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the notification's actions |
+| `Space` / `Enter` | Activates the focused CTA (**Action** / **Dismiss**) |
+
+#### Screen reader & labeling
+
+- A notification announces its message through a live region. Use `role="status"` (with
+  `aria-live="polite"`) for routine, non-urgent updates so the message is read without
+  interrupting the user; reserve `role="alert"` (assertive) for changes that demand immediate
+  attention.
+- The **message** text is the notification's accessible name — write a meaningful, self-contained
+  message so the alert makes sense on its own to assistive tech.
+- Each CTA is a button with a clear label naming the choice (for example **Action**,
+  **Dismiss**), so the available responses are exposed individually.
+
+#### Focus
+
+- Because notifications are persistent and never auto-dismiss, the user can `Tab` to the
+  actions at any time and resolve the notification from the keyboard; focus is not stolen from
+  the canvas when the notification appears.
+
+</DocTab>
+
+</DocTabs>

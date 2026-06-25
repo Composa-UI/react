@@ -62,21 +62,87 @@ export const Anatomy = {
   parameters: { annotations: [{ type: "anatomy", target: ".composa-segmented-control" }] },
 };
 
-// Color — the track fill token (derived). Color facet.
+// Color — track fill, selected pill (bg + border), unselected text. All derived.
 export const Color = {
   render: () => React.createElement(SegmentedControl, { label: "View mode", variant: "label", options: segOptions, onValueChange: () => {} }),
   decorators: [withAnnotations],
-  parameters: { annotations: [{ n: 1, target: ".composa-segmented-control", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" }] },
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-segmented-control", marker: "pin", side: "top", type: "token", kind: "color", prop: "background", name: "color.bg.secondary" },
+      { n: 2, target: ".composa-segmented-control .is-selected", marker: "pin", side: "bottom", type: "token", kind: "color", prop: "background", name: "color.bg" },
+      { n: 3, target: ".composa-segmented-control .is-selected", marker: "bracket", side: "right", type: "token", kind: "color", prop: "border-color", name: "color.border" },
+      { n: 4, target: ".composa-segmented-control > .composa-segmented-label:not(.is-selected)", marker: "pin", side: "top", type: "token", kind: "color", prop: "color", name: "color.text.secondary" },
+    ],
+  },
 };
 
-// Layout — height redline + corner-radius (NEW v2 visual). Layout facet. Derived live.
+// Layout — track height, item height, corner radius. All derived.
 export const Layout = {
   render: () => React.createElement(SegmentedControl, { label: "View mode", variant: "label", options: segOptions, onValueChange: () => {} }),
   decorators: [withAnnotations],
   parameters: {
     annotations: [
       { n: 1, target: ".composa-segmented-control", type: "redline", dimension: "height" },
+      { n: 2, target: ".composa-segmented-control > .composa-segmented-label", type: "redline", dimension: "height" },
       { target: ".composa-segmented-control", type: "radius", corner: "top-left" },
+    ],
+  },
+};
+
+// States — default vs disabled track and text tokens. Derived live.
+export const States = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      React.createElement(SegmentedControl, { label: "Default", variant: "label", options: segOptions, onValueChange: () => {} }),
+      React.createElement(SegmentedControl, { label: "Disabled", variant: "label", options: segOptions, disabled: true, onValueChange: () => {} })
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-segmented-control:last-child", marker: "pin", side: "top", type: "token", kind: "color", prop: "background", name: "color.bg.disabled" },
+      { n: 2, target: ".composa-segmented-control:last-child > .composa-segmented-label", marker: "pin", side: "bottom", type: "token", kind: "color", prop: "color", name: "color.text.disabled" },
+    ],
+  },
+};
+
+// Typography — label segment text style token. Derived live.
+export const Typography = {
+  render: () => React.createElement(SegmentedControl, { label: "View mode", variant: "label", options: segOptions, onValueChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, each: true, target: ".composa-segmented-control > .composa-segmented-label", anchor: "center", type: "token", kind: "typography" },
+    ],
+  },
+};
+
+// Structural — icon variant versus label variant.
+export const Structural = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: 12 } },
+      React.createElement(SegmentedControl, {
+        label: "Flow",
+        variant: "icon",
+        value: "none",
+        options: [
+          { id: "none", icon: "flowNone", label: "No auto layout flow" },
+          { id: "horizontal", icon: "flowHorizontal", label: "Horizontal auto layout" },
+          { id: "vertical", icon: "flowVertical", label: "Vertical auto layout" },
+          { id: "wrap", icon: "flowWrap", label: "Wrap auto layout" },
+        ],
+        onValueChange: () => {},
+      }),
+      React.createElement(SegmentedControl, { label: "View mode", variant: "label", options: segOptions, onValueChange: () => {} })
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-segmented-control:first-child", type: "variant", value: "icon", marker: "caret", side: "left" },
+      { n: 2, target: ".composa-segmented-control:last-child", type: "variant", value: "label", marker: "caret", side: "left" },
     ],
   },
 };

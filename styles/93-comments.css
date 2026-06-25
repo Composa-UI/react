@@ -5,11 +5,8 @@
  *   - comment.window.reply   (node 2012-63692) -> CommentComposer layout="inline"
  *   - _comment.window.row    (node 2012-63679) -> CommentItem
  *   - comment.thread.window  (node 2012-63732) -> CommentThreadWindow
- *
- * The composer is modeled as a GENERAL composer / chat input, not a comment-only
- * box: an optional leading avatar, a growing text field, a trailing/footer
- * action cluster (emoji/mention/attach by default, fully overridable), an
- * optional `mode` scope slot, an attachments tray, and a submit affordance.
+ *   - sidebar.row.comment    (node 2012-63744) -> SidebarRowComment
+ *   - comments.pin           (node 2012-63899) -> CommentsPin
  */
 
 /* ── Composer (shared) ───────────────────────────────────────────────────── */
@@ -315,4 +312,220 @@
 
 .composa-comment-thread-composer {
   flex: 0 0 auto;
+}
+
+/* ── Sidebar comment row (Figma 2012-63744) ──────────────────────────────── */
+
+/* Outer wrapper: 4px top/bottom, 8px left/right (Figma row outer padding). */
+.composa-comment-sidebar-row {
+  padding: var(--composa-space-1) var(--composa-space-2);
+  cursor: pointer;
+  position: relative;
+}
+
+/* Inner card: 8px padding all sides, radius-medium, sits on color.bg. */
+.composa-comment-sidebar-row-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--composa-space-1);
+  padding: var(--composa-space-2);
+  background: var(--composa-color-bg);
+  border-radius: var(--composa-radius-medium);
+  position: relative;
+  min-width: 0;
+}
+
+.composa-comment-sidebar-row:hover .composa-comment-sidebar-row-inner,
+.composa-comment-sidebar-row.is-hover .composa-comment-sidebar-row-inner {
+  background: var(--composa-color-bg-hover);
+}
+
+.composa-comment-sidebar-row.is-selected .composa-comment-sidebar-row-inner {
+  background: var(--composa-color-bg-selected);
+}
+
+/* Avatar list sits above the meta row, bottom gap 4px. */
+.composa-comment-sidebar-row-avatar-list {
+  display: flex;
+  align-items: center;
+  gap: var(--composa-space-1);
+  padding-bottom: var(--composa-space-1);
+}
+
+/* Meta row: author + page ref + timestamp inline. */
+.composa-comment-sidebar-row-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.composa-comment-sidebar-row-author {
+  color: var(--composa-color-text);
+  font-size: var(--composa-body-medium-size, 11px);
+  font-weight: var(--composa-body-medium-strong-weight, 600);
+  line-height: var(--composa-body-medium-line, 16px);
+  letter-spacing: var(--composa-body-medium-letter-spacing, 0.055px);
+  white-space: nowrap;
+}
+
+.composa-comment-sidebar-row-ref,
+.composa-comment-sidebar-row-time {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size, 11px);
+  font-weight: var(--composa-body-medium-weight, 400);
+  line-height: var(--composa-body-medium-line, 16px);
+  letter-spacing: var(--composa-body-medium-letter-spacing, 0.055px);
+  white-space: nowrap;
+}
+
+/* Message preview: single truncated line. */
+.composa-comment-sidebar-row-preview {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size, 11px);
+  font-weight: var(--composa-body-medium-weight, 400);
+  line-height: var(--composa-body-medium-line, 16px);
+  letter-spacing: var(--composa-body-medium-letter-spacing, 0.055px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Footer: reply count left-aligned. */
+.composa-comment-sidebar-row-footer {
+  display: flex;
+  align-items: center;
+}
+
+.composa-comment-sidebar-row-replies {
+  color: var(--composa-color-text-secondary);
+  font-size: var(--composa-body-medium-size, 11px);
+  font-weight: var(--composa-body-medium-weight, 400);
+  line-height: var(--composa-body-medium-line, 16px);
+  letter-spacing: var(--composa-body-medium-letter-spacing, 0.055px);
+}
+
+/* Unread: reply count flips to brand; dot appears top-right (Figma right-4 / top-12). */
+.composa-comment-sidebar-row.is-unread .composa-comment-sidebar-row-replies {
+  color: var(--composa-color-text-brand);
+}
+
+.composa-comment-sidebar-row-unread-dot {
+  position: absolute;
+  top: 12px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-text-brand);
+  pointer-events: none;
+}
+
+/* Hover action group (more + resolve): top-right, hidden until hover (Figma right-8 / top-8). */
+.composa-comment-sidebar-row-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: none;
+  align-items: center;
+  gap: var(--composa-space-1);
+}
+
+.composa-comment-sidebar-row:hover .composa-comment-sidebar-row-actions,
+.composa-comment-sidebar-row.is-hover .composa-comment-sidebar-row-actions {
+  display: flex;
+}
+
+/* ── Comment pin — canvas annotation (Figma 2012-63899 / 2012-64105) ─────── */
+
+/* Base pin: 28×28 circle, accent-blue fill, teardrop shadow. */
+.composa-comment-pin {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-color-accent-blue);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: transform 80ms ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Teardrop tail — bottom-left pointing (matches Figma pin shape). */
+.composa-comment-pin::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 5px;
+  width: 7px;
+  height: 7px;
+  background: var(--composa-color-accent-blue);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  pointer-events: none;
+}
+
+.composa-comment-pin:hover,
+.composa-comment-pin.is-hover {
+  transform: scale(1.1);
+}
+
+.composa-comment-pin.is-selected {
+  outline: 2px solid var(--composa-color-accent-blue);
+  outline-offset: 2px;
+  transform: scale(1.1);
+}
+
+/* Read state: white fill with border; tail inherits border via clip-path trick. */
+.composa-comment-pin.is-read {
+  background: var(--composa-color-bg);
+  border: 1.5px solid var(--composa-color-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.composa-comment-pin.is-read::after {
+  background: var(--composa-color-bg);
+  border-bottom: 1.5px solid var(--composa-color-border);
+  border-left: 1.5px solid var(--composa-color-border);
+}
+
+/* Cluster variant: pill-shaped, holds 1–3 avatars stacked. */
+.composa-comment-pin--cluster {
+  width: auto;
+  min-width: 28px;
+  padding: 0 var(--composa-space-1);
+  border-radius: var(--composa-radius-large);
+  gap: 2px;
+}
+
+.composa-comment-pin--cluster::after {
+  left: auto;
+  right: 5px;
+}
+
+.composa-comment-pin-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--composa-radius-full);
+  overflow: hidden;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.composa-comment-pin-count {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.composa-comment-pin.is-read .composa-comment-pin-count {
+  color: var(--composa-color-text-secondary);
 }

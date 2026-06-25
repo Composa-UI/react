@@ -15,7 +15,9 @@ import * as CommentsStories from "./comments.stories.js";
       source ("zooming in / full-screen") — a stale/wrong Figma note, not a real behavior.
     - Redline/state-grid panels (nodes 2012:63593, 2012:63635, 2012:63657, 2012:63543) were
       [Deferred: render live] in the import; the prose, labels, props, strings, and token
-      styling were captured non-deferred and are reorganized here. */}
+      styling were captured non-deferred and are reorganized here.
+    Brownfield audit 2026-06: SidebarRowComment + CommentsPin CSS and stories added;
+    factory.js export wiring is a follow-up. */}
 
 <Meta of={CommentsStories} />
 
@@ -60,6 +62,22 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 
 <Canvas of={CommentsStories.ReplyInline} />
 
+#### Sidebar rows
+
+Each comment appears as a row in the right-hand sidebar. The row shows an avatar list, the author name, a page reference, a timestamp, a truncated message preview, and a reply count. The unread dot sits on the **right** of the inner card.
+
+<Canvas of={CommentsStories.SidebarRow} />
+
+Rows have three interaction states: default (no fill), hover (`color.bg.hover`), and selected (`color.bg.selected`).
+
+<Canvas of={CommentsStories.SidebarRowStates} />
+
+#### Canvas pins
+
+Comment pins anchor conversations to the canvas. An unread pin is filled `color.accent-blue`; a read pin switches to a bordered white circle. Clusters group 2–5 comments into a pill.
+
+<Canvas of={CommentsStories.CanvasPins} />
+
 ### Anatomy
 
 **Thread window** — a 360px floating card on `color.bg`, radius `radius-large`, with a soft shadow:
@@ -72,10 +90,12 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 
 **Sidebar row** — a row in the comment list, with an avatar list, the author name, the page reference and timestamp, a one-line message preview, and a reply count. The unread dot sits on the **right** (rather than the left), which keeps it aligned with the section header in the collapsed state.
 
+**Canvas pin** — a 28×28 circle with a teardrop tail, filled `color.accent-blue` (unread) or `color.bg` with a border (read). Clusters are pill-shaped and hold 1–3 inline avatars.
+
 ### Content rules
 
 - **Reply input** placeholder reads "Reply"; the on-canvas composer placeholder reads "Add a comment".
-- **Sidebar row** shows the author name, a page reference (for example "#3 ∙ Page 1"), a timestamp ("Just now"), a truncated one-line message preview, and a reply count ("2 replies"). The preview message truncates with a trailing ellipsis, for example — _"What happens if we adjust this to handle a light and dark mode? I'm not sure we're ready to handle that quite…"_
+- **Sidebar row** shows the author name, a page reference (for example "#3 · Page 1"), a timestamp ("Just now"), a truncated one-line message preview, and a reply count ("2 replies"). The preview message truncates with a trailing ellipsis, for example — _"What happens if we adjust this to handle a light and dark mode? I'm not sure we're ready to handle that quite…"_
 - The reply count reads in secondary text when the thread is read, and switches to brand text when it is unread.
 
 ### Behaviors
@@ -85,6 +105,7 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 - **On-canvas composer** uses the same reply interaction, expanding from a single line (placeholder "Add a comment") to the taller composer as typing begins. It differs from the thread reply only in its floating "outer" radius and shadow, versus the thread reply's inset secondary-background field.
 - **Sidebar row hover / selection.** A row has hover and selected styles: hover fills the inner card with `color.bg.hover` and reveals a top-right action group (`icon.24.more`, `icon.24.resolve`); selected fills it with `color.bg.selected`.
 - **Sidebar is dismissible.** The comment sidebar appears on the right when the comment tool is selected and can be dismissed.
+- **Pin states.** An unread pin is accent-blue; once the thread is read it becomes a bordered white circle. Clicking a pin opens the thread and flips the pin to selected (outline ring + scale). Hovering scales the pin 1.1×.
 
 #### States
 
@@ -96,6 +117,10 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 | Sidebar row — unread | Unread dot (`icon.16.unread`) on the right; reply count in `color.text.brand`. |
 | Sidebar row — hover | Inner card fills `color.bg.hover`; top-right `more` / `resolve` actions appear. |
 | Sidebar row — selected | Inner card fills `color.bg.selected`. |
+| Pin — unread | Filled `color.accent-blue`. |
+| Pin — read | `color.bg` fill + `color.border` border. |
+| Pin — selected | Outline ring + 1.1× scale. |
+| Pin — hover | 1.1× scale. |
 
 </DocTab>
 
@@ -114,15 +139,19 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 | On-canvas composer — idle | 56 (input 40 high, left 56 / top 12) |
 | On-canvas composer — typing | 112 (input 96 high) |
 | Expanded composer padding | `spacer-2` (gap), 16 (pad) |
-| Sidebar row outer padding | 8 / 4 |
-| Sidebar row inner card padding | 8 / `spacer-2` |
+| Sidebar row outer padding | 4 / 8 |
+| Sidebar row inner card padding | 8 all sides |
 | Sidebar row inner card radius | `radius-medium` |
 | Sidebar row inner card width | 224 |
 | Sidebar row message width | 208 |
 | Avatar | 24 × 24, `radius-full` |
 | Avatar list gap | `spacer-1` |
 | Unread dot position | `right-4` / `top-12` |
-| Hover action group position | `right-8` / `top-8`, gap `spacer-2` |
+| Hover action group position | `right-8` / `top-8`, gap `spacer-1` |
+| Pin size | 28 × 28 |
+| Pin radius | `radius-full` |
+| Pin cluster radius | `radius-large` |
+| Pin avatar slot | 20 × 20 |
 
 #### Color
 
@@ -138,7 +167,10 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 | Page reference / timestamp / message | `color.text.secondary` |
 | Reply count — read | `color.text.secondary` |
 | Reply count — unread | `color.text.brand` |
-| Comment pin | `color.bg.brand` |
+| Unread dot | `color.text.brand` |
+| Pin — unread fill | `color.accent-blue` |
+| Pin — read fill | `color.bg` + `color.border` border |
+| Pin — selected outline | `color.accent-blue` |
 
 #### Typography
 
@@ -147,7 +179,8 @@ A reply shown inline is a single message in the thread — avatar, name, timesta
 | Thread row — name | `body.large.strong` |
 | Thread row — timestamp / body | `body.large` |
 | Reply input placeholder | `body.large` |
-| Sidebar row — name / message / meta | `body.medium` |
+| Sidebar row — name | `body.medium.strong` |
+| Sidebar row — ref / timestamp / message / replies | `body.medium` |
 
 All color tokens resolve per light/dark theme automatically.
 
@@ -156,15 +189,35 @@ All color tokens resolve per light/dark theme automatically.
 <DocTab label="Code">
 
 ```jsx
-import { CommentThread } from "@composa-ui/react";
+import { CommentThreadWindow, CommentComposer, CommentItem } from "@composa-ui/react";
 
-<CommentThread
+// Full thread window
+<CommentThreadWindow
   title="Comment"
   comments={comments}
-  onReply={(text) => postReply(text)}
-  onResolve={() => resolveThread()}
+  onMore={handleMore}
+  onResolve={handleResolve}
+  onClose={handleClose}
+  composer={{
+    avatar: { variant: "yellow", initials: "A" },
+    placeholder: "Reply",
+    value,
+    onChange,
+    onSubmit,
+  }}
+/>
+
+// Standalone composer (card layout)
+<CommentComposer
+  layout="card"
+  placeholder="Add a comment"
+  value={value}
+  onChange={onChange}
+  onSubmit={onSubmit}
 />
 ```
+
+> **Note — SidebarRowComment and CommentsPin:** CSS classes (`composa-comment-sidebar-row*`, `composa-comment-pin*`) are defined in `styles/93-comments.css`. Factory + index.js exports are a follow-up; use the inline implementations in `comments.stories.js` as the reference.
 
 #### Props
 
@@ -187,6 +240,7 @@ import { CommentThread } from "@composa-ui/react";
 - The reply input has an accessible name from its placeholder ("Reply") or composer placeholder ("Add a comment"); pair it with a label so the field is named to assistive tech.
 - Title-bar actions (`more`, `resolve`, `close`) carry text labels rather than relying on the glyph alone.
 - A sidebar row announces its author, message preview, reply count, and unread state, so the conversation can be navigated without sight.
+- Comment pins use `role="button"` and `aria-pressed` to convey selected state.
 
 #### Focus
 

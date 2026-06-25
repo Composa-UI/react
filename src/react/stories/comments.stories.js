@@ -67,7 +67,8 @@ export default {
           "Comments is the collaboration surface from the UI3 kit (Figma 4kilp0… nodes 2012-63721 composer, 2012-63732 thread window). " +
           "**CommentComposer** is modeled as a *reusable composer / chat input*, not a comment-only box: an optional leading avatar, a growing text field, a trailing/footer action cluster (emoji/mention/attach by default, fully slot-overridable), an optional `mode` scope slot, an attachments tray, and a submit affordance. " +
           "It is presentational + controlled — drive `value`/`onChange` and handle `onSubmit` (Enter submits, Shift+Enter inserts a newline). The same component is the app's AI side-chat input via the `card` layout plus `mode` and `attachments`. " +
-          "**CommentItem** is one thread row, and **CommentThreadWindow** stacks a titlebar, a scrollable CommentItem list, and a pinned inline composer.",
+          "**CommentItem** is one thread row, and **CommentThreadWindow** stacks a titlebar, a scrollable CommentItem list, and a pinned inline composer.\n\n" +
+          "**SidebarRowComment** (Figma 2012-63744) and **CommentsPin** (Figma 2012-63899) CSS classes are also defined in `93-comments.css`; factory.js wiring is a follow-up.",
       },
     },
   },
@@ -257,6 +258,169 @@ export const Item = {
     ),
   parameters: {
     docs: { description: { story: "A single CommentItem row: gutter avatar, an author/timestamp header line, and a wrapping body." } },
+  },
+};
+
+// ── SidebarRowComment ─────────────────────────────────────────────────────
+// Inline implementation — CSS lives in styles/93-comments.css.
+// factory.js wiring and index.js export are a follow-up task.
+
+function SidebarRowComment({
+  author = "Wayne Sun",
+  pageRef = "#3 · Page 1",
+  timestamp = "Just now",
+  preview = "What happens if we adjust this to handle a light and dark mode? I’m not sure we’re ready to handle that quite…",
+  replyCount = "2 replies",
+  avatars = [],
+  state = "default",
+  unread = false,
+  replies = true,
+}) {
+  const cls = [
+    "composa-comment-sidebar-row",
+    state !== "default" && `is-${state}`,
+    unread && "is-unread",
+  ].filter(Boolean).join(" ");
+
+  return h("div", { className: cls },
+    h("div", { className: "composa-comment-sidebar-row-inner" },
+      unread && h("span", { className: "composa-comment-sidebar-row-unread-dot", "aria-hidden": "true" }),
+      avatars.length > 0 && h("div", { className: "composa-comment-sidebar-row-avatar-list" },
+        ...avatars.map((av, i) => h(Avatar, { key: i, ...av }))
+      ),
+      h("div", { className: "composa-comment-sidebar-row-meta" },
+        h("span", { className: "composa-comment-sidebar-row-author" }, author),
+        pageRef && h("span", { className: "composa-comment-sidebar-row-ref" }, " " + pageRef),
+        h("span", { className: "composa-comment-sidebar-row-time" }, " " + timestamp)
+      ),
+      preview && h("div", { className: "composa-comment-sidebar-row-preview" }, preview),
+      replies && h("div", { className: "composa-comment-sidebar-row-footer" },
+        h("span", { className: "composa-comment-sidebar-row-replies" }, replyCount)
+      )
+    )
+  );
+}
+
+// ── CommentsPin ────────────────────────────────────────────────────────────
+// Inline implementation — CSS lives in styles/93-comments.css.
+// factory.js wiring and index.js export are a follow-up task.
+
+function CommentsPin({ type = "pin", read = false, selected = false, hover = false, avatars = [] }) {
+  const cls = [
+    "composa-comment-pin",
+    type === "cluster" && "composa-comment-pin--cluster",
+    read && "is-read",
+    selected && "is-selected",
+    hover && "is-hover",
+  ].filter(Boolean).join(" ");
+
+  const content = type === "cluster"
+    ? avatars.slice(0, 3).map((av, i) =>
+        h("div", { key: i, className: "composa-comment-pin-avatar" }, h(Avatar, { ...av, size: "small" }))
+      )
+    : avatars[0]
+      ? [h(Avatar, { key: 0, ...avatars[0], size: "small" })]
+      : [];
+
+  return h("div", { className: cls, role: "button", "aria-pressed": selected, tabIndex: 0 }, ...content);
+}
+
+export const SidebarRow = {
+  render: () => {
+    const avatarsA = [{ variant: "purple", initials: "W" }, { variant: "blue", initials: "J" }];
+    const avatarsB = [{ src: JENNY_SRC, alt: "Jenny Wen" }];
+    return h("div", {
+      style: {
+        display: "flex",
+        justifyContent: "center",
+        padding: 32,
+        background: "var(--composa-color-bg-secondary, #f5f5f5)",
+        minHeight: 240,
+      },
+    },
+      h("div", { style: { width: 240, background: "var(--composa-color-bg)", borderRadius: 8, overflow: "hidden" } },
+        h(SidebarRowComment, { avatars: avatarsA, replies: true }),
+        h(SidebarRowComment, {
+          author: "Jenny Wen",
+          pageRef: "#1 · Page 1",
+          timestamp: "6h ago",
+          preview: "I love where this is headed, but I’m not quite sure about the spacing here…",
+          replyCount: "1 reply",
+          avatars: avatarsB,
+          unread: true,
+          replies: true,
+        })
+      )
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Sidebar comment rows (Figma 2012-63744): default and unread. Unread applies `color.text.brand` to reply count and shows the dot indicator at `top: 12px / right: 4px` inside the inner card.",
+      },
+    },
+  },
+};
+
+export const SidebarRowStates = {
+  render: () => {
+    const avatars = [{ variant: "yellow", initials: "A" }];
+    return h("div", {
+      style: {
+        display: "flex",
+        justifyContent: "center",
+        padding: 32,
+        background: "var(--composa-color-bg-secondary, #f5f5f5)",
+        minHeight: 240,
+      },
+    },
+      h("div", { style: { width: 240, background: "var(--composa-color-bg)", borderRadius: 8, overflow: "hidden" } },
+        h(SidebarRowComment, { avatars, state: "default", preview: "Default — no fill." }),
+        h(SidebarRowComment, { avatars, state: "hover", preview: "Hover — color.bg.hover." }),
+        h(SidebarRowComment, { avatars, state: "selected", preview: "Selected — color.bg.selected.", replies: false }),
+      )
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Sidebar row interaction states (Default / Hover / Selected) matching the Figma State property on node 2012-63744.",
+      },
+    },
+  },
+};
+
+export const CanvasPins = {
+  render: () => {
+    const avW = { variant: "purple", initials: "W" };
+    const avJ = { variant: "blue", initials: "J" };
+    const avK = { variant: "green", initials: "K" };
+    return h("div", {
+      style: {
+        display: "flex",
+        gap: 20,
+        padding: 48,
+        background: "var(--composa-color-bg-secondary, #f5f5f5)",
+        alignItems: "flex-end",
+        flexWrap: "wrap",
+        minHeight: 200,
+      },
+    },
+      h(CommentsPin, { avatars: [avW], type: "pin" }),
+      h(CommentsPin, { avatars: [avW], type: "pin", read: true }),
+      h(CommentsPin, { avatars: [avW], type: "pin", selected: true }),
+      h(CommentsPin, { avatars: [avW], type: "pin", hover: true }),
+      h(CommentsPin, { avatars: [avW, avJ, avK], type: "cluster" }),
+      h(CommentsPin, { avatars: [avW, avJ, avK], type: "cluster", read: true }),
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Canvas comment pins (Figma 2012-63899 / 2012-64105): **unread** (accent-blue fill, avatar inside), **read** (border on `color.bg`), **selected** (outline ring + scale), **hover** (scale), and **cluster** variants (pill holding 1–3 avatars, in unread and read states).",
+      },
+    },
   },
 };
 

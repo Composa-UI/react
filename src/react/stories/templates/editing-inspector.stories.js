@@ -1,12 +1,13 @@
 import React from "react";
-import { EditingInspector, OverlayHost } from "../../story-runtime.js";
+import { EditingInspector, InspectorHeader, OverlayHost } from "../../story-runtime.js";
 
-const shell = (story) =>
-  React.createElement(
+const shell = function (story) {
+  return React.createElement(
     OverlayHost,
     { className: "storybook-composa-inspector-stage" },
     React.createElement("div", { className: "storybook-composa-inspector-rail" }, story)
   );
+};
 
 const selectionColors = [
   { id: "black", type: "Selection color", label: "Black", value: "#000000", selectionCount: 1 },
@@ -78,7 +79,7 @@ export default {
 };
 
 export const Default = {
-  render: (args) => shell(React.createElement(EditingInspector, args)),
+  render: function (args) { return shell(React.createElement(EditingInspector, args)); },
 };
 
 export const FrameOrText = {
@@ -86,7 +87,7 @@ export const FrameOrText = {
     layoutMode: "frame",
     selectionColors: [],
   },
-  render: (args) => shell(React.createElement(EditingInspector, args)),
+  render: function (args) { return shell(React.createElement(EditingInspector, args)); },
   parameters: {
     docs: {
       description: {
@@ -103,11 +104,64 @@ export const MultiSelection = {
     showLayoutSpacing: true,
     showLayoutClipContent: true,
   },
-  render: (args) => shell(React.createElement(EditingInspector, args)),
+  render: function (args) { return shell(React.createElement(EditingInspector, args)); },
   parameters: {
     docs: {
       description: {
         story: "Multiple selected objects: layout switches to flow and dimension controls while the surrounding inspector anatomy stays stable.",
+      },
+    },
+  },
+};
+
+// WithControlledTabs — shows how to wire controlled tab switching outside
+// EditingInspector. Compose InspectorHeader directly with selectedTab +
+// onTabChange, then conditionally render section stacks based on the active tab.
+// This is the pattern for Slides' Animate panel (PR 2) and any inspector variant
+// that needs mode-aware section sets.
+function ControlledTabsInspector(args) {
+  var selectedTab = React.useState("design");
+  var tab = selectedTab[0];
+  var setTab = selectedTab[1];
+
+  return React.createElement(
+    OverlayHost,
+    { className: "storybook-composa-inspector-stage" },
+    React.createElement(
+      "div",
+      { className: "storybook-composa-inspector-rail" },
+      React.createElement(InspectorHeader, {
+        selectedTab: tab,
+        onTabChange: setTab,
+      }),
+      tab === "design"
+        ? React.createElement(EditingInspector, Object.assign({}, args, { showInspectorHeader: false }))
+        : React.createElement(
+            "div",
+            {
+              style: {
+                padding: "var(--composa-space-3, 16px)",
+                fontSize: "var(--composa-body-medium-size, 11px)",
+                color: "var(--composa-color-text-secondary)",
+              },
+            },
+            "Animate panel — slide-to-slide animation settings (PR 2)"
+          )
+    )
+  );
+}
+
+export const WithControlledTabs = {
+  render: function (args) { return React.createElement(ControlledTabsInspector, args); },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Controlled tab switching pattern. InspectorHeader is composed directly " +
+          "with `selectedTab` + `onTabChange` so the parent owns the active mode. " +
+          "EditingInspector is rendered with `showInspectorHeader: false` for the Design tab; " +
+          "the Animate tab renders a placeholder until PR 2 adds the animation section stack. " +
+          "Use this pattern whenever the inspector needs mode-aware section sets.",
       },
     },
   },

@@ -5,6 +5,13 @@ import { withAnnotations } from "./_annotations.js";
 
 const editorTabs = [{ label: "Design", selected: true }, { label: "Prototype" }, { label: "Inspect" }];
 
+const allStateTabs = [
+  { label: "Selected", selected: true },
+  { label: "Unselected" },
+  { label: "Hover", state: "hover" },
+  { label: "Focused", state: "focused" },
+];
+
 export default {
   title: "Composa UI/Components/Base/Tabs",
   parameters: {
@@ -66,6 +73,138 @@ export const Accessibility = {
         type: "listitem",
         role: "tab",
       },
+    ],
+  },
+};
+
+// Color — fill and text token bindings for selected and unselected states.
+// Token names are semantic (resolved by the renderer against the live DOM).
+export const Color = {
+  render: () =>
+    React.createElement(Tabs, { label: "Editor views", tabs: editorTabs, onValueChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        target: '.composa-tabs [data-part="tab"].is-selected',
+        marker: "pin",
+        side: "bottom",
+        type: "token",
+        kind: "color",
+        name: "color.bg.secondary",
+      },
+      {
+        n: 2,
+        target: '.composa-tabs [data-part="tab"]:not(.is-selected)',
+        marker: "pin",
+        side: "bottom",
+        type: "token",
+        kind: "color",
+        name: "color.bg",
+      },
+      {
+        n: 3,
+        target: '.composa-tabs [data-part="tab"].is-selected .composa-tab-label',
+        marker: "pin",
+        side: "top",
+        type: "token",
+        kind: "color",
+        name: "color.text",
+        prop: "color",
+      },
+      {
+        n: 4,
+        target: '.composa-tabs [data-part="tab"]:not(.is-selected) .composa-tab-label',
+        marker: "pin",
+        side: "top",
+        type: "token",
+        kind: "color",
+        name: "color.text.secondary",
+        prop: "color",
+      },
+    ],
+  },
+};
+
+// States — all four interactive states shown simultaneously on a single tabstrip.
+export const States = {
+  render: () =>
+    React.createElement(Tabs, { label: "Tab states", tabs: allStateTabs, onValueChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        target: '.composa-tabs [data-part="tab"].is-selected',
+        marker: "caret",
+        side: "bottom",
+        type: "variant",
+        value: "selected",
+      },
+      {
+        n: 2,
+        target: '.composa-tabs [data-part="tab"]:not(.is-selected):not(.is-hover):not(.is-focused)',
+        marker: "caret",
+        side: "bottom",
+        type: "variant",
+        value: "unselected",
+      },
+      {
+        n: 3,
+        target: '.composa-tabs [data-part="tab"].is-hover',
+        marker: "caret",
+        side: "bottom",
+        type: "variant",
+        value: "hover",
+      },
+      {
+        n: 4,
+        target: '.composa-tabs [data-part="tab"].is-focused',
+        marker: "caret",
+        side: "bottom",
+        type: "variant",
+        value: "focused",
+      },
+    ],
+  },
+};
+
+// Spacing — structural dimension redlines: container height, tab height, inter-tab gap.
+export const Spacing = {
+  render: () =>
+    React.createElement(Tabs, { label: "Editor views", tabs: editorTabs, onValueChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, type: "redline", target: ".composa-tabs", dimension: "height" },
+      { n: 2, type: "redline", target: '.composa-tabs [data-part="tab"]', dimension: "height" },
+      {
+        n: 3,
+        type: "gap",
+        target: '.composa-tabs [data-part="tab"]:nth-child(1)',
+        targetB: '.composa-tabs [data-part="tab"]:nth-child(2)',
+      },
+    ],
+  },
+};
+
+// Variant — pill (default) vs underline structural comparison.
+// Pill: base .composa-tabs behavior (selected tab gets bg-secondary fill + radius).
+// Underline: adds .composa-tabs-underline, swaps fill for a baseline underline indicator.
+export const Variant = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: 32, padding: 16 } },
+      React.createElement(Tabs, { label: "Pill tabs", tabs: editorTabs, onValueChange: () => {} }),
+      React.createElement(Tabs, { label: "Underline tabs", variant: "underline", tabs: editorTabs, onValueChange: () => {} })
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-tabs:not(.composa-tabs-underline)", marker: "pin", side: "top", type: "variant", value: "pill" },
+      { n: 2, target: ".composa-tabs-underline", marker: "pin", side: "top", type: "variant", value: "underline" },
     ],
   },
 };

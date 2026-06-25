@@ -1,3 +1,4 @@
+import { BUILTIN_GLYPHS } from "./builtin-glyphs.js";
 
 const stateClass = (state = "default") => `is-${String(state).toLowerCase().replace(/\s+/g, "-")}`;
 const boolData = (value) => (value ? "true" : "false");

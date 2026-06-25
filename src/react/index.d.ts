@@ -288,6 +288,23 @@ export interface SwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export declare function Switch(props: SwitchProps): React.ReactElement;
 
+export interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "range" | "delta" | "stepper" | "color" | "gradient" | "cornerRadius";
+  min?: number;
+  max?: number;
+  value?: number;
+  defaultValue?: number;
+  steps?: number;
+  background?: "fill" | "gradient";
+  disabled?: boolean;
+  state?: "default" | "focused" | "modified";
+  label?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onValueChange?: (value: number) => void;
+}
+
+export declare function Slider(props: SliderProps): React.ReactElement;
+
 export interface RadioProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
   variant?: "input" | "button";
@@ -1642,6 +1659,7 @@ declare const components: {
   ComboInputDropdown: typeof ComboInputDropdown;
   ChitInput: typeof ChitInput;
   Switch: typeof Switch;
+  Slider: typeof Slider;
   Radio: typeof Radio;
   Checkbox: typeof Checkbox;
   Tooltip: typeof Tooltip;

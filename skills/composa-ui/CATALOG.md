@@ -41,6 +41,22 @@ _Figma: UI3 Button icon · Button icon toggle · Button icon dialog toggle · no
 - `label`: string
 - `alignmentNote`: variant shares Button's vocabulary across the family; size maps to the icon box for IconButton/Toggle; width applies to SplitButton only (IconButton/Toggle stay square).
 
+### Slider — 40 variants
+_Figma: UI3 Slider · node 2015:23280 · source: src/react/factory.js_
+
+- `variant`: range · delta · stepper · color · gradient · cornerRadius
+- `min`: number
+- `max`: number
+- `value`: number
+- `defaultValue`: number
+- `steps`: number
+- `background`: fill · gradient
+- `disabled`: boolean
+- `state`: default · focused · modified
+- `label`: string
+- `onChange`: function
+- `onValueChange`: function
+
 ### InputField — 119 variants
 _Figma: UI3 Inputs · node 2028:75376 · source: src/react/factory.js_
 

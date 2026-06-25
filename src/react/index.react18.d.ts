@@ -85,6 +85,7 @@ import type {
   SelectionColorsSectionProps,
   SlideListProps,
   SlideThumbProps,
+  SliderProps,
   SlidesEditorTemplateProps,
   SlidesNavigatorProps,
   SplitButtonProps,
@@ -119,6 +120,7 @@ export declare const ComboInput: React.FC<ComboInputProps>;
 export declare const ComboInputDropdown: React.FC<ComboInputDropdownProps>;
 export declare const ChitInput: React.FC<ChitInputProps>;
 export declare const Switch: React.FC<SwitchProps>;
+export declare const Slider: React.FC<SliderProps>;
 export declare const Radio: React.FC<RadioProps>;
 export declare const Checkbox: React.FC<CheckboxProps>;
 export declare const Tooltip: React.FC<TooltipProps>;

@@ -1,0 +1,22 @@
+{
+  "name": "@composa/annotation-kit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Code-native, AI-readable component annotations for Storybook — accessibility (codified GitHub/CVS toolkit) + variant + measurement.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./registry": "./registry.js",
+    "./preview": "./preview.js",
+    "./preset": "./preset.js"
+  },
+  "keywords": ["storybook-addons", "accessibility", "a11y", "annotations", "design-system", "redlines"],
+  "peerDependencies": {
+    "react": ">=18",
+    "storybook": ">=8"
+  },
+  "license": "CC-BY-4.0",
+  "_attribution": "Accessibility type taxonomy + tier model adapted from github/annotation-toolkit (forked from CVS Health's Web Accessibility Annotation Kit), CC-BY 4.0. Variant + measurement systems are original Composa work.",
+  "_note": "Staging package — not yet published. Splits into @composa/annotation-core + @composa/a11y-annotations + @composa/ds-annotations on extraction (see README)."
+}

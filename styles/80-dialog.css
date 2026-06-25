@@ -99,3 +99,18 @@
   border-top: 1px solid var(--composa-color-border);
 }
 
+/* Relative height variants — Figma Modal Attributes spec (2327:121906):
+   large = 70 % of viewport height, medium = 50 %. The body overflows and
+   scrolls when dialog content exceeds the cap. */
+.composa-dialog-height-large {
+  max-height: 70vh;
+}
+
+.composa-dialog-height-medium {
+  max-height: 50vh;
+}
+
+.composa-dialog-height-large .composa-dialog-body,
+.composa-dialog-height-medium .composa-dialog-body {
+  overflow-y: auto;
+}

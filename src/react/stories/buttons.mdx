@@ -23,7 +23,7 @@ Button triggers an action. The `variant` carries intent: `primary` for the one m
 - Use one `primary` button per view or dialog to mark the main action.
 - Write labels as a verb phrase ("Save changes", "Create team").
 - Use `destructive` / `secondary-destruct` for delete and remove.
-- Use `width="wide"` for stacked, equal-width buttons in dialogs and sidebars.
+- Use `width="fill"` for stacked, equal-width buttons in dialogs and sidebars.
 
 **Don't**
 
@@ -41,6 +41,18 @@ Button triggers an action. The `variant` carries intent: `primary` for the one m
 | SplitButton | One default action plus a menu of alternates. |
 | `link` variant | The action reads as inline navigation. |
 
+### Sidebar placement
+
+When stacking buttons in a sidebar or dialog footer, add `width="fill"` to every button in the group so they share the same width column. Use the 16px horizontal padding on the container, and 8px vertical gap between buttons.
+
+| Slot | Variant | Purpose |
+|---|---|---|
+| Top / primary | `primary` | The one main action ("Publish", "Apply") |
+| Middle | `secondary` | Supporting action ("Save draft", "Cancel") |
+| Bottom / low-emphasis | `ghost` | Tertiary action ("View history", "Reset") |
+
+<Canvas of={ButtonStories.WideSidebarPlacement} />
+
 ### IconButton
 
 A square box with a single centered glyph and no label slot. Pair related icon actions in a `ControlGroup`.
@@ -52,6 +64,24 @@ A square box with a single centered glyph and no label slot. Pair related icon a
 The icon-button family member with explicit on/off semantics, driven by `pressed`. **ON = blue icon on a pale-blue tint** — the recolored glyph is the signal that the toggle is active. A `dialog`-opener toggle shows the corner dot and is active only while its dialog is open.
 
 <Canvas of={ButtonStories.Toggle} />
+
+### Dialog opener toggle
+
+When a `ToggleButton` carries `dialog={true}` it renders a corner dot to signal panel-opening behavior rather than a boolean setting. The button is `pressed` — and therefore shows the blue-icon-on-pale-tint active state — only while `dialogOpen={true}`. When the dialog closes, the button reverts to its default visual state. Do not leave it `pressed` after the dialog is dismissed.
+
+| Signal | Condition |
+|---|---|
+| Corner dot visible | `dialog={true}` always |
+| Blue glyph + pale-blue fill | `pressed={true}` and `dialogOpen={true}` |
+| Default appearance | `pressed={false}` or `dialogOpen={false}` |
+
+<Canvas of={ButtonStories.ToggleDialogExample} />
+
+### Toggle Play Option
+
+A media-control row pairs `IconButton` (previous / next) with a `ToggleButton` (play/pause) held in the center. The toggle holds `pressed` externally — the consumer flips it when playback starts or stops. Spacing between controls in a tight action row is 4px.
+
+<Canvas of={ButtonStories.TogglePlayOption} />
 
 ### SplitButton
 
@@ -68,9 +98,33 @@ A container with two halves: an action button (icon + label) firing `onClick`, a
 Size and width are separate axes (Composa splits Figma's conflated "Size"):
 
 - **Size (height):** `small` 20px / `default` 24px / `large` 32px.
-- **Width:** `default` hugs content; `wide` fixes to 256px.
+- **Width:** `default` hugs content; `fill` expands to the container width.
 - **IconButton / ToggleButton stay square** and have no `width` axis; their size scale (`small` 20 / `default` 24 / `large` 28) is a Composa addition (Figma's icon-button set is 24px-only).
 - **SplitButton** keeps both axes and defaults to `size="small"`.
+
+### When to use large
+
+`size="large"` (32px) is appropriate in:
+
+- **Toolbar slots** where the control sits in an open canvas or floating bar, not in a dense property panel.
+- **Standalone CTA placement** — e.g. a top-of-page action that has no sibling controls.
+- **Touch-first surfaces** where a 24px hit target is too small.
+
+**Do** use large for the primary action in a full-bleed toolbar row.
+**Don't** mix `size="large"` and `size="medium"` or `size="small"` in the same action group — the mismatched heights create visual noise.
+
+<Canvas of={ButtonStories.LargeVariants} />
+
+### Multi-option and Bool Modifier at large size
+
+`SplitButton` at `size="large"` is used when the multi-option action needs a 32px touch target, typically in a prominent toolbar slot. A large `ToggleButton` — described in Figma as the "Bool Modifier" slot — applies the same blue-icon-on-pale-tint active rule regardless of size.
+
+| Component | Role | Large use case |
+|---|---|---|
+| `SplitButton` | Multi-option action | Prominent toolbar, canvas CTA |
+| `ToggleButton` | Bool Modifier (on/off setting) | Toolbar toggle, panel toggle |
+
+<Canvas of={ButtonStories.LargeMultiOptionBoolModifier} />
 
 ### Variants
 
@@ -85,6 +139,8 @@ Size and width are separate axes (Composa splits Figma's conflated "Size"):
 **Brand divergence (deliberate, not a defect):** the `primary` fill is brand orange `#ff5c16`, not the Figma accent blue `#0d99ff` (formalized as the `composa.color.brand-default` primitive). Link text and the focus ring deliberately stay blue. The nine-value variant vocabulary is shared across the whole family, where Figma's icon-button set ships only Default and Secondary.
 
 The ToggleButton style is seeded from the Figma "Button icon toggle" frame (`2324:46776`, 20 variants across `State`, `Variant=Default/Highlighted`, `Disabled`, and the `On` axis), together with the founder rule "ToggleButton active = blue icon" and `styles/30-button-family.css`.
+
+**Groove (Figma node `2324:46817`):** The Figma guidelines reference a "Groove" variation — this variant does not yet exist in code. It will be documented once built.
 
 </DocTab>
 

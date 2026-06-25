@@ -50,7 +50,9 @@
      truth instead of per-component overrides. */
   --composa-control-fg-selected: var(--composa-color-border-selected);
   --composa-control-bg-selected: var(--composa-color-bg-selected);
-  --composa-control-focus-ring: var(--composa-color-accent);
+  /* Focus ring: corrected to border-selected (#0d99ff) to match Figma spec.
+     Previously var(--composa-color-accent) = #0079d1. */
+  --composa-control-focus-ring: var(--composa-color-border-selected);
   --composa-control-group-segment-gap: 1px;
   --composa-control-group-divider-bg: var(--composa-control-bg);
 

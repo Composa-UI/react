@@ -57,7 +57,7 @@
     "--composa-control-bg-active": "var(--composa-color-bg-secondary)",
     "--composa-control-fg": "var(--composa-color-icon)",
     "--composa-control-fg-secondary": "var(--composa-color-icon-secondary)",
-    "--composa-control-focus-ring": "var(--composa-color-accent)",
+    "--composa-control-focus-ring": "var(--composa-color-border-selected)",
     "--composa-segmented-height": "24px",
     "--composa-segmented-padding": "1px",
     "--composa-segmented-item-height": "22px",

@@ -6,6 +6,7 @@ export const storybookFamilyCoverage = [
   "Switch",
   "Radio",
   "Checkbox",
+  "Slider",
   "Tooltip",
   "Dialog",
   "SegmentedControl",

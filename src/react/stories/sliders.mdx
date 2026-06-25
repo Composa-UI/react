@@ -1,16 +1,8 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 import { DocTabs, DocTab } from "./_doc-tabs";
 
-{/* Re-org of specs/_import/sliders.md (Figma "Slilder Guidelines" 2015:23027) into the
-    Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/behavior + states),
-    Style (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
-    every slider variant kept (Range, Delta, Stepper, Color, Gradient, Corner Radius, Disabled,
-    plus handle states). Only Figma-product specifics trimmed. Tokens named, not hex.
-    No Slider story exists yet, so Canvas/Controls are deferred — see the [Deferred] markers.
-    Source anomalies preserved as authored: Stepper description drops a "to" ("able toggle
-    along"); Gradient description has a subject/verb slip ("a chit.24 component and inherits");
-    Handle States description has a double period. The component carries a hard min width:
-    "Do not resize this component to less than 100px width." */}
+{/* Slider guidelines imported from Figma "Slilder Guidelines" frame 2015:23027.
+    Component story (sliders.stories.js) now live — [Deferred] markers removed. */}
 
 <Meta title="Composa UI/Components/Base/Sliders" />
 
@@ -21,9 +13,6 @@ Used for adjusting between a range with a min and a max value.
 <DocTabs>
 
 <DocTab label="Usage">
-
-{/* [Deferred: render live — no Slider story yet; ref node 2015:23027] */}
-_Live specimen pending a Slider component story._
 
 ### Overview
 
@@ -203,9 +192,6 @@ All color tokens resolve per light/dark theme automatically.
 
 <DocTab label="Code">
 
-{/* Proposed API — there is no Slider story yet, so this is the intended usage shape, not a
-    live, story-backed example. No <Controls> for the same reason. */}
-
 ```jsx
 import { Slider } from "@composa-ui/react";
 
@@ -254,9 +240,6 @@ import { Slider } from "@composa-ui/react";
 // Disabled — non-interactive (e.g. auto-playing media)
 <Slider label="Position" variant="range" value={0} disabled />
 ```
-
-{/* [Deferred: render live — no Slider story yet; ref node 2015:23027] */}
-_Props table pending a Slider component story._
 
 </DocTab>
 

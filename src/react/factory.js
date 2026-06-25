@@ -7655,6 +7655,122 @@ export function createComposaComponents(React, options = {}) {
     );
   }
 
+  // Slider — Figma UI3 node 2015:23280. Adjusts a value between min and max
+  // by dragging a handle. Variants: range, delta (fill from center), stepper
+  // (discrete ticks), color (track previews hue/opacity), gradient (chit stops),
+  // cornerRadius, and a non-interactive disabled state.
+  function Slider({
+    label = "Value",
+    variant = "range",
+    min = 0,
+    max = 100,
+    value,
+    defaultValue,
+    steps = 5,
+    background,
+    disabled = false,
+    state = "default",
+    onChange,
+    onValueChange,
+    className = "",
+    ...props
+  }) {
+    const initVal = defaultValue !== undefined ? defaultValue : (variant === "delta" ? 0 : min);
+    const [internalValue, setInternalValue] = React.useState(initVal);
+    const currentValue = value !== undefined ? value : internalValue;
+    const clamp = (v) => Math.max(min, Math.min(max, v));
+    const pct = max > min ? ((clamp(currentValue) - min) / (max - min)) * 100 : 0;
+    const isModified = variant === "delta" && currentValue !== 0;
+    const isDisabled = disabled;
+
+    // Fill geometry: range/stepper grows from left; delta from the "zero" center.
+    const zeroFrac = max > min ? ((clamp(0) - min) / (max - min)) * 100 : 50;
+    const fillLeft = variant === "delta" ? Math.min(pct, zeroFrac) + "%" : "0%";
+    const fillWidth = variant === "delta" ? Math.abs(pct - zeroFrac) + "%" : pct + "%";
+
+    const stepSize = steps > 1 ? (max - min) / (steps - 1) : 1;
+
+    const handleKey = (event) => {
+      if (isDisabled) return;
+      let next = currentValue;
+      if (event.key === "ArrowRight" || event.key === "ArrowUp") next = clamp(currentValue + stepSize);
+      else if (event.key === "ArrowLeft" || event.key === "ArrowDown") next = clamp(currentValue - stepSize);
+      else if (event.key === "Home") next = min;
+      else if (event.key === "End") next = max;
+      else return;
+      event.preventDefault();
+      if (value === undefined) setInternalValue(next);
+      onValueChange?.(next);
+      onChange?.(next);
+    };
+
+    return h(
+      "div",
+      {
+        ...props,
+        className: cx(
+          "composa-slider",
+          `composa-slider-${variant}`,
+          background && `composa-slider-bg-${background}`,
+          isModified && "is-modified",
+          isDisabled && "is-disabled",
+          stateClass(state),
+          className
+        ),
+        "data-composa-component": "Slider",
+        "data-scope": "slider",
+        "data-part": "root",
+        role: "slider",
+        "aria-label": label,
+        "aria-valuemin": min,
+        "aria-valuemax": max,
+        "aria-valuenow": clamp(currentValue),
+        "aria-disabled": boolData(isDisabled),
+        tabIndex: isDisabled ? -1 : 0,
+        onKeyDown: handleKey,
+      },
+      h(
+        "div",
+        { className: "composa-slider-track", "data-scope": "slider", "data-part": "track" },
+        h("div", {
+          className: "composa-slider-fill",
+          "data-scope": "slider",
+          "data-part": "fill",
+          style: { left: fillLeft, width: fillWidth },
+        }),
+        variant === "stepper" &&
+          h(
+            "div",
+            { className: "composa-slider-ticks", "data-scope": "slider", "data-part": "ticks" },
+            Array.from({ length: steps }, (_, i) =>
+              h("span", {
+                key: i,
+                className: cx("composa-slider-tick", i === Math.round(pct / 100 * (steps - 1)) && "is-active"),
+                "data-scope": "slider",
+                "data-part": "tick",
+              })
+            )
+          )
+      ),
+      h(
+        "div",
+        {
+          className: cx("composa-slider-handle", isModified && "is-modified"),
+          "data-scope": "slider",
+          "data-part": "thumb",
+          style: { left: pct + "%" },
+        },
+        variant === "color" &&
+          h("div", {
+            className: "composa-slider-handle-swatch",
+            "data-scope": "slider",
+            "data-part": "swatch",
+          })
+      )
+    );
+  }
+
+
   return {
     Button,
     Tree,
@@ -7671,6 +7787,7 @@ export function createComposaComponents(React, options = {}) {
     ComboInput,
     ComboInputDropdown,
     ChitInput,
+    Slider,
     Switch,
     Radio,
     Checkbox,

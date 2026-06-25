@@ -319,7 +319,7 @@
   --composa-brand-mint: #9fbfb6;
   --composa-brand-cream: #f7f5f1;
 
-  /* ── Badge / VisualBell / Notification (Wave 8) ──────────────────────────
+  /* ── Badge / VisualBell / Notification (Wave 8) ──────────────────────────────────────
      UI3 kit 4kilp0ShQiYsoUPJdleqEH:
        Badges        page 2012-32973 (Badge large/small/small alt/dot)
        Visual Bells  page 2015-40421 (Bell toast 2015-42989)
@@ -436,6 +436,28 @@
   --composa-notification-divider: rgba(255, 255, 255, 0.1);
   --composa-notification-cta-fg-danger: #fca397;
   --composa-notification-shadow: 0 2px 3.5px rgba(0, 0, 0, 0.15), 0 5px 8.5px rgba(0, 0, 0, 0.2);
+
+  /* ── Avatar multiplayer identity colors ───────────────────────────────────────────
+     UI3 kit 4kilp0ShQiYsoUPJdleqEH, Avatar component set 2012:32015.
+     Yellow is in the generated core token layer. The other 6 identity colors
+     were not exported in the first Style Dictionary wave; they are hand-authored
+     here from Figma component inspection (2026-06-25). The corresponding
+     primitives have been added to tokens/primitive/color.json so the next Style
+     Dictionary run will generate them into the core/semantic CSS layers and this
+     hand-authored block can be removed. Dark-mode variants are deferred;
+     identity colors are presenter-assigned and stay consistent across themes. */
+  --composa-color-multiplayer-purple: #9747ff;
+  --composa-color-text-on-multiplayer-purple: #ffffff;
+  --composa-color-multiplayer-blue: #007be5;
+  --composa-color-text-on-multiplayer-blue: #ffffff;
+  --composa-color-multiplayer-pink: #ff24bd;
+  --composa-color-text-on-multiplayer-pink: #ffffff;
+  --composa-color-multiplayer-red: #f24822;
+  --composa-color-text-on-multiplayer-red: #ffffff;
+  --composa-color-multiplayer-green: #14ae5c;
+  --composa-color-text-on-multiplayer-green: #ffffff;
+  --composa-color-multiplayer-grey: #667799;
+  --composa-color-text-on-multiplayer-grey: #ffffff;
 }
 
 [data-composa-mode="dark"] {

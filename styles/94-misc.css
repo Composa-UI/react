@@ -85,16 +85,86 @@
   color: var(--composa-color-text-on-brand);
 }
 
+/* ── Avatar ──────────────────────────────────────────────────────────────────────────── */
+
 .composa-avatar {
+  box-sizing: border-box;
   width: var(--composa-avatar-size, 24px);
   height: var(--composa-avatar-size, 24px);
   display: grid;
   place-items: center;
-  border-radius: var(--composa-avatar-radius, var(--composa-radius-full));
-  background: var(--composa-avatar-bg, var(--composa-color-multiplayer-yellow));
-  color: var(--composa-avatar-fg, var(--composa-color-text-on-multiplayer-yellow));
+  flex: none;
+  overflow: hidden;
+  user-select: none;
+  border-radius: var(--composa-radius-full);
+  background: var(--composa-avatar-tone-bg, var(--composa-color-multiplayer-yellow));
+  color: var(--composa-avatar-tone-fg, var(--composa-color-text-on-multiplayer-yellow));
+  font-family: var(--composa-font-family);
   font-size: var(--composa-body-large-size);
+  font-weight: var(--composa-body-large-weight);
+  letter-spacing: var(--composa-body-large-letter-spacing);
+  line-height: 1;
 }
+
+.composa-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.composa-avatar-label {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+/* Sizes — diameter + per-size type ramp (body.small.strong / body.large / body.large.strong) */
+.composa-avatar-small {
+  --composa-avatar-size: 16px;
+  font-size: var(--composa-body-small-size);
+  font-weight: var(--composa-body-small-strong-weight);
+  letter-spacing: var(--composa-body-small-letter-spacing);
+}
+
+.composa-avatar-medium {
+  --composa-avatar-size: 24px;
+}
+
+.composa-avatar-large {
+  --composa-avatar-size: 32px;
+  font-weight: var(--composa-body-large-strong-weight);
+}
+
+/* Shapes */
+.composa-avatar-circle {
+  border-radius: var(--composa-radius-full);
+}
+
+.composa-avatar-square {
+  border-radius: var(--composa-radius-medium);
+}
+
+/* States */
+.composa-avatar-disabled {
+  opacity: 0.4;
+}
+
+/* Color variant wiring. Each variant sets --composa-avatar-tone-bg/fg so the
+   base rule resolves the correct fill. Follows the same proxy-token pattern as
+   Badge (--composa-badge-tone-*). Overflow read and Org reuse neutral surface
+   tokens; Overflow Unread uses the brand-secondary blue. */
+.composa-avatar-yellow         { --composa-avatar-tone-bg: var(--composa-color-multiplayer-yellow);         --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-yellow); }
+.composa-avatar-purple         { --composa-avatar-tone-bg: var(--composa-color-multiplayer-purple);         --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-purple); }
+.composa-avatar-blue           { --composa-avatar-tone-bg: var(--composa-color-multiplayer-blue);           --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-blue); }
+.composa-avatar-pink           { --composa-avatar-tone-bg: var(--composa-color-multiplayer-pink);           --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-pink); }
+.composa-avatar-red            { --composa-avatar-tone-bg: var(--composa-color-multiplayer-red);            --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-red); }
+.composa-avatar-green          { --composa-avatar-tone-bg: var(--composa-color-multiplayer-green);          --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-green); }
+.composa-avatar-grey           { --composa-avatar-tone-bg: var(--composa-color-multiplayer-grey);           --composa-avatar-tone-fg: var(--composa-color-text-on-multiplayer-grey); }
+.composa-avatar-overflow-unread { --composa-avatar-tone-bg: var(--composa-color-bg-brand-secondary);        --composa-avatar-tone-fg: #ffffff; }
+.composa-avatar-overflow-read  { --composa-avatar-tone-bg: var(--composa-color-bg-secondary);               --composa-avatar-tone-fg: var(--composa-color-text); }
+.composa-avatar-org            { --composa-avatar-tone-bg: var(--composa-color-bg-secondary);               --composa-avatar-tone-fg: var(--composa-color-text); }
 
 .composa-right-actions {
   gap: var(--composa-space-2);

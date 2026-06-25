@@ -6,7 +6,7 @@ import {
   ToggleButtonFamily,
 } from "./composa-component-stories.js";
 import React from "react";
-import { Button as ButtonControl, IconButton as IconButtonControl, ToggleButton as ToggleButtonControl, OverlayHost } from "../story-runtime.js";
+import { Button as ButtonControl, IconButton as IconButtonControl, ToggleButton as ToggleButtonControl, SplitButton as SplitButtonControl, OverlayHost } from "../story-runtime.js";
 import { withAnnotations } from "./_annotations.js";
 
 // The icon-button family carries an intrinsic FloatingTooltip that opens on
@@ -215,5 +215,230 @@ export const ToggleAccessibility = {
         tier: { priority: "mandatory", difficulty: "easy" },
       },
     ],
+  },
+};
+
+// WideSidebarPlacement — Three fill-width buttons stacked in a narrow sidebar container,
+// demonstrating how primary, secondary, and ghost variants coexist in a confined column.
+export const WideSidebarPlacement = {
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          width: "200px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--composa-space-1)",
+          padding: "var(--composa-space-2)",
+          background: "var(--composa-color-bg-secondary)",
+          borderRadius: "var(--composa-radius-medium)",
+        },
+      },
+      React.createElement(ButtonControl, { label: "Publish", variant: "primary", width: "fill" }),
+      React.createElement(ButtonControl, { label: "Save draft", variant: "secondary", width: "fill" }),
+      React.createElement(ButtonControl, { label: "View history", variant: "ghost", width: "fill" })
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Three width fill buttons in a sidebar context — primary, secondary, ghost.",
+      },
+    },
+  },
+};
+
+// LargeVariants — All button variants rendered at size=large (32px) in a flex row,
+// including text buttons and icon buttons, for toolbar surface reference.
+export const LargeVariants = {
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--composa-space-1)",
+          flexWrap: "wrap",
+        },
+      },
+      React.createElement(ButtonControl, { label: "Primary", variant: "primary", size: "large" }),
+      React.createElement(ButtonControl, { label: "Secondary", variant: "secondary", size: "large" }),
+      React.createElement(ButtonControl, { label: "Ghost", variant: "ghost", size: "large" }),
+      React.createElement(ButtonControl, { label: "Destructive", variant: "destructive", size: "large" }),
+      React.createElement(IconButtonControl, { icon: "move", label: "Move", size: "large", tooltip: false }),
+      React.createElement(IconButtonControl, { icon: "text", label: "Text", size: "large", tooltip: false })
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "All button variants at size=large (32px). Use in control-focused toolbar surfaces.",
+      },
+    },
+  },
+};
+
+// LargeMultiOptionBoolModifier — Figma's Multi-option (SplitButton) and Bool Modifier
+// (ToggleButton) patterns side by side at size=large.
+export const LargeMultiOptionBoolModifier = {
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "flex-end",
+          gap: "var(--composa-space-3)",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--composa-space-1)",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "var(--composa-color-text-secondary)",
+              fontFamily: "var(--composa-font-family)",
+            },
+          },
+          "Multi-option"
+        ),
+        React.createElement(SplitButtonControl, { label: "Action", size: "large" })
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--composa-space-1)",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "var(--composa-color-text-secondary)",
+              fontFamily: "var(--composa-font-family)",
+            },
+          },
+          "Bool Modifier"
+        ),
+        React.createElement(ToggleButtonControl, { icon: "move", label: "Lock", size: "large", pressed: false, tooltip: false })
+      )
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Figma's 'Multi-option' maps to SplitButton and 'Bool Modifier' maps to ToggleButton, both at size=large.",
+      },
+    },
+  },
+};
+
+// TogglePlayOption — A transport control row with prev, play/pause toggle, and next.
+// "minus" is used for prev and "plus" for next — the valid icon set has no skip-back/forward.
+export const TogglePlayOption = {
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: "2px",
+        },
+      },
+      React.createElement(IconButtonControl, { icon: "minus", label: "Previous", tooltip: false }),
+      React.createElement(ToggleButtonControl, { icon: "play", label: "Play", pressed: false, tooltip: false }),
+      React.createElement(IconButtonControl, { icon: "plus", label: "Next", tooltip: false })
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Play-option toggle in a transport row. All controls stay the same size; pressed state is communicated by icon color only, not layout reflow.",
+      },
+    },
+  },
+};
+
+// ToggleDialogExample — Two dialog-opener toggles showing closed vs open state side by side.
+// The corner dot signals the dialog association; when dialogOpen is true the toggle
+// shows the active/selected appearance.
+export const ToggleDialogExample = {
+  render: () =>
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "flex-end",
+          gap: "var(--composa-space-3)",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--composa-space-1)",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "var(--composa-color-text-secondary)",
+              fontFamily: "var(--composa-font-family)",
+            },
+          },
+          "Closed"
+        ),
+        React.createElement(ToggleButtonControl, { icon: "styles", label: "Closed", dialog: true, dialogOpen: false, tooltip: false })
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--composa-space-1)",
+            alignItems: "flex-start",
+          },
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: "11px",
+              color: "var(--composa-color-text-secondary)",
+              fontFamily: "var(--composa-font-family)",
+            },
+          },
+          "Open"
+        ),
+        React.createElement(ToggleButtonControl, { icon: "styles", label: "Open", dialog: true, dialogOpen: true, tooltip: false })
+      )
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Dialog-opener toggle: active only while the dialog is open. The corner dot signals the association.",
+      },
+    },
   },
 };

@@ -120,12 +120,19 @@
   --composa-switch-bg-checked: var(--composa-color-accent);
   --composa-switch-thumb-bg: var(--composa-color-bg);
 
-  --composa-selection-control-size: 14px;
+  /* Checkbox/Radio mark box.
+     Figma UI3 kit 4kilp0ShQiYsoUPJdleqEH node 2012:55461 (Checkbox):
+     - Mark background rectangle: 16×16, cornerRadius 5 (radius-medium).
+     - Checked/mixed fill: VariableID:1326:3175 = #0d99ff (border-selected).
+     - Checked/mixed stroke: VariableID:1326:3184 = #007be5.
+     Previously --composa-selection-control-size was 14px and bg/border-selected
+     referenced --composa-color-accent (#0079d1) — both corrected here. */
+  --composa-selection-control-size: 16px;
   --composa-selection-control-mark-size: 6px;
   --composa-selection-control-bg: var(--composa-color-bg);
-  --composa-selection-control-bg-selected: var(--composa-color-accent);
+  --composa-selection-control-bg-selected: var(--composa-color-border-selected);
   --composa-selection-control-border: var(--composa-color-border);
-  --composa-selection-control-border-selected: var(--composa-color-accent);
+  --composa-selection-control-border-selected: var(--composa-color-border-selected);
 
   --composa-tooltip-bg: #1e1e1e;
   --composa-tooltip-fg: #ffffff;

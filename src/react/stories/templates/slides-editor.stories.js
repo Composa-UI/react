@@ -5,18 +5,16 @@ import {
   AppNavigationRail,
   SlidesNavigator,
   EditorToolbar,
-  EditingInspector,
   OverlayHost,
 } from "../../story-runtime.js";
 import { AppTopBar, shellStage } from "./_shell-helpers.js";
+import { SlideInspector } from "./_slide-inspector-helpers.js";
 
 // SlidesEditorTemplate is a thin slides preset of EditorShell. This story composes
 // the REAL Composa modules into the slots with realistic sample data; the slides
-// navigator goes in the navigator slot. The template keeps its default present-mode
-// toggle as the floating canvas toolbar. Modules are wired here in the composition,
-// not hardcoded inside the template. AppTopBar sits above the shell via shellStage;
+// navigator goes in the navigator slot. AppTopBar sits above via shellStage;
 // Slides omits top-level mode tabs because Design / Animate switching lives in
-// InspectorHeader.
+// SlideInspector's InspectorHeader tab strip.
 
 const navigationRail = React.createElement(AppNavigationRail, {
   appLabel: "Composa",
@@ -69,14 +67,12 @@ const navigator = React.createElement(SlidesNavigator, {
   onAddSlide: fn(),
 });
 
-// The same floating creation toolbar used in EditorShell, in the slides canvas too.
 const canvasToolbar = React.createElement(EditorToolbar, {
   defaultActiveTool: "move",
   onToolChange: fn(),
   label: "Canvas tools",
 });
 
-// A simple canvas placeholder is fine for the slide canvas region itself.
 const canvas = React.createElement(
   "div",
   {
@@ -93,25 +89,40 @@ const canvas = React.createElement(
   "Slide canvas"
 );
 
-// Real inspector. EditingInspector renders transient menus/dialogs through the
-// overlay system, so it gets its own OverlayHost wrapper inside the slot.
+// SlideInspector replaces the generic EditingInspector. It owns the Design /
+// Animate tab state and renders the slide-specific right panel:
+//   Design tab — TemplateStyleSection + standard section stack
+//   Animate tab — transition controls (Animation, Curve, Duration, Trigger)
 const inspector = React.createElement(
   OverlayHost,
   { style: { height: "100%", display: "flex", flexDirection: "column", minHeight: 0 } },
-  React.createElement(EditingInspector, {
-    layerTitle: "Slide Deck Title",
-    layoutMode: "frame",
+  React.createElement(SlideInspector, {
+    slideTitle: "Slide Deck Title",
+    templateStyle: {
+      themeName: "Radicle",
+      fonts: "Whyte Inktrap, Inter",
+      colors: ["#000000", "#ff5c16", "#ffffff", "#f5e642"],
+    },
     selectionColors: [
       { id: "ink", type: "Selection color", label: "Ink", value: "#111111", selectionCount: 1 },
       { id: "orange", type: "Selection color", label: "Orange", value: "#ff5c16", selectionCount: 1 },
     ],
-    showInspectorHeader: true,
-    showLayerHeader: true,
+    layoutMode: "frame",
+    animateProps: {
+      animation: "smart-animate",
+      curve: "ease-in",
+      duration: 300,
+      trigger: "on-click",
+      onAnimationChange: fn(),
+      onCurveChange: fn(),
+      onDurationChange: fn(),
+      onTriggerChange: fn(),
+      onApplyToAll: fn(),
+    },
   })
 );
 
-// Top bar — Slides variant omits mode tabs; Design / Animate switching lives
-// in InspectorHeader's tab strip.
+// Top bar — Slides variant: no mode tabs (Design / Animate lives in SlideInspector).
 const appTopBar = React.createElement(AppTopBar, {
   appLabel: "Composa",
   fileName: "Earthling Mobile Refresh",
@@ -132,7 +143,12 @@ export default {
     docs: {
       description: {
         component:
-          "SlidesEditorTemplate is a thin slides-oriented preset of EditorShell. It supplies slides defaults and a present-mode toggle as the floating canvas toolbar, and forwards every slot to EditorShell. It owns no document model. This story composes the real Composa modules (AppNavigationRail, SlidesNavigator, EditingInspector) into the slots. AppTopBar sits above the shell — Slides omits top-level mode tabs; Design / Animate switching lives in InspectorHeader.",
+          "SlidesEditorTemplate is a thin slides-oriented preset of EditorShell. " +
+          "AppTopBar sits above via shellStage (no top-level mode tabs — mode switching " +
+          "lives in SlideInspector's InspectorHeader). " +
+          "The right panel uses SlideInspector: Design tab shows TemplateStyleSection " +
+          "above the standard section stack; Animate tab shows transition controls " +
+          "(Animation, Curve, Duration, Trigger).",
       },
     },
   },
@@ -151,17 +167,16 @@ export default {
     navigationRail: { control: false, description: "Left navigation rail slot (AppNavigationRail)." },
     navigator: { control: false, description: "Navigator slot (SlidesNavigator: slide strip)." },
     canvas: { control: false, description: "Center slide-canvas slot; shrinks responsively." },
-    inspector: { control: false, description: "Right inspector slot (EditingInspector)." },
+    inspector: { control: false, description: "Right panel slot (SlideInspector: Design / Animate tabs)." },
     resizableSides: {
       control: "boolean",
-      description:
-        "Opt-in: makes the navigator (left) and inspector (right) columns resizable via a draggable role=separator handle (forwarded to EditorShell). Pass `true` for both or `{ left, right }` for per-side opt-in.",
+      description: "Opt-in: makes navigator and inspector columns resizable.",
       table: { defaultValue: { summary: "false" } },
     },
-    canvasToolbar: { control: false, description: "Overrides the default present-mode toggle placeholder." },
+    canvasToolbar: { control: false, description: "Overrides the default present-mode toggle." },
     presentMode: {
       control: "boolean",
-      description: "Whether present mode is active (placeholder; app repo owns real present mode).",
+      description: "Whether present mode is active.",
       table: { defaultValue: { summary: "false" } },
     },
     label: { control: "text", table: { defaultValue: { summary: "Slides editor" } } },
@@ -170,6 +185,16 @@ export default {
 
 export const Default = {
   render: function (args) { return stage(React.createElement(SlidesEditorTemplate, args)); },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Default Slides editor with AppTopBar above. The right panel is SlideInspector " +
+          "starting on the Design tab. Click Animate in InspectorHeader to switch to " +
+          "the transition controls.",
+      },
+    },
+  },
 };
 
 export const Presenting = {
@@ -178,7 +203,7 @@ export const Presenting = {
   parameters: {
     docs: {
       description: {
-        story: "Present-mode placeholder state: the floating toggle flips to its active style. Real present mode is owned by the app repo.",
+        story: "Present-mode placeholder: the floating toggle flips to its active style.",
       },
     },
   },

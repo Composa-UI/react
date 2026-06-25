@@ -287,6 +287,60 @@
         "text-on-multiplayer-yellow": {
           "$type": "color",
           "$value": "rgba(0, 0, 0, 0.9)"
+        },
+        "multiplayer-purple": {
+          "$type": "color",
+          "$value": "#9747ff",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Purple. VariableID:1330:3216. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-purple": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "multiplayer-blue": {
+          "$type": "color",
+          "$value": "#007be5",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Blue. VariableID:1330:3215. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-blue": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "multiplayer-pink": {
+          "$type": "color",
+          "$value": "#ff24bd",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Pink. VariableID:1330:3217. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-pink": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "multiplayer-red": {
+          "$type": "color",
+          "$value": "#f24822",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Red. VariableID:1330:3218. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-red": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "multiplayer-green": {
+          "$type": "color",
+          "$value": "#14ae5c",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Green. VariableID:1330:3220. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-green": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "multiplayer-grey": {
+          "$type": "color",
+          "$value": "#667799",
+          "$extensions": { "composa": { "note": "Figma UI3 multiplayer identity color: Grey. VariableID:1330:3221. Identity colors are presenter-assigned and do not change in dark mode." } }
+        },
+        "text-on-multiplayer-grey": {
+          "$type": "color",
+          "$value": "#ffffff"
         }
       },
       "slides": {

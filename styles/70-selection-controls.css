@@ -30,8 +30,10 @@
   border-radius: var(--composa-radius-full);
 }
 
+/* Figma UI3 spec (node 2012:55461): checkbox Background rect cornerRadius=5 = radius-medium.
+   Previously used radius-small (2px) — corrected to radius-medium (5px). */
 .composa-checkbox-mark {
-  border-radius: var(--composa-radius-small);
+  border-radius: var(--composa-radius-medium);
 }
 
 /* The mark glyph is now a Material Symbols check/minus (same family as the other
@@ -154,4 +156,3 @@
   font-size: var(--composa-body-medium-size);
   line-height: var(--composa-body-medium-line);
 }
-

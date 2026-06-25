@@ -3194,6 +3194,7 @@ export function createComposaComponents(React, options = {}) {
         type: "button",
         className: cx("composa-notification-cta", tone && `composa-notification-cta-${propToken(tone)}`),
         "data-composa-component": "NotificationCTA",
+        "data-part": "action",
         onClick,
         ...rest,
       },
@@ -3248,18 +3249,19 @@ export function createComposaComponents(React, options = {}) {
         ),
         "data-composa-component": component,
         "data-tone": propToken(tone),
+        "data-scope": "notification",
         role: "status",
         "aria-live": "polite",
       },
       [
-        h("div", { key: "content", className: "composa-notification-content" }, [
-          leading ? h("span", { key: "lead", className: "composa-notification-lead" }, leading) : null,
-          body != null && body !== "" ? h("span", { key: "msg", className: "composa-notification-message" }, body) : null,
+        h("div", { key: "content", className: "composa-notification-content", "data-part": "content" }, [
+          leading ? h("span", { key: "lead", className: "composa-notification-lead", "data-part": "lead" }, leading) : null,
+          body != null && body !== "" ? h("span", { key: "msg", className: "composa-notification-message", "data-part": "message" }, body) : null,
         ]),
         actionList.length
           ? h(
               "div",
-              { key: "actions", className: "composa-notification-actions" },
+              { key: "actions", className: "composa-notification-actions", "data-part": "actions" },
               actionList.map((action, index) => notificationCta(action, `cta${index}`, tone))
             )
           : null,

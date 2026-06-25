@@ -2,11 +2,11 @@ import figma from "@figma/code-connect";
 import React from "react";
 import { Button, IconButton, ToggleButton, SplitButton } from "@composa-ui/react";
 
-const url = (nodeId) =>
-  `https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=${nodeId.replace(":", "-")}`;
+// Code Connect parses statically — the node URL MUST be a plain string literal,
+// not a helper call or interpolated template (figma connect parse rejects both).
 
 // ─── Button ───────────────────────────────────────────────────────────────────
-figma.connect(Button, url("2012:48557"), {
+figma.connect(Button, "https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=2012-48557", {
   props: {
     variant: figma.enum("👥 Variant", {
       Primary: "primary",
@@ -50,7 +50,7 @@ figma.connect(Button, url("2012:48557"), {
 
 // ─── IconButton ───────────────────────────────────────────────────────────────
 // Figma ships only Default/Secondary; code supports the full variant vocabulary.
-figma.connect(IconButton, url("2324:46757"), {
+figma.connect(IconButton, "https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=2324-46757", {
   props: {
     variant: figma.enum("👥 Variant", {
       Default: "secondary",
@@ -72,7 +72,7 @@ figma.connect(IconButton, url("2324:46757"), {
 });
 
 // ─── ToggleButton ─────────────────────────────────────────────────────────────
-figma.connect(ToggleButton, url("2324:46776"), {
+figma.connect(ToggleButton, "https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=2324-46776", {
   props: {
     pressed: figma.enum("🎛️ On", {
       True: true,
@@ -95,7 +95,7 @@ figma.connect(ToggleButton, url("2324:46776"), {
 });
 
 // Dialog-opener variant — corner dot; active only while its dialog/popover is open.
-figma.connect(ToggleButton, url("2324:46817"), {
+figma.connect(ToggleButton, "https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=2324-46817", {
   props: {
     dialogOpen: figma.enum("🎛️ On", {
       True: true,
@@ -118,7 +118,7 @@ figma.connect(ToggleButton, url("2324:46817"), {
 });
 
 // ─── SplitButton ──────────────────────────────────────────────────────────────
-figma.connect(SplitButton, url("2324:46856"), {
+figma.connect(SplitButton, "https://www.figma.com/design/4kilp0ShQiYsoUPJdleqEH?node-id=2324-46856", {
   props: {
     size: figma.enum("👥 Size", {
       Small: "small",

@@ -79,39 +79,57 @@ _Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaitin
 <DocTab label="Style">
 
 {/* Annotated component illustrations (derived, live) sit above the token tables — the way Figma
-    annotates the real component across Style. Layout = redlines; the tables stay the source of
-    record for the exact token names. */}
+    annotates the real component across Style. Layout = redlines; Color/Shape/Typography = token
+    pins. The tables stay the source of record for the exact token names. */}
 
 <Canvas of={SwitchStories.Layout} />
+
+<Canvas of={SwitchStories.Color} />
+
+<Canvas of={SwitchStories.Shape} />
+
+<Canvas of={SwitchStories.Typography} />
 
 #### Structure
 
 | Element | Size |
 |---|---|
-| Track | 32 × 16 |
-| Knob | 14 × 14 |
+| Track | 28 × 16 |
+| Knob | 12 × 12 |
 | Row height | 24 |
 | Label gap | `spacer-2` (8) |
-| Description indent | 40 (track 32 + gap 8) |
-| Track radius — on | `radius-full` |
-| Track radius — off / mixed | `radius-large` |
+| Description indent | 36 (track 28 + gap 8) |
+| Track radius | `radius-full` |
+
+{/* Figma component measures 32 × 16 for the track and 14 × 14 for the knob at design
+    scale, but the code tokens --composa-switch-width: 28px and
+    --composa-switch-thumb-size: 12px are authoritative for rendered output.
+    The previous table (32 × 16 / 14 × 14) reflected raw Figma pixel values;
+    corrected here to match CSS (2026-06-25). The previous separate row
+    "Track radius — off / mixed: radius-large" was also incorrect — the CSS
+    has a single border-radius: var(--composa-radius-full) rule on .composa-switch
+    that applies for all states. */}
 
 #### Color
 
 | Element / state | Token |
 |---|---|
-| Track — on | `color.bg.brand` |
+| Track — on | `color.bg.brand` (accent) |
 | Track — off | `color.bg.tertiary` |
-| Track — disabled | `color.bg.disabled` |
-| Knob | `color.icon.onbrand` |
-| Knob — disabled | `color.icon.ondisabled` |
-| Focus ring — off | `color.border.selected` |
-| Focus ring — on / mixed | `color.border.selected-strong` |
-| Mixed glyph | `icon.16.mixed` (centered) |
+| Track — disabled (any type) | `color.bg.tertiary` (0.6 opacity) |
+| Knob | `color.bg` |
+| Focus ring — on / off / mixed | `color.border.selected` |
+| Mixed glyph | `icon.16.mixed` (centered dash) |
 | Label | `color.text` ( `color.text.disabled` when disabled) |
 | Description | `color.text.secondary` |
 | Track — read-only _(proposed)_ | transparent + `color.border` outline |
 | Knob — read-only _(proposed)_ | `color.icon` |
+
+{/* The disabled track token was previously listed as color.bg.disabled, but the CSS
+    comment on .composa-switch:disabled explicitly records that Figma uses bg-tertiary
+    for the disabled track (not the generic bg-disabled gray), and the CSS implements
+    it as background: var(--composa-color-bg-tertiary) with opacity: 0.6.
+    Corrected to match the CSS source of truth (2026-06-25). */}
 
 _Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
 
@@ -168,7 +186,7 @@ import { Switch } from "@composa-ui/react";
 
 #### Focus
 
-- The focused switch shows a selection-blue ring (`color.border.selected` / `-strong`),
+- The focused switch shows a selection-blue ring (`color.border.selected`),
   meeting the visible-focus requirement.
 
 </DocTab>

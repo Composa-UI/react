@@ -147,3 +147,45 @@ export const OnOffDelta = {
     ],
   },
 };
+
+// Color — full switch palette: track bg (on/off), thumb bg, and focus ring.
+// Four pins derived from live CSS — no hex values authored.
+export const Color = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", gap: 48, alignItems: "center", padding: "48px 64px 40px" } },
+      React.createElement("div", { className: "col-on" }, React.createElement(Switch, { label: "Show grid", checked: true, onCheckedChange: () => {} })),
+      React.createElement("div", { className: "col-off" }, React.createElement(Switch, { label: "Show grid", checked: false, onCheckedChange: () => {} })),
+      React.createElement("div", { className: "col-focus" }, React.createElement(Switch, { label: "Show grid", checked: true, state: "focused", onCheckedChange: () => {} }))
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".col-on .composa-switch", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" },
+      { n: 2, target: ".col-off .composa-switch", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" },
+      { n: 3, target: ".col-on .composa-switch-thumb", marker: "pin", side: "bottom", type: "token", kind: "color", prop: "background" },
+      { n: 4, target: ".col-focus .composa-switch", marker: "pin", side: "bottom", type: "token", kind: "color", prop: "outline-color" },
+    ],
+  },
+};
+
+// Shape — track border-radius annotation (derived). Radius facet.
+export const Shape = {
+  render: () => React.createElement(Switch, { label: "Show grid", checked: true, onCheckedChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [{ type: "radius", target: ".composa-switch", corner: "top-left" }],
+  },
+};
+
+// Typography — label body-medium token (derived). Typography facet.
+export const Typography = {
+  render: () => React.createElement(Switch, { label: "Show grid", checked: true, onCheckedChange: () => {} }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: '.composa-switch [data-part="label"]', marker: "pin", side: "bottom", type: "token", kind: "typography", anchor: "center" },
+    ],
+  },
+};

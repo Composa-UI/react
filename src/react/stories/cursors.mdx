@@ -1,0 +1,205 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+
+{/* Re-org of specs/_import/cursors.md (Figma "Cursors" page, entry node 2012:308131) into the
+    Carbon-aligned 4-tab shape: Usage (overview, when each appears, full inventory, anatomy,
+    behaviors, states), Style (Structure/Color token tables), Code, Accessibility.
+    Content-preserving — every cursor type, hotspot, sizing, and per-variant ramp token kept.
+    Trimmed only Figma-product specifics (UI3 framing, FigJam, multiplayer-presence rationale).
+    No cursor story file exists yet, so specimens are deferred (ref node 2012:308131); inventory,
+    geometry, and token data are captured non-deferred. Tokens named, not hex, in the body.
+    Source anomalies preserved: (1) cursor-break wraps a plain frame, not a symbol like its
+    siblings (2399:5944); (2) cursor-chat-yellow's bubble label uses color.text (dark) not
+    color.text.onbrand; (3) cursor-chat-gray breaks the ramp-<color>-600/700 pattern, using
+    color.multiplayergrey fill with a raw #445a86 border (no bound variable). */}
+
+<Meta title="Composa UI/Foundations/Cursors" />
+
+# Cursors
+
+The cursor tells the user what the pointer will do where it sits — selecting, drawing, resizing, panning, or chatting — and the system swaps it as the context and active tool change.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+{/* [Deferred: render live — no cursor specimen story yet; ref node 2012:308131] */}
+
+_Cursor specimens render live here once a cursor story exists; the inventory, hotspot, and token data below stand in the meantime._
+
+### Overview
+
+Cursors are a system-level visual foundation: a 32 × 32 glyph that follows the pointer and changes shape to signal what an action will do at the current spot. The set spans four families — the main editing cursors, multiplayer (presence) cursors, system (macOS) cursors, and chat cursors that carry a speech bubble.
+
+Each cursor is drawn to a shared construction guide: a base pointer vector with a hotspot ellipse at (28, 28) and diagonal guide lines at 45° / 135°, so every glyph aligns to the same active point.
+
+### When each cursor appears
+
+The shape reflects the active tool and what lies under the pointer:
+
+- **Default pointer** — `cursor-black` for general pointing; `cursor-click` over an interactive target; `cursor-not-allowed` where the action is blocked.
+- **Move / nudge** — `cursor-move`, `cursor-black-move`, and the constrained `cursor-black-move-h` / `cursor-black-move-v` while dragging an object.
+- **Resize** — `cursor-resize`, `cursor-resize-scale`, `cursor-resize-padding`, and `cursor-resize-padding-bounded` over selection or padding handles.
+- **Rotate** — `cursor-rotate` just outside a selection corner.
+- **Path & vector editing** — `cursor-pen`, `cursor-pen-insert`, `cursor-pen-remove`, `cursor-pen-snap`, `cursor-bend`, `cursor-edit-corners`, `cursor-edit-radius`, `cursor-edit-ratio`, `cursor-convert`, `cursor-break`, `cursor-break-move`, `cursor-break-snap`.
+- **Drawing & painting** — `cursor-pencil`, `cursor-marker`, `cursor-highlighter`, `cursor-eraser`, `cursor-dropper`, `cursor-paint-bucket` (and `-insert` / `-remove`), `cursor-stamp`, `cursor-wand`, `cursor-magic-handle`, `cursor-washi-tape`.
+- **Frames & layout** — `cursor-frame`, `cursor-frame-snap`, `cursor-origin`, `cursor-position-absolutely`, `cursor-deep-parent`, `cursor-snap`, `cursor-duplicate`, `cursor-duplicate-snap`.
+- **Text** — `cursor-text`, `cursor-text-curve`, and the missing-font variants (`cursor-missing-font`, `-light`, `-dark`).
+- **Navigation** — `cursor-hand-new` / `cursor-hand-press` for panning, `cursor-zoom-in` / `cursor-zoom-out`, `cursor-offscreen`.
+- **Selection & annotation** — `cursor-lasso`, `cursor-crosshair`, `cursor-comments-pin`, `cursor-comments-next-pin`, `cursor-annotate`, `cursor-guide-delete`, `cursor-prototyping`, `cursor-pizza`.
+- **Multiplayer** — a presence cursor in one of seven colors (`cursor-multiplayer-blue` / `-yellow` / `-purple` / `-pink` / `-red` / `-green` / `-gray`) marks each other person's pointer.
+- **System (macOS)** — when the OS owns the pointer, the native set shows: `cursor-system-arrow`, `-add`, `-not-allowed`, `-poof`, `-busy-but-clickable`, `-context-menu`, `-zoom`, `-crosshair`, `-text`, `-hand-pointing`, `-hand-open`, `-hand-closed`, `-resize`, `-move`.
+- **Chat** — typing a message attaches a colored speech bubble to the pointer (`cursor-chat-*`).
+
+### Inventory
+
+The full cursor set, grouped by family.
+
+**Main editing cursors (63):**
+
+`cursor-black` · `cursor-black-move` · `cursor-origin` · `cursor-bend` · `cursor-black-move-h` · `cursor-black-move-v` · `cursor-paint-bucket-insert` · `cursor-paint-bucket-remove` · `cursor-paint-bucket` · `cursor-resize-padding-bounded` · `cursor-click` · `cursor-comments-pin` · `cursor-duplicate-snap` · `cursor-duplicate` · `cursor-dropper` · `cursor-eraser` · `cursor-highlighter` · `cursor-marker` · `cursor-break-move` · `cursor-break-snap` · `cursor-break` · `cursor-resize-padding` · `cursor-resize-scale` · `cursor-resize` · `cursor-zoom-in` · `cursor-zoom-out` · `cursor-pencil` · `cursor-stamp` · `cursor-lasso` · `cursor-comments-next-pin` · `cursor-convert` · `cursor-deep-parent` · `cursor-edit-corners` · `cursor-position-absolutely` · `cursor-washi-tape` · `cursor-hand-new` · `cursor-hand-press` · `cursor-edit-radius` · `cursor-edit-ratio` · `cursor-frame-snap` · `cursor-frame` · `cursor-magic-handle` · `cursor-wand` · `cursor-offscreen` · `cursor-annotate` · `cursor-guide-delete` · `cursor-not-allowed` · `cursor-pen-insert` · `cursor-pen-remove` · `cursor-crosshair` · `cursor-move` · `cursor-text` · `cursor-text-curve` · `cursor-pen-snap` · `cursor-pen` · `cursor-snap` · `cursor-missing-font-dark` · `cursor-missing-font-light` · `cursor-missing-font` · `cursor-rotate` · `cursor-prototyping` · `cursor-pizza`
+
+{/* Anomaly (faithful capture): cursor-break wraps a plain frame (2399:5944), not a symbol
+    like every other cursor in this grid. Preserved as-is; reconcile during clean-up. */}
+
+**Multiplayer cursors (7):** `cursor-multiplayer-blue` · `-yellow` · `-purple` · `-pink` · `-red` · `-green` · `-gray`
+
+**System (macOS) cursors (14):** `cursor-system-arrow` · `-add` · `-not-allowed` · `-poof` · `-busy-but-clickable` · `-context-menu` · `-zoom` · `-crosshair` · `-text` · `-hand-pointing` · `-hand-open` · `-hand-closed` · `-resize` · `-move`
+
+**Chat cursors (7):** `cursor-chat-blue` · `-yellow` · `-purple` · `-pink` · `-red` · `-green` · `-gray`
+
+### Anatomy
+
+- **Pointer glyph** — the cursor symbol itself, drawn at 32 × 32. Its **hotspot** — the active point the OS reads — sits at (28, 28) on the construction guide, marked by an 8px ellipse with a 14px union and a 13px inner ellipse at the tip.
+- **Construction guide** — a redline diagram (`_cursor-guide`) shows the base vector, two 90.51px diagonal guides at 45° and 135°, the hotspot, and the bounding 15px square the pointer is built within, so new cursors stay aligned to the same hotspot.
+- **Chat bubble** — chat cursors compose the base `cursor-black` pointer (a 14px flat arrow glyph) with a speech bubble offset to (left 16, top 16). The bubble is a tail-cornered pill (radius 2 / 99 / 99 / 19 tl/tr/br/bl) holding a short text label.
+
+### Behaviors
+
+- The cursor **changes shape with the active tool and target** — pointing, then click, then move/resize/rotate as the pointer enters a handle or interactive region.
+- Where an action is **not permitted**, the pointer shows `cursor-not-allowed` (or the system `cursor-system-not-allowed`).
+- **Snapping** variants (`-snap`, `cursor-frame-snap`, `cursor-pen-snap`, `cursor-duplicate-snap`, `cursor-break-snap`) appear while a drag is aligning to a guide or edge.
+- A **chat cursor** carries a live label the user is typing; its default text reads _"Say something"_ until replaced.
+- When the **OS owns the pointer** (drag-and-drop, busy states, native menus), the system (macOS) family is shown instead of the editing set.
+
+#### States
+
+| Context | Cursor shown |
+|---|---|
+| General pointing | `cursor-black` |
+| Over an interactive target | `cursor-click` |
+| Action blocked | `cursor-not-allowed` |
+| Dragging / moving an object | `cursor-move` / `cursor-black-move` (`-h` / `-v` when constrained) |
+| Over a resize handle | `cursor-resize` / `-scale` / `-padding` / `-padding-bounded` |
+| Just outside a selection corner | `cursor-rotate` |
+| Editing text | `cursor-text` (`cursor-missing-font` when the font is unavailable) |
+| Panning the canvas | `cursor-hand-new` → `cursor-hand-press` while held |
+| Another person's pointer | `cursor-multiplayer-*` (one of seven colors) |
+| Typing a message | `cursor-chat-*` (one of seven colors) |
+| OS-owned pointer | `cursor-system-*` |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Cursor symbol | 32 × 32 |
+| Hotspot (active point) | (28, 28), 8px ellipse |
+| Preview tile | 128 × 128, radius 13 |
+| Symbol offset in preview tile | 48 (chat previews: 32) |
+| Standard card | 128 × 160 (column pitch 168, row pitch 200) |
+| Chat card | 296 × 160 (preview 296 × 128) |
+| Chat-bubble pointer glyph | 14px flat arrow |
+| Chat-bubble offset | left 16 / top 16 |
+| Chat-bubble radius (tl/tr/br/bl) | 2 / 99 / 99 / 19 |
+| Chat-bubble border | 2px |
+| Chat-bubble padding | pl-12 / pr-16 / py-8 |
+| Construction guide | 64 × 64; diagonal guides 90.51px at 45° / 135° |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Preview tile background | `color.bg.secondary` |
+| Card name label | `color.text` (60% — name-label treatment) |
+| Heading text | `color.text` |
+| Description text | `color.text.secondary` |
+| Chat bubble fill — blue | `ramp.blue.600` |
+| Chat bubble border — blue | `ramp.blue.700` |
+| Chat bubble fill — yellow | `ramp.yellow.600` |
+| Chat bubble border — yellow | `ramp.yellow.700` |
+| Chat bubble fill — purple | `ramp.purple.600` |
+| Chat bubble border — purple | `ramp.purple.700` |
+| Chat bubble fill — pink | `ramp.pink.600` |
+| Chat bubble border — pink | `ramp.pink.700` |
+| Chat bubble fill — red | `ramp.red.600` |
+| Chat bubble border — red | `ramp.red.700` |
+| Chat bubble fill — green | `ramp.green.600` |
+| Chat bubble border — green | `ramp.green.700` |
+| Chat bubble fill — gray | `color.multiplayergrey` |
+| Chat bubble border — gray | raw `#445a86` (no bound token) |
+| Chat bubble label | `color.text.onbrand` (yellow variant: `color.text`) |
+
+{/* Anomalies (faithful capture): (1) cursor-chat-yellow is the only variant whose bubble
+    label uses color.text (dark) rather than color.text.onbrand (white) — for contrast against
+    the light yellow fill. (2) cursor-chat-gray breaks the ramp-<color>-600/700 pattern: its
+    fill is color.multiplayergrey and its border is a raw #445a86 hex with no bound variable.
+    Preserved as-is; reconcile during clean-up. */}
+
+The chat bubble carries a shadow: `0px 0px 0.5px rgba(0,0,0,0.15), 0px 5px 12px rgba(0,0,0,0.13), 0px 1px 3px rgba(0,0,0,0.1)`. All color tokens resolve per light/dark theme automatically.
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Chat-bubble label | `body.large.strong` |
+
+</DocTab>
+
+<DocTab label="Code">
+
+{/* Proposed usage — no cursor component/story exists yet. Cursors are applied via the CSS
+    `cursor` property (custom cursor images or system keywords), not a React component. */}
+
+```css
+/* Apply a cursor to a surface. Custom cursors set the image plus the hotspot
+   x/y (28 28) so the active point lands on the pointer tip; a system keyword
+   is the fallback when the image fails to load. */
+.canvas {
+  cursor: url("/cursors/cursor-black.svg") 28 28, default;
+}
+
+.canvas--moving {
+  cursor: url("/cursors/cursor-move.svg") 28 28, move;
+}
+
+.canvas--blocked {
+  cursor: not-allowed;
+}
+```
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Pointer & keyboard
+
+- Cursors are a **pointer affordance only** — they communicate intent to mouse/trackpad users and never replace a keyboard path. Every action signaled by a cursor (move, resize, select, pan) must also be reachable from the keyboard.
+- A custom cursor always declares a **system-keyword fallback** (`default`, `move`, `text`, `not-allowed`, …) so the pointer stays meaningful if the custom image fails to load.
+- The **hotspot** (28, 28) must match the visual tip, so the point the user aims with is the point the OS acts on.
+
+#### Screen reader
+
+- Cursor shape is **not exposed to assistive tech** and carries no accessible name. State that a cursor implies — disabled, busy, draggable — must be conveyed independently (e.g. `aria-disabled`, `aria-busy`, a live region, or visible text), never by the cursor alone.
+
+#### Focus & reduced motion
+
+- The cursor is not a focus indicator; focusable surfaces still need a visible focus ring of their own.
+- Cursors are static glyphs (no animation), so there is no reduced-motion concern — except the system busy/spinner cursor, which is owned by the OS and honors the platform's motion settings.
+
+</DocTab>
+
+</DocTabs>

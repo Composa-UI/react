@@ -1,0 +1,176 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as SwitchStories from "./switch.stories.js";
+
+{/* Re-org of specs/_import/switches.md (Figma "Switch Guidelines" 2015:24606) into the
+    Carbon-aligned 4-tab shape: Usage (incl. behavior/states), Style (Color/Typography/
+    Structure token tables), Code, Accessibility. Content-preserving — all substance kept.
+    Source anomaly: the On/Focus specimens (2015:24630, 2015:24665) were authored with
+    state="Focused" AND disabled — treated here as the clean Focused state.
+
+    Open decisions (need ruling):
+    - On/off state text: Carbon renders optional side text ("three words or less", body.medium,
+      color.text.secondary, spacer gap) marked aria-hidden so SRs read role + aria-checked only.
+      Introducing it adds a new structural element (side placement + gap + a11y rule) — routed
+      here rather than restructuring the locked tables. */}
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+A switch turns a single setting **on or off**, like a hardware toggle. Flipping it takes
+effect immediately — there's no separate confirm step.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={SwitchStories.Playground} />
+
+### When to use
+
+- **Switch** — the change applies the moment it's flipped (a preference, a feature toggle).
+- **Checkbox instead** — if the change only applies on a later Save/submit, or it's one
+  item in a form. _If changing the state doesn't take immediate effect, it's a checkbox._
+
+### Variants
+
+- **On / Off** — the two base states.
+- **Mixed** — an indeterminate state for when one switch governs several items that aren't
+  all on. Flipping it sets them all to the same state.
+
+### Anatomy
+
+<Canvas of={SwitchStories.Anatomy} />
+
+{/* The `withAnnotations` decorator auto-derives the anatomy from the component's `data-part`
+    declarations (Zag/Ark convention) — one bracket per part, label derived from the part name,
+    nothing authored. The same parts are stamped as `data-annotation` on the real elements, so
+    an AI reads them from the DOM/source. See specs/_annotation-system.md. */}
+
+### Behavior
+
+- **Immediate effect** — flipping applies the change at once, no save step. This is the
+  defining difference from a checkbox.
+- **Focus** shows a selection-blue ring; **disabled** dims the control *and* its label.
+- A switch usually carries a **label**, and may add a **description** for extra context
+  that aligns under the label.
+- **Read-only** _(proposed)_ — a non-interactive switch that still takes focus and is
+  announced to assistive tech, for review-without-modification contexts. It renders with a
+  transparent track outlined in `color.border` and a `color.icon` knob.
+
+### Content _(proposed)_
+
+- The label **names the setting**, not the action — prefer an adjective or noun over a verb
+  (e.g. "Grid" / "Grid visible", not "Show grid").
+- The label **does not change with the on/off state** — only the control's visual (and any
+  state text) reflects on vs off.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+### Do / Don't
+
+- **Do** pair a switch with a clear label naming the setting.
+- **Don't** use a switch for an action that needs confirmation or only applies on submit —
+  that's a Checkbox or a Button.
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) sit above the token tables — the way Figma
+    annotates the real component across Style. Layout = redlines; the tables stay the source of
+    record for the exact token names. */}
+
+<Canvas of={SwitchStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Track | 32 × 16 |
+| Knob | 14 × 14 |
+| Row height | 24 |
+| Label gap | `spacer-2` (8) |
+| Description indent | 40 (track 32 + gap 8) |
+| Track radius — on | `radius-full` |
+| Track radius — off / mixed | `radius-large` |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Track — on | `color.bg.brand` |
+| Track — off | `color.bg.tertiary` |
+| Track — disabled | `color.bg.disabled` |
+| Knob | `color.icon.onbrand` |
+| Knob — disabled | `color.icon.ondisabled` |
+| Focus ring — off | `color.border.selected` |
+| Focus ring — on / mixed | `color.border.selected-strong` |
+| Mixed glyph | `icon.16.mixed` (centered) |
+| Label | `color.text` ( `color.text.disabled` when disabled) |
+| Description | `color.text.secondary` |
+| Track — read-only _(proposed)_ | transparent + `color.border` outline |
+| Knob — read-only _(proposed)_ | `color.icon` |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Label | `body.medium` |
+| Description | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Switch } from "@composa-ui/react";
+
+<Switch
+  label="Show grid"
+  checked={showGrid}
+  onChange={(next) => setShowGrid(next)}
+/>
+```
+
+#### Props
+
+<Controls of={SwitchStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y contract
+    (role / name / keyboard / states) as a derived pin + detail card. */}
+
+<Canvas of={SwitchStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to the switch |
+| `Space` / `Enter` | Toggles the switch on/off |
+
+#### Screen reader & labeling
+
+- The switch exposes a `switch` role with `aria-checked` (`true` / `false`, or `mixed` for
+  the indeterminate state).
+- **`label` is the accessible name** — not visible text — so always set a meaningful one,
+  or the switch is unlabeled to assistive tech.
+- A disabled switch disables its label too, so the whole control reads as inactive.
+
+#### Focus
+
+- The focused switch shows a selection-blue ring (`color.border.selected` / `-strong`),
+  meeting the visible-focus requirement.
+
+</DocTab>
+
+</DocTabs>

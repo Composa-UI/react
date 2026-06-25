@@ -6,17 +6,28 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 Spacing is a base-4 ramp. Each step is a multiple of 4px. Use these tokens for gaps, padding, and margins. The bars below render at the live token width.
 
+export const SpaceHeader = () => (
+  <div style={{ display: "flex", gap: 16, padding: "0 20px 10px", fontFamily: "var(--composa-font-family)", fontSize: "var(--composa-body-medium-size)", color: "var(--composa-color-text)", opacity: 0.6 }}>
+    <div style={{ flex: "0 0 220px" }}>Token</div>
+    <div style={{ flex: "0 0 80px" }}>px</div>
+    <div style={{ flex: 1 }}>Example</div>
+  </div>
+);
+
 export const Bar = ({ token, px }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "8px 0", borderBottom: "1px solid var(--composa-color-border-translucent)" }}>
-    <div style={{ width: 130, flexShrink: 0, fontFamily: "monospace", fontSize: 12 }}>{token}</div>
-    <div style={{ width: 44, flexShrink: 0, fontFamily: "monospace", fontSize: 12, opacity: 0.7 }}>{px}</div>
-    <div style={{ height: 16, width: `var(${token})`, minWidth: 1, background: "var(--composa-color-bg-brand)", borderRadius: 2 }} />
+  <div style={{ display: "flex", alignItems: "center", gap: 16, height: 56, padding: "0 20px", marginBottom: 6, background: "var(--composa-color-bg-secondary)", borderRadius: "var(--composa-radius-large)" }}>
+    <div style={{ flex: "0 0 220px", fontFamily: "monospace", fontSize: "var(--composa-body-large-size)", color: "var(--composa-color-text)" }}>{token}</div>
+    <div style={{ flex: "0 0 80px", fontFamily: "monospace", fontSize: "var(--composa-body-large-size)", color: "var(--composa-color-text)", opacity: 0.65 }}>{px}</div>
+    <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
+      <div style={{ height: `var(${token})`, width: `var(${token})`, minWidth: 1, minHeight: 1, background: "var(--composa-color-bg-brand)", borderRadius: 2 }} />
+    </div>
   </div>
 );
 
 ## Scale
 
 <div style={{ margin: "12px 0 28px" }}>
+  <SpaceHeader />
   <Bar token="--composa-space-0" px="0" />
   <Bar token="--composa-space-1" px="4px" />
   <Bar token="--composa-space-2" px="8px" />
@@ -35,4 +46,55 @@ The scale is a strict base-4 ladder. Every value is `4 × n`. This keeps vertica
 
 ## Grid
 
-Composa's grid is the spacing ramp itself. Spacing and radius are authored together as one "grid" — the base-4 ladder that governs gaps, padding, and corner geometry. Layout rhythm comes from applying that grid to flex gaps and padding across components. This is a desktop-app grid: there are no column or container tokens and no responsive breakpoints; the base-4 ramp is the shared rhythm.
+Composa's grid is the spacing ramp itself. Spacing and radius are authored together as one "grid" — the base-4 ladder that governs gaps, padding, and corner geometry. Layout rhythm comes from applying that grid to flex gaps and padding across components. This is a desktop-app grid: there are no **page-layout** column/container tokens and no responsive breakpoints; the base-4 ramp is the shared rhythm.
+
+It does, though, have a **property-panel column grid** for inspector controls — see below.
+
+## Relational spacing
+
+{/* PROPOSED (inferred, Carbon-benchmarked). Figma/UI3 gives the base-4 ramp but no named
+    relational model. Carbon names two concepts — Stack (vertical distance between
+    components) and Inset (padding) — and stays principle-only ("elements near each other
+    read as related; more space weakens the relationship and raises hierarchy"). Composa is
+    a dense desktop app, so we can be more prescriptive. Values below are inferred from the
+    keystone (8px) plus evidence captured in component imports: dropdown specimen rows sit
+    16px apart; toast label↔button-rail = 8px; input↔adjacent-button = 8px; menu
+    parent↔child = 4px; in-row element gaps = spacer-1/2. Awaiting founder ruling — see
+    Open decisions. */}
+
+_(proposed)_ The ramp answers "which values exist"; this answers "how much space goes where." Three roles, borrowing Carbon's vocabulary:
+
+- **Inset** — padding _inside_ a container or control.
+- **Inline** — horizontal gap between related items on one row.
+- **Stack** — vertical gap between elements stacked top-to-bottom.
+
+| Role | Context | Token | px |
+|---|---|---|---|
+| Inset | Inside a dense 24px control | `--composa-space-1` | 4 |
+| Inset | **Default** — control / row padding | `--composa-space-2` | 8 |
+| Inset | Panel, card, dialog body | `--composa-space-3` | 16 |
+| Inline | Icon ↔ label, within a control | `--composa-space-1` | 4 |
+| Inline | **Default** — between related row items | `--composa-space-2` | 8 |
+| Inline | Field ↔ its adjacent button | `--composa-space-2` | 8 |
+| Stack | Tightly related (list rows, group options) | `--composa-space-1`–`2` | 4–8 |
+| Stack | Distinct sibling controls / field rows | `--composa-space-3` | 16 |
+| Stack | Group ↔ next group, section breaks | `--composa-space-4`–`5` | 24–32 |
+
+**Principle (from Carbon):** proximity signals relationship. Tighten the step to bind elements together; widen it to separate groups and lift one element's hierarchy. When unsure, default to **8px** and step **up** the ramp to separate — never invent an off-ramp value.
+
+## Property-panel columns
+
+{/* PROPOSED restore. dropdown.md import quotes UI3: "To create a consistent grid in our
+    property panels, we can also snap these controls to our flexible grid, locking to either
+    one, two, or three columns." This is an inspector-control column grid, distinct from a
+    page-layout/responsive grid (which genuinely doesn't exist). grid.md previously dropped
+    it as "no column grid exists" — overstated. Figma showed Col-2 and Col-3 specimens
+    rendering alike (possible source error); the standalone grid page omits Col entirely.
+    Restoring the concept; exact gutter token still to confirm — see Open decisions. */}
+
+_(proposed)_ Inside a property/inspector panel, controls snap to a **flexible column grid** of **one, two, or three columns** — this is how paired controls (e.g. X/Y, W/H) line up across a panel. It is an inspector layout aid, not a page-layout grid: there are still no responsive breakpoints. Columns share the standard **8px** inline gutter unless a denser pairing calls for 4px.
+
+## Open decisions
+
+- **Relational spacing values** above are proposed defaults inferred from the keystone + scattered component evidence, not a single Figma spacing-relationships frame. Confirm the stack steps (esp. 16px between sibling field rows, 24–32px section breaks).
+- **Property-panel column gutter** — confirm the exact token (8px assumed). Figma's Col-2 / Col-3 specimens rendered identically; confirm whether that's intentional or a source error, and whether a max-3-column cap is a hard rule.

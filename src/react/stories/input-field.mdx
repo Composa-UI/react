@@ -1,0 +1,232 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as InputFieldStories from "./input-field.stories.js";
+
+{/* Re-org of specs/_import/input.md (Figma "Inputs" canvas 2028:75376 — six Guidelines
+    frames: Numeric input 2327:84616, Combo Input 2327:85734, Value 2327:86469, Value-Paint
+    2327:86744, Emphasized Text Input 2327:86901, Text Input Nesting 2327:87673) into the
+    Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/behavior + states),
+    Style (Structure/Color/Typography token tables), Code, Accessibility. Content-preserving —
+    all input families (text/numeric/numeric-multi/combo/color/value/value-paint/emphasized/
+    nesting) and all substance kept; only Figma-product specifics (node ids, light/dark specimen
+    scaffolding) trimmed. Tokens named, not hex.
+    Source anomalies preserved/handled: the Numeric and Combo intro descriptions were authored as
+    a copy/paste leftover ("Works a `<select>` menu…") that describes a select/dropdown — NOT
+    transcribed as the user-facing definition; the real behavior is stated instead. The Text Input
+    Nesting intro duplicated the Emphasized intro verbatim. Source typos ("butotn"/"Buttoons") are
+    corrected here. The redline row-label strings (State-Left labels) on the Value §2/§3/§4/§5 and
+    Combo §2 matrices were never readable in the import session (host shell unavailable) — they map
+    onto the component `state` enums (Default/Focus/Disabled/Empty/Active Empty) and are still
+    deferred; reconcile against the live Figma file during clean-up. Color tokens shown as names.
+
+    Open decisions (need ruling):
+    - Whether a password/masked-credential variant is adopted — if so, add a keyboard row for
+      reveal toggle via `Enter`/`Space` and a mask/reveal affordance. Deferred until a credential
+      use case appears (no obvious password field on current editor property-panel surfaces).
+    - Whether a skeleton (initial-load placeholder at the 24px field height) state is adopted.
+    - Whether an optional character `count / max` indicator is adopted for naming fields
+      (block input past max; counter in `color.text.secondary`).
+    - Proposed validation/error tokens to confirm or rename: `color.border.error`,
+      `color.icon.error`, `color.text.error`, `icon.16.error`, `color.icon.warning`, `icon.16.warning`. */}
+
+<Meta of={InputFieldStories} />
+
+# Input
+
+An input collects a typed value — text, a number, a color, or a value paired with a dropdown — sharing one height, radius, and type scale across every variant.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={InputFieldStories.TextInput} />
+
+### Overview
+
+Input is the base single-line text-entry control. Pick the variant by data type: plain **Text** for simple textual or numerical values, **Numeric** for a number with a leading property glyph, **Numeric multi** to combine several values in one row, **Combo** to pair an exact typed value with a dropdown of presets, and **Color** for hex, gradient, and image fills. All variants share one height, radius, and type scale.
+
+By default, inputs don't show a border until the field is focused — keeping property panels quiet until the user is editing. Some fields can snap to the flexible panel grid, locking to one, two, or three columns so controls line up across a panel.
+
+### When to use
+
+- **Text** — the default input, for simple textual or numerical values.
+- **Numeric** — a number with a leading property glyph (for example a sizing or spacing field).
+- **Combo** — when the user should be able to either type an exact value *or* fall back on a preset (for example a font size). Clicking the `▾` toggles a menu of preset values.
+- **Color** — for editing color, gradient, and image fills.
+- **Dropdown instead** — when the value is always chosen from a fixed set and there's no free typing.
+
+### Variants
+
+**Numeric input** — a number field with a leading property glyph. It can snap to the flexible panel grid, locking to one, two, or three columns so fields line up across the panel.
+
+<Canvas of={InputFieldStories.NumericInput} />
+
+**Numeric input multi** — several numeric inputs combined horizontally into a single row, for editing related values together.
+
+<Canvas of={InputFieldStories.NumericInputMulti} />
+
+**Combo input** — pairs the precision of an exact typed value with a dropdown that offers preset values. Its states reflect across the input portion and the dropdown portion. Clicking the dropdown toggles a menu of preset values the user can fall back on.
+
+<Canvas of={InputFieldStories.ComboInput} />
+
+**Color input** — a text input for color, gradient, and image fills. Solid fills edit a hex value, with an optional opacity field. **Gradients and images are not directly editable, but their opacity is.** Its type axis covers Fill, Opacity, Gradient, and Image.
+
+<Canvas of={InputFieldStories.ColorInput} />
+
+### Anatomy
+
+<Canvas of={InputFieldStories.Anatomy} />
+
+{/* form-element (codified GitHub/CVS) + variant + redline annotations, rendered by the
+    `withAnnotations` decorator from the story's `parameters.annotations`. One source, three
+    systems; the same data is stamped on the real `<input>` and readable from the source.
+    See specs/_annotation-system.md. */}
+
+- **Container** — the input shell, `color.bg.secondary`, 24px tall by default, radius `radius-medium`. No border until focus.
+- **Leading icon** (optional) — a 24px property glyph (`icon.24.prop-text`) shown at the start of the field. Any variant can optionally include an icon.
+- **Value** — the typed content, set in `body.medium`. On focus the value can sit in a highlight container (`color.texthighlight`).
+- **Dropdown affordance** (combo / with-dropdown) — a trailing `▾` that toggles a preset menu.
+- **Variable pill** — when a variable is applied via the hexagonal variable icon, the value renders as a pill; focusing a field that contains a variable pill automatically selects the pill.
+- **Chip** (nesting) — names, objects, and query identifiers can nest inside an input as a chip with its own interaction states (for example a person's name in a share sheet appears as a chip with a close button; a quick-action query appears with a chit identifying an object).
+
+### Content rules
+
+- **Variables** — some fields accept a variable through the hexagonal icon; once applied the value shows as a pill, and focusing the field selects that pill.
+- **Emphasized text input** — an alternative input with a filled background, used when a field needs more visual emphasis to stand out from surrounding content. It comes in a **Small** size (32px, matching the regular Value height — for editor panels and dialogs) and a **Large** size (40px, for contexts where the field is the main interactive element, such as interstitial or first-run views). Either size can optionally include an icon.
+- **Multiline** — for inputs that accept multiple lines of text, a border *is* shown by default and the container grows in height as text wraps.
+- **Nesting a dropdown** — when a dropdown must nest inside an input, always use the larger input size to host it, pair it with the Large button variant, and leave 8px of space between the input and the button.
+- **Label** _(proposed)_ — a label is the default expectation: present, programmatically associated with the field, and using sentence-style capitalization (except product names and proper nouns). Keep it short (three words or fewer) and use no trailing colon. A placeholder or `aria-label` is a fallback, not an equivalent.
+- **Helper text** _(proposed)_ — optional persistent text below the field in `color.text.secondary`, `caption.small`, using sentence case and full sentences. An error or warning message replaces the helper text when present.
+- **Placeholder** _(proposed)_ — gives a hint or example in sentence case with no trailing punctuation; optional and off by default. A placeholder is not a label and must not be the field's only label.
+- **Required-field indication** _(proposed)_ — mark the minority: if most fields in a panel are required, mark only optional labels `(optional)`; if most are optional, mark only required labels `(required)`. Render the marker in `color.text.secondary`.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+### Behaviors
+
+- **Border on focus** — single-line inputs are borderless at rest and show a `color.border.selected` border once focused; multiline inputs show their border by default.
+- **Snap to grid** — numeric fields can lock to the flexible panel grid at one, two, or three columns.
+- **Value highlight** — focusing a field selects its value; a value sitting in the focus highlight uses `color.texthighlight`.
+- **Variable pill selection** — focusing a field that contains a variable pill auto-selects the pill.
+- **Combo fallback** — typing gives an exact value; the dropdown offers presets to fall back on.
+
+#### Validation & error messaging _(proposed)_
+
+- **When validation fires** — validate on commit (blur or submit), not on every keystroke, so the field doesn't flag a value the user is still typing. A field is invalid when it holds an out-of-range value or is required and left empty.
+- **Message placement** — the error (or warning) message appears below the field, replacing the helper text while it is present. See Accessibility for the `aria-describedby` association that surfaces the message to assistive tech.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### States
+
+| State | Styling |
+|---|---|
+| Default | `color.bg.secondary` fill, no border. |
+| Focus | `color.bg.secondary` fill plus a 1px `color.border.selected` border; value can sit in a `color.texthighlight` highlight. |
+| Empty / Active empty | Placeholder content; the active-empty state is the focused empty field. |
+| Disabled | Dimmed, non-interactive; supplemented by a tooltip where the reason matters. |
+| Error / invalid _(proposed)_ | A persistent 1px `color.border.error` border (shown at rest, since dense panels are borderless by default), a leading or trailing `icon.16.error` in `color.icon.error`, and an error message in `color.text.error` set in `caption.small` below the field. |
+| Warning _(proposed)_ | A `icon.16.warning` in `color.icon.warning` plus a message in `color.text` (warning text stays primary, not colored) below the field. Use for an exception condition where the input is technically valid. |
+| Read-only _(proposed)_ | Non-editable but reviewable; a subtle `color.border.subtle` divider (instead of the focus border), value in `color.text`. |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography facets across the
+    Style tab, the way Figma annotates the real component. The token tables below remain the
+    source of record for exact token names. */}
+
+<Canvas of={InputFieldStories.Color} />
+
+<Canvas of={InputFieldStories.Typography} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Row height — default | 24 |
+| Row height — Small emphasized / regular Value context | 32 |
+| Row height — Large emphasized | 40 |
+| Row height — multiline | 56 (grows with content) |
+| Width — numeric | 88 |
+| Width — text | 176 |
+| Width — multi / multiline | 160 |
+| Width — nested text input | 219 |
+| Width — dropdown | 117 |
+| Container radius | `radius-medium` |
+| Leading icon box | 24 × 24 (`icon.24.prop-text`) |
+| Snap-to-grid columns | 1 / 2 / 3 |
+| Nesting gap (input → button) | `spacer-2` (8) |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Container | `color.bg.secondary` |
+| Border — focus | `color.border.selected` |
+| Leading icon | `color.icon.fs-secondary` |
+| Value text | `color.text` |
+| Value highlight — focus | `color.texthighlight` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Value | `body.medium` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { InputField } from "@composa-ui/react";
+
+<InputField
+  variant="text"
+  label="Name"
+  value={name}
+  onChange={(next) => setName(next)}
+/>
+```
+
+Pick the `variant` by data type — `text`, `numeric`, `numericMulti`, `color`, or `combo` — all sharing one height, radius, and type scale. Give every input an accessible name through `label`, `placeholder`, or `aria-label`.
+
+#### Props
+
+<Controls of={InputFieldStories.TextInput} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus into the input |
+| Typing | Enters or edits the value |
+| `▾` / `Down` (combo, with-dropdown) | Opens the preset dropdown menu |
+| `Enter` | Commits the typed value |
+
+#### Screen reader & labeling
+
+- Give every input an accessible name through `label`, `placeholder`, or `aria-label`, or it is unlabeled to assistive tech.
+- A variable applied to a field is exposed as a pill; focusing the field selects the pill so it can be edited or cleared.
+- A disabled input exposes its disabled state and is supplemented with a tooltip where the reason it's unavailable matters.
+- **Association model** _(proposed)_ — the label associates to the input via `for`/`id`; helper text and any error or warning message are surfaced through `aria-describedby`; an invalid field sets `aria-invalid` so the error is programmatically announced.
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Focus
+
+- Single-line inputs are borderless at rest and show a `color.border.selected` border on focus, meeting the visible-focus requirement; multiline inputs carry their border by default.
+- Focusing a field selects its value (and any variable pill it contains).
+
+</DocTab>
+
+</DocTabs>

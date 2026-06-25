@@ -1,0 +1,252 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as BadgeStories from "./badge.stories.js";
+
+{/* Re-org of specs/_import/badges.md (Figma "Badges Guidelines" 2012:34868) into the
+    Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/behavior + states),
+    Style (Structure/Color/Typography token tables), Code, Accessibility.
+    Content-preserving — all tone families, sizes, geometry and color/text tokens kept;
+    only Figma-product specifics trimmed (FigJam-vs-Brand "depending where it appears"
+    placement rationale, branch/merge-modal vs toolbar surface notes, Community).
+    Tokens named, not hex.
+    Source anomalies preserved as authored:
+      - Warning filled uses `color.icon.warning`, NOT a `color.bg.warning` token (per import note).
+      - The Figma component descriptions for icon.16.unread / icon.16.feedback are mismatched
+        in the source (unread cites zoom/full-screen, feedback cites settings/admin) — ignored
+        here; the labels reflect actual use (unread/branch dot, feedback affordance).
+    Implementation note: the shipped Badge component (badge.stories.js) generalizes the Figma
+    guideline. The seven Figma tone families map to a single `tone` prop
+    (default/invert/brand/figjam/danger/warning/success + merged/archived/component/selected/
+    feedback); the Figma "Strong (filled)" vs "Light (outline)" forms map to the `strong` flag;
+    and the component adds `dot` and `count` shapes plus `BadgeAnchor` host composition that
+    the static Figma page did not document. Those are surfaced here as real, captured behavior.
+
+    Open decisions (need ruling):
+    - Max-width token: the (proposed) truncation rule needs a concrete `badge.max-width` value
+      (Carbon-benchmarked: ellipsis + tooltip, no wrap; "under 20 characters when possible").
+      Routed here rather than inventing a token value in the locked tables. */}
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A badge calls attention to status — flagging something as "New" or "Beta", marking a change
+as "Added" or "Removed", or labeling a person as an "Admin". It comes in a strong filled form
+and a light outline form.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={BadgeStories.Playground} />
+
+### Overview
+
+Badges are small, non-interactive markers that annotate something else — a feature, a row, a
+person, or a host control like a button or avatar. One component spans three shapes: a **label**
+pill (a word or short phrase), a **count** (a number that clamps to `{max}+`), and a **dot** (a
+bare unread indicator). The `tone` prop picks the color family; `strong` switches the subtle
+tinted form to the strong filled form.
+
+### When to use
+
+- **Badge** — to call attention to status: new/beta features, change states (Added, Removed,
+  Modified, Approved), branch status (Merged, Archived), or a label for a person (Admin, Guest).
+- **A count or dot badge** — to show an unread or pending quantity on a host control (an unread
+  count on a notification bell, a dot on a menu item). This is the foundation the notification
+  bell is built on.
+- **Not a badge** — if the element is interactive or triggers an action, use a Button or a
+  control. Badges annotate; they don't act.
+
+### Variants
+
+A badge is a **static status indicator** _(proposed)_, so its `tone` carries a fixed meaning, not an
+aesthetic choice — pick the tone by what the status signals, not by which color looks best. Each tone
+below states what it signals.
+
+Each tone family ships in a **strong** (filled) form and a **light** (outline) form. The two
+forms read as the same status at different emphasis.
+
+<Canvas of={BadgeStories.Tones} />
+
+- **Neutral / Invert** — a generic label with contrast against the background. Used for labeling
+  types of users, like "Admin" or "Guest". Strong is a filled inverse chip; light is an outline.
+- **Brand / FigJam** — for highlighting new or beta features. A brand (blue) or figjam (purple)
+  badge, e.g. "New", "Beta", or "Beta feedback" (the last pairs the label with a trailing
+  feedback icon).
+- **Danger** — for destructive actions, errors, or something that urgently needs attention
+  (e.g. "Removed").
+- **Warning** — to draw attention to potential issues or warn about a potential problem
+  (e.g. "In review", "Modified").
+- **Success** — to indicate confirmation, approval, or a completed task (e.g. "Approved").
+- **Merged / Archived** — branch status: whether a branch is merged or archived. Both lead with
+  an unread/branch icon; Merged uses the success-outline treatment, Archived the disabled-outline
+  treatment.
+
+#### Count and dot
+
+A count badge shows a quantity and clamps to `{max}+` past its ceiling; a dot badge is the bare
+indicator with no number.
+
+<Canvas of={BadgeStories.CountAndDot} />
+
+#### On a host
+
+A badge composes onto a button, avatar, or nav item via **BadgeAnchor** (or the `overlay` prop),
+which positions it over the host's corner.
+
+<Canvas of={BadgeStories.OnHosts} />
+
+### Anatomy
+
+- **Container** — a pill, height 16, horizontal padding `spacer-1`, internal gap `spacer-1`,
+  radius `radius-medium`. The strong form fills the container; the light form draws a 1px border
+  and leaves the background transparent.
+- **Label** — the text content, in `body.medium` (small) or `body.large` (large).
+- **Leading / trailing icon** — an optional 16px icon box with a small centered glyph: a leading
+  branch/unread icon on Merged/Archived badges, or a trailing feedback icon on "Beta feedback".
+- **Count / dot** — in place of a label, a number (clamped to `{max}+`) or a bare dot.
+
+### Content rules
+
+- Keep labels to a word or a short phrase — a status, not a sentence.
+- A count clamps to `{max}+` once it exceeds its ceiling (e.g. `99+`).
+- Pick the `tone` that matches the meaning (danger for errors, success for approval) rather than
+  for color alone.
+- A badge has a **max width** _(proposed)_ — an over-long label stays on one line and truncates
+  with an ellipsis rather than wrapping, with the full text exposed via a tooltip on hover (and on
+  focus of the host). Keep labels short enough to avoid truncation when possible.
+
+### Behaviors
+
+- **Non-interactive** — a badge is a marker, not a control. It has no hover, press, or toggle
+  behavior of its own and is not focusable. (When a badge sits on an interactive host, the host
+  carries the interaction; the badge rides along.)
+- **Strong vs light** — `strong` selects the filled form; the default is the light outline form.
+- **Size** — `small` uses `body.medium`; `large` uses `body.large` and adds a touch of trailing
+  padding.
+- All color tokens resolve per light/dark theme automatically.
+
+#### States
+
+| State | Styling |
+|---|---|
+| Strong (filled) | Container filled with the tone's `bg`/`icon` token; text uses the matching `on-*` token. |
+| Light (outline) | Transparent container with a 1px tone `border` token; text uses the tone's text token. |
+| Archived (disabled) | Outline form using `color.border.disabled` and `color.text.disabled`. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Badge height | 16 |
+| Horizontal padding | `spacer-1` |
+| Internal gap | `spacer-1` |
+| Corner radius | `radius-medium` |
+| Icon box | 16 × 16 (6–8px glyph inset) |
+| Large — trailing padding | `spacer-1` (icon flush left) |
+| Small — padding | none beyond container (icon + label flush) |
+| Max width — label _(proposed)_ | single-line; over-long label truncates with `text-overflow: ellipsis` (full text via tooltip) |
+
+_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Host background | `color.bg` |
+| Neutral — strong fill | `color.bg.inverse` |
+| Neutral — strong text | `color.text.oninverse` |
+| Neutral — light border | `color.border` |
+| Neutral — light text | `color.text` |
+| Brand — strong fill | `color.bg.brand` |
+| Brand — strong text | `color.text.onbrand` |
+| Brand — light border | `color.border.brand` |
+| Brand — light text | `color.text.brand` |
+| FigJam — strong fill | `color.bg.figjam` |
+| FigJam — strong text | `color.text.onfigjam` |
+| FigJam — light border | `color.border.figjam` |
+| FigJam — light text | `color.text.figjam` |
+| Danger — strong fill | `color.bg.danger` |
+| Danger — strong text | `color.text.ondanger` |
+| Danger — light border | `color.border.danger` |
+| Danger — light text | `color.text.danger` |
+| Warning — strong fill | `color.icon.warning` |
+| Warning — strong text | `color.text.onwarning` |
+| Warning — light border | `color.border.warning` |
+| Warning — light text | `color.text.warning` |
+| Success — strong fill | `color.bg.success` |
+| Success — strong text | `color.text.onsuccess` |
+| Success — light border | `color.border.success` |
+| Success — light text | `color.text.success` |
+| Merged — border / text | `color.border.success` / `color.text.success` |
+| Archived — border / text | `color.border.disabled` / `color.text.disabled` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Small label | `body.medium` |
+| Large label | `body.large` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Badge, BadgeAnchor } from "@composa-ui/react";
+
+// A status label
+<Badge label="New" tone="brand" strong />
+
+// A count that clamps to 99+
+<Badge count={240} max={99} tone="danger" strong />
+
+// A dot/count on a host control
+<BadgeAnchor badge={3}>
+  <IconButton icon="comment" label="Comments" />
+</BadgeAnchor>
+```
+
+#### Props
+
+<Controls of={BadgeStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+#### Keyboard
+
+A badge is a non-interactive marker — it is not focusable and has no keyboard interaction of its
+own. When it sits on an interactive host (a button or nav item), the **host** owns the keyboard
+behavior; the badge is decorative status that rides along.
+
+#### Screen reader & labeling
+
+- A label badge exposes its text, so the status reads naturally as part of the surrounding
+  content ("Admin", "Removed", "Approved").
+- A **count** or **dot** badge carries no intrinsic text. When it annotates a host, give the host
+  an accessible name that includes the count or unread meaning (e.g. "Comments, 3 unread") rather
+  than relying on the dot alone — a bare dot is invisible to assistive tech.
+- Don't encode status by color alone; the label (or the host's accessible name) carries the
+  meaning for users who can't distinguish the tone.
+- A label badge's status is announced as plain text in reading order (e.g. "Approved") — there is
+  no role or live-region announcement, since the badge is static. _(proposed)_ A **count** or
+  **dot** badge has no text to announce, so it needs a text alternative on its host (the host's
+  accessible name carries the count/unread meaning); otherwise it is silent to assistive tech.
+
+#### Focus
+
+- Badges take no focus. Visible focus lives on the interactive host the badge is anchored to, not
+  on the badge.
+
+</DocTab>
+
+</DocTabs>

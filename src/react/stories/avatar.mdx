@@ -1,0 +1,183 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { DocTabs, DocTab } from "./_doc-tabs";
+import * as AvatarStories from "./avatar.stories.js";
+
+{/* Re-org of specs/_import/avatars.md (Figma "Avatar Guidelines" 2012:31795, five sections:
+    2012:31798 intro, 2012:31803 24px sizes, 2012:31856 toolbar status, 2012:31904 32px,
+    2012:31959 16px) into the Carbon-aligned 4-tab shape: Usage (incl. variants/anatomy/content/
+    behavior + states), Style (Structure/Color/Typography token tables), Code, Accessibility.
+    Content-preserving — all substance kept; only Figma-product specifics trimmed: the
+    multiplayer-presence rationale around cursor colors and the Community/internal-profile and
+    FigJam-context examples are restated as general UX. Node ids, redline/measurement
+    scaffolding, and light/dark specimen mechanics dropped. Tokens named, not hex.
+    Source anomalies preserved as authored: the toolbar status states are nested into a single
+    `_Avatar status` sub-component (Default / Color bar / Ring Solid / Ring Dash Spotlight) so one
+    avatar component carries all of them; the 16px description preserved an original misspelling
+    in source and is lightly corrected here. */}
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+An avatar represents a person or an organization as a small circular mark — a photo when one is available, falling back to the first initial of their name.
+
+<DocTabs>
+
+<DocTab label="Usage">
+
+<Canvas of={AvatarStories.Playground} />
+
+### Overview
+
+An avatar is a compact identity mark. When a photo is available it shows the photo clipped to a circle; otherwise it falls back to the first initial of the name on a colored fill. The default size is **24 × 24**, which works well across most contexts — toolbars, the share modal, member lists, file cards, and comment pins.
+
+### When to use
+
+- **24 × 24 (default)** — the everyday size, used almost everywhere people or orgs appear inline.
+- **32 × 32 (large)** — when an avatar needs more presence, such as resource views and profile surfaces.
+- **16 × 16 (small)** — when an avatar must nest under a line of text, for example in a branching or tree view.
+
+### Variants
+
+<Canvas of={AvatarStories.Variants} />
+
+- **Photo** — a circular photo, used whenever an image is available.
+- **Initials** — the fallback when there's no photo: the first initial on one of seven identity colors (Purple, Blue, Pink, Red, Yellow, Green, Grey).
+- **Overflow** — a count chip (for example "+5") for collapsed groups, in read and unread treatments.
+- **Status (toolbar)** — a toolbar avatar can carry an indicator state. There are five: **Default**, **dash** (a color-bar tag above the avatar), **design** (a solid ring), **follow** (a dash-spotlight ring), and **disabled**. These states are nested into one avatar component so a single avatar can present any of them.
+
+### Anatomy
+
+<Canvas of={AvatarStories.Anatomy} />
+
+- **Avatar** — the circular mark itself (radius `radius-full`), holding either a photo or a centered initial.
+- **Initial** — a single character centered on a colored fill, sized to the avatar (`body.large` at 24px, a strong weight at 16px and 32px).
+- **Color bar (dash)** — a small tag offset above the avatar in the dash status, `radius-small`.
+- **Ring** — a solid or dash-spotlight ring drawn just outside the avatar (about 29–30px on a 24px avatar) for the design and follow states.
+- **Toolbar pill** — the blurred container that groups toolbar avatars, with a `spacer-2` inner gap.
+
+### Content rules
+
+- **Prefer a photo.** Show the person's or org's photo whenever one is available.
+- **Fall back to the first initial** when there's no photo, on the identity color assigned to that person.
+- **Identity colors** cycle through the seven multiplayer colors (Purple, Blue, Pink, Red, Yellow, Green, Grey).
+- **Overflow** collapses a group into a count chip rather than showing every avatar.
+
+### Behaviors
+
+- **Sizes** scale together with their initial type ramp: 16px uses the small strong style, 24px the default style, 32px the large strong style.
+- **Toolbar status** indicators (dash / design / follow) layer on top of the base avatar without changing its size; the dash sits above and the rings sit just outside.
+- **Disabled** dims the avatar; a disabled toolbar option is supplemented with a tooltip.
+
+#### States
+
+| State | Styling |
+|---|---|
+| Photo | Circular photo, radius `radius-full`. |
+| Initials | First initial on the assigned identity color (`color.multiplayer.*` fill, matching text-on token). |
+| Dash | Default avatar with a color-bar tag (`color.multiplayer.yellow`) offset above, `radius-small`. |
+| Design (ring) | Solid ring drawn just outside the avatar. |
+| Follow (dash spotlight) | Dash-spotlight ring drawn just outside the avatar. |
+| Disabled | Avatar dimmed; paired with a tooltip on toolbar options. |
+
+</DocTab>
+
+<DocTab label="Style">
+
+{/* Annotated component illustrations (derived, live) — Color / Typography / Layout
+    facets across the Style tab, the way Figma annotates the real component. The token
+    tables below remain the source of record for exact token names. */}
+
+<Canvas of={AvatarStories.Color} />
+
+<Canvas of={AvatarStories.Typography} />
+
+<Canvas of={AvatarStories.Layout} />
+
+#### Structure
+
+| Element | Size |
+|---|---|
+| Avatar — small | 16 × 16 (24 pitch) |
+| Avatar — default | 24 × 24 (32 pitch) |
+| Avatar — large | 32 × 32 (40 pitch) |
+| Avatar radius | `radius-full` |
+| Color-bar (dash) | 14 wide, offset 4 above, `radius-small` |
+| Status ring | ~29–30 (on a 24 avatar) |
+| Toolbar pill | inner gap `spacer-2`, blurred backdrop |
+
+#### Color
+
+| Element / state | Token |
+|---|---|
+| Initial — Purple fill | `color.multiplayer.purple` |
+| Initial — Blue fill | `color.multiplayer.blue` |
+| Initial — Pink fill | `color.multiplayer.pink` |
+| Initial — Red fill | `color.multiplayer.red` |
+| Initial — Yellow fill | `color.multiplayer.yellow` |
+| Initial — Green fill | `color.multiplayer.green` |
+| Initial — Grey fill | `color.multiplayer.grey` |
+| Initial text — on Yellow | `color.text.on-multiplayer-yellow` |
+| Initial text — all other colors | `color.text.on-multiplayer-*` |
+| Dash color bar | `color.multiplayer.yellow` |
+
+#### Typography
+
+| Element | Token |
+|---|---|
+| Initial — small (16px) | `body.small.strong` |
+| Initial — default (24px) | `body.large` |
+| Initial — large (32px) | `body.large.strong` |
+
+All color tokens resolve per light/dark theme automatically.
+
+</DocTab>
+
+<DocTab label="Code">
+
+```jsx
+import { Avatar } from "@composa-ui/react";
+
+// Photo avatar
+<Avatar src={user.photoUrl} alt={user.name} size="medium" />
+
+// Initial fallback on an identity color
+<Avatar initials="A" variant="purple" size="medium" />
+```
+
+#### Props
+
+<Controls of={AvatarStories.Playground} />
+
+</DocTab>
+
+<DocTab label="Accessibility">
+
+{/* The annotated Accessibility story renders the real component with its codified a11y
+    contract (role / name / keyboard / states) as a derived marker + detail card. */}
+
+<Canvas of={AvatarStories.Accessibility} />
+
+#### Keyboard
+
+| Key | Result |
+|---|---|
+| `Tab` | Moves focus to an interactive avatar (for example a toolbar option) |
+| `Space` / `Enter` | Activates a focused interactive avatar |
+
+A purely decorative avatar shown beside a name is not itself a tab stop.
+
+#### Screen reader & labeling
+
+- For a photo avatar, set `alt` to the collaborator's name so assistive tech can announce who it represents.
+- Leave `alt` empty when the avatar is decorative and an adjacent label already names the person, so it isn't announced twice.
+- The initial fallback is a visual cue only — make sure the person's name is available through nearby text or a label.
+- A disabled toolbar option exposes its disabled state and is supplemented with a tooltip explaining why it's unavailable.
+
+#### Focus
+
+- An interactive avatar shows a visible focus ring when focused via the keyboard, meeting the visible-focus requirement.
+
+</DocTab>
+
+</DocTabs>

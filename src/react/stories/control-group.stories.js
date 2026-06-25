@@ -1,5 +1,6 @@
 import React from "react";
 import { ControlGroup, OverlayHost } from "../story-runtime.js";
+import { withAnnotations } from "./_annotations.js";
 
 const actionItems = [
   { id: "left", icon: "alignLeft", label: "Align left" },
@@ -63,5 +64,64 @@ export const Default = {
         story: "Shows a three-action icon group without selected state.",
       },
     },
+  },
+};
+
+// The annotation overlay wraps the Story itself; the meta's OverlayHost decorator still applies
+// (decorators stack), so the icon-button tooltips have a host to portal into.
+
+// Color — the group's container fill token (derived). Color facet.
+export const Color = {
+  render: () => React.createElement(ControlGroup, { label: "Alignment actions", items: actionItems }),
+  decorators: [withAnnotations],
+  parameters: { annotations: [{ n: 1, target: ".composa-control-group", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" }] },
+};
+
+// Layout — track height redline + corner-radius (NEW v2 visual). Layout facet. Derived live.
+export const Layout = {
+  render: () => React.createElement(ControlGroup, { label: "Alignment actions", items: actionItems }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-control-group", type: "redline", dimension: "height" },
+      { target: ".composa-control-group", type: "radius", corner: "top-left" },
+    ],
+  },
+};
+
+// Accessibility — COMPOSITE: the container is role=group (a toolbar of momentary actions) and
+// EVERY action is bracketed as a button (each item is an icon-only <button>, named by aria-label).
+export const Accessibility = {
+  render: () => React.createElement(ControlGroup, { label: "Alignment actions", items: actionItems }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        target: ".composa-control-group",
+        marker: "pin",
+        side: "top",
+        type: "list",
+        element: "<div>",
+        role: "group",
+        accessibleName: "aria-label (the `label` prop)",
+        itemRole: "button",
+        keyboard: [
+          { keys: "Tab", result: "moves into / through the group" },
+          { keys: "Enter / Space", result: "activates the focused action" },
+        ],
+        states: [{ state: "each action", aria: "<button> named by its own aria-label (the item `label`)" }],
+        tier: { priority: "mandatory", difficulty: "moderate" },
+      },
+      {
+        n: 2,
+        each: true,
+        target: ".composa-control-group .composa-control-group-item",
+        marker: "bracket",
+        side: "bottom",
+        type: "listitem",
+        role: "button",
+      },
+    ],
   },
 };

@@ -1,0 +1,79 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Composa UI/Foundations/Elevation" />
+
+# Elevation
+
+Elevation is a closed set of five shadow presets that give surfaces a consistent sense of depth and adjust automatically to the active theme.
+
+{/* Source: Figma "Elevations" page — fileKey 4kilp0ShQiYsoUPJdleqEH, entry node 2012:307470. */}
+{/* Tokens: --composa-elevation-{100-canvas,200-canvas,300-tooltip,400-menu-panel,500-modal} in design/generated/composa-semantic-tokens.css (theme-aware light/dark). */}
+
+## Purpose
+
+Rather than authoring a new shadow each time a surface needs to lift off the page, reach for one of five elevation levels. Each level maps to a band of stacking order, so picking a level both styles the surface and signals where it sits relative to everything around it. The numeric scale is deliberate: it is easy to bump a surface up or down a level to express a transient state such as hovering or dragging.
+
+The shadow also carries a subtle baked-in outer edge. A surface like a dialog or menu does not need a separate `1px` border on top of its elevation — the edge is already part of the shadow.
+
+The system adapts each preset for you:
+
+- **Theme.** Against dark backgrounds the presets switch to a darker shadow plus a slight inset highlight, so the surface still reads as lifted instead of dissolving into the background.
+- **Screen resolution.** Hairline `0.5px` edges round to the nearest device pixel, so they stay crisp on lower-resolution displays instead of looking blurry.
+
+## Levels
+
+The scale runs E100 through E500, shallow to deep. Each level is one token; the token resolves to the correct light or dark shadow stack at render time. Reference the token name, never a raw shadow value.
+
+| Level | Shadow token | When to use |
+|-------|--------------|-------------|
+| E100 | `--composa-elevation-100-canvas` | Surfaces that sit as part of the canvas with only a minimal shadow — the lowest lift. |
+| E200 | `--composa-elevation-200-canvas` | Surfaces that rest on the canvas but read as distinctly on top of it, such as pinned or stacked items. |
+| E300 | `--composa-elevation-300-tooltip` | Transient surfaces that float just above the canvas — tooltips, previews, and dragged objects. |
+| E400 | `--composa-elevation-400-menu-panel` | UI surfaces layered above the canvas: panels, menus, visual bells, and notification shades. |
+| E500 | `--composa-elevation-500-modal` | The deepest lift, for large views that sit on top of the broader interface — modals and dialogs. |
+
+{/* E100/E200 named-style suffix is `-canvas`; the semantic token for E500 is `-modal` (Figma style suffix was `-modal-window`). */}
+
+export const ShadowCard = ({ level, token, dark }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 132, height: 132, borderRadius: "var(--composa-radius-large)", background: dark ? "#2c2c2c" : "var(--composa-color-bg, #fff)", boxShadow: `var(${token})` }} />
+    <div style={{ fontFamily: "monospace", fontSize: 12 }}>{level}</div>
+  </div>
+);
+
+export const ShadowRow = ({ dark }) => (
+  <div style={{ display: "flex", flexWrap: "wrap", gap: 32, padding: "40px 32px", borderRadius: "var(--composa-radius-large)", background: dark ? "#2c2c2c" : "transparent", border: dark ? "none" : "1px solid var(--composa-color-border-translucent)" }}>
+    <ShadowCard level="E100" token="--composa-elevation-100-canvas" dark={dark} />
+    <ShadowCard level="E200" token="--composa-elevation-200-canvas" dark={dark} />
+    <ShadowCard level="E300" token="--composa-elevation-300-tooltip" dark={dark} />
+    <ShadowCard level="E400" token="--composa-elevation-400-menu-panel" dark={dark} />
+    <ShadowCard level="E500" token="--composa-elevation-500-modal" dark={dark} />
+  </div>
+);
+
+The presets rendered live from the tokens — light context, then dark context:
+
+<div style={{ margin: "12px 0 16px" }}>
+  <ShadowRow dark={false} />
+</div>
+
+<div style={{ margin: "0 0 28px" }}>
+  <ShadowRow dark={true} />
+</div>
+
+## Usage
+
+- **Match the level to the surface's role,** not to how heavy you want the shadow to look. A menu is E400 because it is a menu; do not reach for E500 just to make it stand out.
+- **Step a level up or down for transient states.** A surface that lifts on hover or while being dragged should move one level deeper, then return to its resting level. This is what the numeric scale is for.
+- **Do not stack a border on an elevated surface.** The outer edge is baked into the shadow. Adding a `1px` border on top doubles the edge and looks heavy.
+- **Do not hand-author a one-off shadow.** The five presets are a closed set. If a surface seems to need something outside the scale, it usually wants an existing level applied correctly.
+- **Higher levels sit on top.** Elevation tracks stacking order — an E500 modal is meant to cover E400 panels and menus, which in turn sit above E100–E200 canvas surfaces. Keep deeper surfaces visually and logically above shallower ones.
+- **Let the theme do the work.** The same token renders the light or dark treatment automatically; do not branch on theme in component styles to swap shadows.
+
+## References
+
+{/* Figma "Elevations" page — fileKey 4kilp0ShQiYsoUPJdleqEH, entry node 2012:307470. */}
+{/* Per-level detail frames: E100 2012:307509 · E200 2012:307528 · E300 2012:307549 · E400 2012:307570 · E500 2012:307591. */}
+{/* Token definitions: design/generated/composa-core-tokens.css (light + dark stacks), surfaced as semantic tokens in design/generated/composa-semantic-tokens.css. */}
+
+- Elevation tokens: `--composa-elevation-100-canvas`, `--composa-elevation-200-canvas`, `--composa-elevation-300-tooltip`, `--composa-elevation-400-menu-panel`, `--composa-elevation-500-modal` (theme-aware; light and dark stacks defined in the generated token set).

@@ -291,7 +291,11 @@
 .composa-icon-button-link-danger {
   border-color: transparent;
   background: transparent;
-  color: var(--composa-color-text-brand);
+  /* Brand-colored text link. Was --composa-color-text-brand, which is the stale
+     BLUE accent (#007be5) despite the "brand" name — the brand is orange. Use
+     bg-brand-strong (#d64000): the readable dark-orange that meets AA on white.
+     (link-danger is overridden to the danger color below.) */
+  color: var(--composa-color-bg-brand-strong);
 }
 
 .composa-button-link-danger,

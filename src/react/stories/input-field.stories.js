@@ -83,3 +83,75 @@ export const Typography = {
     ],
   },
 };
+
+// States — shell background and focus-ring token delta across rest / focus / active / disabled / variable.
+// Background token (bg-secondary → bg) and outline token (border-selected) are all derived at runtime.
+export const States = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: 20, padding: 24 } },
+      React.createElement("div", { className: "ifd-rest" },
+        React.createElement(InputField, { label: "W", value: "320", placeholder: "0" })
+      ),
+      React.createElement("div", { className: "ifd-focus" },
+        React.createElement(InputField, { label: "W", value: "320", placeholder: "0", state: "focus" })
+      ),
+      React.createElement("div", { className: "ifd-active" },
+        React.createElement(InputField, { label: "W", value: "320", placeholder: "0", state: "active" })
+      ),
+      React.createElement("div", { className: "ifd-disabled" },
+        React.createElement(InputField, { label: "W", value: "320", placeholder: "0", state: "disabled", disabled: true })
+      ),
+      React.createElement("div", { className: "ifd-variable" },
+        React.createElement(InputField, { label: "W", value: "320", placeholder: "0", state: "variable", variable: true })
+      )
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { target: ".ifd-rest .composa-input-shell", type: "variant", marker: "caret", side: "left", value: "Rest" },
+      { target: ".ifd-focus .composa-input-shell", type: "variant", marker: "caret", side: "left", value: "Focus" },
+      { target: ".ifd-active .composa-input-shell", type: "variant", marker: "caret", side: "left", value: "Active" },
+      { target: ".ifd-disabled .composa-input-shell", type: "variant", marker: "caret", side: "left", value: "Disabled" },
+      { target: ".ifd-variable .composa-input-shell", type: "variant", marker: "caret", side: "left", value: "Variable bound" },
+      { n: 1, target: ".ifd-rest .composa-input-shell", type: "token", kind: "color", prop: "background", side: "top" },
+      { n: 2, target: ".ifd-focus .composa-input-shell", type: "token", kind: "color", prop: "outline-color", side: "top" },
+      { n: 3, target: ".ifd-disabled .composa-input-shell", type: "token", kind: "color", prop: "background", side: "top" },
+    ],
+  },
+};
+
+// Spacing — height redline on the shell, both values derived live.
+export const Spacing = {
+  render: () => React.createElement(InputField, { label: "W", value: "320", placeholder: "0" }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-input-shell", type: "redline", dimension: "height" },
+      { n: 2, target: ".composa-input-shell", type: "redline", dimension: "width" },
+    ],
+  },
+};
+
+// Accessibility — dedicated a11y story; the Anatomy story shares an annotation but this one
+// covers the full contract: element, role, accessible-name source, and keyboard.
+export const Accessibility = {
+  render: () => React.createElement(InputField, { label: "Layer name", placeholder: "Enter a name" }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        target: ".composa-input-field input",
+        marker: "pin",
+        side: "top",
+        type: "form-element",
+        control: "<input type=\"text\">",
+        controlLabel: "Layer name",
+        required: false,
+        tier: { priority: "mandatory", difficulty: "easy" },
+      },
+    ],
+  },
+};

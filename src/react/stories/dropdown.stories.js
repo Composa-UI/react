@@ -27,11 +27,17 @@ export const Playground = DropdownFamily;
 // Dropdown is input-styled and has no `data-part` declarations, so it's annotated by class
 // rather than via the auto-anatomy bracket. The closed trigger is what we spec.
 
-// Color — the trigger surface fill token (derived). Color facet. Input-styled: a white surface.
+// Color — surface fill, border-color, and text color tokens. All values derived live.
 export const Color = {
   render: () => React.createElement(Dropdown, { label: "Layer type", value: "Option", icon: "styles", options: dropdownOptions }),
   decorators: [withAnnotations],
-  parameters: { annotations: [{ n: 1, target: ".composa-dropdown", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" }] },
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-dropdown", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" },
+      { n: 2, target: ".composa-dropdown", marker: "pin", side: "right", type: "token", kind: "color", prop: "border-color" },
+      { n: 3, target: ".composa-dropdown-value", marker: "pin", side: "bottom", type: "token", kind: "color", prop: "color" },
+    ],
+  },
 };
 
 // Typography — the value text type token (derived). Typography facet.
@@ -50,6 +56,68 @@ export const Layout = {
       { n: 1, target: ".composa-dropdown", type: "redline", dimension: "height" },
       { target: ".composa-dropdown", type: "radius", corner: "top-left" },
     ],
+  },
+};
+
+// States — Focused (border switches to color.border.selected) and Disabled (text dims
+// to color.text.tertiary) shown alongside Default. Token values derived live.
+export const States = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: "var(--composa-space-2)", alignItems: "flex-start" } },
+      React.createElement(Dropdown, { label: "Default", value: "Option", options: dropdownOptions }),
+      React.createElement(Dropdown, { label: "Focused", value: "Option", state: "focused", options: dropdownOptions }),
+      React.createElement(Dropdown, { label: "Disabled", value: "Option", disabled: true, options: dropdownOptions })
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-dropdown.is-focused", marker: "pin", side: "right", type: "token", kind: "color", prop: "border-color" },
+      { n: 2, target: ".composa-dropdown:disabled", marker: "pin", side: "right", type: "token", kind: "color", prop: "color" },
+    ],
+    docs: {
+      description: {
+        story: "Default, Focused (border → color.border.selected), and Disabled (text → color.text.tertiary). Hover keeps the same surface as Default.",
+      },
+    },
+  },
+};
+
+// Sizing — Medium (24 px, composa-height-input) vs Large (32 px). Derived live.
+export const Sizing = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", gap: "var(--composa-space-3)", alignItems: "flex-start" } },
+      React.createElement(Dropdown, { label: "Medium", value: "Option", size: "medium", options: dropdownOptions }),
+      React.createElement(Dropdown, { label: "Large", value: "Option", size: "large", options: dropdownOptions })
+    ),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      { n: 1, target: ".composa-dropdown:not(.composa-dropdown-large)", type: "redline", dimension: "height" },
+      { n: 2, target: ".composa-dropdown-large", type: "redline", dimension: "height" },
+    ],
+  },
+};
+
+// Structural — Icon-less: two-column grid (value | chevron). Icon-lead: three-column
+// grid (icon | value | chevron) via the data-icon-lead attribute.
+export const Structural = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", gap: "var(--composa-space-3)", alignItems: "flex-start" } },
+      React.createElement(Dropdown, { label: "No icon", value: "Option", options: dropdownOptions }),
+      React.createElement(Dropdown, { label: "Icon lead", value: "Option", iconLead: true, icon: "styles", options: dropdownOptions })
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Without icon lead: two-column grid (value | chevron). With icon lead: three-column grid (icon | value | chevron) via data-icon-lead attribute.",
+      },
+    },
   },
 };
 

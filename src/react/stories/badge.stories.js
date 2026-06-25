@@ -29,9 +29,10 @@ const row = (label, node) =>
     h("div", { key: "n", style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" } }, node),
   ]);
 
+// All tones — keep in sync with .composa-badge-{tone} classes in 95-badge.css
 const TONES = [
   "default", "brand", "figjam", "component", "danger", "warning", "success",
-  "merged", "archived", "selected", "feedback", "invert",
+  "merged", "archived", "selected", "feedback", "invert", "menu",
 ];
 
 // ── Badge ────────────────────────────────────────────────────────────────
@@ -65,6 +66,33 @@ export const Tones = () =>
       h(Badge, { key: "a", label: "Archived", tone: "archived", icon: "move" }),
     ]),
   ]);
+
+export const Sizes = () =>
+  stage([
+    row(
+      "Small vs Large — Subtle",
+      TONES.flatMap((tone) => [
+        h(Badge, { key: `${tone}-sm`, label: tone, tone, size: "small" }),
+        h(Badge, { key: `${tone}-lg`, label: tone, tone, size: "large" }),
+      ])
+    ),
+    row(
+      "Small vs Large — Strong",
+      TONES.flatMap((tone) => [
+        h(Badge, { key: `${tone}-sm-s`, label: tone, tone, strong: true, size: "small" }),
+        h(Badge, { key: `${tone}-lg-s`, label: tone, tone, strong: true, size: "large" }),
+      ])
+    ),
+  ]);
+Sizes.parameters = {
+  docs: {
+    description: {
+      story:
+        "Every tone at both sizes, subtle and strong. Each pair is small (left) then large (right). " +
+        "Large adds `composa-badge-large` which bumps height from 16 to the large token value.",
+    },
+  },
+};
 
 export const CountAndDot = () =>
   stage([

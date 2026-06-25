@@ -2,7 +2,8 @@ import React from "react";
 import { Avatar } from "../story-runtime.js";
 import { withAnnotations } from "./_annotations.js";
 
-const variants = ["yellow", "blue", "green", "purple", "grey", "red", "pink", "overflow-unread", "overflow-read"];
+const identityVariants = ["yellow", "purple", "blue", "pink", "red", "green", "grey"];
+const variants = [...identityVariants, "overflow-unread", "overflow-read"];
 const sizes = ["small", "medium", "large"];
 const shapes = ["circle", "square"];
 const states = ["default", "disabled"];
@@ -104,11 +105,37 @@ export const Anatomy = {
   parameters: { annotations: [{ type: "anatomy", target: ".composa-avatar" }] },
 };
 
-// Color — the avatar fill token (derived from computed style). Color facet.
+// Color — all 7 identity color tokens (color.multiplayer.*) rendered live.
+// Each avatar exercises one token pair: the background fill and the on-color
+// initial text. Tokens: color.multiplayer.yellow → blue → purple → pink →
+// red → green → grey (Figma alias chain: multiplayer → special → ramp primitive).
 export const Color = {
-  render: () => React.createElement(Avatar, { initials: "JD", alt: "Jane Doe" }),
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", gap: 8, alignItems: "center" } },
+      identityVariants.map((variant) =>
+        React.createElement(Avatar, { key: variant, initials: variant.slice(0, 1).toUpperCase(), alt: variant, variant })
+      )
+    ),
   decorators: [withAnnotations],
-  parameters: { annotations: [{ n: 1, target: ".composa-avatar", marker: "pin", side: "top", type: "token", kind: "color", prop: "background" }] },
+  parameters: {
+    annotations: identityVariants.map((variant, i) => ({
+      n: i + 1,
+      target: `.composa-avatar-${variant}`,
+      marker: "pin",
+      side: "bottom",
+      type: "token",
+      kind: "color",
+      prop: "background",
+    })),
+    docs: {
+      description: {
+        story:
+          "All seven identity-color fills. Each token (`color.multiplayer.*`) aliases a Figma ramp primitive (e.g. purple/500, blue/600) via a special intermediate layer.",
+      },
+    },
+  },
 };
 
 // Typography — the initials label type token (size/line-height derived). Typography facet.

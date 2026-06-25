@@ -120,12 +120,19 @@
   --composa-switch-bg-checked: var(--composa-color-accent);
   --composa-switch-thumb-bg: var(--composa-color-bg);
 
-  --composa-selection-control-size: 14px;
+  /* Checkbox/Radio mark box.
+     Figma UI3 kit 4kilp0ShQiYsoUPJdleqEH node 2012:55461 (Checkbox):
+     - Mark background rectangle: 16×16, cornerRadius 5 (radius-medium).
+     - Checked/mixed fill: VariableID:1326:3175 = #0d99ff (border-selected).
+     - Checked/mixed stroke: VariableID:1326:3184 = #007be5.
+     Previously --composa-selection-control-size was 14px and bg/border-selected
+     referenced --composa-color-accent (#0079d1) — both corrected here. */
+  --composa-selection-control-size: 16px;
   --composa-selection-control-mark-size: 6px;
   --composa-selection-control-bg: var(--composa-color-bg);
-  --composa-selection-control-bg-selected: var(--composa-color-accent);
+  --composa-selection-control-bg-selected: var(--composa-color-border-selected);
   --composa-selection-control-border: var(--composa-color-border);
-  --composa-selection-control-border-selected: var(--composa-color-accent);
+  --composa-selection-control-border-selected: var(--composa-color-border-selected);
 
   --composa-tooltip-bg: #1e1e1e;
   --composa-tooltip-fg: #ffffff;
@@ -319,7 +326,7 @@
   --composa-brand-mint: #9fbfb6;
   --composa-brand-cream: #f7f5f1;
 
-  /* ── Badge / VisualBell / Notification (Wave 8) ──────────────────────────
+  /* ── Badge / VisualBell / Notification (Wave 8) ──────────────────────────────────────
      UI3 kit 4kilp0ShQiYsoUPJdleqEH:
        Badges        page 2012-32973 (Badge large/small/small alt/dot)
        Visual Bells  page 2015-40421 (Bell toast 2015-42989)
@@ -352,8 +359,14 @@
   --composa-badge-default-bg: var(--composa-color-bg-tertiary);
   --composa-badge-default-strong-fg: #ffffff;
   --composa-badge-default-strong-bg: var(--composa-color-bg-inverse);
-  --composa-badge-brand-fg: var(--composa-color-text-brand);
-  --composa-badge-brand-bg: var(--composa-color-bg-brand-secondary);
+  /* Subtle brand badge follows the brand (orange) hue, matching the strong row.
+     Previously fg=text-brand / bg=bg-brand-secondary, both of which are the
+     leftover BLUE accent — giving an off-hue, low-contrast blue-on-blue badge.
+     Now: light-orange tint bg + dark-orange (bg-brand-strong) text, mirroring the
+     danger/warning/success subtle pattern. NOTE: #ffe7db is a sensible light-orange
+     tint — confirm exact value against the Figma badge node if a token is preferred. */
+  --composa-badge-brand-fg: var(--composa-color-bg-brand-strong);
+  --composa-badge-brand-bg: #ffe7db;
   --composa-badge-brand-strong-fg: #ffffff;
   --composa-badge-brand-strong-bg: var(--composa-color-bg-brand);
   --composa-badge-figjam-fg: #8638e5;
@@ -388,12 +401,13 @@
   --composa-badge-invert-bg: var(--composa-color-bg-inverse);
   --composa-badge-invert-strong-fg: var(--composa-color-text);
   --composa-badge-invert-strong-bg: #ffffff;
-  --composa-badge-selected-fg: var(--composa-color-text-brand);
+  --composa-badge-selected-fg: var(--composa-color-accent);
   --composa-badge-selected-bg: var(--composa-color-bg-selected);
   --composa-badge-selected-strong-fg: #ffffff;
   --composa-badge-selected-strong-bg: var(--composa-color-bg-brand);
-  --composa-badge-feedback-fg: var(--composa-color-text-brand);
-  --composa-badge-feedback-bg: var(--composa-color-bg-brand-secondary);
+  /* feedback mirrors the brand tone (see brand note above) — orange, not blue. */
+  --composa-badge-feedback-fg: var(--composa-color-bg-brand-strong);
+  --composa-badge-feedback-bg: #ffe7db;
   --composa-badge-feedback-strong-fg: #ffffff;
   --composa-badge-feedback-strong-bg: var(--composa-color-bg-brand);
   --composa-badge-menu-fg: #ffffff;
@@ -436,6 +450,28 @@
   --composa-notification-divider: rgba(255, 255, 255, 0.1);
   --composa-notification-cta-fg-danger: #fca397;
   --composa-notification-shadow: 0 2px 3.5px rgba(0, 0, 0, 0.15), 0 5px 8.5px rgba(0, 0, 0, 0.2);
+
+  /* ── Avatar multiplayer identity colors ───────────────────────────────────────────
+     UI3 kit 4kilp0ShQiYsoUPJdleqEH, Avatar component set 2012:32015.
+     Yellow is in the generated core token layer. The other 6 identity colors
+     were not exported in the first Style Dictionary wave; they are hand-authored
+     here from Figma component inspection (2026-06-25). The corresponding
+     primitives have been added to tokens/primitive/color.json so the next Style
+     Dictionary run will generate them into the core/semantic CSS layers and this
+     hand-authored block can be removed. Dark-mode variants are deferred;
+     identity colors are presenter-assigned and stay consistent across themes. */
+  --composa-color-multiplayer-purple: #9747ff;
+  --composa-color-text-on-multiplayer-purple: #ffffff;
+  --composa-color-multiplayer-blue: #007be5;
+  --composa-color-text-on-multiplayer-blue: #ffffff;
+  --composa-color-multiplayer-pink: #ff24bd;
+  --composa-color-text-on-multiplayer-pink: #ffffff;
+  --composa-color-multiplayer-red: #f24822;
+  --composa-color-text-on-multiplayer-red: #ffffff;
+  --composa-color-multiplayer-green: #14ae5c;
+  --composa-color-text-on-multiplayer-green: #ffffff;
+  --composa-color-multiplayer-grey: #667799;
+  --composa-color-text-on-multiplayer-grey: #ffffff;
 }
 
 [data-composa-mode="dark"] {

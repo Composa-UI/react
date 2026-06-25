@@ -81,31 +81,6 @@ export const Layout = {
 
 // Spacing — horizontal padding inset (8px = space-2), vertical padding (4px = space-1),
 // and the gap between label text and hotkey text (4px = space-1).
-export const Spacing = {
-  render: () => React.createElement(Tooltip, { label: "Rename layer" }),
-  decorators: [withAnnotations],
-  parameters: {
-    annotations: [
-      {
-        target: ".composa-tooltip",
-        targetB: '.composa-tooltip [data-part="text"]',
-        type: "gap",
-      },
-      {
-        target: '.composa-tooltip [data-part="text"]',
-        targetB: '.composa-tooltip [data-part="hotkey"]',
-        type: "gap",
-      },
-    ],
-    docs: {
-      description: {
-        story:
-          "Padding: 4px block (var(--composa-space-1)) / 8px inline (var(--composa-space-2)). Gap between label and hotkey text: 4px (var(--composa-space-1)).",
-      },
-    },
-  },
-};
-
 // Typography — label and hotkey both use 11px Inter Medium via --composa-font-family.
 export const Typography = {
   render: () => React.createElement(Tooltip, { label: "Rename layer" }),

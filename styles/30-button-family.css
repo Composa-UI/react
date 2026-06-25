@@ -48,6 +48,10 @@
    Buttons, inputs, and menus are untouched. */
 .composa-icon-button-small .composa-icon-button-glyph,
 .composa-icon-button-small .composa-icon-button-glyph .composa-icon {
+  /* INTENTIONAL DEVIATION from Figma: Material Icons SVGs lack built-in optical
+     inset, so a full 24px fill looks visually larger than Figma's icon glyphs
+     (which have inherent padding in the frame). We use 16px (default) / 20px
+     (medium) to match Figma's perceived glyph weight. */
   --composa-runtime-icon-size: 16px;
   width: 16px;
   height: 16px;
@@ -56,6 +60,10 @@
 
 .composa-icon-button-medium .composa-icon-button-glyph,
 .composa-icon-button-medium .composa-icon-button-glyph .composa-icon {
+  /* INTENTIONAL DEVIATION from Figma: Material Icons SVGs lack built-in optical
+     inset, so a full 24px fill looks visually larger than Figma's icon glyphs
+     (which have inherent padding in the frame). We use 16px (default) / 20px
+     (medium) to match Figma's perceived glyph weight. */
   --composa-runtime-icon-size: 20px;
   width: 20px;
   height: 20px;
@@ -89,6 +97,13 @@
   color: var(--composa-color-text-disabled);
   border-color: var(--composa-color-border-disabled);
   cursor: default;
+}
+
+/* Primary disabled: Figma keeps text white (#fff) on the #d9d9d9 disabled
+   surface — override the shared disabled text color for primary buttons. */
+.composa-button-primary:disabled,
+.composa-button-primary.is-disabled {
+  color: var(--composa-color-text-on-brand);
 }
 
 /* Dropdown is an INPUT, not a button: Figma keeps it white with tertiary text
@@ -152,7 +167,7 @@
   border: 1px solid var(--composa-color-border-translucent);
 }
 
-.composa-icon-button.is-focused,
+/* Button and other controls: outline + inner white ring for focus. */
 .composa-button.is-focused,
 .composa-split-control.is-focused,
 .composa-input-field.is-focus .composa-input-shell,
@@ -162,6 +177,13 @@
   outline: 1px solid var(--composa-control-focus-ring);
   outline-offset: -1px;
   box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* IconButton focus: outline only — Figma IconButton focus has no white inner
+   ring (unlike Button). */
+.composa-icon-button.is-focused {
+  outline: 1px solid var(--composa-control-focus-ring);
+  outline-offset: -1px;
 }
 
 /* Dropdown is an INPUT: Figma focus is just a 1px border swap to selected-blue,
@@ -196,6 +218,7 @@
   line-height: 1;
   padding: 0;
   box-sizing: border-box;
+  opacity: 0.8;
 }
 
 .composa-button > span {
@@ -207,6 +230,7 @@
 .composa-button-large {
   height: 32px;
   padding: 0 12px;
+  gap: 0;
 }
 
 .composa-button-medium {
@@ -251,7 +275,8 @@
 
 .composa-button-secondary,
 .composa-icon-button-secondary {
-  background: var(--composa-color-bg);
+  background: transparent;
+  border-color: var(--composa-color-border-translucent);
 }
 
 .composa-button-ghost,
@@ -281,7 +306,7 @@
 .composa-button-destructive,
 .composa-icon-button-destructive {
   border-color: transparent;
-  background: var(--composa-color-bg-danger);
+  background: #f24822;
   color: #fff;
 }
 
@@ -513,6 +538,14 @@
   gap: var(--composa-space-1);
   padding: 0;
   white-space: nowrap;
+}
+
+/* Large split action: wider container (32px) with 4px inner padding so the icon
+   is optically centered in the taller 32px half. */
+.composa-split-large .composa-split-action {
+  width: 32px;
+  flex: 0 0 32px;
+  padding: var(--composa-space-1);
 }
 
 /* The action-half icon box centers the glyph in its half. The editor toolbar

@@ -50,6 +50,26 @@ export const Layout = {
   },
 };
 
+// ButtonVariant — the pill-style radio in its three key states.
+export const ButtonVariant = {
+  render: () =>
+    React.createElement(
+      "div",
+      { style: { display: "flex", gap: 8, alignItems: "center" } },
+      React.createElement(Radio, { label: "Option A", variant: "button", checked: false, onCheckedChange: () => {} }),
+      React.createElement(Radio, { label: "Option B", variant: "button", checked: true, onCheckedChange: () => {} }),
+      React.createElement(Radio, { label: "Option C", variant: "button", checked: false, state: "focused", onCheckedChange: () => {} }),
+    ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The `button` variant renders as a selectable pill. One option fills with the brand accent (FLAG-FOR-OWNER: diverges from Figma pale-blue selected surface — confirm intent); inactive options show a translucent border matching Figma `✦/special/bordertranslucent`. Use for mode switches or inline option groups.",
+      },
+    },
+  },
+};
+
 // Accessibility — the a11y contract (codified GitHub/CVS), authored where the DOM can't infer it.
 export const Accessibility = {
   render: () => React.createElement(Radio, { label: "Option A", checked: true, onCheckedChange: () => {} }),

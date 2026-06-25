@@ -120,6 +120,8 @@
   background: var(--composa-color-bg-disabled);
 }
 
+/* Figma node 2015:20365, Variant=Button: border binds ✦/special/bordertranslucent
+   (rgba(0,0,0,0.1)). Previously used --composa-color-border (#e6e6e6 opaque). */
 .composa-radio-button {
   min-height: var(--composa-height-input);
   padding: 0 var(--composa-space-2);

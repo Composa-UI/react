@@ -10,7 +10,7 @@ import {
   Header,
   Dropdown,
   NumericInput,
-} from "../story-runtime.js";
+} from "../../story-runtime.js";
 
 // TemplateStyleSection — slide theme row shown in the Design tab above Fill.
 // Displays theme color swatches, theme name, and font family pair.

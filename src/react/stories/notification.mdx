@@ -93,14 +93,19 @@ A notification is a horizontal bar with three regions, left to right:
 
 ### Content rules
 
-- **Message** — keep it short. The Single variant is a one-liner; the Multi variant allows a
-  short multi-line message. The message stays within a fixed width and **truncates with a
-  trailing ellipsis** if it runs long.
-- **CTA labels** — short verbs naming the choice (for example **Action**, **Dismiss**,
-  **Review**). CTA labels also truncate with an ellipsis within their fixed width.
+- **Message** — sentence case (only the first word capitalised). No trailing period. Keep it
+  short: the Single variant is a one-liner; the Multi variant allows a short multi-line message.
+- **Overflow** — when the message can't fit in two lines, keep the message short and surface
+  the detail through the action (for example **Review** or **View more**) rather than letting
+  the message truncate. The bar's footprint is fixed; content should not fight it.
+- **CTA labels** — 1–2 words, sentence case, short verbs naming the choice (for example
+  **Action**, **Dismiss**, **Review**). CTA labels also truncate with an ellipsis within their
+  fixed width if they run long.
+- **Errors** — the message should say what stopped or can't be done, not repeat the title.
+  Pair it with an action that routes the user to a next step.
 - **Truncation** — the width and height of the bar are fixed to limit the real estate it
-  occupies, so both the message and the CTA labels truncate rather than growing the bar. A
-  message longer than two lines is cut off with an ellipsis.
+  occupies, so both the message and CTA labels truncate rather than growing the bar. Prefer
+  shorter copy over relying on truncation.
 
 ### Behaviors
 
@@ -122,6 +127,20 @@ A notification is a horizontal bar with three regions, left to right:
 | Multi — one action | Multi-line message + single **Action** CTA. |
 | Multi — two actions | Multi-line message + **Action** and **Dismiss** CTAs, stacked and separated. |
 | Truncated | Over-long message and CTA labels cut off with a trailing ellipsis within the fixed widths. |
+
+### Do / Don't
+
+**Do**
+- Use sparingly — a notification that appears constantly trains users to ignore it.
+- Keep messages short; use the action to route to detail when more context is needed.
+- Give CTA labels 1–2 words that name the choice clearly (**Review**, **Dismiss**, **Undo**).
+- For errors, say what stopped and give the user a next step in the action.
+
+**Don't**
+- Auto-dismiss a notification — if it must persist until acted on, it is a Notification, not a VisualBell.
+- Rely on message truncation to shorten copy; truncation is a safety net, not a writing strategy.
+- Use more than two actions (Action + Dismiss is the maximum).
+- Mix Notification and VisualBell for the same event — pick one surface and stay consistent.
 
 </DocTab>
 
@@ -217,9 +236,15 @@ needed.
 
 #### Focus
 
-- Because notifications are persistent and never auto-dismiss, the user can `Tab` to the
-  actions at any time and resolve the notification from the keyboard; focus is not stolen from
-  the canvas when the notification appears.
+Because notifications are persistent and never auto-dismiss, the user can `Tab` to the
+actions at any time and resolve the notification from the keyboard; focus is not stolen from
+the canvas when the notification appears.
+
+**Deliberate divergence from Carbon:** Carbon's actionable notification uses `role="alertdialog"`
+and traps focus until the user acts. Composa's Notification deliberately does not — it is a
+non-modal canvas HUD. Stealing focus would interrupt work on the canvas for every background
+task or component update, which is a worse trade-off than leaving the canvas as the primary
+focus surface. The notification waits; the user resolves it when they are ready.
 
 </DocTab>
 

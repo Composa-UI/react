@@ -388,7 +388,7 @@
   --composa-badge-invert-bg: var(--composa-color-bg-inverse);
   --composa-badge-invert-strong-fg: var(--composa-color-text);
   --composa-badge-invert-strong-bg: #ffffff;
-  --composa-badge-selected-fg: var(--composa-color-text-brand);
+  --composa-badge-selected-fg: var(--composa-color-accent);
   --composa-badge-selected-bg: var(--composa-color-bg-selected);
   --composa-badge-selected-strong-fg: #ffffff;
   --composa-badge-selected-strong-bg: var(--composa-color-bg-brand);

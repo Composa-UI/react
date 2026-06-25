@@ -99,6 +99,36 @@ export interface ImageAnnotation {
   accessibleName?: string;
 }
 
+export interface VideoAnnotation {
+  type: "video";
+  n?: number;
+  target: string;
+  marker?: "pin" | "bracket" | "lasso" | "caret";
+  side?: "top" | "bottom" | "left" | "right";
+  label?: string;
+  anchor?: "edge" | "center";
+  each?: boolean;
+  tier?: Tier;
+  accessibleName?: string;
+  captions: boolean;
+  audioDescription?: boolean;
+  transcript?: boolean;
+}
+
+export interface AudioAnnotation {
+  type: "audio";
+  n?: number;
+  target: string;
+  marker?: "pin" | "bracket" | "lasso" | "caret";
+  side?: "top" | "bottom" | "left" | "right";
+  label?: string;
+  anchor?: "edge" | "center";
+  each?: boolean;
+  tier?: Tier;
+  accessibleName?: string;
+  transcript: boolean;
+}
+
 export interface ListAnnotation {
   type: "list";
   n?: number;
@@ -133,6 +163,23 @@ export interface ListitemAnnotation {
   states?: StateEntry[];
 }
 
+export interface LiveRegionAnnotation {
+  type: "live-region";
+  n?: number;
+  target: string;
+  marker?: "pin" | "bracket" | "lasso" | "caret";
+  side?: "top" | "bottom" | "left" | "right";
+  label?: string;
+  anchor?: "edge" | "center";
+  each?: boolean;
+  tier?: Tier;
+  feedbackType?: string;
+  role: string;
+  ariaLive: string;
+  atomic?: boolean;
+  template?: string;
+}
+
 export interface NoteAnnotation {
   type: "note";
   n?: number;
@@ -158,6 +205,7 @@ export interface VariantAnnotation {
   tier?: Tier;
   value?: string;
   name?: string;
+  represents?: string;
 }
 
 export interface RedlineAnnotation {
@@ -237,8 +285,11 @@ export type Annotation =
   | LinkAnnotation
   | FormElementAnnotation
   | ImageAnnotation
+  | VideoAnnotation
+  | AudioAnnotation
   | ListAnnotation
   | ListitemAnnotation
+  | LiveRegionAnnotation
   | NoteAnnotation
   | VariantAnnotation
   | RedlineAnnotation

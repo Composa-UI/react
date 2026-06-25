@@ -7,1476 +7,396 @@
       "title": "button",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "button"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "element": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "keyboard": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "keys": {
-                "type": "string"
-              },
-              "result": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "keys",
-              "result"
-            ]
-          }
-        },
-        "states": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string"
-              },
-              "aria": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "state",
-              "aria"
-            ]
-          }
-        }
+        "type": { "const": "button" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "element": { "type": "string" },
+        "role": { "type": "string" },
+        "accessibleName": { "type": "string" },
+        "keyboard": { "type": "array", "items": { "type": "object", "properties": { "keys": { "type": "string" }, "result": { "type": "string" } }, "required": ["keys", "result"] } },
+        "states": { "type": "array", "items": { "type": "object", "properties": { "state": { "type": "string" }, "aria": { "type": "string" } }, "required": ["state", "aria"] } }
       },
-      "required": [
-        "type",
-        "target",
-        "element",
-        "role"
-      ],
+      "required": ["type", "target", "element", "role"],
       "additionalProperties": false
     },
     {
       "title": "heading",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "heading"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "level": {
-          "type": "string"
-        }
+        "type": { "const": "heading" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "level": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "level"
-      ],
+      "required": ["type", "target", "level"],
       "additionalProperties": false
     },
     {
       "title": "landmark",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "landmark"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "element": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "accessibleName": {
-          "type": "string"
-        }
+        "type": { "const": "landmark" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "element": { "type": "string" },
+        "role": { "type": "string" },
+        "accessibleName": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "element"
-      ],
+      "required": ["type", "target", "element"],
       "additionalProperties": false
     },
     {
       "title": "link",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "link"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "linkTarget": {
-          "type": "string"
-        },
-        "linkType": {
-          "type": "string"
-        }
+        "type": { "const": "link" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "accessibleName": { "type": "string" },
+        "linkTarget": { "type": "string" },
+        "linkType": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "accessibleName"
-      ],
+      "required": ["type", "target", "accessibleName"],
       "additionalProperties": false
     },
     {
       "title": "form-element",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "form-element"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "control": {
-          "type": "string"
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "controlLabel": {
-          "type": "string"
-        },
-        "required": {
-          "type": "boolean"
-        },
-        "error": {
-          "type": "string"
-        },
-        "describedBy": {
-          "type": "string"
-        }
+        "type": { "const": "form-element" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "control": { "type": "string" },
+        "accessibleName": { "type": "string" },
+        "controlLabel": { "type": "string" },
+        "required": { "type": "boolean" },
+        "error": { "type": "string" },
+        "describedBy": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "control"
-      ],
+      "required": ["type", "target", "control"],
       "additionalProperties": false
     },
     {
       "title": "image",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "image"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "decorative": {
-          "type": "boolean"
-        },
-        "accessibleName": {
-          "type": "string"
-        }
+        "type": { "const": "image" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "decorative": { "type": "boolean" },
+        "accessibleName": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target"
-      ],
+      "required": ["type", "target"],
       "additionalProperties": false
     },
     {
       "title": "video",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "video"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "captions": {
-          "type": "boolean"
-        },
-        "audioDescription": {
-          "type": "boolean"
-        },
-        "transcript": {
-          "type": "boolean"
-        }
+        "type": { "const": "video" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "accessibleName": { "type": "string" },
+        "captions": { "type": "boolean" },
+        "audioDescription": { "type": "boolean" },
+        "transcript": { "type": "boolean" }
       },
-      "required": [
-        "type",
-        "target",
-        "captions"
-      ],
+      "required": ["type", "target", "captions"],
       "additionalProperties": false
     },
     {
       "title": "audio",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "audio"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "transcript": {
-          "type": "boolean"
-        }
+        "type": { "const": "audio" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "accessibleName": { "type": "string" },
+        "transcript": { "type": "boolean" }
       },
-      "required": [
-        "type",
-        "target",
-        "transcript"
-      ],
+      "required": ["type", "target", "transcript"],
       "additionalProperties": false
     },
     {
       "title": "list",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "list"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "element": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "itemRole": {
-          "type": "string"
-        },
-        "keyboard": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "keys": {
-                "type": "string"
-              },
-              "result": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "keys",
-              "result"
-            ]
-          }
-        },
-        "states": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string"
-              },
-              "aria": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "state",
-              "aria"
-            ]
-          }
-        }
+        "type": { "const": "list" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "element": { "type": "string" },
+        "role": { "type": "string" },
+        "accessibleName": { "type": "string" },
+        "itemRole": { "type": "string" },
+        "keyboard": { "type": "array", "items": { "type": "object", "properties": { "keys": { "type": "string" }, "result": { "type": "string" } }, "required": ["keys", "result"] } },
+        "states": { "type": "array", "items": { "type": "object", "properties": { "state": { "type": "string" }, "aria": { "type": "string" } }, "required": ["state", "aria"] } }
       },
-      "required": [
-        "type",
-        "target",
-        "element",
-        "role"
-      ],
+      "required": ["type", "target", "element", "role"],
       "additionalProperties": false
     },
     {
       "title": "listitem",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "listitem"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "element": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "accessibleName": {
-          "type": "string"
-        },
-        "states": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "state": {
-                "type": "string"
-              },
-              "aria": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "state",
-              "aria"
-            ]
-          }
-        }
+        "type": { "const": "listitem" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "element": { "type": "string" },
+        "role": { "type": "string" },
+        "accessibleName": { "type": "string" },
+        "states": { "type": "array", "items": { "type": "object", "properties": { "state": { "type": "string" }, "aria": { "type": "string" } }, "required": ["state", "aria"] } }
       },
-      "required": [
-        "type",
-        "target",
-        "role"
-      ],
+      "required": ["type", "target", "role"],
       "additionalProperties": false
     },
     {
       "title": "live-region",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "live-region"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "feedbackType": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "ariaLive": {
-          "type": "string"
-        },
-        "atomic": {
-          "type": "boolean"
-        },
-        "template": {
-          "type": "string"
-        }
+        "type": { "const": "live-region" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "feedbackType": { "type": "string" },
+        "role": { "type": "string" },
+        "ariaLive": { "type": "string" },
+        "atomic": { "type": "boolean" },
+        "template": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "role",
-        "ariaLive"
-      ],
+      "required": ["type", "target", "role", "ariaLive"],
+      "additionalProperties": false
+    },
+    {
+      "title": "concern",
+      "type": "object",
+      "properties": {
+        "type": { "const": "concern" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "text": { "type": "string" }
+      },
+      "required": ["type", "target", "text"],
+      "additionalProperties": false
+    },
+    {
+      "title": "question",
+      "type": "object",
+      "properties": {
+        "type": { "const": "question" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "text": { "type": "string" }
+      },
+      "required": ["type", "target", "text"],
       "additionalProperties": false
     },
     {
       "title": "note",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "note"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "text": {
-          "type": "string"
-        }
+        "type": { "const": "note" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "text": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "text"
-      ],
+      "required": ["type", "target", "text"],
       "additionalProperties": false
     },
     {
       "title": "variant",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "variant"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "value": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
+        "type": { "const": "variant" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "value": { "type": "string" },
+        "name": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target"
-      ],
+      "required": ["type", "target"],
       "additionalProperties": false
     },
     {
       "title": "redline",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "redline"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "dimension": {
-          "enum": [
-            "width",
-            "height",
-            "radius"
-          ]
-        },
-        "value": {
-          "type": "string"
-        }
+        "type": { "const": "redline" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "dimension": { "enum": ["width", "height", "radius"] },
+        "value": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "dimension"
-      ],
+      "required": ["type", "target", "dimension"],
       "additionalProperties": false
     },
     {
       "title": "anatomy",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "anatomy"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        }
+        "type": { "const": "anatomy" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     {
       "title": "token",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "token"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "kind": {
-          "enum": [
-            "color",
-            "typography",
-            "effect"
-          ]
-        },
-        "prop": {
-          "enum": [
-            "background",
-            "text",
-            "border"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        }
+        "type": { "const": "token" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "kind": { "enum": ["color", "typography", "effect"] },
+        "prop": { "enum": ["background", "text", "border"] },
+        "name": { "type": "string" },
+        "value": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "kind"
-      ],
+      "required": ["type", "target", "kind"],
       "additionalProperties": false
     },
     {
       "title": "radius",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "radius"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "corner": {
-          "enum": [
-            "top-left",
-            "top-right",
-            "bottom-left",
-            "bottom-right"
-          ]
-        },
-        "value": {
-          "type": "string"
-        }
+        "type": { "const": "radius" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "corner": { "enum": ["top-left", "top-right", "bottom-left", "bottom-right"] },
+        "value": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target"
-      ],
+      "required": ["type", "target"],
       "additionalProperties": false
     },
     {
       "title": "gap",
       "type": "object",
       "properties": {
-        "type": {
-          "const": "gap"
-        },
-        "n": {
-          "type": "number"
-        },
-        "target": {
-          "type": "string"
-        },
-        "marker": {
-          "enum": [
-            "pin",
-            "bracket",
-            "lasso",
-            "caret"
-          ]
-        },
-        "side": {
-          "enum": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "anchor": {
-          "enum": [
-            "edge",
-            "center"
-          ]
-        },
-        "each": {
-          "type": "boolean"
-        },
-        "tier": {
-          "type": "object",
-          "properties": {
-            "priority": {
-              "enum": [
-                "mandatory",
-                "ideal",
-                "nice-to-have"
-              ]
-            },
-            "difficulty": {
-              "enum": [
-                "easy",
-                "moderate",
-                "advanced"
-              ]
-            }
-          }
-        },
-        "targetB": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        }
+        "type": { "const": "gap" },
+        "n": { "type": "number" },
+        "target": { "type": "string" },
+        "marker": { "enum": ["pin", "bracket", "lasso", "caret"] },
+        "side": { "enum": ["top", "bottom", "left", "right"] },
+        "label": { "type": "string" },
+        "anchor": { "enum": ["edge", "center"] },
+        "each": { "type": "boolean" },
+        "tier": { "type": "object", "properties": { "priority": { "enum": ["mandatory", "ideal", "nice-to-have"] }, "difficulty": { "enum": ["easy", "moderate", "advanced"] } } },
+        "targetB": { "type": "string" },
+        "value": { "type": "string" }
       },
-      "required": [
-        "type",
-        "target",
-        "targetB"
-      ],
+      "required": ["type", "target", "targetB"],
       "additionalProperties": false
     }
   ]

@@ -9,10 +9,10 @@ import * as RadioStories from "./radio.stories.js";
     Container asset rather than applying a separate CSS ring — preserved as captured.
 
     Open decisions (need ruling):
-    - Proposed state tokens awaiting confirmation: color.icon.disabled, color.text.disabled,
-      color.border.error, color.text.error, color.support.warning.
-    - Ship the warning state at all (dense editor) — only if we add a form-validation tier?
-    - Read-only on-dot keeps color.icon fill while ring uses color.icon.disabled — confirm. */}
+    - Disabled, Error, Warning state tokens not in Figma component set (proposed only).
+    - Read-only on-dot keeps color.icon fill while ring uses color.icon.disabled — confirm.
+    - Button variant checked surface: impl uses orange accent fill (brand divergence from
+      Figma pale-blue color.bg-selected); FLAG-FOR-OWNER to confirm intent. */}
 
 <Meta of={RadioStories} />
 
@@ -36,15 +36,17 @@ selection at a time.
 
 ### Variants
 
-- **Input** — the standard radio control for option lists.
-- **On / Off** — the two base states: selected (filled dot) and unselected (empty ring).
+- **Input** — the standard radio control for option lists: a circular ring with a filled dot
+  centered inside when the option is selected.
+- **Button** — a selectable pill that reads as a mode switch or segmented choice. The active
+  option fills with the brand accent; inactive options show a quiet translucent border.
 
 ### Anatomy
 
 <Canvas of={RadioStories.Anatomy} />
 
 - **Control** — a 16 × 16 box rendering the ring, with an 8 × 8 filled dot centered inside
-  it when the option is selected.
+  it when the option is selected (`input` variant only).
 - **Label** — optional text naming the distinct option, set to the right of the control.
 
 ### Content
@@ -59,9 +61,14 @@ selection at a time.
 - **Focus** swaps the control's ring to a selection-blue focus ring; the filled dot, if
   present, stays put.
 - The selected and unselected states differ only by the centered dot — the ring is constant.
-- **Default selection** _(proposed)_ — by default, leave no option preselected. If users
-  must be able to clear a choice, add an explicit "None" or "Other" option rather than
-  relying on deselection — a radio can't be unselected by re-clicking it.
+- **Default selection** — by default, leave no option preselected. If users must be able to
+  clear a choice, add an explicit "None" or "Other" option rather than relying on
+  deselection — a radio can't be unselected by re-clicking it.
+
+### Dark mode
+
+Both input and button variants resolve all color tokens per theme automatically. No
+variant-specific dark treatment is required.
 
 ### Do / Don't
 
@@ -83,25 +90,46 @@ selection at a time.
 
 <Canvas of={RadioStories.Layout} />
 
+<Canvas of={RadioStories.ButtonVariant} />
+
 #### Structure
 
 | Element | Size |
 |---|---|
-| Control box | 16 × 16 |
+| Control box (input) | 16 × 16 |
 | On dot | 8 × 8 (centered) |
-| Control radius | `radius-medium` (5) |
-| Label gap | `spacer-1` (4) |
-| Row padding | `4` left, `spacer-1` (4) right, `4` vertical |
+| Control radius | `radius-full` (full circle) |
+| Label gap | `spacer-1` (4px) |
+| Row padding | `4` left, `spacer-1` (4px) right, `4` vertical |
 | Row pitch (stacked) | 48 |
+| Button height | `height-input` (24px) |
+| Button padding | `space-2` (8px) horizontal |
+| Button radius | `radius-medium` (5px) |
 
-#### Color
+#### Color — Input variant
 
 | Element / state | Token |
 |---|---|
 | Control background | `color.bg` |
-| Ring / dot | `color.icon` |
+| Ring / dot (default) | `color.icon` |
+| Ring / dot (checked) | `selection-control-border-selected` / `selection-control-bg-selected` |
 | Label | `color.text` |
-| Focus ring | `color.border.fs-selected-strong` |
+| Hover ring | `color.border-strong` |
+| Focus ring | `control-focus-ring` |
+
+#### Color — Button variant
+
+| Element / state | Token |
+|---|---|
+| Default background | `color.bg` |
+| Default border | `color.border-translucent` (`rgba(0,0,0,0.1)`) |
+| Checked background | `color.accent` (brand orange — see FLAG-FOR-OWNER below) |
+| Checked text | white (`#ffffff`) |
+| Focus ring | `control-focus-ring` |
+
+> **FLAG-FOR-OWNER:** The button variant's checked state uses the brand accent fill (orange)
+> rather than Figma's pale-blue `color.bg-selected`. This is a deliberate branding
+> divergence; confirm intent before changing.
 
 #### States
 
@@ -112,7 +140,7 @@ selection at a time.
 | Error _(proposed)_ | ring `color.border.error` _(proposed)_ | message text `color.text.error` _(proposed)_ | Group-level; message below the group |
 | Warning _(proposed)_ | icon `color.support.warning` _(proposed)_, fixed dark inner fill | — | For a form-validation tier |
 
-_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+_Rows marked (proposed) are inferred additions not present in the Figma component set; awaiting owner confirmation._
 
 #### Typography
 
@@ -129,10 +157,19 @@ All color tokens resolve per light/dark theme automatically.
 ```jsx
 import { Radio } from "@composa-ui/react";
 
+// Input variant (standard list)
 <Radio
   label="Standard shipping"
   checked={selected === "standard"}
   onChange={() => setSelected("standard")}
+/>
+
+// Button variant (pill)
+<Radio
+  variant="button"
+  label="Design mode"
+  checked={selected === "design"}
+  onChange={() => setSelected("design")}
 />
 ```
 
@@ -155,12 +192,10 @@ The group is a single tab stop (roving focus).
 
 | Key | Result |
 |---|---|
-| `Tab` | Moves focus into the group — onto the selected radio, or the first radio if none is selected _(proposed)_ |
-| `↑` / `↓` / `←` / `→` | Moves focus and selection between radios within the group _(proposed)_ |
+| `Tab` | Moves focus into the group — onto the selected radio, or the first radio if none is selected |
+| `↑` / `↓` / `←` / `→` | Moves focus and selection between radios within the group |
 | `Space` | Selects the focused radio |
-| `Tab` (again) | Exits the group, moving focus to the next component _(proposed)_ |
-
-_Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaiting confirmation._
+| `Tab` (again) | Exits the group, moving focus to the next component |
 
 #### Screen reader & labeling
 
@@ -168,13 +203,12 @@ _Rows/notes marked (proposed) are inferred, Carbon-benchmarked additions awaitin
   `radiogroup` so assistive tech announces the set as mutually exclusive.
 - **`label` is the accessible name** — always set a meaningful one, or the radio is
   unlabeled to assistive tech.
-- **Group semantics** _(proposed)_ — wrap the set in a `fieldset` with a `legend` as the
-  group's name, and connect each control to its `label` via `for`. The `legend` is the
-  group's accessible name in addition to the per-radio labels.
-- **Visible group label** _(proposed)_ — give the group a visible label above the options,
-  in sentence case.
-- **Helper text** _(proposed)_ — optional supporting text for the group sits below the
-  label.
+- **Group semantics** — wrap the set in a `fieldset` with a `legend` as the group's name,
+  and connect each control to its `label` via `for`. The `legend` is the group's accessible
+  name in addition to the per-radio labels.
+- **Visible group label** — give the group a visible label above the options, in sentence
+  case.
+- **Helper text** — optional supporting text for the group sits below the label.
 
 #### Focus
 

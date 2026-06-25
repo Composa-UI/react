@@ -502,6 +502,160 @@
       "additionalProperties": false
     },
     {
+      "title": "video",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "video"
+        },
+        "n": {
+          "type": "number"
+        },
+        "target": {
+          "type": "string"
+        },
+        "marker": {
+          "enum": [
+            "pin",
+            "bracket",
+            "lasso",
+            "caret"
+          ]
+        },
+        "side": {
+          "enum": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "anchor": {
+          "enum": [
+            "edge",
+            "center"
+          ]
+        },
+        "each": {
+          "type": "boolean"
+        },
+        "tier": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "mandatory",
+                "ideal",
+                "nice-to-have"
+              ]
+            },
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "advanced"
+              ]
+            }
+          }
+        },
+        "accessibleName": {
+          "type": "string"
+        },
+        "captions": {
+          "type": "boolean"
+        },
+        "audioDescription": {
+          "type": "boolean"
+        },
+        "transcript": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "captions"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "audio",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "audio"
+        },
+        "n": {
+          "type": "number"
+        },
+        "target": {
+          "type": "string"
+        },
+        "marker": {
+          "enum": [
+            "pin",
+            "bracket",
+            "lasso",
+            "caret"
+          ]
+        },
+        "side": {
+          "enum": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "anchor": {
+          "enum": [
+            "edge",
+            "center"
+          ]
+        },
+        "each": {
+          "type": "boolean"
+        },
+        "tier": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "mandatory",
+                "ideal",
+                "nice-to-have"
+              ]
+            },
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "advanced"
+              ]
+            }
+          }
+        },
+        "accessibleName": {
+          "type": "string"
+        },
+        "transcript": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "transcript"
+      ],
+      "additionalProperties": false
+    },
+    {
       "title": "list",
       "type": "object",
       "properties": {
@@ -710,6 +864,90 @@
         "type",
         "target",
         "role"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "live-region",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "live-region"
+        },
+        "n": {
+          "type": "number"
+        },
+        "target": {
+          "type": "string"
+        },
+        "marker": {
+          "enum": [
+            "pin",
+            "bracket",
+            "lasso",
+            "caret"
+          ]
+        },
+        "side": {
+          "enum": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "anchor": {
+          "enum": [
+            "edge",
+            "center"
+          ]
+        },
+        "each": {
+          "type": "boolean"
+        },
+        "tier": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "mandatory",
+                "ideal",
+                "nice-to-have"
+              ]
+            },
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "advanced"
+              ]
+            }
+          }
+        },
+        "feedbackType": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "ariaLive": {
+          "type": "string"
+        },
+        "atomic": {
+          "type": "boolean"
+        },
+        "template": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "role",
+        "ariaLive"
       ],
       "additionalProperties": false
     },

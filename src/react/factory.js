@@ -3316,6 +3316,7 @@ export function createComposaComponents(React, options = {}) {
         className: cx("composa-visual-bell", `composa-visual-bell-${propToken(tone)}`, className),
         "data-composa-component": component,
         "data-tone": propToken(tone),
+        "data-scope": "visual-bell",
         role: "status",
         "aria-live": "polite",
       },
@@ -3323,18 +3324,18 @@ export function createComposaComponents(React, options = {}) {
         hasLead
           ? h(
               "span",
-              { key: "lead", className: cx("composa-visual-bell-lead", loading && "is-loading") },
+              { key: "lead", className: cx("composa-visual-bell-lead", loading && "is-loading"), "data-part": "lead" },
               loading ? h("span", { className: "composa-visual-bell-spinner", "aria-hidden": "true" }) : iconNode(h, Icon, icon)
             )
           : null,
-        h("span", { key: "label", className: "composa-visual-bell-label" }, [
-          body != null && body !== "" ? h("span", { key: "msg", className: "composa-visual-bell-message" }, body) : null,
+        h("span", { key: "label", className: "composa-visual-bell-label", "data-part": "label" }, [
+          body != null && body !== "" ? h("span", { key: "msg", className: "composa-visual-bell-message", "data-part": "message" }, body) : null,
           count != null && count !== "" && count !== false
-            ? h("span", { key: "count", className: "composa-visual-bell-count" }, count)
+            ? h("span", { key: "count", className: "composa-visual-bell-count", "data-part": "count" }, count)
             : null,
         ]),
         actionList.length || showDismiss
-          ? h("div", { key: "rail", className: "composa-visual-bell-rail" }, [
+          ? h("div", { key: "rail", className: "composa-visual-bell-rail", "data-part": "rail" }, [
               ...actionList.map((action, index) => visualBellAction(action, `a${index}`)),
               showDismiss
                 ? h(

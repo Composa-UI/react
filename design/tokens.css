@@ -359,8 +359,14 @@
   --composa-badge-default-bg: var(--composa-color-bg-tertiary);
   --composa-badge-default-strong-fg: #ffffff;
   --composa-badge-default-strong-bg: var(--composa-color-bg-inverse);
-  --composa-badge-brand-fg: var(--composa-color-text-brand);
-  --composa-badge-brand-bg: var(--composa-color-bg-brand-secondary);
+  /* Subtle brand badge follows the brand (orange) hue, matching the strong row.
+     Previously fg=text-brand / bg=bg-brand-secondary, both of which are the
+     leftover BLUE accent — giving an off-hue, low-contrast blue-on-blue badge.
+     Now: light-orange tint bg + dark-orange (bg-brand-strong) text, mirroring the
+     danger/warning/success subtle pattern. NOTE: #ffe7db is a sensible light-orange
+     tint — confirm exact value against the Figma badge node if a token is preferred. */
+  --composa-badge-brand-fg: var(--composa-color-bg-brand-strong);
+  --composa-badge-brand-bg: #ffe7db;
   --composa-badge-brand-strong-fg: #ffffff;
   --composa-badge-brand-strong-bg: var(--composa-color-bg-brand);
   --composa-badge-figjam-fg: #8638e5;
@@ -399,8 +405,9 @@
   --composa-badge-selected-bg: var(--composa-color-bg-selected);
   --composa-badge-selected-strong-fg: #ffffff;
   --composa-badge-selected-strong-bg: var(--composa-color-bg-brand);
-  --composa-badge-feedback-fg: var(--composa-color-text-brand);
-  --composa-badge-feedback-bg: var(--composa-color-bg-brand-secondary);
+  /* feedback mirrors the brand tone (see brand note above) — orange, not blue. */
+  --composa-badge-feedback-fg: var(--composa-color-bg-brand-strong);
+  --composa-badge-feedback-bg: #ffe7db;
   --composa-badge-feedback-strong-fg: #ffffff;
   --composa-badge-feedback-strong-bg: var(--composa-color-bg-brand);
   --composa-badge-menu-fg: #ffffff;

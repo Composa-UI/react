@@ -1,5 +1,6 @@
 import React from "react";
 import { NotificationBell } from "../story-runtime.js";
+import { withAnnotations } from "./_annotations.js";
 
 const h = React.createElement;
 
@@ -60,5 +61,43 @@ export const States = {
     ]),
   parameters: {
     docs: { description: { story: "Idle bell, unread dot, a count badge, and a clamped large count." } },
+  },
+};
+
+// Anatomy — auto-brackets every data-part element on the NotificationBell root.
+export const Anatomy = {
+  render: () => h(NotificationBell, { label: "Notifications", count: 3 }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [{ type: "anatomy", target: ".composa-notification-bell" }],
+  },
+};
+
+// Accessibility — the bell icon button must carry an accessible name; the Badge is
+// presentational (pointer-events: none), so the unread count needs surfacing in the label.
+export const Accessibility = {
+  render: () => h(NotificationBell, { label: "Notifications", count: 3 }),
+  decorators: [withAnnotations],
+  parameters: {
+    annotations: [
+      {
+        n: 1,
+        type: "button",
+        target: ".composa-notification-bell .composa-icon-button",
+        element: "<button>",
+        role: "button",
+        accessibleName: "the `label` prop (aria-label) — include unread count for screen readers, e.g. \"Notifications, 3 unread\"",
+        keyboard: [{ keys: "Space / Enter", result: "opens notifications" }],
+        tier: { priority: "mandatory", difficulty: "easy" },
+      },
+      {
+        n: 2,
+        type: "note",
+        target: ".composa-badge-overlay",
+        marker: "pin",
+        side: "top",
+        text: "Badge is presentational (pointer-events: none). Surface unread count in the button aria-label.",
+      },
+    ],
   },
 };

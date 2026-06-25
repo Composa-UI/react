@@ -4,7 +4,8 @@
  *   - Badges page 2012-32973: Badge large 2012-35016, Badge small 2012-35027,
  *     Badge small alt 2012-35077 (count badges), Badge Dot 2012-35086.
  *   - Visual Bells page 2015-40421: Bell 2015-42989 (the in-app toast/snackbar)
- *     -> VisualBell. Bell Multiplayer (collaborator-follow toasts) is deferred.
+ *     -> VisualBell. Bell Multiplayer 2015-43085 (presenter-follow toasts,
+ *     5 states × 7 colors) -> VisualBell tone="multiplayer" + mp-color class.
  *   - Notifications page 2028-109149: Notifications 2028-111255 (dark HUD card,
  *     icon + message + 1-2 trailing CTAs) -> Notification.
  *
@@ -302,6 +303,46 @@
 
 .composa-visual-bell-danger .composa-visual-bell-dismiss::before {
   background: var(--composa-visual-bell-divider-danger);
+}
+
+/* ── VisualBell — Multiplayer presenter-color tones (Bell Multiplayer 2015-43085)
+ *
+ *  5 states: Waiting | Followers | Spotlight | Spotlight Load | Spotlight Following
+ *  7 colors: Blue | Green | Grey | Pink | Purple | Red | Yellow
+ *
+ *  Usage: tone="multiplayer" className="composa-visual-bell-mp-{color}"
+ *  States compose from existing VisualBell props:
+ *    Waiting / Spotlight Load → loading={true}
+ *    Followers                → count="16 followers"
+ *    Spotlight / Following    → message + actions
+ *  The spinner inherits currentColor so it matches the surface text automatically.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/* Base multiplayer overrides — action borders and hairlines use a dark
+   translucent tint that reads on all presenter colors (including light yellow). */
+.composa-visual-bell-multiplayer {
+  --composa-visual-bell-action-border: rgba(0, 0, 0, 0.2);
+  --composa-visual-bell-divider: rgba(0, 0, 0, 0.2);
+}
+
+.composa-visual-bell-multiplayer .composa-visual-bell-action:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Per-color modifier classes. Background + text color use the identity tokens
+   shared with the Avatar multiplayer palette. */
+.composa-visual-bell-mp-blue   { background: var(--composa-color-multiplayer-blue);   color: var(--composa-color-text-on-multiplayer-blue); }
+.composa-visual-bell-mp-green  { background: var(--composa-color-multiplayer-green);  color: var(--composa-color-text-on-multiplayer-green); }
+.composa-visual-bell-mp-grey   { background: var(--composa-color-multiplayer-grey);   color: var(--composa-color-text-on-multiplayer-grey); }
+.composa-visual-bell-mp-pink   { background: var(--composa-color-multiplayer-pink);   color: var(--composa-color-text-on-multiplayer-pink); }
+.composa-visual-bell-mp-purple { background: var(--composa-color-multiplayer-purple); color: var(--composa-color-text-on-multiplayer-purple); }
+.composa-visual-bell-mp-red    { background: var(--composa-color-multiplayer-red);    color: var(--composa-color-text-on-multiplayer-red); }
+/* Yellow: flips to dark text for contrast (confirmed in Figma spec — all other
+   colors use color.text.onbrand / white; yellow uses color.text / near-black). */
+.composa-visual-bell-mp-yellow {
+  background: var(--composa-color-multiplayer-yellow);
+  color: var(--composa-color-text);
+  --composa-visual-bell-fg-secondary: rgba(0, 0, 0, 0.5);
 }
 
 /* ── Notification — the dark HUD toast card (Notifications 2028-111255) ──── */

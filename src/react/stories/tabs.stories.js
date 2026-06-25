@@ -197,7 +197,7 @@ export const Variant = {
     React.createElement(
       "div",
       { style: { display: "flex", flexDirection: "column", gap: 32, padding: 16 } },
-      React.createElement(Tabs, { label: "Pill tabs", tabs: editorTabs, onValueChange: () => {} }),
+      React.createElement(Tabs, { label: "Pill tabs", variant: "pill", tabs: editorTabs, onValueChange: () => {} }),
       React.createElement(Tabs, { label: "Underline tabs", variant: "underline", tabs: editorTabs, onValueChange: () => {} })
     ),
   decorators: [withAnnotations],

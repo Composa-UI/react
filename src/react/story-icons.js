@@ -44,6 +44,16 @@ const materialSymbolByComposaName = {
   notification: { name: "notifications", weight: 200 },
   comment: { name: "chat_bubble", weight: 200 },
   play: { name: "play_arrow", weight: 200 },
+  // Transport controls + common a11y-story glyphs. Added so the button usage
+  // stories (transport row, dialog toggle) and the IconButton/Toggle a11y stories
+  // render real icons instead of the "?" missing-icon box. The full Material
+  // Symbols Rounded font is bundled, so these ligatures all resolve.
+  pause: { name: "pause", weight: 200 },
+  skipBack: { name: "skip_previous", weight: 200 },
+  skipForward: { name: "skip_next", weight: 200 },
+  search: { name: "search", weight: 200 },
+  eye: { name: "visibility", weight: 200 },
+  settings: { name: "settings", weight: 200 },
   dev: { name: "code", weight: 200 },
   componentSmall: { name: "category", weight: 200 },
   more: { name: "more_horiz", weight: 300 },

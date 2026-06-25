@@ -360,9 +360,9 @@ export const TogglePlayOption = {
           gap: "2px",
         },
       },
-      React.createElement(IconButtonControl, { icon: "minus", label: "Previous", tooltip: false }),
+      React.createElement(IconButtonControl, { icon: "skipBack", label: "Previous", tooltip: false }),
       React.createElement(ToggleButtonControl, { icon: "play", label: "Play", pressed: false, tooltip: false }),
-      React.createElement(IconButtonControl, { icon: "plus", label: "Next", tooltip: false })
+      React.createElement(IconButtonControl, { icon: "skipForward", label: "Next", tooltip: false })
     ),
   parameters: {
     docs: {
@@ -408,7 +408,7 @@ export const ToggleDialogExample = {
           },
           "Closed"
         ),
-        React.createElement(ToggleButtonControl, { icon: "styles", label: "Closed", dialog: true, dialogOpen: false, tooltip: false })
+        React.createElement(ToggleButtonControl, { icon: "settings", label: "Closed", dialog: true, dialogOpen: false, tooltip: false })
       ),
       React.createElement(
         "div",
@@ -431,7 +431,7 @@ export const ToggleDialogExample = {
           },
           "Open"
         ),
-        React.createElement(ToggleButtonControl, { icon: "styles", label: "Open", dialog: true, dialogOpen: true, tooltip: false })
+        React.createElement(ToggleButtonControl, { icon: "settings", label: "Open", dialog: true, dialogOpen: true, tooltip: false })
       )
     ),
   parameters: {

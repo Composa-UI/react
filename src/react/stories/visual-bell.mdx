@@ -53,7 +53,8 @@ was deleted, a library was published, an export is queued. It floats as a horizo
 - **Multiplayer** — simple alerts shown when you join someone else's presented file; an
   efficient way to start following the presenter through the canvas. Walks the states
   **Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load** and is tinted
-  with a presenter color (Blue, Green, Purple, Red, Pink, Grey, Yellow).
+  with a presenter color (Blue, Green, Purple, Red, Pink, Grey, Yellow). _(Figma spec is
+  complete — see Bell Multiplayer in the design file; code implementation is deferred.)_
 - **Error** — in exceptional cases, communicates data loss. Usually complemented by an
   explicit close button and **persists until the user closes it** rather than auto-dismissing.
 
@@ -105,7 +106,7 @@ placement consistent across the system.
 | Default | `color.bg` pill, label (+ optional count, actions, close). Auto-dismisses. |
 | Loading | Leading icon replaced by a spinner; for multiplayer, an indeterminate loader fill. |
 | Danger / Error | `color.bg.danger` surface; persists until closed by the user. |
-| Multiplayer | Presenter-color surface; walks Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load. |
+| Multiplayer _(deferred)_ | Presenter-color surface; walks Waiting → Followers → Spotlight → Spotlight Following → Spotlight Load. |
 
 </DocTab>
 
@@ -132,12 +133,12 @@ placement consistent across the system.
 |---|---|
 | Surface — default | `color.bg` |
 | Surface — danger / error | `color.bg.danger` |
-| Surface — multiplayer | `color.multiplayer.{blue,green,purple,red,pink,grey,yellow}` |
+| Surface — multiplayer _(deferred)_ | `color.multiplayer.{blue,green,purple,red,pink,grey,yellow}` |
 | Multiplayer loader / dark surface | the presenter color's darker ramp shade |
 | Multiplayer action button | the presenter color's deep ramp shade |
 | Label | `color.text` |
 | Label — danger | `color.text.ondanger` |
-| Label — multiplayer | `color.text.onbrand` (Yellow flips to `color.text` for contrast) |
+| Label — multiplayer _(deferred)_ | `color.text.onbrand` (Yellow flips to `color.text` for contrast) |
 | Count | `color.text.secondary` |
 | Action button border | `color.border.translucent` |
 | Close divider | `color.border.fs` |

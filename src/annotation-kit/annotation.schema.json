@@ -952,6 +952,148 @@
       "additionalProperties": false
     },
     {
+      "title": "concern",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "concern"
+        },
+        "n": {
+          "type": "number"
+        },
+        "target": {
+          "type": "string"
+        },
+        "marker": {
+          "enum": [
+            "pin",
+            "bracket",
+            "lasso",
+            "caret"
+          ]
+        },
+        "side": {
+          "enum": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "anchor": {
+          "enum": [
+            "edge",
+            "center"
+          ]
+        },
+        "each": {
+          "type": "boolean"
+        },
+        "tier": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "mandatory",
+                "ideal",
+                "nice-to-have"
+              ]
+            },
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "advanced"
+              ]
+            }
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "question",
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "question"
+        },
+        "n": {
+          "type": "number"
+        },
+        "target": {
+          "type": "string"
+        },
+        "marker": {
+          "enum": [
+            "pin",
+            "bracket",
+            "lasso",
+            "caret"
+          ]
+        },
+        "side": {
+          "enum": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "anchor": {
+          "enum": [
+            "edge",
+            "center"
+          ]
+        },
+        "each": {
+          "type": "boolean"
+        },
+        "tier": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "mandatory",
+                "ideal",
+                "nice-to-have"
+              ]
+            },
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "advanced"
+              ]
+            }
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    {
       "title": "note",
       "type": "object",
       "properties": {

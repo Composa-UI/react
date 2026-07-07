@@ -43,7 +43,6 @@ export function TemplateStyleSection({
           padding: "var(--composa-space-1, 4px) var(--composa-space-2, 8px) var(--composa-space-2, 8px)",
         },
       },
-      // Color swatch strip
       React.createElement(
         "div",
         {
@@ -62,7 +61,6 @@ export function TemplateStyleSection({
           });
         })
       ),
-      // Theme name + font pair
       React.createElement(
         "div",
         { style: { flex: 1, minWidth: 0 } },
@@ -105,7 +103,6 @@ export function TemplateStyleSection({
 // AnimatePanel — slide-to-slide transition settings shown when the Animate tab
 // is active. Controls match the Figma Animate template right sidebar
 // (node 2723:240665): Animation type, Curve, Duration, Trigger.
-// A preview placeholder and 'Apply to all slides' row complete the panel.
 export function AnimatePanel({
   slideTitle,
   animation,
@@ -152,9 +149,7 @@ export function AnimatePanel({
   return React.createElement(
     "div",
     { "data-part": "animate-panel", style: { display: "flex", flexDirection: "column" } },
-    // Slide title header (mirrors LayerHeader in Design tab)
     React.createElement(Header, { title: title, level: 3, hierarchy: "layer" }),
-    // Property controls: Animation, Curve, Duration, Trigger
     React.createElement(
       "div",
       {
@@ -192,7 +187,6 @@ export function AnimatePanel({
         onChange: onTriggerChange,
       })
     ),
-    // Animation preview placeholder
     React.createElement(
       "div",
       {
@@ -220,7 +214,6 @@ export function AnimatePanel({
         "Preview"
       )
     ),
-    // Apply to all slides
     React.createElement(
       "button",
       {
@@ -247,10 +240,11 @@ export function AnimatePanel({
 // SlideInspector — right panel slot for SlidesEditorTemplate when a slide is
 // selected. Owns the Design / Animate tab state via React.useState.
 //
-// Design tab: TemplateStyleSection above a stripped EditingInspector
-//   (showInspectorHeader: false so InspectorHeader isn't double-rendered).
-// Animate tab: AnimatePanel with transition controls.
+// initialTab — which tab to start on (default "design"). Used by AnimateView
+// story to open directly on the Animate tab.
 //
+// Design tab: TemplateStyleSection + EditingInspector (showInspectorHeader: false).
+// Animate tab: AnimatePanel with transition controls.
 // Wrap in OverlayHost in the parent slot so Dropdown menus portal correctly.
 export function SlideInspector({
   slideTitle,
@@ -258,8 +252,9 @@ export function SlideInspector({
   selectionColors,
   layoutMode,
   animateProps,
+  initialTab,
 }) {
-  var tabState = React.useState("design");
+  var tabState = React.useState(initialTab || "design");
   var tab = tabState[0];
   var setTab = tabState[1];
 

@@ -36,15 +36,19 @@ export const a11yTypes = {
     ],
   },
   link: {
-    system: "a11y", color: "#0969da", badge: "number", label: (a) => a.label || "Link",
+    system: "a11y", color: "#0969da", badge: "number",
+    // linkType:"skip" identifies WCAG 2.4.1 bypass-block links — visually distinct label,
+    // field-driven skipLink icon (rendered when the overlay renderer reads linkTypeIcons).
+    label: (a) => a.label || (a.linkType === "skip" ? "Skip link" : "Link"),
     fields: [
       { key: "accessibleName", label: "name", required: true },
       { key: "linkTarget", label: "target" },
-      { key: "linkType", label: "link type" },
+      { key: "linkType", label: "link type" }, // "default" | "tel" | "email" | "download" | "skip"
     ],
   },
   "form-element": {
     system: "a11y", color: "#9a6700", badge: "number", label: (a) => a.label || a.control || "Field",
+    // Field-driven icon: overlay resolves Form/<control>.svg via formIcons[a.control].
     fields: [
       { key: "control", required: true, mono: true },
       { key: "accessibleName", label: "name" },
@@ -83,6 +87,7 @@ export const a11yTypes = {
   // List (ol / ul / li) — a real GitHub/CVS toolkit type. The CONTAINER carries the list role
   // (list / menu / tablist); each ITEM is bracketed with the item type below. Use `list` on the
   // container and `listitem` on each child (menuitem / tab / option, surfaced via `role`).
+  // Field-driven icon: overlay resolves List/<element>.svg via listIcons[element].
   list: {
     system: "a11y", color: "#1f883d", badge: "number", label: (a) => a.label || a.role || "List",
     fields: [
@@ -96,6 +101,7 @@ export const a11yTypes = {
   },
   listitem: {
     system: "a11y", color: "#1f883d", badge: "number", label: (a) => a.label || a.role || "Item",
+    // Field-driven icon: overlay resolves List/<element>.svg via listIcons[element].
     fields: [
       { key: "element", mono: true },
       { key: "role", required: true, mono: true },
@@ -119,6 +125,19 @@ export const a11yTypes = {
       { key: "atomic", label: "aria-atomic", bool: true },
       { key: "template", label: "template" },
     ],
+  },
+  // Concern — flags a design or implementation detail that carries active risk and must be
+  // resolved before handoff. Semantically distinct from `note` (neutral context) — concern
+  // signals that something needs attention or a decision before implementation.
+  concern: {
+    system: "a11y", color: "#b91c1c", badge: "number", label: (a) => a.label || "Concern",
+    fields: [{ key: "text", required: true }],
+  },
+  // Question — marks an open accessibility question that requires a decision before
+  // implementation. Distinct from `concern` (identified risk) and `note` (informational).
+  question: {
+    system: "a11y", color: "#0891b2", badge: "number", label: (a) => a.label || "Question",
+    fields: [{ key: "text", required: true }],
   },
   note: {
     system: "a11y", color: "#45691d", badge: "number", label: (a) => a.label || "Note",

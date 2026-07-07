@@ -180,6 +180,32 @@ export interface LiveRegionAnnotation {
   template?: string;
 }
 
+export interface ConcernAnnotation {
+  type: "concern";
+  n?: number;
+  target: string;
+  marker?: "pin" | "bracket" | "lasso" | "caret";
+  side?: "top" | "bottom" | "left" | "right";
+  label?: string;
+  anchor?: "edge" | "center";
+  each?: boolean;
+  tier?: Tier;
+  text: string;
+}
+
+export interface QuestionAnnotation {
+  type: "question";
+  n?: number;
+  target: string;
+  marker?: "pin" | "bracket" | "lasso" | "caret";
+  side?: "top" | "bottom" | "left" | "right";
+  label?: string;
+  anchor?: "edge" | "center";
+  each?: boolean;
+  tier?: Tier;
+  text: string;
+}
+
 export interface NoteAnnotation {
   type: "note";
   n?: number;
@@ -289,6 +315,8 @@ export type Annotation =
   | ListAnnotation
   | ListitemAnnotation
   | LiveRegionAnnotation
+  | ConcernAnnotation
+  | QuestionAnnotation
   | NoteAnnotation
   | VariantAnnotation
   | RedlineAnnotation

@@ -7,7 +7,9 @@ import {
   EditorToolbar,
   EditingInspector,
   OverlayHost,
+  OverlayPortal,
 } from "../../story-runtime.js";
+import { AppTopBar, shellStage } from "./_shell-helpers.js";
 
 // EditorShell is presentational: it owns the four-region grid only. This story
 // composes the REAL Composa modules into the slots with realistic sample data so
@@ -106,6 +108,26 @@ const inspector = React.createElement(
   })
 );
 
+// Top bar — Design editor variant shows Design / Prototype / Dev mode tabs.
+const appTopBar = React.createElement(AppTopBar, {
+  appLabel: "Composa",
+  fileName: "Earthling Mobile Refresh",
+  mode: "design",
+  modes: [
+    { id: "design", label: "Design" },
+    { id: "prototype", label: "Prototype" },
+    { id: "dev", label: "Dev" },
+  ],
+  collaborators: [
+    { initials: "W", color: "yellow", label: "Wendy" },
+    { initials: "A", color: "green", label: "Abe" },
+  ],
+  shareLabel: "Share",
+});
+
+// shellStage stacks the top bar above the editor in a full-viewport grid.
+const stage = function (story) { return shellStage(appTopBar, story); };
+
 export default {
   title: "Composa UI/Templates/Editor/EditorShell",
   component: EditorShell,
@@ -114,7 +136,7 @@ export default {
     docs: {
       description: {
         component:
-          "EditorShell is the four-region editor layout template: navigationRail, navigator, canvas, and inspector, left to right. It is purely presentational and controlled — it owns the CSS grid and responsive behavior only. The editor toolbar is a floating overlay anchored inside the canvas via OverlayHost / OverlayPortal, not a shell row. There is deliberately no top toolbar, status bar, or timeline. This story composes the real Composa modules (AppNavigationRail, EditorNavigator, EditorToolbar, EditingInspector) into the slots.",
+          "EditorShell is the four-region editor layout template: navigationRail, navigator, canvas, and inspector, left to right. It is purely presentational and controlled — it owns the CSS grid and responsive behavior only. The editor toolbar is a floating overlay anchored inside the canvas via OverlayHost / OverlayPortal, not a shell row. There is deliberately no top toolbar, status bar, or timeline. This story composes the real Composa modules (AppNavigationRail, EditorNavigator, EditorToolbar, EditingInspector) into the slots. AppTopBar sits above the shell via shellStage.",
       },
     },
   },
@@ -156,29 +178,28 @@ export default {
   },
 };
 
-// Realistic full-window stage so the no-wrap / canvas-shrink behavior is
-// demonstrable: the side tracks hold their width while the canvas takes the rest.
-const stage = (story) =>
-  React.createElement("div", { style: { width: "100%", height: "100vh", minHeight: "640px" } }, story);
-
 export const Default = {
-  render: (args) => stage(React.createElement(EditorShell, args)),
+  render: function (args) { return stage(React.createElement(EditorShell, args)); },
   parameters: {
     docs: {
       description: {
-        story: "The floating EditorToolbar anchors bottom-center of the canvas region by default (Figma/standard-editor convention).",
+        story: "Full editor shell with AppTopBar above. The floating EditorToolbar anchors bottom-center of the canvas region by default (Figma/standard-editor convention).",
       },
     },
   },
 };
 
 export const NarrowViewport = {
-  render: (args) =>
-    React.createElement(
-      "div",
-      { style: { width: "1100px", height: "680px", border: "1px solid var(--composa-color-border)" } },
-      React.createElement(EditorShell, args)
-    ),
+  render: function (args) {
+    return shellStage(
+      appTopBar,
+      React.createElement(
+        "div",
+        { style: { width: "1100px", height: "100%", border: "1px solid var(--composa-color-border)" } },
+        React.createElement(EditorShell, args)
+      )
+    );
+  },
   parameters: {
     docs: {
       description: {
@@ -195,7 +216,7 @@ export const ResizableSides = {
     defaultNavigatorWidth: 260,
     defaultInspectorWidth: 240,
   },
-  render: (args) => stage(React.createElement(EditorShell, args)),
+  render: function (args) { return stage(React.createElement(EditorShell, args)); },
   parameters: {
     docs: {
       description: {
@@ -210,5 +231,5 @@ export const Interactive = {
   args: {
     onClick: fn(),
   },
-  render: (args) => stage(React.createElement(EditorShell, args)),
+  render: function (args) { return stage(React.createElement(EditorShell, args)); },
 };
